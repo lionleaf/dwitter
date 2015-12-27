@@ -1,0 +1,11 @@
+*.log
+*.pot
+*.pyc
+.*
+dwitter/settings/local.py
+*.db
+.gitignore
+.*.sw*
+venv/*
+static/*
+*.iml
