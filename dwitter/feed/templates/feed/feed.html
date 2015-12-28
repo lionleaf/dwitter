@@ -1,0 +1,26 @@
+<form action="{% url 'dweet' %}" method="post">
+    {% csrf_token %}
+    <input 
+    name=code
+    id=code
+    type=text
+    maxlength=140
+    autocomplete=off
+    autocorrect=off
+    autocapitalize=off
+    spellcheck=false
+    >
+    <input type="submit" value="Dweet!" />
+</form>
+
+<ul>
+    {% for dweet in dweet_list %}
+    <li><a href="u/{{ dweet.author.username }}">{{ dweet.author.username }} </a></li>
+    <ul>
+        <li>{{ dweet.code }}</li>
+    </ul>
+    {% endfor %}
+</ul>
+
+
+

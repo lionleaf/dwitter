@@ -20,18 +20,23 @@ BASE_URL = 'http://www.lionleaf.org/dwitter'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0gv6vuzpu8oo!a2a!1(=&vk^ol^&k-_zly%*70_m(ji#7yt3*f'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = []
+
+
+TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True,
+            },
+        ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'dwitter',
+    'dwitter.user',
+    'dwitter.feed',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+
+# List of callables that know how to import templates from various sources.
+#TEMPLATE_LOADERS = (
+#            'django.template.loaders.filesystem.Loader',
+#            'django.template.loaders.app_directories.Loader',
+#            # 'django.template.loaders.eggs.Loader',
+#            )
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',

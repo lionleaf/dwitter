@@ -16,12 +16,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from simplelist import views
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^u/', include('dwitter.user.urls')),
-    url(r'^$', views.index, name='hey'),
-
+    url(r'^', include('dwitter.feed.urls')),
 ]
