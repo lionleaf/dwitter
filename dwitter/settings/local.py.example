@@ -1,0 +1,17 @@
+DEBUG = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dwitter',                      # Or path to database file if using sqlite3.
+        'USER': 'user',                      # Not used with sqlite3.
+        'PASSWORD': 'pas',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# Make this unique, and don't share it with anybody.
+# CHANGE THIS! THIS IS PUBLIC AS IT'S IN SOURCE CONTROL
+SECRET_KEY = '=^e_t38stu=a=3xuys_r1an%38xwmq347u%q0l3cy!wnybzuj)'
+
