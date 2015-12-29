@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from dwitter.models import Dweet
+from django.contrib.auth.decorators import login_required
 
 def feed(request):
     dweet_list = Dweet.objects.order_by('-posted')
@@ -12,6 +13,7 @@ def feed(request):
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+@login_required
 def dweet(request):
     d = Dweet(code = request.POST['code']
             , author = User.objects.get(username='lionleaf')
