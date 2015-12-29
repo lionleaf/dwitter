@@ -1,26 +1,64 @@
-<form action="{% url 'dweet' %}" method="post">
-    {% csrf_token %}
-    <input 
-    name=code
-    id=code
-    type=text
-    maxlength=140
-    autocomplete=off
-    autocorrect=off
-    autocapitalize=off
-    spellcheck=false
-    >
-    <input type="submit" value="Dweet!" />
-</form>
+<html>
+    <head>
+        <title>Dwitter</title>
+        <style>
+            body{
+                background:#ddd;
+            }
+            .dweet_feed {
+                width: 400px;
+                margin: 0 auto;
+            }
+            .dweet {
+                padding:20px;
+                background:white;
+                border: 1px solid black;
+                word-wrap: break-word;
+            }
+            .dweet_author {
+                font-weight: bold;
+            }
+            .submit_box {
+                padding:20px;
+                background:white;
+                border: 1px solid black;
+            }
+            .code-input{
+                text-align:left;
+                resize:none;
+                width:100%;
+            }
+            .dweet-button {
+                float: right;
+            }
 
-<ul>
-    {% for dweet in dweet_list %}
-    <li><a href="u/{{ dweet.author.username }}">{{ dweet.author.username }} </a></li>
-    <ul>
-        <li>{{ dweet.code }}</li>
-    </ul>
-    {% endfor %}
-</ul>
+        </style>
+    </head>
+    <body>
+        <div class=dweet_feed>
+            <div class=submit_box>
+                <form action="{% url 'dweet' %}" method="post">
+                    {% csrf_token %}
+                    <textarea
+                        name=code
+                        class=code-input
+                        maxlength=140
+                        rows=4
+                        ></textarea>
+                    <br />
+                    <input  
+                    class=dweet-button
+                    type="submit" 
+                    value="Dweet!" />
+                </form>
+            </div>
 
-
-
+            {% for dweet in dweet_list %}
+            <div class=dweet>
+                <div class=dweet_author><a>{{ dweet.author.username }}</a></div>
+                <div class=dweet_code><a>{{ dweet.code }}</a></div>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
