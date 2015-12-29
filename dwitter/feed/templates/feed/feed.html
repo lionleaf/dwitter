@@ -70,6 +70,9 @@
             id="iframe-container{{ forloop.counter0 }}">
             <script>
               (function() {
+                function desanitize(str){
+                  return str.replace("&lt;","<").replace("&gt;",">");
+                }
               var iframe = document.createElement('iframe');
               iframe.sandbox = 'allow-scripts';
               var iframeContent = encodeURIComponent(
@@ -99,7 +102,7 @@
                   'var x = c.getContext("2d");' +
                   'var startT = +new Date(); ' +
                   'function u(t) {' +
-                  ' {{ dweet.code }}' +
+                  desanitize('{{ dweet.code }}') +
                   '};' +
                   'function loop() {' +
                   'requestAnimationFrame(loop);' +
