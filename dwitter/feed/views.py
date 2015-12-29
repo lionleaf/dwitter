@@ -5,18 +5,17 @@ from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
 
 def feed(request):
-    dweet_list = Dweet.objects.order_by('-posted')
-    context = {'dweet_list': dweet_list}
-    return render(request, 'feed/feed.html', context );
+  dweet_list = Dweet.objects.order_by('-posted')[:5]
+  context = {'dweet_list': dweet_list}
+  return render(request, 'feed/feed.html', context );
 
 
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-@login_required
 def dweet(request):
-    d = Dweet(code = request.POST['code']
-            , author = User.objects.get(username='lionleaf')
-            , posted = timezone.now() )
-    d.save()
-    return HttpResponseRedirect(reverse('feed'))
+  d = Dweet(code = request.POST['code']
+      , author = User.objects.get(username='lionleaf')
+      , posted = timezone.now() )
+  d.save()
+  return HttpResponseRedirect(reverse('feed'))

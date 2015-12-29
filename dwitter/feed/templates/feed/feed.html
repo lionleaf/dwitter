@@ -1,64 +1,124 @@
 <html>
-    <head>
-        <title>Dwitter</title>
-        <style>
-            body{
-                background:#ddd;
-            }
-            .dweet_feed {
-                width: 400px;
-                margin: 0 auto;
-            }
-            .dweet {
-                padding:20px;
-                background:white;
-                border: 1px solid black;
-                word-wrap: break-word;
-            }
-            .dweet_author {
-                font-weight: bold;
-            }
-            .submit_box {
-                padding:20px;
-                background:white;
-                border: 1px solid black;
-            }
-            .code-input{
-                text-align:left;
-                resize:none;
-                width:100%;
-            }
-            .dweet-button {
-                float: right;
-            }
+  <head>
+    <title>Dwitter</title>
+    <style>
+      body{
+        background:#ddd;
+      }
+      .dweet-feed {
+        width: 400px;
+        margin: 0 auto;
+      }
+      .dweet {
+        padding:20px;
+        background:white;
+        border: 1px solid black;
+        word-wrap: break-word;
+      }
+      .dweet-author {
+        font-weight: bold;
+      }
+      .submit-box {
+        padding:20px;
+        background:white;
+        border: 1px solid black;
+      }
+      .code-input{
+        text-align:left;
+        resize:none;
+        width:100%;
+      }
+      .dweet-button {
+        float: right;
+      }
+      .canvas-iframe-container-wrapper {
+        width: 100%;
+        padding: 0 0 56.25% 0; /* 16:9 */
+        position: relative;
+      }
 
-        </style>
-    </head>
-    <body>
-        <div class=dweet_feed>
-            <div class=submit_box>
-                <form action="{% url 'dweet' %}" method="post">
-                    {% csrf_token %}
-                    <textarea
-                        name=code
-                        class=code-input
-                        maxlength=140
-                        rows=4
-                        ></textarea>
-                    <br />
-                    <input  
-                    class=dweet-button
-                    type="submit" 
-                    value="Dweet!" />
-                </form>
-            </div>
+      .canvas-iframe-container {
+        position: absolute;
+        top: 0; bottom: 0; left: 0; right: 0;
+      }
 
-            {% for dweet in dweet_list %}
-            <div class=dweet>
-                <div class=dweet_author><a>{{ dweet.author.username }}</a></div>
-                <div class=dweet_code><a>{{ dweet.code }}</a></div>
+    </style>
+  </head>
+  <body>
+    <div class=dweet-feed>
+      <div class=submit-box>
+        <form action="{% url 'dweet' %}" method="post">
+          {% csrf_token %}
+          <textarea
+            name=code
+            class=code-input
+            maxlength=140
+            rows=4
+            ></textarea>
+          <br />
+          <input  
+          class=dweet-button
+          type="submit" 
+          value="Dweet!" />
+        </form>
+      </div>
+
+      {% for dweet in dweet_list %}
+      <div class=dweet>
+        <div class=canvas-iframe-container-wrapper>
+          <div class=canvas-iframe-container 
+            id="iframe-container{{ forloop.counter0 }}">
+            <script>
+              (function() {
+              var iframe = document.createElement('iframe');
+              iframe.sandbox = 'allow-scripts';
+              var iframeContent = encodeURIComponent(
+              '<!DOCTYPE html>' +
+              '<head>' +
+                '<style>' +
+                  '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
+                  'canvas {' +
+                  'width: 100%;' +
+                  'background: white;' +
+                  '}' +
+                  '</style>' +
+                '</head>' +
+              '<body>' +
+                '<canvas id=c></canvas>' +
+                '<script>' +
+                  'var c = document.querySelector("#c");' +
+                  'c.width = 1920;' +
+                  'c.height = 1080;' +
+                  'var S = Math.sin;' +
+                  'var C = Math.cos;' +
+                  'var T = Math.tan;' +
+                  'var R = function(r,g,b,a) {' +
+                  'a = a === undefined ? 1 : a;' +
+                  'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
+                  '};' +
+                  'var x = c.getContext("2d");' +
+                  'var startT = +new Date(); ' +
+                  'function u(t) {' +
+                  ' {{ dweet.code }}' +
+                  '};' +
+                  'function loop() {' +
+                  'requestAnimationFrame(loop);' +
+                  'u((new Date() - startT) / 1000);' +
+                  '};' +
+                  'loop();' +
+                  '</scr' + 'ipt>');
+                  iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
+                  var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
+                  container.innerHTML = '';
+                  container.appendChild(iframe);
+                  })();
+                </script>
+              </div>
             </div>
-            {% endfor %}
+            <div class=dweet-author><a>{{ dweet.author.username }}</a></div>
+            <div class=dweet-code><a>{{ dweet.code }}</a></div>
+          </div>
+          {% endfor %}
         </div>
-    </body>
-</html>
+      </body>
+    </html>
