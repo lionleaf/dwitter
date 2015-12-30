@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 def feed(request):
   dweet_list = Dweet.objects.order_by('-posted')[:5]
-  context = {'dweet_list': dweet_list}
+  context = {'dweet_list': dweet_list
+            ,'header_title': 'Global feed'}
   return render(request, 'feed/feed.html', context );
 
 

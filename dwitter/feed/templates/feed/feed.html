@@ -62,7 +62,16 @@
       }
       .head-account-info {
         padding:1em;
+        float:right;
         text-align:right;
+        width:20%;
+      }
+
+      .header-title {
+        margin:auto;
+        width:30%;
+        padding:5px;
+        text-align:center;
       }
 
     </style>
@@ -71,11 +80,12 @@
     <div class=head-menu>
       <div class=head-account-info>
         {% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}. <a href="{% url 'auth_logout' %}"> Log out. </a> 
+        Logged in as {{ request.user.username }}. <a href="{% url 'auth_logout' %}"> Log out. </a>
         {% else %}
-        <a href="{% url 'auth_login'  %}"> Login </a> 
+        <a href="{% url 'auth_login'  %}" > Login </a> 
         {% endif %}
       </div>
+      <h2 class=header-title>{{ header_title }}</h2>
     </div>
     <div class=dweet-feed>
       <div class=submit-box>
@@ -147,7 +157,7 @@
                 </script>
               </div>
             </div>
-            <div class=dweet-author><a>{{ dweet.author.username }}</a></div>
+            <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
             <div class=dweet-code><code>{{ dweet.code }}</code></div>
           </div>
           {% endfor %}
