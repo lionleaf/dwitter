@@ -71,9 +71,9 @@
     <div class=head-menu>
       <div class=head-account-info>
         {% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}. <a href="/accounts/logout"> Log out. </a> 
+        Logged in as {% url 'auth_login'  %}. <a href="accounts/logout"> Log out. </a> 
         {% else %}
-        <a href="/accounts/login"> Login </a> 
+        <a href="{% url 'auth_login'  %}"> Login </a> 
         {% endif %}
       </div>
     </div>
