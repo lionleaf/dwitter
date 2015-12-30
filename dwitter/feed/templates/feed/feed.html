@@ -12,6 +12,7 @@
       .dweet-feed {
         width: 80%;
         margin: 0 auto;
+        padding-top: 4em;
       }
       .dweet {
         padding:40px;
@@ -53,10 +54,29 @@
         height:100%;
         
       }
+      .head-menu {
+        position:fixed;
+        width:100%;
+        z-index:100;
+        background:white;
+      }
+      .head-account-info {
+        padding:1em;
+        text-align:right;
+      }
 
     </style>
   </head>
   <body>
+    <div class=head-menu>
+      <div class=head-account-info>
+        {% if request.user.is_authenticated %}
+        Logged in as {{ request.user.username }}. <a href="/accounts/logout"> Log out. </a> 
+        {% else %}
+        <a href="/accounts/login"> Login </a> 
+        {% endif %}
+      </div>
+    </div>
     <div class=dweet-feed>
       <div class=submit-box>
         <form action="{% url 'dweet' %}" method="post">

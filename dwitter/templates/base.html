@@ -1,6 +1,23 @@
-<title> {% block title %} {% endblock %} </title> 
+<html>
+  <head>
+    <title> {% block title %} {% endblock %} </title> 
+    <style>
+      body{
+        background:#ddd;
+      }
+      #content {
+        padding-top:4em;
+        width: 80%;
+        margin: 0 auto;
 
-<div id=content>
-    {% block content %}
-    {% endblock %}
-</div>
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id=content>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

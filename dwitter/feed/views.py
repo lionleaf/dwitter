@@ -13,9 +13,10 @@ def feed(request):
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+@login_required
 def dweet(request):
   d = Dweet(code = request.POST['code']
-      , author = User.objects.get(username='lionleaf')
+      , author = request.user 
       , posted = timezone.now() )
   d.save()
   return HttpResponseRedirect(reverse('feed'))
