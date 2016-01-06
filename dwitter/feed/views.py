@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from dwitter.models import Dweet
@@ -20,4 +20,11 @@ def dweet(request):
       , author = request.user 
       , posted = timezone.now() )
   d.save()
+  return HttpResponseRedirect(reverse('feed'))
+
+@login_required
+def like(request, post_id):
+  dweet = get_object_or_404(Dweet, id=post_id) 
+  dweet.likes.add(request.user)
+  dweet.save()
   return HttpResponseRedirect(reverse('feed'))
