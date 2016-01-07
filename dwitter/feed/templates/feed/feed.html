@@ -10,7 +10,7 @@
       }
 
       .dweet-feed {
-        width: 500px;
+        width: 600px;
         margin: 0 auto;
         padding-top: 4em;
       }
@@ -59,6 +59,7 @@
         width:100%;
         z-index:100;
         background:white;
+        text-align:center;
       }
       .head-account-info {
         padding:1em;
@@ -66,10 +67,19 @@
         text-align:right;
         width:20%;
       }
-      .header-title {
+      .header-center-div {
         margin:auto;
         width:30%;
-        padding:5px;
+        padding:1px;
+        text-align:center;
+      }
+
+      .header-title {
+        margin:0px;
+      }
+
+      .footer {
+        background:white;
         text-align:center;
       }
 
@@ -94,7 +104,11 @@
         <a href="{% url 'auth_login'  %}" > Login </a> 
         {% endif %}
       </div>
+      <div class=header-center-div>
       <h2 class=header-title>{{ header_title }}</h2>
+      <br />
+      <a href="{% url 'feed' prev_page  %}">&lt;---</a> Page: {{ page_nr }} <a href="{% url 'feed' next_page  %}">---&gt;
+      </div>
     </div>
     <div class=dweet-feed>
       <div class=submit-box>
@@ -177,6 +191,8 @@
 
       </div>
       {% endfor %}
+      <div class=footer>
+      </div>
     </div>
   </body>
 </html>

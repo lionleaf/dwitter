@@ -1,13 +1,28 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
 
-def feed(request):
-  dweet_list = Dweet.objects.order_by('-posted')[:5]
+def feed(request, page_nr):
+  page = int(page_nr)
+  dweets_per_page = 5
+  first = (page - 1) * dweets_per_page
+  last = page * dweets_per_page
+  dweet_count = Dweet.objects.count()
+
+  if(first < 0 or first >= dweet_count):
+    raise Http404("No such page")
+  if(last >= dweet_count ):
+    last = dweet_count - 1;
+  
+  dweet_list = Dweet.objects.order_by('-posted')[first:last]
   context = {'dweet_list': dweet_list
-            ,'header_title': 'Global feed'}
+            ,'header_title': 'Global feed'
+            ,'page_nr': page
+            ,'next_page': page + 1
+            ,'prev_page': page - 1
+            }
   return render(request, 'feed/feed.html', context );
 
 
