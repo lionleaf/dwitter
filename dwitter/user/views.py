@@ -12,14 +12,14 @@ def user_feed(request, url_username, page_nr):
   dweets_per_page = 5
   first = (page - 1) * dweets_per_page
   last = page * dweets_per_page
-  dweet_count = Dweet.objects.count()
+  dweet_count = Dweet.objects.filter(author=user).count()
 
   if(first < 0 or first >= dweet_count):
     raise Http404("No such page")
   if(last >= dweet_count ):
     last = dweet_count - 1;
   
-  dweet_list = Dweet.objects.filter(author=user).order_by('-posted')[:5]
+  dweet_list = Dweet.objects.filter(author=user).order_by('-posted')[first:last]
   context = {'dweet_list': dweet_list
             ,'header_title': url_username + ' feed'
             ,'page_nr': page
