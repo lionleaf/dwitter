@@ -107,7 +107,7 @@
       <div class=header-center-div>
       <h2 class=header-title>{{ header_title }}</h2>
       <br />
-      <a href="{% url 'feed' prev_page  %}">&lt;---</a> Page: {{ page_nr }} <a href="{% url 'feed' next_page  %}">---&gt;</a>
+      <a href="{{ prev_url }}">&lt;---</a> Page: {{ page_nr }} <a href="{{ next_url }}">---&gt;</a>
       </div>
     </div>
     <div class=dweet-feed>

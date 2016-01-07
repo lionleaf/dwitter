@@ -20,8 +20,8 @@ def feed(request, page_nr):
   context = {'dweet_list': dweet_list
             ,'header_title': 'Global feed'
             ,'page_nr': page
-            ,'next_page': page + 1
-            ,'prev_page': page - 1
+            ,'next_url': reverse('feed', kwargs={'page_nr': page + 1})
+            ,'prev_url': reverse('feed', kwargs={'page_nr': page - 1})
             }
   return render(request, 'feed/feed.html', context );
 
