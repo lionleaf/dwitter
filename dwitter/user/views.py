@@ -17,7 +17,7 @@ def user_feed(request, url_username, page_nr):
   if(first < 0 or first >= dweet_count):
     raise Http404("No such page")
   if(last >= dweet_count ):
-    last = dweet_count - 1;
+    last = dweet_count;
   
   dweet_list = Dweet.objects.filter(author=user).order_by('-posted')[first:last]
   context = {'dweet_list': dweet_list
