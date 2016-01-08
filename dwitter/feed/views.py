@@ -11,7 +11,7 @@ def feed(request, page_nr):
   last = page * dweets_per_page
   dweet_count = Dweet.objects.count()
 
-  if(first < 0 or first >= dweet_count):
+  if(first < 0 or first > dweet_count):
     raise Http404("No such page")
   if(last >= dweet_count ):
     last = dweet_count - 1;
