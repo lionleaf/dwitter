@@ -216,7 +216,25 @@
           <div class=canvas-iframe-container 
             id="iframe-container{{ forloop.counter0 }}">
             <script>
+
+              function decodeHTMLEntities(text) {
+                var entities = [
+                ['apos', '\''],
+                ['amp', '&'],
+                ['lt', '<'],
+                ['gt', '>'],
+                ['#39', '\''],
+                ];
+
+                for (var i = 0, max = entities.length; i < max; ++i) 
+                text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+
+                return text;
+              }
+
+
               (function() {
+                
                 var iframe = document.createElement('iframe');
                 iframe.sandbox = 'allow-scripts';
                 var iframeContent = encodeURIComponent(
@@ -246,7 +264,7 @@
                     'var x = c.getContext("2d");' +
                     'var startT = +new Date(); ' +
                     'function u(t) {' +
-                      '{{ dweet.code|safe }}' +
+                      decodeHTMLEntities('{{ dweet.code }}') +
                       '};' +
                     'function loop() {' +
                       'requestAnimationFrame(loop);' +
