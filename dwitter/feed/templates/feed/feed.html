@@ -89,6 +89,11 @@
         font-size:200%;
       }
 
+      .arktis-link {
+        text-align:right;
+        float:right;
+      }
+
       .dweet-actions {
         margin-top:10px;
         margin-bottom:20px;
@@ -284,6 +289,13 @@
 
         <div class=dweet-actions>
           <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
+          <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
+          <script>
+            (function() {
+            var link = document.querySelector('#arktis-link-{{dweet.id}}');
+            link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
+          })();
+          </script>
         </div>
         <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
         <div class=dweet-code><code>{{ dweet.code }}</code></div>
