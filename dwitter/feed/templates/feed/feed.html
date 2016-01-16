@@ -2,8 +2,28 @@
   <head>
     <title>Dwitter</title>
     <style>
+
+      * {
+        border:0px;
+        margin:0px;
+        padding:0px;
+      }
+
+      textarea{
+        border:1px solid;
+      }
+
+      input[type=submit] {
+        padding: 5px;
+        border: 1px solid black;
+        background: white;
+        border-radius:3px;
+        margin-top: 2px;
+      }
+
       body{
         background:#ddd;
+        font-family: sans-serif;
       }
       code {
         font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
@@ -16,6 +36,7 @@
         padding-top: 4em;
       }
       .dweet {
+        margin:20px;
         padding:40px;
         background:white;
         border: 1px solid black;
@@ -111,9 +132,9 @@
         {% endif %}
       </div>
       <div class=header-center-div>
-      <h2 class=header-title>{{ header_title }}</h2>
-      <br />
-      <a href="{{ prev_url }}">&lt;---</a> Page: {{ page_nr }} <a href="{{ next_url }}">---&gt;</a>
+        <h2 class=header-title>{{ header_title }}</h2>
+        <br />
+        <a href="{{ prev_url }}">&lt;---</a> Page: {{ page_nr }} <a href="{{ next_url }}">---&gt;</a>
       </div>
     </div>
 
@@ -125,8 +146,8 @@
         <div class=canvas-iframe-container-wrapper>
           <div class=canvas-iframe-container 
             id="iframe-container-submit">
-              </div>
-            </div>
+          </div>
+        </div>
         <form action="{% url 'dweet' %}" method="post">
           {% csrf_token %}
           <textarea
@@ -143,31 +164,103 @@
           value="Dweet!" />
         </form>
         <br />
-      <code>
-         Will be called 60 times per second.
-         t: Elapsed time in seconds.
-         S: Shorthand for Math.sin.
-         C: Shorthand for Math.cos.
-         T: Shorthand for Math.tan.
-         R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
-         c: A 1920x1080 canvas.
-         x: A 2D context for that canvas. 
-       </code>
-            <script>
-              (function() {
-                var editor = document.querySelector('#editor');
-                oldCode = editor.value;
-                replaceIframe(oldCode);
-                editor.addEventListener('keyup', function() {
-                  if(editor.value == oldCode) {
-                    return;
-                  }
-                  editor.size = Math.max(editor.value.length, 1);
-                  replaceIframe(editor.value);
-                  oldCode = editor.value;
-                });
+        <code>
+          Will be called 60 times per second.
+          t: Elapsed time in seconds.
+          S: Shorthand for Math.sin.
+          C: Shorthand for Math.cos.
+          T: Shorthand for Math.tan.
+          R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
+          c: A 1920x1080 canvas.
+          x: A 2D context for that canvas. 
+        </code>
+        <script>
+          (function() {
+          var editor = document.querySelector('#editor');
+          oldCode = editor.value;
+          replaceIframe(oldCode);
+          editor.addEventListener('keyup', function() {
+          if(editor.value == oldCode) {
+          return;
+          }
+          editor.size = Math.max(editor.value.length, 1);
+          replaceIframe(editor.value);
+          oldCode = editor.value;
+          });
 
-                function replaceIframe(code) {
+          function replaceIframe(code) {
+          var iframe = document.createElement('iframe');
+          iframe.sandbox = 'allow-scripts';
+          var iframeContent = encodeURIComponent(
+          '<!DOCTYPE html>' +
+          '<head>' +
+            '<style>' +
+              '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
+              'canvas {' +
+              'width: 100%;' +
+              'background: white;' +
+              '}' +
+              '</style>' +
+            '</head>' +
+          '<body>' +
+            '<canvas id=c></canvas>' +
+            '<script>' +
+              'var c = document.querySelector("#c");' +
+              'c.width = 1920;' +
+              'c.height = 1080;' +
+              'var S = Math.sin;' +
+              'var C = Math.cos;' +
+              'var T = Math.tan;' +
+              'var R = function(r,g,b,a) {' +
+              'a = a === undefined ? 1 : a;' +
+              'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
+              '};' +
+              'var x = c.getContext("2d");' +
+              'var startT = +new Date(); ' +
+              'function u(t) {' +
+              code +
+              '};' +
+              'function loop() {' +
+              'requestAnimationFrame(loop);' +
+              'u((new Date() - startT) / 1000);' +
+              '};' +
+              'loop();' +
+              '</scr' + 'ipt>');
+              iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
+              var container = document.querySelector('#iframe-container-submit');
+              container.innerHTML = '';
+              container.appendChild(iframe);
+              }
+              })();
+
+            </script>
+          </div>
+
+          {% for dweet in dweet_list %}
+          <div class=dweet>
+            <div class=canvas-iframe-container-wrapper>
+              <div class=canvas-iframe-container 
+                id="iframe-container{{ forloop.counter0 }}">
+                <script>
+
+                  function decodeHTMLEntities(text) {
+                  var entities = [
+                  ['apos', '\''],
+                  ['amp', '&'],
+                  ['lt', '<'],
+                  ['gt', '>'],
+                  ['#39', '\''],
+                  ];
+
+                  for (var i = 0, max = entities.length; i < max; ++i) 
+                  text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+
+                  return text;
+                  }
+
+
+                  (function() {
+
                   var iframe = document.createElement('iframe');
                   iframe.sandbox = 'allow-scripts';
                   var iframeContent = encodeURIComponent(
@@ -176,9 +269,9 @@
                     '<style>' +
                       '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
                       'canvas {' +
-                        'width: 100%;' +
-                        'background: white;' +
-                        '}' +
+                      'width: 100%;' +
+                      'background: white;' +
+                      '}' +
                       '</style>' +
                     '</head>' +
                   '<body>' +
@@ -191,120 +284,48 @@
                       'var C = Math.cos;' +
                       'var T = Math.tan;' +
                       'var R = function(r,g,b,a) {' +
-                        'a = a === undefined ? 1 : a;' +
-                        'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
-                        '};' +
-                      'var x = c.getContext("2d");' +
-                      'var startT = +new Date(); ' +
-                      'function u(t) {' +
-                        code +
-                        '};' +
-                      'function loop() {' +
-                        'requestAnimationFrame(loop);' +
-                        'u((new Date() - startT) / 1000);' +
-                        '};' +
-                      'loop();' +
-                      '</scr' + 'ipt>');
-                      iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
-                      var container = document.querySelector('#iframe-container-submit');
-                      container.innerHTML = '';
-                      container.appendChild(iframe);
-                    }
-                  })();
-
-                </script>
-      </div>
-
-      {% for dweet in dweet_list %}
-      <div class=dweet>
-        <div class=canvas-iframe-container-wrapper>
-          <div class=canvas-iframe-container 
-            id="iframe-container{{ forloop.counter0 }}">
-            <script>
-
-              function decodeHTMLEntities(text) {
-                var entities = [
-                ['apos', '\''],
-                ['amp', '&'],
-                ['lt', '<'],
-                ['gt', '>'],
-                ['#39', '\''],
-                ];
-
-                for (var i = 0, max = entities.length; i < max; ++i) 
-                text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
-
-                return text;
-              }
-
-
-              (function() {
-                
-                var iframe = document.createElement('iframe');
-                iframe.sandbox = 'allow-scripts';
-                var iframeContent = encodeURIComponent(
-                '<!DOCTYPE html>' +
-                '<head>' +
-                  '<style>' +
-                    '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
-                    'canvas {' +
-                      'width: 100%;' +
-                      'background: white;' +
-                      '}' +
-                    '</style>' +
-                  '</head>' +
-                '<body>' +
-                  '<canvas id=c></canvas>' +
-                  '<script>' +
-                    'var c = document.querySelector("#c");' +
-                    'c.width = 1920;' +
-                    'c.height = 1080;' +
-                    'var S = Math.sin;' +
-                    'var C = Math.cos;' +
-                    'var T = Math.tan;' +
-                    'var R = function(r,g,b,a) {' +
                       'a = a === undefined ? 1 : a;' +
                       'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
                       '};' +
-                    'var x = c.getContext("2d");' +
-                    'var startT = +new Date(); ' +
-                    'function u(t) {' +
+                      'var x = c.getContext("2d");' +
+                      'var startT = +new Date(); ' +
+                      'function u(t) {' +
                       decodeHTMLEntities('{{ dweet.code }}') +
                       '};' +
-                    'function loop() {' +
+                      'function loop() {' +
                       'requestAnimationFrame(loop);' +
                       'u((new Date() - startT) / 1000);' +
                       '};' +
-                    'loop();' +
-                    '</scr' + 'ipt>');
-                    iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
-                    var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
-                    container.innerHTML = '';
-                    container.appendChild(iframe);
-              })();
+                      'loop();' +
+                      '</scr' + 'ipt>');
+                      iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
+                      var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
+                      container.innerHTML = '';
+                      container.appendChild(iframe);
+                      })();
 
-            </script>
-          </div>
-        </div>
+                    </script>
+                  </div>
+                </div>
 
-        <div class=dweet-actions>
-          <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
-          <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
-          <script>
-            (function() {
-            var link = document.querySelector('#arktis-link-{{dweet.id}}');
-            link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
-          })();
-          </script>
-        </div>
-        <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
-        <div class=dweet-code><code>{{ dweet.code }}</code></div>
+                <div class=dweet-actions>
+                  <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
+                  <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
+                  <script>
+                    (function() {
+                    var link = document.querySelector('#arktis-link-{{dweet.id}}');
+                    link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
+                    })();
+                  </script>
+                </div>
+                <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
+                <div class=dweet-code><code>{{ dweet.code }}</code></div>
 
 
-      </div>
-      {% endfor %}
-      <div class=footer>
-      </div>
-    </div>
-  </body>
-</html>
+              </div>
+              {% endfor %}
+              <div class=footer>
+              </div>
+            </div>
+          </body>
+        </html>
