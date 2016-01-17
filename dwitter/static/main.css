@@ -35,7 +35,6 @@
         color:inherit;
       }
 
-
       body{
         background:#f5f5f5;
         font-family: sans-serif;
@@ -44,6 +43,14 @@
       code {
         font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
         white-space: pre-line;
+      }
+
+      .code-letter {
+        float:left;
+      }
+
+      .dweet-code {
+        overflow:hidden;
       }
 
       .dweet-feed {

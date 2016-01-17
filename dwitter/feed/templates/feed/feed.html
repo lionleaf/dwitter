@@ -203,7 +203,11 @@
                   </script>
                 </div>
                 <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
-                <div class=dweet-code><code>{{ dweet.code }}</code></div>
+                <div class=dweet-code>
+                    {% for char in dweet.code|make_list %}
+                    <span class=code-letter><code>{{ char }}</code></span>
+                    {% endfor %}
+                </div>
 
 
               </div>
