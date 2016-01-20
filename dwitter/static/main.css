@@ -45,6 +45,10 @@
         white-space: pre-line;
       }
 
+      .content {
+        margin-top:40px;
+        margin: 0 auto;
+      }
       .code-letter {
         float:left;
       }
@@ -67,7 +71,6 @@
         box-shadow:0px 1px 1px rgba(0,0,0,0.1);
       }
       .submit-box {
-        padding:40px;
         background:white;
         border:1px solid #ddd;
         box-shadow:0px 1px 1px rgba(0,0,0,0.1);
