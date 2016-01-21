@@ -45,8 +45,8 @@
         white-space: pre-line;
       }
 
-      .content {
-        margin-top:40px;
+      #content {
+        padding-top:5em;
         margin: 0 auto;
       }
       .code-letter {
@@ -60,7 +60,6 @@
       .dweet-feed {
         width: 600px;
         margin: 0 auto;
-        padding-top: 4em;
       }
       .dweet {
         margin-top:20px;
