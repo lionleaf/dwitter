@@ -1,218 +1,61 @@
-<html>
-  <head>
-    <title>Dwitter</title>
-    <style>
+{% extends 'base.html' %}
 
-      * {
-        border:0px;
-        margin:0px;
-        padding:0px;
-      }
+{% block header_title %} 
+{{ header_title }}
+{% endblock %}
+{% block pagecontrol %} 
+<a class=button href="{{ prev_url }}">&laquo;</a> Page: {{ page_nr }} <a class=button href="{{ next_url }}">&raquo;</a>
+{% endblock %}
 
-      textarea{
-        border:1px solid;
-        padding:3px;
-      }
-
-      input[type=submit] {
-        padding: 5px;
-        border: 1px solid black;
-        background: white;
-        border-radius:3px;
-        margin-top: 2px;
-        display:inline-block;
-      }
-
-      .button{
-        padding: 5px;
-        border: 1px solid black;
-        background: white;
-        border-radius:3px;
-        margin-top: 2px;
-        text-decoration:none;
-        display:inline-block;
-      }
-    
-      a.button,
-      a.button:hover,
-      a.button:active,
-      a.button:visited {
-        color:inherit;
-      }
-
-
-      body{
-        background:#f5f5f5;
-        font-family: sans-serif;
-      }
-
-      code {
-        font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-        white-space: pre-line;
-      }
-
-      .dweet-feed {
-        width: 600px;
-        margin: 0 auto;
-        padding-top: 4em;
-      }
-      .dweet {
-        margin-top:20px;
-        padding:40px;
-        background:white;
-        word-wrap: break-word;
-        border:1px solid #ddd;
-        box-shadow:0px 1px 1px rgba(0,0,0,0.1);
-      }
-      .submit-box {
-        padding:40px;
-        background:white;
-        border:1px solid #ddd;
-        box-shadow:0px 1px 1px rgba(0,0,0,0.1);
-      }
-      .dweet-author {
-        padding:10px;
-        font-weight: bold;
-      }
-      .code-input{
-        text-align:left;
-        resize:none;
-        width:100%;
-      }
-      .dweet-button {
-        float: right;
-      }
-      .canvas-iframe-container-wrapper {
-        width: 100%;
-        /*padding: 0 0 56.25% 0; /* 16:9 */
-        padding: 0 0 56.25% 0; /* 16:9 */
-        position: relative;
-      }
-
-      .canvas-iframe-container {
-        position: absolute;
-        width:100%;
-        top: 0; bottom: 0; left: 0; right: 0;
-      }
-      iframe {
-        width:100%;
-        height:100%;
-      }
-      .head-menu {
-        position:fixed;
-        width:100%;
-        z-index:100;
-        background:white;
-        text-align:center;
-        border-bottom:1px solid #ddd;
-        box-shadow:0px 1px 1px rgba(0,0,0,0.1);
-      }
-      .head-account-info {
-        padding:1em;
-        float:right;
-        text-align:right;
-        width:20%;
-      }
-      .header-center-div {
-        margin:auto;
-        width:30%;
-        padding:1px;
-        text-align:center;
-      }
-
-      .header-title {
-        margin:0px;
-      }
-
-      .footer {
-        background:white;
-        text-align:center;
-      }
-
-      .score-text {
-        color:green;
-        font-size:200%;
-      }
-
-      .arktis-link {
-        text-align:right;
-        float:right;
-      }
-
-      .dweet-actions {
-        margin-top:10px;
-        margin-bottom:20px;
-      }
-
-    </style>
-  </head>
-  <body>
-    <div class=head-menu>
-      <div class=head-account-info>
-        {% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}. <a class=button href="{% url 'auth_logout' %}"> Log out </a>
-        {% else %}
-        <a href="{% url 'auth_login'  %}" > Login </a> 
-        {% endif %}
-      </div>
-      <div class=header-center-div>
-        <h2 class=header-title>{{ header_title }}</h2>
-        <br />
-        <a class=button href="{{ prev_url }}">&laquo;</a> Page: {{ page_nr }} <a class=button href="{{ next_url }}">&raquo;</a>
+{% block content %}
+<div class=dweet-feed>
+  <div class=submit-box>
+    <div class=canvas-iframe-container-wrapper>
+      <div class=canvas-iframe-container 
+        id="iframe-container-submit">
       </div>
     </div>
-
-
-
-
-    <div class=dweet-feed>
-      <div class=submit-box>
-        <div class=canvas-iframe-container-wrapper>
-          <div class=canvas-iframe-container 
-            id="iframe-container-submit">
-          </div>
-        </div>
-        <form action="{% url 'dweet' %}" method="post">
-          {% csrf_token %}
-          <textarea
-            name=code
-            class=code-input
-            id=editor
-            maxlength=140
-            rows=4
-            >x.fillRect(800,400,200,200)</textarea>
-          <br />
-          <input  
-          class=dweet-button
-          type="submit" 
-          value="Dweet!" />
-        </form>
-        <br />
-        <code>
-          Will be called 60 times per second.
-          t: Elapsed time in seconds.
-          S: Shorthand for Math.sin.
-          C: Shorthand for Math.cos.
-          T: Shorthand for Math.tan.
-          R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
-          c: A 1920x1080 canvas.
-          x: A 2D context for that canvas. 
-        </code>
-        <script>
-          (function() {
-          var editor = document.querySelector('#editor');
-          oldCode = editor.value;
-          replaceIframe(oldCode);
-          editor.addEventListener('keyup', function() {
+    <form action="{% url 'dweet' %}" method="post">
+      {% csrf_token %}
+      <textarea
+        name=code
+        class=code-input
+        id=editor
+        maxlength=140
+        rows=4
+        >x.fillRect(800,400,200,200)</textarea>
+      <br />
+      <input  
+      class=dweet-button
+      type="submit" 
+      value="Dweet!" />
+    </form>
+    <br />
+    <code>
+      Will be called 60 times per second.
+      t: Elapsed time in seconds.
+      S: Shorthand for Math.sin.
+      C: Shorthand for Math.cos.
+      T: Shorthand for Math.tan.
+      R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
+      c: A 1920x1080 canvas.
+      x: A 2D context for that canvas. 
+    </code>
+    <script>
+      (function() {
+        var editor = document.querySelector('#editor');
+        oldCode = editor.value;
+        replaceIframe(oldCode);
+        editor.addEventListener('keyup', function() {
           if(editor.value == oldCode) {
-          return;
+            return;
           }
           editor.size = Math.max(editor.value.length, 1);
           replaceIframe(editor.value);
           oldCode = editor.value;
-          });
+        });
 
-          function replaceIframe(code) {
+        function replaceIframe(code) {
           var iframe = document.createElement('iframe');
           iframe.sandbox = 'allow-scripts';
           var iframeContent = encodeURIComponent(
@@ -221,9 +64,9 @@
             '<style>' +
               '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
               'canvas {' +
-              'width: 100%;' +
-              'background: white;' +
-              '}' +
+                'width: 100%;' +
+                'background: white;' +
+                '}' +
               '</style>' +
             '</head>' +
           '<body>' +
@@ -236,120 +79,116 @@
               'var C = Math.cos;' +
               'var T = Math.tan;' +
               'var R = function(r,g,b,a) {' +
-              'a = a === undefined ? 1 : a;' +
-              'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
-              '};' +
+                'a = a === undefined ? 1 : a;' +
+                'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
+                '};' +
               'var x = c.getContext("2d");' +
               'var startT = +new Date(); ' +
               'function u(t) {' +
-              code +
-              '};' +
+                code +
+                '};' +
               'function loop() {' +
-              'requestAnimationFrame(loop);' +
-              'u((new Date() - startT) / 1000);' +
-              '};' +
+                'requestAnimationFrame(loop);' +
+                'u((new Date() - startT) / 1000);' +
+                '};' +
               'loop();' +
               '</scr' + 'ipt>');
               iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
               var container = document.querySelector('#iframe-container-submit');
               container.innerHTML = '';
               container.appendChild(iframe);
-              }
-              })();
+            }
+        })();
 
-            </script>
-          </div>
+      </script>
+    </div>
 
-          {% for dweet in dweet_list %}
-          <div class=dweet>
-            <div class=canvas-iframe-container-wrapper>
-              <div class=canvas-iframe-container 
-                id="iframe-container{{ forloop.counter0 }}">
-                <script>
+    {% for dweet in dweet_list %}
+    <div class=dweet>
+      <div class=canvas-iframe-container-wrapper>
+        <div class=canvas-iframe-container 
+          id="iframe-container{{ forloop.counter0 }}">
+          <script>
 
-                  function decodeHTMLEntities(text) {
-                  var entities = [
-                  ['apos', '\''],
-                  ['amp', '&'],
-                  ['lt', '<'],
-                  ['gt', '>'],
-                  ['#39', '\''],
-                  ];
+            function decodeHTMLEntities(text) {
+              var entities = [
+              ['apos', '\''],
+              ['amp', '&'],
+              ['lt', '<'],
+              ['gt', '>'],
+              ['#39', '\''],
+              ];
 
-                  for (var i = 0, max = entities.length; i < max; ++i) 
-                  text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
+              for (var i = 0, max = entities.length; i < max; ++i) 
+              text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
 
-                  return text;
-                  }
-
-
-                  (function() {
-
-                  var iframe = document.createElement('iframe');
-                  iframe.sandbox = 'allow-scripts';
-                  var iframeContent = encodeURIComponent(
-                  '<!DOCTYPE html>' +
-                  '<head>' +
-                    '<style>' +
-                      '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
-                      'canvas {' +
-                      'width: 100%;' +
-                      'background: white;' +
-                      '}' +
-                      '</style>' +
-                    '</head>' +
-                  '<body>' +
-                    '<canvas id=c></canvas>' +
-                    '<script>' +
-                      'var c = document.querySelector("#c");' +
-                      'c.width = 1920;' +
-                      'c.height = 1080;' +
-                      'var S = Math.sin;' +
-                      'var C = Math.cos;' +
-                      'var T = Math.tan;' +
-                      'var R = function(r,g,b,a) {' +
-                      'a = a === undefined ? 1 : a;' +
-                      'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
-                      '};' +
-                      'var x = c.getContext("2d");' +
-                      'var startT = +new Date(); ' +
-                      'function u(t) {' +
-                      decodeHTMLEntities('{{ dweet.code }}') +
-                      '};' +
-                      'function loop() {' +
-                      'requestAnimationFrame(loop);' +
-                      'u((new Date() - startT) / 1000);' +
-                      '};' +
-                      'loop();' +
-                      '</scr' + 'ipt>');
-                      iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
-                      var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
-                      container.innerHTML = '';
-                      container.appendChild(iframe);
-                      })();
-
-                    </script>
-                  </div>
-                </div>
-
-                <div class=dweet-actions>
-                  <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
-                  <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
-                  <script>
-                    (function() {
-                    var link = document.querySelector('#arktis-link-{{dweet.id}}');
-                    link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
-                    })();
-                  </script>
-                </div>
-                <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
-                <div class=dweet-code><code>{{ dweet.code }}</code></div>
+              return text;
+            }
 
 
-              </div>
-              {% endfor %}
-              <div class=footer>
-              </div>
-            </div>
-          </body>
-        </html>
+            (function() {
+
+              var iframe = document.createElement('iframe');
+              iframe.sandbox = 'allow-scripts';
+              var iframeContent = encodeURIComponent(
+              '<!DOCTYPE html>' +
+              '<head>' +
+                '<style>' +
+                  '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
+                  'canvas {' +
+                    'width: 100%;' +
+                    'background: white;' +
+                    '}' +
+                  '</style>' +
+                '</head>' +
+              '<body>' +
+                '<canvas id=c></canvas>' +
+                '<script>' +
+                  'var c = document.querySelector("#c");' +
+                  'c.width = 1920;' +
+                  'c.height = 1080;' +
+                  'var S = Math.sin;' +
+                  'var C = Math.cos;' +
+                  'var T = Math.tan;' +
+                  'var R = function(r,g,b,a) {' +
+                    'a = a === undefined ? 1 : a;' +
+                    'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
+                    '};' +
+                  'var x = c.getContext("2d");' +
+                  'var startT = +new Date(); ' +
+                  'function u(t) {' +
+                    decodeHTMLEntities('{{ dweet.code }}') +
+                    '};' +
+                  'function loop() {' +
+                    'requestAnimationFrame(loop);' +
+                    'u((new Date() - startT) / 1000);' +
+                    '};' +
+                  'loop();' +
+                  '</scr' + 'ipt>');
+                  iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
+                  var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
+                  container.innerHTML = '';
+                  container.appendChild(iframe);
+            })();
+
+          </script>
+        </div>
+      </div>
+
+      <div class=dweet-actions>
+        <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
+        <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
+        <script>
+          (function() {
+            var link = document.querySelector('#arktis-link-{{dweet.id}}');
+            link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
+          })();
+        </script>
+      </div>
+      <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
+      <div class=dweet-code>
+        {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

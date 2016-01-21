@@ -1,20 +1,25 @@
 <html>
   <head>
-    <title> {% block title %} {% endblock %} </title> 
-    <style>
-      body{
-        background:#ddd;
-      }
-      #content {
-        padding-top:4em;
-        width: 80%;
-        margin: 0 auto;
-
-      }
-    </style>
+    <title>{% block title %} {% endblock %} </title>
+    {% load staticfiles %}
+    <link rel=stylesheet href='{% static "main.css" %}' >
   </head>
   <body>
-
+    <div class=head-menu>
+      <div class=head-account-info>
+        {% if request.user.is_authenticated %}
+        Logged in as {{ request.user.username }}. <a class=button href="{% url 'auth_logout' %}"> Log out </a>
+        {% else %}
+        <a href="{% url 'auth_login'  %}" > Login </a> 
+        {% endif %}
+      </div>
+      <div class=header-center-div>
+        <h2 class=header-title>{% block header_title %}{% endblock %}</h2>
+        <br />
+        {% block pagecontrol %} 
+        {% endblock %}
+      </div>
+    </div>
     <div id=content>
       {% block content %}
       {% endblock %}
