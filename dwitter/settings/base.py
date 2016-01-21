@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_URL = 'http://lionleaf.org/dwitter'
+BASE_URL = 'http://dwitter.lionleaf.org/'
 
 REGISTRATION_OPEN = True        # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
