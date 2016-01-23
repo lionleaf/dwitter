@@ -108,73 +108,9 @@
       <div class=canvas-iframe-container-wrapper>
         <div class=canvas-iframe-container 
           id="iframe-container{{ forloop.counter0 }}">
-          <script>
-
-            function decodeHTMLEntities(text) {
-              var entities = [
-              ['apos', '\''],
-              ['amp', '&'],
-              ['lt', '<'],
-              ['gt', '>'],
-              ['#39', '\''],
-              ];
-
-              for (var i = 0, max = entities.length; i < max; ++i) 
-              text = text.replace(new RegExp('&'+entities[i][0]+';', 'g'), entities[i][1]);
-
-              return text;
-            }
-
-
-            (function() {
-
-              var iframe = document.createElement('iframe');
-              iframe.sandbox = 'allow-scripts';
-              var iframeContent = encodeURIComponent(
-              '<!DOCTYPE html>' +
-              '<head>' +
-                '<style>' +
-                  '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
-                  'canvas {' +
-                    'width: 100%;' +
-                    'background: white;' +
-                    '}' +
-                  '</style>' +
-                '</head>' +
-              '<body>' +
-                '<canvas id=c></canvas>' +
-                '<script>' +
-                  'var c = document.querySelector("#c");' +
-                  'c.width = 1920;' +
-                  'c.height = 1080;' +
-                  'var S = Math.sin;' +
-                  'var C = Math.cos;' +
-                  'var T = Math.tan;' +
-                  'var R = function(r,g,b,a) {' +
-                    'a = a === undefined ? 1 : a;' +
-                    'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
-                    '};' +
-                  'var x = c.getContext("2d");' +
-                  'var startT = +new Date(); ' +
-                  'function u(t) {' +
-                    decodeHTMLEntities('{{ dweet.code }}') +
-                    '};' +
-                  'function loop() {' +
-                    'requestAnimationFrame(loop);' +
-                    'u((new Date() - startT) / 1000);' +
-                    '};' +
-                  'loop();' +
-                  '</scr' + 'ipt>');
-                  iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
-                  var container = document.querySelector('#iframe-container{{ forloop.counter0 }}');
-                  container.innerHTML = '';
-                  container.appendChild(iframe);
-            })();
-
-          </script>
+          <iframe src="{% url 'fullscreen_dweet' dweet.id %}"></iframe>
         </div>
       </div>
-
       <div class=dweet-actions>
         <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
         <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
