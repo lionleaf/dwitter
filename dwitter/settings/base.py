@@ -79,8 +79,7 @@ ROOT_URLCONF = 'dwitter.urls'
 
 # A dictionary of urlconf module paths, keyed by their subdomain.
 SUBDOMAIN_URLCONFS = {
-    None: 'dwitter.urls',  # no subdomain, e.g. ``example.com``
-    'www': 'dwitter.urls',
+    'dwitter': 'dwitter.urls',
     'dweet': 'dwitter.dweet.urls',
 }
 
@@ -95,6 +94,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },
