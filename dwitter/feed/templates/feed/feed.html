@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load subdomainurls %}
 
 {% block header_title %} 
 {{ header_title }}
@@ -108,11 +109,11 @@
       <div class=canvas-iframe-container-wrapper>
         <div class=canvas-iframe-container 
           id="iframe-container{{ forloop.counter0 }}">
-          <iframe src="{% url 'fullscreen_dweet' dweet.id %}"></iframe>
+          <iframe src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
         </div>
       </div>
       <div class=dweet-actions>
-        <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' dweet.id %}"> Awesome! </a>
+        <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
         <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
         <script>
           (function() {
@@ -121,7 +122,7 @@
           })();
         </script>
       </div>
-      <div class=dweet-author><a href="{% url 'user_feed' dweet.author.username %}">{{ dweet.author.username }}</a></div>
+      <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
       <div class=dweet-code>
         {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
       </div>
