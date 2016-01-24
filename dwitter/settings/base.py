@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'dwitter',
     'dwitter.user',
     'dwitter.feed',
+    'dwitter.dweet',
+    'subdomains',
 ]
 
 
@@ -64,6 +66,7 @@ INSTALLED_APPS = [
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -73,6 +76,13 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'dwitter.urls'
+
+# A dictionary of urlconf module paths, keyed by their subdomain.
+SUBDOMAIN_URLCONFS = {
+    None: 'dwitter.urls',  # no subdomain, e.g. ``example.com``
+    'www': 'dwitter.urls',
+    'dweet': 'dwitter.dweet.urls',
+}
 
 TEMPLATES = [
     {
