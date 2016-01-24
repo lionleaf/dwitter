@@ -114,13 +114,7 @@
       </div>
       <div class=dweet-actions>
         <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
-        <a class=arktis-link id=arktis-link-{{dweet.id}} href="http://arkt.is/t/" >fullscreen at arkt.is</a>
-        <script>
-          (function() {
-            var link = document.querySelector('#arktis-link-{{dweet.id}}');
-            link.href = 'http://arkt.is/t/' + btoa(decodeHTMLEntities('{{ dweet.code }}'));
-          })();
-        </script>
+        <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
       </div>
       <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
       <div class=dweet-code>
