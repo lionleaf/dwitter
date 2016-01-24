@@ -7,6 +7,58 @@
       background: white;
       }
     </style>
+    <script>
+      var playing = false;
+      var pauseTime = +new Date();
+      function receiveMessage(event){
+        var origin = event.origin || event.originalEvent.origin;
+        console.log("Received message from " + origin);
+        if(origin !== "http://dwitter.localhost:8000"
+          && origin !== "http://localhost:8000"
+          && origin !== "http://dwitter.lionleaf.org"){
+            return;
+          }
+        console.log("Message was: " + event.data);
+
+        if(event.data == "toggle"){
+          if(playing){
+            pauseDemo();
+          }else{
+            playDemo();
+          }
+        }
+        if(event.data == "play"){
+          playDemo();
+        }
+        if(event.data == "pause"){
+          pauseDemo();
+        }
+      }
+
+      function pauseDemo(){
+        if(!playing){
+          return;
+        }
+
+        pauseTime = +new Date();
+
+        playing = false;
+      }
+
+      function playDemo(){
+        if(playing){
+          return
+        }
+
+        timeOffset += (new Date() - pauseTime);
+
+        playing = true;
+        requestAnimationFrame(loop);
+      }
+      var timeOffset = 0;
+
+      window.addEventListener("message", receiveMessage, false);
+    </script>
   </head>
 <body>
   <canvas id=c></canvas>
@@ -27,10 +79,13 @@
         {{ dweet.code | safe }}
       };
     function loop() {
-      requestAnimationFrame(loop);
-      u((new Date() - startT) / 1000);
+      if(playing){
+        requestAnimationFrame(loop);
+      }
+      u((new Date() - startT - timeOffset) / 1000);
       };
     loop();
     </script>
+
 </body>
 

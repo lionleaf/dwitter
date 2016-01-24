@@ -107,13 +107,23 @@
     {% for dweet in dweet_list %}
     <div class=dweet>
       <div class=canvas-iframe-container-wrapper>
-        <div class=canvas-iframe-container 
-          id="iframe-container{{ forloop.counter0 }}">
-          <iframe src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+        <div class=canvas-iframe-container >
+          <iframe id="iframe{{ forloop.counter0 }}" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
         </div>
       </div>
       <div class=dweet-actions>
         <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
+        &nbsp;&nbsp;&nbsp;<a id="pause-link{{ forloop.counter0 }}" href>Play/Pause</a>
+        <script>
+          var pauselink = document.querySelector('#pause-link{{ forloop.counter0 }}');
+          pauselink.addEventListener('click', function(event) {
+            event.preventDefault();
+            var dweetwindow = document.querySelector("#iframe{{ forloop.counter0 }}");
+            win =  dweetwindow.contentWindow || dweetwindow;
+            console.log(win);
+            win.postMessage("toggle","http://dweet.localhost:8000");
+          });
+        </script>
         <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
       </div>
       <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
