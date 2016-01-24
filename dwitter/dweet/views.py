@@ -4,7 +4,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
 from dwitter.models import Dweet
+from django.views.decorators.clickjacking import xframe_options_exempt
 
+
+@xframe_options_exempt
 def fullscreen_dweet(request, dweet_id):
   dweet = get_object_or_404(Dweet, id=dweet_id) 
 
