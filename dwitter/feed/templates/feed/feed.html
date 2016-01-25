@@ -11,49 +11,13 @@
     <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
     <script src="{% static "libs/inview.min.js" %}"></script>
     <script src="{% static "libs/infinite.min.js" %}"></script>
-{% endblock %}
-
-
-{% block pagecontrol %} 
-<a class=button href="{{ prev_url }}">&laquo;</a> Page: {{ page_nr }} <a class=button href="{{ next_url }}">&raquo;</a>
-{% endblock %}
-
-{% block content %}
-<div class=dweet-feed>
-  <div class=submit-box>
-    <div class=canvas-iframe-container-wrapper>
-      <div class=canvas-iframe-container 
-        id="iframe-container-submit">
-      </div>
-    </div>
-    <form action="{% url 'dweet' %}" method="post">
-      {% csrf_token %}
-      <textarea
-        name=code
-        class=code-input
-        id=editor
-        maxlength=140
-        rows=4
-        >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
-      <br />
-      <input  
-      class=dweet-button
-      type="submit" 
-      value="Dweet!" />
-    </form>
-    <br />
-    <code>
-      Will be called 60 times per second.
-      t: Elapsed time in seconds.
-      S: Shorthand for Math.sin.
-      C: Shorthand for Math.cos.
-      T: Shorthand for Math.tan.
-      R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
-      c: A 1920x1080 canvas.
-      x: A 2D context for that canvas. 
-    </code>
     <script>
-      (function() {
+        var infinite = new Waypoint.Infinite({
+            element: $('.
+        })
+    </script>
+    <script>
+      window.onload = function() {
         var editor = document.querySelector('#editor');
         oldCode = editor.value;
         replaceIframe(oldCode);
@@ -109,9 +73,49 @@
               container.innerHTML = '';
               container.appendChild(iframe);
             }
-        })();
-
+        }
       </script>
+{% endblock %}
+
+
+{% block pagecontrol %} 
+<a class=button href="{{ prev_url }}">&laquo;</a> Page: {{ page_nr }} <a class=button href="{{ next_url }}">&raquo;</a>
+{% endblock %}
+
+{% block content %}
+<div class=dweet-feed>
+  <div class=submit-box>
+    <div class=canvas-iframe-container-wrapper>
+      <div class=canvas-iframe-container 
+        id="iframe-container-submit">
+      </div>
+    </div>
+    <form action="{% url 'dweet' %}" method="post">
+      {% csrf_token %}
+      <textarea
+        name=code
+        class=code-input
+        id=editor
+        maxlength=140
+        rows=4
+        >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
+      <br />
+      <input  
+      class=dweet-button
+      type="submit" 
+      value="Dweet!" />
+    </form>
+    <br />
+    <code>
+      Will be called 60 times per second.
+      t: Elapsed time in seconds.
+      S: Shorthand for Math.sin.
+      C: Shorthand for Math.cos.
+      T: Shorthand for Math.tan.
+      R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
+      c: A 1920x1080 canvas.
+      x: A 2D context for that canvas. 
+    </code>
     </div>
 
     {% for dweet in dweet_list %}
@@ -137,7 +141,6 @@
               pause{{forloop.counter0}}()
             },
           });
-
 
 
           function play{{forloop.counter0}}(){
