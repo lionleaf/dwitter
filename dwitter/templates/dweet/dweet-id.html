@@ -9,7 +9,6 @@
     </style>
     <script>
       var playing = false;
-      var pauseTime = +new Date();
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
         console.log("Received message from " + origin);
@@ -50,8 +49,6 @@
           return
         }
 
-        timeOffset += (new Date() - pauseTime);
-
         playing = true;
         requestAnimationFrame(loop);
       }
@@ -74,7 +71,7 @@
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
       };
     var x = c.getContext("2d");
-    var startT = +new Date(); 
+    var time = 0;
     function u(t) {
         {{ dweet.code | safe }}
       };
@@ -82,7 +79,8 @@
       if(playing){
         requestAnimationFrame(loop);
       }
-      u((new Date() - startT - timeOffset) / 1000);
+      u(time);
+      time += 1/60;
       };
     loop();
     </script>
