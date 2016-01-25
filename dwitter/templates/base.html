@@ -3,6 +3,8 @@
     <title>{% block title %} {% endblock %} </title>
     {% load staticfiles %}
     <link rel=stylesheet href='{% static "main.css" %}' >
+    {% block head %}
+    {% endblock %}
   </head>
   <body>
     <div class=head-menu>

@@ -4,6 +4,16 @@
 {% block header_title %} 
 {{ header_title }}
 {% endblock %}
+
+{% block head %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    {% load staticfiles %}
+    <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
+    <script src="{% static "libs/inview.min.js" %}"></script>
+    <script src="{% static "libs/infinite.min.js" %}"></script>
+{% endblock %}
+
+
 {% block pagecontrol %} 
 <a class=button href="{{ prev_url }}">&laquo;</a> Page: {{ page_nr }} <a class=button href="{{ next_url }}">&raquo;</a>
 {% endblock %}
@@ -113,16 +123,35 @@
       </div>
       <div class=dweet-actions>
         <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
-        &nbsp;&nbsp;&nbsp;<a id="pause-link{{ forloop.counter0 }}" href>Play/Pause</a>
+
         <script>
-          var pauselink = document.querySelector('#pause-link{{ forloop.counter0 }}');
-          pauselink.addEventListener('click', function(event) {
-            event.preventDefault();
+          var inview = new Waypoint.Inview({
+            element: $('#iframe{{ forloop.counter0 }}')[0],
+            enter: function(dir) {
+              play{{forloop.counter0}}()
+            },
+            entered: function(dir) {
+              play{{forloop.counter0}}()
+            },
+            exited: function(dir) {
+              pause{{forloop.counter0}}()
+            },
+          });
+
+
+
+          function play{{forloop.counter0}}(){
             var dweetwindow = document.querySelector("#iframe{{ forloop.counter0 }}");
             win =  dweetwindow.contentWindow || dweetwindow;
             console.log(win);
-            win.postMessage("toggle","http://dweet.localhost:8000");
-          });
+            win.postMessage("play","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}");
+          }
+          function pause{{forloop.counter0}}(){
+            var dweetwindow = document.querySelector("#iframe{{ forloop.counter0 }}");
+            win =  dweetwindow.contentWindow || dweetwindow;
+            console.log(win);
+            win.postMessage("pause","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}");
+          }
         </script>
         <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
       </div>
