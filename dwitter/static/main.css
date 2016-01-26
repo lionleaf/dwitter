@@ -49,12 +49,10 @@
         padding-top:5em;
         margin: 0 auto;
       }
-      .code-letter {
-        float:left;
-      }
 
-      .dweet-code {
-        overflow:hidden;
+      .dweet .code {
+        white-space: pre;
+        word-wrap: break;
       }
 
       .dweet-feed {

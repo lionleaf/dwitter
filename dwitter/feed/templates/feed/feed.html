@@ -178,9 +178,7 @@
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
         </div>
         <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
-        <div class=dweet-code>
-          {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
-        </div>
+        <div class=dweet-code><code>{{ dweet.code }}</code></div>
       </div>
       {% endfor %}
 
