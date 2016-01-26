@@ -12,12 +12,6 @@
     <script src="{% static "libs/inview.min.js" %}"></script>
     <script src="{% static "libs/infinite.min.js" %}"></script>
     <script>
-        var infinite = new Waypoint.Infinite({
-            element: $('.dweetfeed')[0],
-            items: '.dweet',
-        })
-    </script>
-    <script>
       window.onload = function() {
         var editor = document.querySelector('#editor');
         oldCode = editor.value;
@@ -86,6 +80,30 @@
 {% block content %}
 <script>
   window.onload = function() {
+    var infinite = new Waypoint.Infinite({
+      element: $('.dweet-feed')[0],
+      items: '.dweet',
+      more: '.next-page',
+      onAfterPageLoad: function(items) {
+        var dwiframes = [];
+        $.each(items, function(index, div){
+          console.log("each " + div);
+          var iframe =  $(div).find(".dweetiframe")[0];
+          console.log("Registering " + iframe.src);
+          var inview = new Waypoint.Inview({
+            element: iframe,
+            entered: function(dir) {
+              play(iframe);
+            },
+            exit: function(dir) {
+              pause(iframe);
+            },
+          });
+        });
+      }
+    });
+    console.log("infite element: " + infinite.element);
+
     var dweetiframes = document.querySelectorAll(".dweetiframe");
 
     inviews = {};
@@ -105,12 +123,12 @@
     function play(iframe){
       dweetwin =  iframe.contentWindow || iframe;
       dweetwin.postMessage("play","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id='1' %}");
-      console.log("Send play");
+      console.log("Send play to " + iframe.src);
     }
     function pause(iframe){
       dweetwin =  iframe.contentWindow || iframe;
       dweetwin.postMessage("pause","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id='1' %}");
-      console.log("Send pause");
+      console.log("Send pause to " + iframe.src);
     }
   };
 </script>
@@ -148,24 +166,29 @@
       c: A 1920x1080 canvas.
       x: A 2D context for that canvas. 
     </code>
+  </div>
+
+
+  {% for dweet in dweet_list %}
+  <div class=dweet>
+    <div class=canvas-iframe-container-wrapper>
+      <div class=canvas-iframe-container >
+        <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+      </div>
     </div>
 
-    {% for dweet in dweet_list %}
-    <div class=dweet>
-      <div class=canvas-iframe-container-wrapper>
-        <div class=canvas-iframe-container >
-          <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
-        </div>
-      </div>
-      <div class=dweet-actions>
-        <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
+    <div class=dweet-actions>
+      <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
 
-        <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
-      </div>
-      <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
-      <div class=dweet-code>
-        {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
-      </div>
+      <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
     </div>
+    <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
+    <div class=dweet-code>
+      {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
+    </div>
+  </div>
   {% endfor %}
+
+  <a class=next-page href="{{ next_url }}">Next page</a>
+</div>
 {% endblock %}
