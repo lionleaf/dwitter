@@ -6,70 +6,11 @@
 {% endblock %}
 
 {% block head %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    {% load staticfiles %}
-    <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
-    <script src="{% static "libs/inview.min.js" %}"></script>
-    <script src="{% static "libs/infinite.min.js" %}"></script>
-    <script>
-      window.onload = function() {
-        var editor = document.querySelector('#editor');
-        oldCode = editor.value;
-        replaceIframe(oldCode);
-        editor.addEventListener('keyup', function() {
-          if(editor.value == oldCode) {
-            return;
-          }
-          editor.size = Math.max(editor.value.length, 1);
-          replaceIframe(editor.value);
-          oldCode = editor.value;
-        });
-
-        function replaceIframe(code) {
-          var iframe = document.createElement('iframe');
-          iframe.sandbox = 'allow-scripts';
-          var iframeContent = encodeURIComponent(
-          '<!DOCTYPE html>' +
-          '<head>' +
-            '<style>' +
-              '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
-              'canvas {' +
-                'width: 100%;' +
-                'background: white;' +
-                '}' +
-              '</style>' +
-            '</head>' +
-          '<body>' +
-            '<canvas id=c></canvas>' +
-            '<script>' +
-              'var c = document.querySelector("#c");' +
-              'c.width = 1920;' +
-              'c.height = 1080;' +
-              'var S = Math.sin;' +
-              'var C = Math.cos;' +
-              'var T = Math.tan;' +
-              'var R = function(r,g,b,a) {' +
-                'a = a === undefined ? 1 : a;' +
-                'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
-                '};' +
-              'var x = c.getContext("2d");' +
-              'var startT = +new Date(); ' +
-              'function u(t) {' +
-                code +
-                '};' +
-              'function loop() {' +
-                'requestAnimationFrame(loop);' +
-                'u((new Date() - startT) / 1000);' +
-                '};' +
-              'loop();' +
-              '</scr' + 'ipt>');
-              iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
-              var container = document.querySelector('#iframe-container-submit');
-              container.innerHTML = '';
-              container.appendChild(iframe);
-            }
-        }
-      </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+{% load staticfiles %}
+<script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
+<script src="{% static "libs/inview.min.js" %}"></script>
+<script src="{% static "libs/infinite.min.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -163,27 +104,86 @@
     </code>
   </div>
 
+  <script>
+    (function() {
+      var editor = document.querySelector('#editor');
+      oldCode = editor.value;
+      replaceIframe(oldCode);
+      editor.addEventListener('keyup', function() {
+        if(editor.value == oldCode) {
+          return;
+        }
+        editor.size = Math.max(editor.value.length, 1);
+        replaceIframe(editor.value);
+        oldCode = editor.value;
+      });
 
-  {% for dweet in dweet_list %}
-  <div class=dweet>
-    <div class=canvas-iframe-container-wrapper>
-      <div class=canvas-iframe-container >
-        <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+      function replaceIframe(code) {
+        var iframe = document.createElement('iframe');
+        iframe.sandbox = 'allow-scripts';
+        var iframeContent = encodeURIComponent(
+        '<!DOCTYPE html>' +
+        '<head>' +
+          '<style>' +
+            '* {padding:0;margin:0;border:0;outline:0;overflow:hidden}' +
+            'canvas {' +
+              'width: 100%;' +
+              'background: white;' +
+              '}' +
+            '</style>' +
+          '</head>' +
+        '<body>' +
+          '<canvas id=c></canvas>' +
+          '<script>' +
+            'var c = document.querySelector("#c");' +
+            'c.width = 1920;' +
+            'c.height = 1080;' +
+            'var S = Math.sin;' +
+            'var C = Math.cos;' +
+            'var T = Math.tan;' +
+            'var R = function(r,g,b,a) {' +
+              'a = a === undefined ? 1 : a;' +
+              'return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";' +
+              '};' +
+            'var x = c.getContext("2d");' +
+            'var startT = +new Date(); ' +
+            'function u(t) {' +
+              code +
+              '};' +
+            'function loop() {' +
+              'requestAnimationFrame(loop);' +
+              'u((new Date() - startT) / 1000);' +
+              '};' +
+            'loop();' +
+            '</scr' + 'ipt>');
+            iframe.src = 'data:text/html;charset=utf-8,' + iframeContent;
+            var container = document.querySelector('#iframe-container-submit');
+            container.innerHTML = '';
+            container.appendChild(iframe);
+          }
+        })();
+      </script>
+
+      {% for dweet in dweet_list %}
+      <div class=dweet>
+        <div class=canvas-iframe-container-wrapper>
+          <div class=canvas-iframe-container >
+            <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+          </div>
+        </div>
+
+        <div class=dweet-actions>
+          <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
+
+          <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
+        </div>
+        <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
+        <div class=dweet-code>
+          {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
+        </div>
       </div>
-    </div>
+      {% endfor %}
 
-    <div class=dweet-actions>
-      <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
-
-      <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
+      <a class=next-page href="{{ next_url }}">Next page</a>
     </div>
-    <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
-    <div class=dweet-code>
-      {% for char in dweet.code|make_list %}<span class=code-letter><code>{{ char }}</code></span>{% endfor %}
-    </div>
-  </div>
-  {% endfor %}
-
-  <a class=next-page href="{{ next_url }}">Next page</a>
-</div>
-{% endblock %}
+    {% endblock %}
