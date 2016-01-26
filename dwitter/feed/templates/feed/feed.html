@@ -84,6 +84,37 @@
 {% endblock %}
 
 {% block content %}
+<script>
+  window.onload = function() {
+    var dweetiframes = document.querySelectorAll(".dweetiframe");
+
+    inviews = {};
+
+    [].forEach.call(dweetiframes, function(iframe){
+      var inview = new Waypoint.Inview({
+        element: iframe,
+        entered: function(dir) {
+          play(iframe)
+        },
+        exit: function(dir) {
+          pause(iframe)
+        },
+      });
+    });
+
+    function play(iframe){
+      dweetwin =  iframe.contentWindow || iframe;
+      dweetwin.postMessage("play","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id='1' %}");
+      console.log("Send play");
+    }
+    function pause(iframe){
+      dweetwin =  iframe.contentWindow || iframe;
+      dweetwin.postMessage("pause","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id='1' %}");
+      console.log("Send pause");
+    }
+  };
+</script>
+
 <div class=dweet-feed>
   <div class=submit-box>
     <div class=canvas-iframe-container-wrapper>
@@ -123,40 +154,12 @@
     <div class=dweet>
       <div class=canvas-iframe-container-wrapper>
         <div class=canvas-iframe-container >
-          <iframe id="iframe{{ forloop.counter0 }}" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+          <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
         </div>
       </div>
       <div class=dweet-actions>
         <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
 
-        <script>
-          var inview = new Waypoint.Inview({
-            element: $('#iframe{{ forloop.counter0 }}')[0],
-            enter: function(dir) {
-              play{{forloop.counter0}}()
-            },
-            entered: function(dir) {
-              play{{forloop.counter0}}()
-            },
-            exited: function(dir) {
-              pause{{forloop.counter0}}()
-            },
-          });
-
-
-          function play{{forloop.counter0}}(){
-            var dweetwindow = document.querySelector("#iframe{{ forloop.counter0 }}");
-            win =  dweetwindow.contentWindow || dweetwindow;
-            console.log(win);
-            win.postMessage("play","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}");
-          }
-          function pause{{forloop.counter0}}(){
-            var dweetwindow = document.querySelector("#iframe{{ forloop.counter0 }}");
-            win =  dweetwindow.contentWindow || dweetwindow;
-            console.log(win);
-            win.postMessage("pause","{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}");
-          }
-        </script>
         <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
       </div>
       <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
