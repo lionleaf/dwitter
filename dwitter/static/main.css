@@ -18,13 +18,12 @@
       display:inline-block;
   }
 
-  button{
-      padding: 5px;
-      border: 1px solid black;
-      background: white;
-      border-radius:3px;
-      margin-top: 2px;
-      display:inline-block;
+  a {
+      color: #666;
+      text-decoration: none;
+  }
+  a:hover {
+      text-decoration: underline;
   }
 
   .button{
@@ -44,6 +43,7 @@
       color:inherit;
   }
 
+
   body{
       background:#f5f5f5;
       font-family: sans-serif;
@@ -55,8 +55,8 @@
   }
 
   #content {
-      padding-top:5em;
-      margin: 0 auto;
+    padding: 5em 0 1em;
+    margin: 0 auto;
   }
 
   .dweet .code {
@@ -74,16 +74,16 @@
       background:white;
       word-wrap: break-word;
       border:1px solid #ddd;
-      box-shadow:0px 1px 1px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   }
   .submit-box {
       background:white;
       border:1px solid #ddd;
-      box-shadow:0px 1px 1px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
       padding:40px;
   }
   .dweet-author {
-      padding:10px;
+      padding:10px 0;
       font-weight: bold;
   }
   .code-input{
@@ -146,9 +146,28 @@
       text-align:center;
   }
 
+  .like-button {
+      background: #eee;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      padding: 3px 6px 3px 3px;
+      font-weight: bold;
+      overflow: hidden;
+      display: inline-block;
+  }
+
+  .like-button:hover {
+      text-decoration: none;
+      background: #ddd;
+      border-color: #ccc;
+  }
+
   .score-text {
-      color:green;
-      font-size:200%;
+      font-weight: normal;
+      background: white;
+      padding: 3px;
+      margin-left: -3px;
+      border-right: 1px solid #ddd;
   }
 
   .dweet-changed {
@@ -158,6 +177,7 @@
   .arktis-link {
       text-align:right;
       float:right;
+      line-height: 26px;
   }
 
   .dweet-actions {
@@ -185,4 +205,8 @@
   }
 
   #submit-help{
+  }
+
+  .delete {
+    color: #b22;
   }
