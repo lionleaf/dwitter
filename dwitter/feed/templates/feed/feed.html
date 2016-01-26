@@ -28,10 +28,10 @@
           console.log("Registering " + iframe.src);
           var inview = new Waypoint.Inview({
             element: iframe,
-            entered: function(dir) {
+            enter: function(dir) {
               play(iframe);
             },
-            exit: function(dir) {
+            exited: function(dir) {
               pause(iframe);
             },
           });
@@ -47,10 +47,10 @@
     [].forEach.call(dweetiframes, function(iframe){
       var inview = new Waypoint.Inview({
         element: iframe,
-        entered: function(dir) {
+        enter: function(dir) {
           play(iframe)
         },
-        exit: function(dir) {
+        exited: function(dir) {
           pause(iframe)
         },
       });
