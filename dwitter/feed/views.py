@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 def feed(request, page_nr):
   page = int(page_nr)
-  dweets_per_page = 5
+  dweets_per_page = 10
   first = (page - 1) * dweets_per_page
   last = page * dweets_per_page
   dweet_count = Dweet.objects.count()
