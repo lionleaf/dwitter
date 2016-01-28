@@ -16,7 +16,7 @@
 {% block content %}
 {% load staticfiles %}
 <script src="{% static 'js/scrolling.js' %}"></script>
-<!--<script src="{% static 'js/editor-preview.js' %}"></script> -->
+<script src="{% static 'js/editor-preview.js' %}"></script>
 
 <div class=dweet-feed>
   <div class=submit-box>
@@ -35,29 +35,6 @@
         maxlength=140
         rows=4
         >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
-      <script>
-        (function() {
-          var editor = document.querySelector('#editor');
-          var iframe = document.querySelector('#preview-iframe');
-
-
-          oldCode = editor.value;
-          showCode(oldCode);
-          editor.addEventListener('keyup', function() {
-            if(editor.value == oldCode) {
-              return;
-            }
-            editor.size = Math.max(editor.value.length, 1);
-            showCode(editor.value);
-            oldCode = editor.value;
-          });
-          function showCode(code) {
-            dweetwin =  iframe.contentWindow || iframe;
-            dweetwin.postMessage("code "+code,iframe.src);
-          }
-        })();
-
-      </script>
       <br />
       <input  
       class=dweet-button
