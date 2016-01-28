@@ -32,6 +32,16 @@
         if(event.data == "pause"){
           pauseDemo();
         }
+
+        if(event.data.substring(0, 4) == "code"){
+          var code = event.data.substring(5,event.data.length);
+          newCode(code);
+        }
+      }
+
+      function newCode(code) {
+          //redefine render code with new input
+          eval("u = function(t){"+code+"};")
       }
 
       function pauseDemo(){
@@ -73,7 +83,7 @@
     var x = c.getContext("2d");
     var time = 0;
     function u(t) {
-        {{ dweet.code | safe }}
+       {{ code | safe }}
       };
     function loop() {
       if(playing){
