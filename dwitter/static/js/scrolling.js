@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+window.onload = function() {
   var infinite = new Waypoint.Infinite({
     element: $('.dweet-feed')[0],
       items: '.dweet',
@@ -86,4 +86,4 @@ document.addEventListener('DOMContentLoaded', function() {
     dweetwin =  iframe.contentWindow || iframe;
     dweetwin.postMessage("code "+code,iframe.src);
   }
-}, false);
+};
