@@ -42,6 +42,7 @@
       function newCode(code) {
           //redefine render code with new input
           eval("u = function(t){"+code+"};")
+          reset();
       }
 
       function pauseDemo(){
@@ -93,6 +94,20 @@
       time += 1/60;
       };
     loop();
+
+    function reset(){
+      c.width = 1920;
+      c.height = 1080;
+      S = Math.sin;
+      C = Math.cos;
+      T = Math.tan;
+      R = function(r,g,b,a) {
+        a = a === undefined ? 1 : a;
+        return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
+      };
+      x = c.getContext("2d");
+      time = 0;
+    }
     </script>
 
 </body>
