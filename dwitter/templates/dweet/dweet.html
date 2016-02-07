@@ -8,7 +8,8 @@
       }
     </style>
     <script>
-      var playing = false;
+      var autoplay = getURLParameter('autoplay');
+      var playing = !!autoplay;
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
         console.log("Received message from " + origin);
@@ -69,6 +70,10 @@
       var timeOffset = 0;
 
       window.addEventListener("message", receiveMessage, false);
+
+      function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+      }
     </script>
   </head>
 <body>
