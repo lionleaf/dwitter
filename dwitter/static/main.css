@@ -139,6 +139,10 @@
         font-size:200%;
       }
 
+      .dweet-changed {
+        display:none;
+      }
+
       .arktis-link {
         text-align:right;
         float:right;

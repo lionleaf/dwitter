@@ -42,10 +42,18 @@ window.onload = function() {
   [].forEach.call(dweets, function(dweet) {
     var iframe = $(dweet).find('.dweetiframe')[0];
     var editor = $(dweet).find('.code-input')[0];
-    oldCode = editor.value;
+    var changedDweetMenu = $(dweet).find('.dweet-changed');
+    var oldCode = editor.value;
+    var originalCode = oldCode;
 
     showCode(iframe, oldCode);
     editor.addEventListener('keyup', function() {
+      if(editor.value == originalCode){
+        changedDweetMenu.hide();
+      }else{
+        changedDweetMenu.show();
+      }
+
       if(editor.value == oldCode) {
         return;
       }

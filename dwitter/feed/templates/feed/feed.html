@@ -69,7 +69,16 @@
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" >fullscreen</a>
         </div>
         <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
-        <div class=dweet-code><textarea class=code-input maxlength=140 rows=2>{{ dweet.code }}</textarea></div>
+        <form action="{% url 'dweet' %}" method="post">
+          {% csrf_token %}
+          <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=2>{{ dweet.code }}</textarea></div>
+          <div class=dweet-changed>
+            <input  
+            class=dweet-button
+            type="submit" 
+            value="Post as new dweet!" />
+          </div>
+        </form>
       </div>
       {% endfor %}
 
