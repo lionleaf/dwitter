@@ -17,15 +17,23 @@
 {% load staticfiles %}
 <script src="{% static 'js/scrolling.js' %}"></script>
 <script src="{% static 'js/editor-preview.js' %}"></script>
+<!--<script src="{% static 'js/submit-view.js' %}"></script> -->
 
 <div class=dweet-feed>
   <div class=submit-box>
-    <div class=canvas-iframe-container-wrapper>
+    <div class=canvas-iframe-container-wrapper
+      id="submit-preview">
       <div class=canvas-iframe-container 
         id="iframe-container-submit">
             <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}"></iframe>
       </div>
     </div>
+    <div id=click-the-code>
+      <b>Click the code to start the fun, or browse through other peoples demos below</b>
+    </div>
+    <code>
+      function u(t){
+    </code>
     <form action="{% url 'dweet' %}" method="post">
       {% csrf_token %}
       <textarea
@@ -35,6 +43,9 @@
         maxlength=140
         rows=2
         >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
+      <code>
+        }
+      </code>
       <br />
         {% if request.user.is_authenticated %}
             <input  
@@ -42,12 +53,12 @@
             type="submit" 
             value="Dweet!" />
             {% else %}
-            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to post as a new Dweet (copy-paste code somewhere safe to save it meanwhile) </p>
+            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>
             {% endif %}
     </form>
     <br />
-    <code>
-      Will be called 60 times per second.
+    <code id=submit-help>
+      u(t) is called 60 times per second.
       t: Elapsed time in seconds.
       S: Shorthand for Math.sin.
       C: Shorthand for Math.cos.
@@ -73,9 +84,15 @@
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
         </div>
         <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
+        <code>
+          function u(t){
+        </code>
         <form action="{% url 'dweet' %}" method="post">
           {% csrf_token %}
           <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=2>{{ dweet.code }}</textarea></div>
+          <code>
+            }
+          </code>
           <div class=dweet-changed>
         {% if request.user.is_authenticated %}
             <input  
@@ -83,7 +100,7 @@
             type="submit" 
             value="Post as new dweet!" />
             {% else %}
-            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to post as a new Dweet (copy-paste code somewhere safe to save it meanwhile) </p>
+            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to post as a new dweet (copy-paste code somewhere safe to save it meanwhile) </p>
             {% endif %}
           </div>
         </form>
