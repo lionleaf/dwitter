@@ -38,6 +38,16 @@ def dweet(request):
   return HttpResponseRedirect(reverse('root'))
 
 @login_required
+def dweet_reply(request, dweet_id):
+  reply_to = get_object_or_404(Dweet, id=dweet_id) 
+  d = Dweet(code = request.POST['code']
+      , reply_to = reply_to
+      , author = request.user 
+      , posted = timezone.now() )
+  d.save()
+  return HttpResponseRedirect(reverse('root'))
+
+@login_required
 def like(request, post_id):
   dweet = get_object_or_404(Dweet, id=post_id) 
   dweet.likes.add(request.user)
