@@ -83,16 +83,21 @@
 
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
         </div>
-        <div class=dweet-author><a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a></div>
+        <div class=dweet-author>
+          <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
+        </div>
         <code>
           function u(t){
         </code>
-        <form action="{% url 'dweet' %}" method="post">
+        <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
           {% csrf_token %}
           <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=2>{{ dweet.code }}</textarea></div>
           <code>
             }
           </code>
+          {% if request.user.is_authenticated and request.user == dweet.author %}
+          <a href="{% url 'dweet_delete' dweet_id=dweet.id %}" onclick="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?')"> Delete dweet </a>
+          {% endif %}
           <div class=dweet-changed>
         {% if request.user.is_authenticated %}
             <input  

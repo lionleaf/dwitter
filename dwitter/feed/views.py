@@ -48,6 +48,15 @@ def dweet_reply(request, dweet_id):
   return HttpResponseRedirect(reverse('root'))
 
 @login_required
+def dweet_delete(request, dweet_id):
+  dweet = get_object_or_404(Dweet, id=dweet_id) 
+  if(dweet.author == request.user):
+      dweet.delete()
+      return HttpResponseRedirect(reverse('root'))
+    
+  return HttpResponse("Not authorized to delete the dweet.")
+
+@login_required
 def like(request, post_id):
   dweet = get_object_or_404(Dweet, id=post_id) 
   dweet.likes.add(request.user)
