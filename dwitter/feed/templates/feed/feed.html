@@ -92,7 +92,7 @@
         </code>
         <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
           {% csrf_token %}
-          <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=2>{{ dweet.code }}</textarea></div>
+          <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=3>{{ dweet.code }}</textarea></div>
           <code>
             }
           </code>

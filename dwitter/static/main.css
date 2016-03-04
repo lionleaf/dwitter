@@ -18,6 +18,15 @@
       display:inline-block;
   }
 
+  button{
+      padding: 5px;
+      border: 1px solid black;
+      background: white;
+      border-radius:3px;
+      margin-top: 2px;
+      display:inline-block;
+  }
+
   .button{
       padding: 5px;
       border: 1px solid black;
@@ -80,6 +89,8 @@
       text-align:left;
       resize:none;
       width:100%;
+      font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+      white-space: pre-line;
   }
   .dweet-button {
       float: right;
