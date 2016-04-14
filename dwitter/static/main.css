@@ -165,6 +165,22 @@
       margin-bottom:20px;
   }
 
+  .top-sort-list {
+      list-style-type:none;
+      padding:0;
+  }
+  .top-sort-list li {
+      display: inline-block;
+      padding:0 15px;
+  }
+  .top-sort-list a {
+      text-decoration:none;
+      color:#333;
+  }
+  .top-sort-list a:hover {
+      text-decoration:underline;
+  }
+
   #submit-preview {
   }
 

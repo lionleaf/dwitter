@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.utils import timezone
 
-def feed(request, page_nr):
+def feed(request, page_nr, sort):
   page = int(page_nr)
   dweets_per_page = 10
   first = (page - 1) * dweets_per_page
@@ -16,18 +19,33 @@ def feed(request, page_nr):
   if(last >= dweet_count ):
     last = dweet_count;
   
-  dweet_list = Dweet.objects.order_by('-posted')[first:last]
+  if(sort == "top"): 
+      dweet_list = Dweet.objects.annotate(num_likes=Count('likes')).order_by('-num_likes')[first:last];
+      next_url =  reverse('top_feed_page', kwargs={'page_nr': page + 1})
+      prev_url =  reverse('top_feed_page', kwargs={'page_nr': page - 1})
+  elif (sort == "new"):
+      dweet_list = Dweet.objects.order_by('-posted')[first:last];
+      next_url =  reverse('new_feed_page', kwargs={'page_nr': page + 1})
+      prev_url =  reverse('new_feed_page', kwargs={'page_nr': page - 1})
+  elif (sort == "hot"):
+      dweet_list = Dweet.objects.annotate(num_likes=Count('likes')).order_by('-num_likes')[first:last];
+
+
+      next_url =  reverse('hot_feed_page', kwargs={'page_nr': page + 1})
+      prev_url =  reverse('hot_feed_page', kwargs={'page_nr': page - 1})
+  else:
+    raise Http404("No such sorting method " + sort)
+
+  
+
   context = {'dweet_list': dweet_list
             ,'header_title': 'Global feed'
             ,'page_nr': page
-            ,'next_url': reverse('feed', kwargs={'page_nr': page + 1})
-            ,'prev_url': reverse('feed', kwargs={'page_nr': page - 1})
+            ,'next_url': next_url 
+            ,'prev_url': prev_url
             }
   return render(request, 'feed/feed.html', context );
 
-
-from django.contrib.auth.models import User
-from django.utils import timezone
 
 @login_required
 def dweet(request):
