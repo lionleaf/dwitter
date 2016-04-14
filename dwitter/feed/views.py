@@ -39,7 +39,7 @@ def feed(request, page_nr, sort):
   
 
   context = {'dweet_list': dweet_list
-            ,'header_title': 'Global feed'
+            ,'header_title': 'Dwitter'
             ,'page_nr': page
             ,'next_url': next_url 
             ,'prev_url': prev_url
