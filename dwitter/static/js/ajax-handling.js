@@ -21,5 +21,5 @@ var processLike = function()  {
 
 
 $(document).ready(function()  {
-  $('.like-button-div').click(processLike);
+  $('body').on('click','.like-button-div', processLike);
 });
