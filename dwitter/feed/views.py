@@ -77,7 +77,15 @@ def dweet_delete(request, dweet_id):
 
 @login_required
 def like(request, post_id):
-  dweet = get_object_or_404(Dweet, id=post_id) 
-  dweet.likes.add(request.user)
+  dweet = get_object_or_404(Dweet, id=post_id)
+   
+  if(dweet.likes.filter(id=request.user.id).exists()):
+    liked = False
+    dweet.likes.remove(request.user)
+  else:
+    liked = True
+    dweet.likes.add(request.user)
   dweet.save()
-  return HttpResponseRedirect(reverse('root'))
+
+  return render(request, "feed/like-html-snippet.html",
+                           {"dweet": dweet, "liked": liked})

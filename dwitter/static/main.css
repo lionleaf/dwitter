@@ -156,6 +156,18 @@
       overflow: hidden;
       display: inline-block;
   }
+  .like-button.liked {
+      background: linear-gradient(to top, #2ab6e1, #4599ca);
+  }
+  
+  .like-button.liked .like-text {
+      color: white;
+      text-shadow: 0 -1px rgba(106, 130, 135, 0.5);
+  }
+
+  .like-button.liked:hover {
+      background: linear-gradient(to top, #e1362a, #ca3945);
+  }
 
   .like-button:hover {
       text-decoration: none;

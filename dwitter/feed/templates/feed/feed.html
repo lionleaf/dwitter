@@ -15,11 +15,20 @@
 
 {% block body_class %}{{sort}}{% endblock %}
 
+{% block after_body %}
+
+{% load staticfiles %}
+<script src="{% static 'js/ajax-handling.js' %}"></script>
+
+{% endblock %}
+
 {% block content %}
 {% load staticfiles %}
 <script src="{% static 'js/scrolling.js' %}"></script>
 <script src="{% static 'js/editor-preview.js' %}"></script>
 <!--<script src="{% static 'js/submit-view.js' %}"></script> -->
+
+
 
 <div class=dweet-feed>
   <div class=submit-box>
@@ -74,18 +83,16 @@
 
 
       {% for dweet in dweet_list %}
-      <div class=dweet>
+      <div class=dweet >
         <div class=canvas-iframe-container-wrapper>
           <div class=canvas-iframe-container >
             <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
           </div>
         </div>
         <div class=dweet-actions>
-          <a class="like-button" href="{% url 'like' post_id=dweet.id %}">
-            <span class=score-text>{{ dweet.likes.count }}</span>
-            Awesome!
-          </a>
-
+          <div class="like-button-div" id="like-button-{{ dweet.id}}" data-dweet_id="{{ dweet.id }}">
+            {% include "feed/like-html-snippet.html" %}
+          </div>
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
         </div>
         <div class=dweet-author>
