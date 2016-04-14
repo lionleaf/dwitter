@@ -201,6 +201,16 @@
       text-decoration:underline;
   }
 
+  body.new .top-sort-list a.new {
+    font-weight: bold;
+  }
+  body.top .top-sort-list a.top {
+    font-weight: bold;
+  }
+  body.hot .top-sort-list a.hot {
+    font-weight: bold;
+  }
+
   #submit-preview {
   }
 

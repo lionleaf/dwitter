@@ -6,7 +6,7 @@
     {% block head %}
     {% endblock %}
   </head>
-  <body>
+  <body class="{% block body_class %}{% endblock %}">
     <div class=head-menu>
       <div class=head-account-info>
         {% if request.user.is_authenticated %}
@@ -20,9 +20,9 @@
         <br />
         {% block pagecontrol %} 
         <ul class=top-sort-list>
-          <li><a href="/hot">hot</a></li>
-          <li><a href="/top">top</a></li>
-          <li><a href="/new">new</a></li>
+          <li><a class="hot" href="/hot">hot</a></li>
+          <li><a class="top" href="/top">top</a></li>
+          <li><a class="new" href="/new">new</a></li>
         </ul>
         {% endblock %}
       </div>

@@ -43,6 +43,7 @@ def feed(request, page_nr, sort):
             ,'page_nr': page
             ,'next_url': next_url 
             ,'prev_url': prev_url
+            ,'sort': sort
             }
   return render(request, 'feed/feed.html', context );
 
