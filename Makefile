@@ -34,6 +34,10 @@ setup:
 shell:
 	python manage.py shell
 
+.PHONY: backup
+backup:
+	python manage.py dumpdata --output backup-$(shell date --iso-8601).json
+
 .PHONY: clean
 clean:
 	find . -name '*.pyc' -delete
