@@ -13,6 +13,8 @@
 <script src="{% static "libs/infinite.min.js" %}"></script>
 {% endblock %}
 
+{% block body_class %}{{sort}}{% endblock %}
+
 {% block content %}
 {% load staticfiles %}
 <script src="{% static 'js/scrolling.js' %}"></script>
@@ -78,9 +80,11 @@
             <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
           </div>
         </div>
-
         <div class=dweet-actions>
-          <a class=score-text> {{ dweet.likes.count }} </a> <a href="{% url 'like' post_id=dweet.id %}"> Awesome! </a>
+          <a class="like-button" href="{% url 'like' post_id=dweet.id %}">
+            <span class=score-text>{{ dweet.likes.count }}</span>
+            Awesome!
+          </a>
 
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
         </div>
@@ -97,7 +101,7 @@
             }
           </code>
           {% if request.user.is_authenticated and request.user == dweet.author %}
-          <a href="{% url 'dweet_delete' dweet_id=dweet.id %}" onclick="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?')"> Delete dweet </a>
+          <a class="delete" href="{% url 'dweet_delete' dweet_id=dweet.id %}" onclick="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?')"> Delete dweet </a>
           {% endif %}
           <div class=dweet-changed>
         {% if request.user.is_authenticated %}
