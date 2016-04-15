@@ -59,9 +59,28 @@
     margin: 0 auto;
   }
 
+  .content-div {
+      width: 700px;
+      margin: 0 auto;
+      margin-top:20px;
+      padding:40px;
+      background:white;
+      word-wrap: break-word;
+      border:1px solid #ddd;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .content-div input {
+      border:1px solid #ddd;
+  }
   .dweet .code {
       white-space: pre;
       word-wrap: break;
+  }
+
+  .dweet-feed {
+      width: 600px;
+      margin: 0 auto;
   }
 
   .dweet-feed {

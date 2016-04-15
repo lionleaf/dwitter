@@ -15,13 +15,13 @@ def user_feed(request, url_username, page_nr):
   dweet_count = Dweet.objects.filter(author=user).count()
 
   if(first < 0 or first >= dweet_count):
-    raise Http404("No such page")
+    return render(request, 'base.html', {'text': 'No dweets here'});
   if(last >= dweet_count ):
     last = dweet_count;
   
   dweet_list = Dweet.objects.filter(author=user).order_by('-posted')[first:last]
   context = {'dweet_list': dweet_list
-            ,'header_title': url_username + ' feed'
+            ,'header_title': url_username
             ,'page_nr': page
             ,'next_url': reverse('user_feed_page', kwargs={
                                         'url_username': url_username,

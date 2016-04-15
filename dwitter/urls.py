@@ -20,6 +20,7 @@ from registration.backends.simple.views import RegistrationView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/register/$', RegistrationView.as_view(success_url='/')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^u/', include('dwitter.user.urls')),
     url(r'^dweet/', include('dwitter.dweet.urls')),

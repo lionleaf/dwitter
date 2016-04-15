@@ -1,28 +1,34 @@
 {% extends 'base.html' %}
 {% load subdomainurls %}
 
-{% block header_title %} 
-{{ header_title }}
-{% endblock %}
-
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 {% load staticfiles %}
 <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
 <script src="{% static "libs/inview.min.js" %}"></script>
 <script src="{% static "libs/infinite.min.js" %}"></script>
+<script src="{% static "js/ajax-handling.js" %}"></script>
 {% endblock %}
 
 {% block body_class %}{{sort}}{% endblock %}
 
-{% block after_body %}
 
-{% load staticfiles %}
-<script src="{% static 'js/ajax-handling.js' %}"></script>
-
+{% block header_title %} 
+{{ header_title }}
 {% endblock %}
 
-{% block content %}
+{% block top-nav %}
+<ul class=top-sort-list>
+  <li><a class="new" href="/new">new</a></li>
+  <li><a class="top" href="/top">top</a></li>
+  <!--<li><a class="hot" href="/hot">hot</a></li> -->
+</ul>
+{% endblock %}
+
+
+
+{% block fullcontent %}
+
 {% load staticfiles %}
 <script src="{% static 'js/scrolling.js' %}"></script>
 <script src="{% static 'js/editor-preview.js' %}"></script>

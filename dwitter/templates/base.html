@@ -10,25 +10,25 @@
     <div class=head-menu>
       <div class=head-account-info>
         {% if request.user.is_authenticated %}
-        Logged in as {{ request.user.username }}. <a class=button href="{% url 'auth_logout' %}"> Log out </a>
+        Logged in as <a href="{% url 'user_feed' url_username=request.user.username %}">{{ request.user.username }}</a>. <a class=button href="{% url 'auth_logout' %}"> Log out </a>
         {% else %}
         <a href="{% url 'auth_login'  %}" > Login </a> 
         {% endif %}
       </div>
       <div class=header-center-div>
-        <h2 class=header-title>{% block header_title %}{% endblock %}</h2>
+        <h2 class=header-title><a  href="{% url 'root' %}">{% block header_title %}Dwitter{% endblock %}</a></h2>
         <br />
-        {% block pagecontrol %} 
-        <ul class=top-sort-list>
-          <li><a class="new" href="/new">new</a></li>
-          <li><a class="top" href="/top">top</a></li>
-          <!--<li><a class="hot" href="/hot">hot</a></li> -->
-        </ul>
+        {% block top-nav %} 
         {% endblock %}
       </div>
     </div>
     <div id=content>
-      {% block content %}
+      {% block fullcontent %}
+      <div class=content-div>
+        {% block content %}
+          {{ text }}
+        {% endblock %}
+      </div>
       {% endblock %}
     </div>
   </body>
