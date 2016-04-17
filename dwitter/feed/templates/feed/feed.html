@@ -7,7 +7,6 @@
 <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
 <script src="{% static "libs/inview.min.js" %}"></script>
 <script src="{% static "libs/infinite.min.js" %}"></script>
-<script src="{% static "js/ajax-handling.js" %}"></script>
 {% endblock %}
 
 {% block body_class %}{{sort}}{% endblock %}
@@ -30,8 +29,10 @@
 {% block fullcontent %}
 
 {% load staticfiles %}
-<script src="{% static 'js/scrolling.js' %}"></script>
-<script src="{% static 'js/editor-preview.js' %}"></script>
+<script src="{% static "js/scrolling.js" %}"></script>
+<script src="{% static "js/editor-preview.js" %}"></script>
+<script src="{% static "js/ajax-handling.js" %}"></script>
+<script src="{% static "js/feed.js" %}"></script>
 <!--<script src="{% static 'js/submit-view.js' %}"></script> -->
 
 
@@ -54,13 +55,16 @@
     </code>
     <form action="{% url 'dweet' %}" method="post">
       {% csrf_token %}
-      <textarea
-        name=code
-        class=code-input
-        id=editor
-        maxlength=140
-        rows=2
-        >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
+      <div class=dweet-code>
+        <textarea
+          name=code
+          class=code-input
+          id=editor
+          maxlength=140
+          rows=2
+          >c.width=1920;x.fillRect(800+S(t)*300,400,200,200)</textarea>
+        <div class=character-count>130/140</div>
+      </div>
       <code>
         }
       </code>
@@ -96,7 +100,7 @@
           </div>
         </div>
         <div class=dweet-actions>
-          <div class="like-button-div" id="like-button-{{ dweet.id}}" data-dweet_id="{{ dweet.id }}">
+          <div class="like-button-div" id="like-button-{{ dweet.id }}" data-dweet_id="{{ dweet.id }}">
             {% include "feed/like-html-snippet.html" %}
           </div>
           <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
@@ -109,7 +113,10 @@
         </code>
         <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
           {% csrf_token %}
-          <div class=dweet-code><textarea name=code class=code-input maxlength=140 rows=3>{{ dweet.code }}</textarea></div>
+          <div class=dweet-code>
+            <textarea name=code class=code-input maxlength=140 rows=3>{{ dweet.code }}</textarea>
+            <div class=character-count>{{ dweet.code | length }}/140</div>
+          </div>
           <code>
             }
           </code>
