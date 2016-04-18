@@ -103,7 +103,7 @@
           <div class="like-button-div" id="like-button-{{ dweet.id }}" data-dweet_id="{{ dweet.id }}">
             {% include "feed/like-html-snippet.html" %}
           </div>
-          <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" >fullscreen</a>
+          <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" target="_blank">fullscreen</a>
         </div>
         <div class=dweet-author>
           <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
