@@ -1,25 +1,32 @@
 var processLike = function()  {
  
-   var $button_just_clicked_on = $(this);
+   var $like_button = $(this);
  
-   var dweet_id = $button_just_clicked_on.data('dweet_id');
- 
-   var processServerResponse = function(sersverResponse_data, textStatus_ignored,
-                            jqXHR_ignored)  {
-      //alert("sf sersverResponse_data='" + sersverResponse_data + "', textStatus_ignored='" + textStatus_ignored + "', jqXHR_ignored='" + jqXHR_ignored + "', dweet_id='" + dweet_id + "'");
-      $('#like-button-' + dweet_id).html(sersverResponse_data);
+   var dweet_id = $like_button.data('dweet_id');
+
+   var processServerResponse = function(serverResponse_json, textStatus_ignored,
+       jqXHR_ignored)  {
+     if(serverResponse_json.not_authenticated){
+       window.location = "/accounts/login/";
+     }else{
+       $like_button.find('.score-text').html(serverResponse_json.likes);
+       if(serverResponse_json.liked){
+         $like_button.addClass('liked');
+       }else{
+         $like_button.removeClass('liked');
+       }
+     }
    }
- 
+
    var config = {
-      url: '/like/' + dweet_id,
-      dataType: 'html',
-      success: processServerResponse
-      //Should also have a "fail" call as well.
+     url: '/like/' + dweet_id,
+     dataType: 'json',
+      success: processServerResponse,
    };
    $.ajax(config);
 };
 
 
 $(document).ready(function()  {
-  $('body').on('click','.like-button-div', processLike);
+  $('body').on('click','.like-button', processLike);
 });

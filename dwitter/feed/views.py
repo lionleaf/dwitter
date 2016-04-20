@@ -6,6 +6,18 @@ from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
+from functools import wraps
+import json
+
+
+def ajax_login_required(view_func):
+  @wraps(view_func)
+  def wrapper(request, *args, **kwargs):
+    if request.user.is_authenticated():
+      return view_func(request, *args, **kwargs)
+    json_resp = json.dumps({ 'not_authenticated': True })
+    return HttpResponse(json_resp, content_type='application/json')
+  return wrapper
 
 def feed(request, page_nr, sort):
   page = int(page_nr)
@@ -75,7 +87,7 @@ def dweet_delete(request, dweet_id):
     
   return HttpResponse("Not authorized to delete the dweet.")
 
-@login_required
+@ajax_login_required
 def like(request, post_id):
   dweet = get_object_or_404(Dweet, id=post_id)
    
@@ -86,6 +98,5 @@ def like(request, post_id):
     liked = True
     dweet.likes.add(request.user)
   dweet.save()
-
-  return render(request, "feed/like-html-snippet.html",
-                           {"dweet": dweet, "liked": liked})
+  json_resp = json.dumps({'likes': dweet.likes.count(), 'liked': liked})
+  return HttpResponse(json_resp, content_type='application/json')
