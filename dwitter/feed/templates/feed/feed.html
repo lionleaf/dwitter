@@ -18,9 +18,13 @@
 
 {% block top-nav %}
 <ul class=top-sort-list>
-  <li><a class="new" href="new">new</a></li>
-  <li><a class="top" href="top">top</a></li>
-  <!--<li><a class="hot" href="/hot">hot</a></li> -->
+  {%if feed_type == "all" %}
+  <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
+  <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  {%elif feed_type == "user" %}
+  <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
+  <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
+  {% endif %}
 </ul>
 {% endblock %}
 

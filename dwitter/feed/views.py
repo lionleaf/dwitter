@@ -52,6 +52,7 @@ def feed(request, page_nr, sort):
 
   context = {'dweet_list': dweet_list
             ,'header_title': 'Dwitter'
+            ,'feed_type': 'all'
             ,'page_nr': page
             ,'next_url': next_url 
             ,'prev_url': prev_url
