@@ -17,8 +17,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from registration.backends.simple.views import RegistrationView
+from . import views
 
 urlpatterns = [
+    url(r'^comment/(?P<dwwet_id>\d+)$', views.comment, name='comment'),
+
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/register/$', RegistrationView.as_view(success_url='/')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
