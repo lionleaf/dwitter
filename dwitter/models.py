@@ -7,3 +7,9 @@ class Dweet(models.Model):
     reply_to = models.ForeignKey("self", null=True, blank=True)
     author = models.ForeignKey(User)
     likes = models.ManyToManyField(User, related_name="liked")
+
+class Comment(models.Model):
+    text = models.CharField(max_length=140)
+    posted = models.DateTimeField()
+    reply_to = models.ForeignKey(Dweet)
+    author = models.ForeignKey(User)
