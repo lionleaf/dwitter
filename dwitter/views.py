@@ -16,6 +16,10 @@ def comment(request, dweet_id):
       , author = request.user 
       , posted = timezone.now() )
   c.save()
+
+  reply_to.latest_comments.add(c)
+  reply_to.save()
+
   return HttpResponseRedirect(reverse('root'))
 
 def get_comments(request, dweet_id):

@@ -146,6 +146,9 @@
           <div class=comment>
             <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}"> Load more comments... </a>
           </div>
+          {% for comment in dweet.latest_comments.iterator %}
+          <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
+          {% endfor %}
         </div>
         <form action="{% url 'comment' dweet_id=dweet.id %}" method="post">
           {% csrf_token %}
