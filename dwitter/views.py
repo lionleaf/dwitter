@@ -26,7 +26,7 @@ def get_comments(request, dweet_id):
   for comment in comments:
     comment_list.append({'text':comment.text
                         #, 'posted': comment.posted
-                        , 'author-id': comment.author.id
-                        , 'author-username': comment.author.username})
+                        , 'author_id': comment.author.id
+                        , 'author_username': comment.author.username})
   json_resp = json.dumps(comment_list)
   return HttpResponse(json_resp, content_type='application/json')

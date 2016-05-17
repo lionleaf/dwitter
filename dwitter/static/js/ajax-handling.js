@@ -27,6 +27,37 @@ var processLike = function()  {
 };
 
 
+var loadComments = function() {
+  var $load_comments_button = $(this);
+
+  console.log($load_comments_button);
+
+   var dweet_id = $load_comments_button.data('dweet_id');
+
+   var loadCommentsResponse = function(serverResponse_json, textStatus_ignored,
+       jqXHR_ignored)  {
+  console.log('Result!!' + serverResponse_json);
+     var $comment_section = $load_comments_button.parents('.comments');
+     $load_comments_button.parents('.comment').hide();
+     for(var i in serverResponse_json){
+       var comment = serverResponse_json[i];
+       console.log(comment);
+       console.log($comment_section)
+       $comment_section[0].innerHTML += '<div class=comment><p><span class=comment-name>'+comment.author_username +':</span>'+comment.text+'</p></div>';
+     }
+     
+   }
+
+   var config = {
+     url: '/get-comments/' + dweet_id,
+     dataType: 'json',
+      success: loadCommentsResponse,
+   };
+   $.ajax(config);
+}
+
+
 $(document).ready(function()  {
   $('body').on('click','.like-button', processLike);
+  $('body').on('click','.load-comments-link', loadComments);
 });
