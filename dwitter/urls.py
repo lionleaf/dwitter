@@ -20,7 +20,8 @@ from registration.backends.simple.views import RegistrationView
 from . import views
 
 urlpatterns = [
-    url(r'^comment/(?P<dwwet_id>\d+)$', views.comment, name='comment'),
+    url(r'^comment/(?P<dweet_id>\d+)$', views.comment, name='comment'),
+    url(r'^get-comments/(?P<dweet_id>\d+)$', views.get_comments, name='get_comments'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/register/$', RegistrationView.as_view(success_url='/')),

@@ -143,7 +143,10 @@
       </div>
       <div class=comment-section>
         <div class=comment><p><span class=comment-name>Lionleaf:</span> Test comment!!!</p></div>
-        <div class=new-comment><input type=text class=comment-input /><input type=submit /> </div>
+        <form action="{% url 'comment' dweet_id=dweet.id %}" method="post">
+          {% csrf_token %}
+          <div class=new-comment><input type=text name=comment-text class=comment-input /><input type=submit /> </div>
+        </form>
       </div>
       {% endfor %}
 
