@@ -106,7 +106,9 @@
       }
       u(time);
     }
-    loop();
+    if (playing) {
+      loop();
+    }
 
     function reset(){
       c = document.querySelector("#c");
