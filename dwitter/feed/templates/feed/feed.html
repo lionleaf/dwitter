@@ -146,7 +146,7 @@
           <div class=comment>
             <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}"> Load more comments... </a>
           </div>
-          {% for comment in dweet.latest_comments.iterator %}
+          {% for comment in dweet.comments.iterator %}
           <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
           {% endfor %}
         </div>
