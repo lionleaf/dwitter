@@ -8,8 +8,14 @@ class Dweet(models.Model):
     author = models.ForeignKey(User)
     likes = models.ManyToManyField(User, related_name="liked")
 
+    class Meta:
+      ordering = ('-posted',)
+
 class Comment(models.Model):
-    text = models.CharField(max_length=140)
+    text = models.TextField()
     posted = models.DateTimeField()
     reply_to = models.ForeignKey(Dweet, related_name="comments")
     author = models.ForeignKey(User)
+
+    class Meta:
+      ordering = ('-posted',)
