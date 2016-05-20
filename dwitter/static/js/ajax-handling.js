@@ -50,8 +50,6 @@ var loadComments = function() {
      var new_comment_list = '';
      for(var i in serverResponse_json.results.reverse()){
        var comment = serverResponse_json.results[i];
-       console.log(comment);
-       console.log($comment_section);
        new_comment_list  += getCommentHTML(comment);
      }
      $comment_section[0].innerHTML = new_comment_list + $comment_section[0].innerHTML;
@@ -70,7 +68,6 @@ var postComment = function() {
   var $post_comment_button = $(this);
   var dweet_id = $post_comment_button.data('dweet_id');
   var csrf = $post_comment_button.data('csrf');
-  console.log("csrf: " + csrf);
   var $comment_text = $post_comment_button.siblings('.comment-input');
   var $comment_section = $post_comment_button.closest('.comment-section').children('.comments');
 
@@ -94,7 +91,6 @@ var postComment = function() {
     error: postCommentResponse,
     data: comment,
   };
-  console.log(config);
   $.ajax(config);
 }
 
