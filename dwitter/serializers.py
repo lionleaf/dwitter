@@ -25,8 +25,3 @@ class DweetSerializer(serializers.ModelSerializer):
   def get_latest_comments(self, obj):
     cmnts = obj.comments.all().order_by('-posted')
     return CommentSerializer(cmnts[:3], many=True).data
-    
-
-
-
-
