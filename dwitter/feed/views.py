@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from dwitter.models import Dweet
+from dwitter.models import Comment
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -47,8 +48,6 @@ def feed(request, page_nr, sort):
       prev_url =  reverse('hot_feed_page', kwargs={'page_nr': page - 1})
   else:
     raise Http404("No such sorting method " + sort)
-
-  
 
   context = {'dweet_list': dweet_list
             ,'header_title': 'Dwitter'
