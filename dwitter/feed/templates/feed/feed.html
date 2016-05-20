@@ -98,6 +98,7 @@
 
 
       {% for dweet in dweet_list %}
+      <div class=dweet-wrapper>
       <div class=dweet >
         <div class=canvas-iframe-container-wrapper>
           <div class=canvas-iframe-container >
@@ -162,6 +163,7 @@
           {%endif%}
         </div>
       </div>
+    </div>
       {% endfor %}
 
       <a class=next-page href="{{ next_url }}">Next page</a>

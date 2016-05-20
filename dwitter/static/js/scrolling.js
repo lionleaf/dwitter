@@ -2,7 +2,7 @@ window.onload = function() {
 
   var infinite = new Waypoint.Infinite({
     element: $('.dweet-feed')[0],
-      items: '.dweet',
+      items: '.dweet-wrapper',
       more: '.next-page',
       onAfterPageLoad: function(items) {
         var dwiframes = [];
