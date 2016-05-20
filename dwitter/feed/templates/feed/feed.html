@@ -98,6 +98,7 @@
 
 
       {% for dweet in dweet_list %}
+      <div class=dweet-wrapper>
       <div class=dweet >
         <div class=canvas-iframe-container-wrapper>
           <div class=canvas-iframe-container >
@@ -150,7 +151,7 @@
           </div>
           {% endif %}
           {% for comment in dweet.comments.all|slice:"3" reversed %}
-          <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
+          <div class=comment><p><b>{{ comment.author.username }}:</b> {{ comment.text }}</p></div>
           {% endfor %}
         </div>
         <div class=new-comment>
@@ -162,6 +163,7 @@
           {%endif%}
         </div>
       </div>
+    </div>
       {% endfor %}
 
       <a class=next-page href="{{ next_url }}">Next page</a>
