@@ -57,7 +57,7 @@ var loadComments = function() {
    }
 
    var config = {
-     url: 'api/comments/?offset='+current_offset+'&limit='+step+'&format=json&reply_to='+dweet_id,
+     url: '/api/comments/?offset='+current_offset+'&limit='+step+'&format=json&reply_to='+dweet_id,
      dataType: 'json',
       success: loadCommentsResponse,
    };
@@ -85,7 +85,7 @@ var postComment = function() {
   }
 
   var config = {
-    url: 'api/comments/',
+    url: '/api/comments/',
     method: 'POST',
     success: postCommentResponse,
     error: postCommentResponse,
