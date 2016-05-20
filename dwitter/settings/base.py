@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'dwitter.feed',
     'dwitter.dweet',
     'subdomains',
+    'anymail',
 ]
 
 REST_FRAMEWORK = {

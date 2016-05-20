@@ -2,4 +2,6 @@ django==1.8
 django-registration-redux==1.2
 django-subdomains==2.1.0rc0
 djangorestframework==3.3.3
+django-anymail==0.3.1
+django-filter==0.13
 flake8
