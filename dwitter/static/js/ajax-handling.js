@@ -26,7 +26,7 @@ var processLike = function()  {
 };
 
 var getCommentHTML = function(comment) {
-       return '<div class=comment><p><span class=comment-name>'+comment.author+':</span>'+comment.text+'</p></div>';
+       return '<div class=comment><p><span class=comment-name>'+comment.author+':</span> '+comment.text+'</p></div>';
 }
 var loadComments = function() {
   var step = 1000;

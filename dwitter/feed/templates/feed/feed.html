@@ -151,7 +151,7 @@
           </div>
           {% endif %}
           {% for comment in dweet.comments.all|slice:"3" reversed %}
-          <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
+          <div class=comment><p><b>{{ comment.author.username }}:</b> {{ comment.text }}</p></div>
           {% endfor %}
         </div>
         <div class=new-comment>
