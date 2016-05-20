@@ -100,9 +100,8 @@ code {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 .comment-section{
-  background: white;
+  background: #f6f6f6;
   padding: 20px;
-  margin-left: 20px;
   border: 1px solid #ddd;
   border-top: 0px;
   box-shadow: 0 1px 1px rgba(0,0,0,0.2);
@@ -110,6 +109,10 @@ code {
 
 .comment-name{
   font-weight:bold;
+}
+
+.comment-submit{
+  padding:15px
 }
 
 .submit-box {

@@ -143,16 +143,27 @@
       </div>
       <div class=comment-section>
         <div class=comments>
+          {% if dweet.comments.count > 3 %}
           <div class=comment>
-            <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}"> Load more comments... </a>
+            <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}" 
+              data-offset=3> Load older comments... </a>
           </div>
-          {% for comment in dweet.comments.iterator %}
+          {% endif %}
+          {% for comment in dweet.comments.all|slice:"3" reversed %}
           <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
           {% endfor %}
         </div>
-        <form action="{% url 'comment' dweet_id=dweet.id %}" method="post">
+        <form action="{% url 'comment-list'  %}?format=json" method="post">
           {% csrf_token %}
-          <div class=new-comment><input type=text name=comment-text class=comment-input /><input type=submit /> </div>
+          <input type="hidden" value="{{ dweet.id }}" name=reply_to>
+          <div class=new-comment>
+            {% if request.user.is_authenticated %}
+            <input type=text name=text class=comment-input />
+            <input type=submit class=comment-submit /> 
+            {%else%}
+            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to comment. </p>
+            {%endif%}
+          </div>
         </form>
       </div>
       {% endfor %}

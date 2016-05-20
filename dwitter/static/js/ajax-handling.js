@@ -28,28 +28,37 @@ var processLike = function()  {
 
 
 var loadComments = function() {
+  var step = 1000;
+  var current_offset = $(this).data('offset') ;
+
   var $load_comments_button = $(this);
 
-  console.log($load_comments_button);
-
    var dweet_id = $load_comments_button.data('dweet_id');
+   var next = $load_comments_button.data('next');
 
    var loadCommentsResponse = function(serverResponse_json, textStatus_ignored,
        jqXHR_ignored)  {
-  console.log('Result!!' + serverResponse_json);
+
      var $comment_section = $load_comments_button.parents('.comments');
-     $load_comments_button.parents('.comment').hide();
-     for(var i in serverResponse_json){
-       var comment = serverResponse_json[i];
-       console.log(comment);
-       console.log($comment_section)
-       $comment_section[0].innerHTML += '<div class=comment><p><span class=comment-name>'+comment.author_username +':</span>'+comment.text+'</p></div>';
+
+     if(serverResponse_json.next){
+       alert("Woops, there are more comments, but they are unloadable as of now. Please bug lionleaf to fix");
+     }else{
+       $load_comments_button.parents('.comment').hide();
      }
+     var new_comment_list = '';
+     for(var i in serverResponse_json.results.reverse()){
+       var comment = serverResponse_json.results[i];
+       console.log(comment);
+       console.log($comment_section);
+       new_comment_list  += '<div class=comment><p><span class=comment-name>'+comment.author+':</span>'+comment.text+'</p></div>';
+     }
+     $comment_section[0].innerHTML = new_comment_list + $comment_section[0].innerHTML;
      
    }
 
    var config = {
-     url: '/get-comments/' + dweet_id,
+     url: 'api/comments/?offset='+current_offset+'&limit='+step+'&format=json&reply_to='+dweet_id,
      dataType: 'json',
       success: loadCommentsResponse,
    };

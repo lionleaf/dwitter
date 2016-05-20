@@ -3,10 +3,14 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from dwitter.models import Dweet
 from dwitter.models import Comment
+from dwitter.serializers import CommentSerializer, DweetSerializer, UserSerializer
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
-import json
+from rest_framework import status, viewsets
+from rest_framework.decorators import detail_route, list_route
+from rest_framework.response import Response
+
 
 @login_required
 def comment(request, dweet_id):
@@ -18,15 +22,25 @@ def comment(request, dweet_id):
   c.save()
   return HttpResponseRedirect(reverse('root'))
 
-def get_comments(request, dweet_id):
-  dweet = get_object_or_404(Dweet, id=dweet_id)
-  comments = Comment.objects.filter(reply_to=dweet).order_by('posted')
-  comment_list = []
-#TODO: Is there a better way to do this?
-  for comment in comments:
-    comment_list.append({'text':comment.text
-                        #, 'posted': comment.posted
-                        , 'author_id': comment.author.id
-                        , 'author_username': comment.author.username})
-  json_resp = json.dumps(comment_list)
-  return HttpResponse(json_resp, content_type='application/json')
+class CommentViewSet(viewsets.ModelViewSet):
+  queryset = Comment.objects.all()
+  serializer_class = CommentSerializer
+  filter_fields = ('reply_to', 'author')
+
+
+  def perform_create(self, serializer):
+    serializer.save(author=self.request.user, posted=timezone.now())
+
+class DweetViewSet(viewsets.ModelViewSet):
+  queryset = Dweet.objects.all()
+  serializer_class = DweetSerializer
+
+  def perform_create(self, serializer):
+    serializer.save(author=self.request.user, posted=timezone.now())
+
+  @detail_route()
+  def comments(self, request, pk):
+    dweet = get_object_or_404(Dweet, id=pk)
+    c = Comment.objects.filter(reply_to=dweet).order_by('-posted')
+    serializer = CommentSerializer(c, many = True)
+    return Response(serializer.data)

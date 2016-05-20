@@ -56,6 +56,11 @@ INSTALLED_APPS = [
     'subdomains',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+
+}
 
 # List of callables that know how to import templates from various sources.
 #TEMPLATE_LOADERS = (
@@ -153,3 +158,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "dwitter/static/")
+
+
