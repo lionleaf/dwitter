@@ -153,16 +153,14 @@
           <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
           {% endfor %}
         </div>
-        <form action="{% url 'comment-list'  %}?format=json" method="post">
-          <div class=new-comment>
-            {% if request.user.is_authenticated %}
-            <input type=text name=text class=comment-input />
-            <input type=button value="Post comment" data-dweet_id="{{dweet.id}}" data-csrf="{{ csrf_token }}" class=comment-submit /> 
-            {%else%}
-            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to comment. </p>
-            {%endif%}
-          </div>
-        </form>
+        <div class=new-comment>
+          {% if request.user.is_authenticated %}
+          <input type=text class=comment-input />
+          <input type=button value="Post comment" data-dweet_id="{{dweet.id}}" data-csrf="{{ csrf_token }}" class=comment-submit />
+          {%else%}
+          <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to comment. </p>
+          {%endif%}
+        </div>
       </div>
       {% endfor %}
 
