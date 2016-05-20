@@ -100,19 +100,43 @@ code {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 .comment-section{
-  background: #f6f6f6;
+  background: #fbfbfb;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-top: 0px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.comments {
+  list-style-type: none;
+  padding: none;
 }
 
 .comment-name{
   font-weight:bold;
 }
 
-.comment-submit{
-  padding:15px
+.new-comment {
+  margin-top: 10px;
+  display: flex;
+  display: -webkit-flex;
+}
+
+.comment-input{
+  flex: 1;
+  text-align:left;
+  width:80%;
+}
+
+input.comment-submit {
+  padding: 3px;
+  margin: 0;
+  margin-left: 5px;
+  color: currentcolor;
+  cursor: pointer;
+}
+input.comment-submit:active {
+  transform: translateY(1px);
 }
 
 .submit-box {
@@ -135,15 +159,6 @@ code {
 }
 .dweet-button {
   float: right;
-}
-
-.comment-input{
-  text-align:left;
-  resize:none;
-  width:80%;
-  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-  white-space: pre-line;
-  word-break: break-all;
 }
 
 .canvas-iframe-container-wrapper {

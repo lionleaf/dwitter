@@ -26,8 +26,12 @@ var processLike = function()  {
 };
 
 var getCommentHTML = function(comment) {
-       return '<div class=comment><p><span class=comment-name>'+comment.author+':</span> '+comment.text+'</p></div>';
-}
+  return '<li class=comment><a class=comment-name href="/u/' + comment.author + '">' +
+    comment.author + ':</a> ' +
+    '<span class="comment-message">' + comment.text +
+    '</span></li>';
+};
+
 var loadComments = function() {
   var step = 1000;
   var current_offset = $(this).data('offset') ;
@@ -64,12 +68,13 @@ var loadComments = function() {
    $.ajax(config);
 }
 
-var postComment = function() {
-  var $post_comment_button = $(this);
-  var dweet_id = $post_comment_button.data('dweet_id');
-  var csrf = $post_comment_button.data('csrf');
-  var $comment_text = $post_comment_button.siblings('.comment-input');
-  var $comment_section = $post_comment_button.closest('.comment-section').children('.comments');
+var postComment = function(e) {
+  e.preventDefault();
+  var $postForm = $(this);
+  var dweet_id = $postForm.data('dweet_id');
+  var csrf = $postForm.data('csrf');
+  var $comment_text = $postForm.find('.comment-input');
+  var $comment_section = $postForm.closest('.comment-section').children('.comments');
 
   var postCommentResponse = function(serverResponse_json, textStatus_ignored,
       jqXHR_ignored)  {
@@ -98,5 +103,5 @@ var postComment = function() {
 $(document).ready(function()  {
   $('body').on('click','.like-button', processLike);
   $('body').on('click','.load-comments-link', loadComments);
-  $('body').on('click','.comment-submit', postComment);
+  $('body').on('submit','.new-comment', postComment);
 });

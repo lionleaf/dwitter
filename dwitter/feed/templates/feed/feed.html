@@ -132,36 +132,39 @@
           {% endif %}
           <div class=dweet-changed>
         {% if request.user.is_authenticated %}
-            <input  
+            <input
             class=dweet-button
-            type="submit" 
+            type="submit"
             value="Post as new dweet!" />
             {% else %}
-            <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to post as a new dweet (copy-paste code somewhere safe to save it meanwhile) </p>
+            <p>Please <a href="{% url 'auth_login' %}">log in</a> to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
             {% endif %}
           </div>
         </form>
       </div>
       <div class=comment-section>
-        <div class=comments>
+        <ul class=comments>
           {% if dweet.comments.count > 3 %}
-          <div class=comment>
-            <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}" 
-              data-offset=3> Load older comments... </a>
-          </div>
+          <li class=comment>
+            <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}"
+              data-offset=3>Load older comments...</a>
+          </li>
           {% endif %}
           {% for comment in dweet.comments.all|slice:"3" reversed %}
-          <div class=comment><p><b>{{ comment.author.username }}:</b> {{ comment.text }}</p></div>
+          <li class=comment>
+            <a class=comment-name href="{% url 'user_feed' url_username=dweet.author.username %}">{{ comment.author.username }}:</a>
+            <span class="comment-message">{{ comment.text }}</span>
+          </li>
           {% endfor %}
-        </div>
-        <div class=new-comment>
+        </ul>
+        <form class=new-comment data-csrf="{{ csrf_token }}" data-dweet_id="{{dweet.id}}">
           {% if request.user.is_authenticated %}
           <input type=text class=comment-input />
-          <input type=button value="Post comment" data-dweet_id="{{dweet.id}}" data-csrf="{{ csrf_token }}" class=comment-submit />
-          {%else%}
-          <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to comment. </p>
+          <input type=submit value="Post comment" class=comment-submit />
+          {% else %}
+          <p>Please <a href="{% url 'auth_login' %}">log in</a> to comment.</p>
           {%endif%}
-        </div>
+        </form>
       </div>
     </div>
       {% endfor %}
