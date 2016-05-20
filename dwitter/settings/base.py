@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'registration',
+    'rest_framework',
     'dwitter',
     'dwitter.user',
     'dwitter.feed',
