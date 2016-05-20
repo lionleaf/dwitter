@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 class Dweet(models.Model):
     code = models.CharField(max_length=140)
     posted = models.DateTimeField()
-    reply_to = models.ForeignKey("self", null=True, blank=True)
-    author = models.ForeignKey(User)
-    likes = models.ManyToManyField(User, related_name="liked", blank=True)
+    reply_to = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name="liked")
 
     class Meta:
       ordering = ('-posted',)
@@ -14,8 +14,8 @@ class Dweet(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     posted = models.DateTimeField()
-    reply_to = models.ForeignKey(Dweet, related_name="comments")
-    author = models.ForeignKey(User)
+    reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
       ordering = ('-posted',)
