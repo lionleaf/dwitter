@@ -9,7 +9,11 @@ textarea{
   padding:3px;
 }
 
-input[type=submit] {
+input[type=text] {
+  border:1px solid;
+  padding:3px;
+}
+input[type=submit], input[type=button] {
   padding: 5px;
   border: 1px solid black;
   background: white;
@@ -95,6 +99,22 @@ code {
   border:1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
+.comment-section{
+  background: #f6f6f6;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: 0px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.comment-name{
+  font-weight:bold;
+}
+
+.comment-submit{
+  padding:15px
+}
+
 .submit-box {
   background:white;
   border:1px solid #ddd;
@@ -116,6 +136,16 @@ code {
 .dweet-button {
   float: right;
 }
+
+.comment-input{
+  text-align:left;
+  resize:none;
+  width:80%;
+  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+  white-space: pre-line;
+  word-break: break-all;
+}
+
 .canvas-iframe-container-wrapper {
   width: 100%;
   /*padding: 0 0 56.25% 0; /* 16:9 */

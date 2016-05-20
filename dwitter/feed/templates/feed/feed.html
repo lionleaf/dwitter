@@ -2,8 +2,8 @@
 {% load subdomainurls %}
 
 {% block head %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 {% load staticfiles %}
+<script src="{% static "libs/jquery.min.js" %}"></script>
 <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
 <script src="{% static "libs/inview.min.js" %}"></script>
 <script src="{% static "libs/infinite.min.js" %}"></script>
@@ -140,6 +140,27 @@
             {% endif %}
           </div>
         </form>
+      </div>
+      <div class=comment-section>
+        <div class=comments>
+          {% if dweet.comments.count > 3 %}
+          <div class=comment>
+            <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}" 
+              data-offset=3> Load older comments... </a>
+          </div>
+          {% endif %}
+          {% for comment in dweet.comments.all|slice:"3" reversed %}
+          <div class=comment><p><b>{{ comment.author.username }}:</b>{{ comment.text }}</p></div>
+          {% endfor %}
+        </div>
+        <div class=new-comment>
+          {% if request.user.is_authenticated %}
+          <input type=text class=comment-input />
+          <input type=button value="Post comment" data-dweet_id="{{dweet.id}}" data-csrf="{{ csrf_token }}" class=comment-submit />
+          {%else%}
+          <p> Please <a href="{% url 'auth_login'  %}" >log in</a> to comment. </p>
+          {%endif%}
+        </div>
       </div>
       {% endfor %}
 
