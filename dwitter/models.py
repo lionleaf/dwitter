@@ -6,7 +6,7 @@ class Dweet(models.Model):
     posted = models.DateTimeField()
     reply_to = models.ForeignKey("self", null=True, blank=True)
     author = models.ForeignKey(User)
-    likes = models.ManyToManyField(User, related_name="liked")
+    likes = models.ManyToManyField(User, related_name="liked", blank=True)
 
     class Meta:
       ordering = ('-posted',)
