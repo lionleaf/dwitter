@@ -152,7 +152,7 @@
           {% endif %}
           {% for comment in dweet.comments.all|slice:"3" reversed %}
           <li class=comment>
-            <a class=comment-name href="{% url 'user_feed' url_username=dweet.author.username %}">{{ comment.author.username }}:</a>
+            <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
             <span class="comment-message">{{ comment.text }}</span>
           </li>
           {% endfor %}
