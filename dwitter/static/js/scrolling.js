@@ -57,18 +57,18 @@ window.onload = function() {
 
   function play(iframe){
     dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("play",iframe.src);
+    dweetwin.postMessage("play","*");
     console.log("Send play to " + iframe.src);
   }
   function pause(iframe){
     dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("pause",iframe.src);
+    dweetwin.postMessage("pause","*");
     console.log("Send pause to " + iframe.src);
   }
 
   function showCode(iframe, code) {
     dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("code "+code,iframe.src);
+    dweetwin.postMessage("code "+code,'*');
   }
 
   function registerOnKeyListener(dweet){

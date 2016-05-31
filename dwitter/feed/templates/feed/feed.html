@@ -47,7 +47,7 @@
       id="submit-preview">
       <div class=canvas-iframe-container 
         id="iframe-container-submit">
-            <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}"></iframe>
+            <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}" sandbox="allow-scripts"></iframe>
       </div>
     </div>
     <div id=click-the-code>
@@ -102,7 +102,7 @@
       <div class=dweet >
         <div class=canvas-iframe-container-wrapper>
           <div class=canvas-iframe-container >
-            <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"></iframe>
+            <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" sandbox="allow-same-origin allow-scripts"></iframe>
           </div>
         </div>
         <div class=dweet-actions>

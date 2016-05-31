@@ -27,14 +27,14 @@ $('window').ready(function() {
   function play(iframe){
     console.log(iframe);
     dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("play",iframe.src);
+    dweetwin.postMessage("play","*");
     console.log("Send play to " + iframe.src);
   }
 
   function pause(iframe){
     console.log(iframe);
     dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("pause",iframe.src);
+    dweetwin.postMessage("pause", "*");
     console.log("Send pause to " + iframe.src);
   }
 });
