@@ -23,7 +23,7 @@ def user_feed(request, url_username, page_nr, sort):
 
     if(sort == "top"):
         dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes')[first:last])
+                      .order_by('-num_likes', '-posted')[first:last])
     elif (sort == "new"):
         dweet_list = dweet_list.order_by('-posted')[first:last]
     elif (sort == "hot"):

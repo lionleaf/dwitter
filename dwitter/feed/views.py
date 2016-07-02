@@ -33,7 +33,7 @@ def feed(request, page_nr, sort):
 
     if(sort == "top"):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes')[first:last])
+                      .order_by('-num_likes', '-posted')[first:last])
 
         next_url = reverse('top_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('top_feed_page', kwargs={'page_nr': page - 1})
@@ -43,7 +43,7 @@ def feed(request, page_nr, sort):
         prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "hot"):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes')[first:last])
+                      .order_by('-num_likes', '-posted')[first:last])
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
     else:
