@@ -9,3 +9,4 @@ dwitter/settings/local.py
 venv/*
 static/*
 *.iml
+backup*.json
