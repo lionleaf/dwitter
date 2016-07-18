@@ -93,7 +93,7 @@
       };
     var x = c.getContext("2d");
     var time = 0;
-    var firstFrameDrawn = false;
+    var frame = 0;
     function u(t) {
        {{ code | safe }}
       }
@@ -101,12 +101,13 @@
       if (playing){
         requestAnimationFrame(loop);
       }
-      if (firstFrameDrawn) {
-        time += 1/60;
-      } else {
-        firstFrameDrawn = true;
+      time = frame/60;
+      if(time * 60 | 0 == frame - 1){
+        time += 0.000001;
       }
       u(time);
+
+      frame++;
     }
     loop();
 
@@ -123,7 +124,7 @@
       };
       x = c.getContext("2d");
       time = 0;
-      firstFrameDrawn = false;
+      frame = 0;
     }
     </script>
 
