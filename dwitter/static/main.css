@@ -178,7 +178,7 @@ iframe {
   height:100%;
 }
 .head-menu {
-  position:fixed;
+  position:absolute;
   width:100%;
   z-index:100;
   background:white;
