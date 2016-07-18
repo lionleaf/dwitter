@@ -15,7 +15,9 @@
         console.log("Received message from " + origin);
         if(origin !== "http://dwitter.localhost:8000"
           && origin !== "http://localhost:8000"
-          && origin !== "http://dwitter.lionleaf.org"){
+          && origin !== "http://dwitter.lionleaf.org"
+          && origin !== "http://www.dwitter.net"
+          && origin !== "http://dwitter.net"){
             return;
           }
         console.log("Message was: " + event.data);
