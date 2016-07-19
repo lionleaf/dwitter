@@ -83,7 +83,7 @@ def dweet_reply(request, dweet_id):
 @login_required
 def dweet_delete(request, dweet_id):
     dweet = get_object_or_404(Dweet, id=dweet_id)
-    if(dweet.author == request.user):
+    if(request.user == dweet.author or request.user.is_staff):
         dweet.delete()
         return HttpResponseRedirect(reverse('root'))
 

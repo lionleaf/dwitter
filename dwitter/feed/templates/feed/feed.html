@@ -127,8 +127,10 @@
           <code>
             }
           </code>
-          {% if request.user.is_authenticated and request.user == dweet.author %}
+          {% if request.user.is_authenticated %}
+            {% if request.user == dweet.author or request.user.is_staff %}
           <a class="delete" href="{% url 'dweet_delete' dweet_id=dweet.id %}" onclick="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?')"> Delete dweet </a>
+            {% endif %}
           {% endif %}
           <div class=dweet-changed>
         {% if request.user.is_authenticated %}
