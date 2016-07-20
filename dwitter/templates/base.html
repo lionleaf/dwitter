@@ -27,7 +27,9 @@
         {% if request.user.is_authenticated %}
         Logged in as <a href="{% url 'user_feed' url_username=request.user.username %}">{{ request.user.username }}</a>. <a class=button href="{% url 'auth_logout' %}"> Log out </a>
         {% else %}
-        <a href="{% url 'auth_login'  %}" > Login </a> 
+        <a href="{% url 'auth_login'  %}" > Login </a>
+        or
+        <a href="{% url 'register'  %}" > register </a>
         {% endif %}
       </div>
       <div class=header-center-div>
