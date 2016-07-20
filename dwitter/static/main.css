@@ -64,10 +64,9 @@ code {
 }
 
 .content-div {
-  width: 700px;
-  margin: 0 auto;
-  margin-top:20px;
-  padding:40px;
+  max-width: 600px;
+  margin: 15px auto;
+  padding: 15px;
   background:white;
   word-wrap: break-word;
   border:1px solid #ddd;
@@ -83,17 +82,14 @@ code {
 }
 
 .dweet-feed {
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
+  padding: 15px;
 }
 
-.dweet-feed {
-  width: 600px;
-  margin: 0 auto;
-}
 .dweet {
-  margin-top:20px;
-  padding:40px;
+  margin-top: 15px;
+  padding: 15px;
   background:white;
   word-wrap: break-word;
   border:1px solid #ddd;
@@ -143,7 +139,7 @@ input.comment-submit:active {
   background:white;
   border:1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  padding:40px;
+  padding: 15px;
 }
 .dweet-author {
   padding:10px 0;
