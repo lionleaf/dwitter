@@ -29,7 +29,12 @@ window.onload = function() {
           play(iframe)
         },
         exit: function(dir) {
+          var fullscreenElement = (document.fullscreenElement ||
+                                   document.webkitFullscreenElement ||
+                                   document.mozFullScreenElement);
+          if(fullscreenElement != iframe) {
                 pause(iframe)
+          }
               },
     });
 
