@@ -6,10 +6,24 @@ window.onload = function() {
       more: '.next-page',
       onAfterPageLoad: function(items) {
         var dwiframes = [];
+
+        function requestFullscreen(el) {
+          (el.mozRequestFullScreen ||
+           el.webkitRequestFullscreen ||
+           el.requestFullscreen).call(el);
+        }
+
         $.each(items, function(index, div){
           registerOnKeyListener(div);
           var iframe =  $(div).find(".dweetiframe")[0];
           registerWaypoint(iframe);
+
+          //Register full-screen button
+          var link = $(div).find('.arktis-link');
+          link.on('click', function(e) {
+            e.preventDefault();
+            requestFullscreen(iframe);
+          });
 
         });
       }
