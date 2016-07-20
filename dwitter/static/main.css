@@ -22,6 +22,17 @@ input[type=submit], input[type=button] {
   display:inline-block;
 }
 
+input[type=submit].dweet-button {
+  float: right;
+}
+input[type=submit].delete-button {
+  font-weight:bold;
+  text-border:black;
+  color:white;
+  background-color:red;
+}
+
+
 a {
   color: #666;
   text-decoration: none;
@@ -95,6 +106,7 @@ code {
   border:1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
+
 .comment-section{
   background: #fbfbfb;
   padding: 20px;
@@ -152,9 +164,6 @@ input.comment-submit:active {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
   white-space: pre-line;
   word-break: break-all;
-}
-.dweet-button {
-  float: right;
 }
 
 .canvas-iframe-container-wrapper {
