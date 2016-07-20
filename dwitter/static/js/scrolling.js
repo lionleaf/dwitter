@@ -30,12 +30,12 @@ window.onload = function() {
         },
         exit: function(dir) {
           var fullscreenElement = (document.fullscreenElement ||
-                                   document.webkitFullscreenElement ||
-                                   document.mozFullScreenElement);
+              document.webkitFullscreenElement ||
+              document.mozFullScreenElement);
           if(fullscreenElement != iframe) {
-                pause(iframe)
+            pause(iframe)
           }
-              },
+        },
     });
 
   }
