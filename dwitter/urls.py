@@ -13,11 +13,13 @@ router.register(r'comments', views.CommentViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'^accounts/register/$', RegistrationView.as_view(success_url='/')),
-    url(r'^password/change/',
+    url(r'^accounts/register/$',
+        RegistrationView.as_view(success_url='/'),
+        name='register'),
+    url(r'^password/change/$',
         auth_views.password_change,
         name='password_change'),
-    url(r'^password/change/done/',
+    url(r'^password/change/done/$',
         auth_views.password_change_done,
         name='password_change_done'),
     url(r'^password/reset/$',
