@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from django.db.models import Count
@@ -80,9 +82,10 @@ def dweet_reply(request, dweet_id):
     return HttpResponseRedirect(reverse('root'))
 
 
+@csrf_protect
 @login_required
-def dweet_delete(request):
-    dweet_id = request.POST['dweet-id']
+@require_POST
+def dweet_delete(request, dweet_id):
     dweet = get_object_or_404(Dweet, id=dweet_id)
     if(request.user == dweet.author or request.user.is_staff):
         dweet.delete()

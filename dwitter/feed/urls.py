@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^dweetreply/(?P<dweet_id>\d+)$',
         views.dweet_reply, name='dweet_reply'),
 
-    url(r'^dweetdelete$',
+    url(r'^d/(?P<dweet_id>\d+)/delete$',
         views.dweet_delete, name='dweet_delete'),
 
     url(r'^dweet$', views.dweet, name='dweet'),
