@@ -109,7 +109,9 @@
 
       u(time);
     }
-    loop();
+    if(autoplay) {
+        loop();
+    }
 
     function reset(){
       c = document.querySelector("#c");
