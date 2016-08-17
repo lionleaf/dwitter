@@ -257,6 +257,11 @@ iframe {
   float:right;
 }
 
+.character-count.too-long {
+  color:red;
+}
+
+
 .dweet-changed {
   display:none;
 }

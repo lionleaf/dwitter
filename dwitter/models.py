@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Dweet(models.Model):
-    code = models.CharField(max_length=140)
+    code = models.TextField()
     posted = models.DateTimeField()
     reply_to = models.ForeignKey("self", on_delete=models.SET_NULL,
                                  null=True, blank=True)

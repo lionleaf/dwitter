@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseBadRequest
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from dwitter.models import Dweet
@@ -64,7 +65,12 @@ def feed(request, page_nr, sort):
 
 @login_required
 def dweet(request):
-    d = Dweet(code=request.POST['code'],
+    code = request.POST['code']
+
+    if(len(code.replace('\r\n', '\n')) > 140):
+        return HttpResponseBadRequest("Dweet code too long! Code: " + code)
+
+    d = Dweet(code=code,
               author=request.user,
               posted=timezone.now())
     d.save()
