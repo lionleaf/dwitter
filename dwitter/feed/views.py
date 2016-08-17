@@ -101,8 +101,8 @@ def dweet_delete(request, dweet_id):
 
 
 @ajax_login_required
-def like(request, post_id):
-    dweet = get_object_or_404(Dweet, id=post_id)
+def like(request, dweet_id):
+    dweet = get_object_or_404(Dweet, id=dweet_id)
 
     if(dweet.likes.filter(id=request.user.id).exists()):
         liked = False

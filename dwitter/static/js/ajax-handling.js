@@ -18,7 +18,7 @@ var processLike = function()  {
    }
 
    var config = {
-     url: '/like/' + dweet_id,
+     url: '/d/' + dweet_id + '/like',
      dataType: 'json',
       success: processServerResponse,
    };
