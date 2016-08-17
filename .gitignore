@@ -3,6 +3,7 @@
 *.pyc
 .*
 dwitter/settings/local.py
+dwitter/static/CACHE/*
 *.db
 .gitignore
 .*.sw*

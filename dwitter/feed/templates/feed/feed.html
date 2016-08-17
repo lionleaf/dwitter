@@ -3,10 +3,14 @@
 
 {% block head %}
 {% load staticfiles %}
+{% load compress %}
+
+{% compress js %}
 <script src="{% static "libs/jquery.min.js" %}"></script>
 <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
 <script src="{% static "libs/inview.min.js" %}"></script>
 <script src="{% static "libs/infinite.min.js" %}"></script>
+{% endcompress %}
 {% endblock %}
 
 {% block body_class %}{{sort}}{% endblock %}
@@ -33,11 +37,14 @@
 {% block fullcontent %}
 
 {% load staticfiles %}
+{% load compress %}
+{% compress js %}
 <script src="{% static "js/scrolling.js" %}"></script>
 <script src="{% static "js/editor-preview.js" %}"></script>
 <script src="{% static "js/ajax-handling.js" %}"></script>
 <script src="{% static "js/feed.js" %}"></script>
 <!--<script src="{% static 'js/submit-view.js' %}"></script> -->
+{% endcompress %}
 
 
 
