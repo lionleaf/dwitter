@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/home/lionleaf/dwitter/venv/bin/python
 import os
 import sys
 

@@ -36,7 +36,7 @@ shell:
 
 .PHONY: backup
 backup:
-	python manage.py dumpdata --output backup-$(shell date --iso-8601).json
+	python manage.py dbbackup
 
 .PHONY: clean
 clean:
