@@ -4,6 +4,7 @@
 .*
 dwitter/settings/local.py
 dwitter/static/CACHE/*
+dwitter/static/admin/*
 *.db
 .gitignore
 .*.sw*
