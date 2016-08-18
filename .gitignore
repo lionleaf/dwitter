@@ -8,6 +8,6 @@ dwitter/static/CACHE/*
 .gitignore
 .*.sw*
 venv/*
-static/*
+backups/*
 *.iml
 backup*.json

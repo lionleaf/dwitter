@@ -56,7 +56,11 @@ INSTALLED_APPS = [
     'subdomains',
     'anymail',
     'compressor',
+    'dbbackup',
 ]
+
+DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
+DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',

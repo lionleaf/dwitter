@@ -7,7 +7,7 @@ run:
 
 .PHONY: update
 update:
-	pip install -r requirements.txt
+	pip install --upgrade -r requirements.txt
 
 .PHONY: migrate
 migrate:
