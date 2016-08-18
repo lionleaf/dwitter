@@ -23,12 +23,11 @@ urlpatterns = [
     url(r'^new/page/(?P<page_nr>\d+)$',
         views.feed, {'sort': 'new'}, name='new_feed_page'),
 
-    url(r'^dweetreply/(?P<dweet_id>\d+)$',
+    url(r'^d/(?P<dweet_id>\d+)/reply$',
         views.dweet_reply, name='dweet_reply'),
-
     url(r'^d/(?P<dweet_id>\d+)/delete$',
         views.dweet_delete, name='dweet_delete'),
+    url(r'^d/(?P<dweet_id>\d+)/like$', views.like, name='like'),
 
     url(r'^dweet$', views.dweet, name='dweet'),
-    url(r'^like/(?P<post_id>\d+)$', views.like, name='like'),
 ]
