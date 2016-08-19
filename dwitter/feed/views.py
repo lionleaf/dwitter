@@ -92,6 +92,7 @@ def dweet(request):
     d = Dweet(code=code,
               author=request.user,
               posted=timezone.now())
+    d.save()
     d.likes.add(d.author)
     d.hotscore = hot(1, d.posted)
     d.save()
