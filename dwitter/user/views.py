@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 from dwitter.models import Dweet
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 
 def user_feed(request, url_username, page_nr, sort):
@@ -12,8 +13,9 @@ def user_feed(request, url_username, page_nr, sort):
     dweets_per_page = 10
     first = (page - 1) * dweets_per_page
     last = page * dweets_per_page
-    dweet_count = Dweet.objects.filter(author=user).count()
-
+    dweets = Dweet.objects.filter(author=user)
+    dweet_count = dweets.count()
+    total_awesome = dweets.annotate(num_likes = Count('likes')).aggregate(totalaws = Sum('num_likes'))['totalaws']
     if(first < 0 or first >= dweet_count):
         return render(request, 'base.html', {'text': 'No dweets here'})
     if(last >= dweet_count):
@@ -40,8 +42,9 @@ def user_feed(request, url_username, page_nr, sort):
                                                  'page_nr': page - 1,
                                                  'sort': sort})
 
+
     context = {'dweet_list': dweet_list,
-               'header_title': url_username,
+               'header_title': url_username + ' (' + str(total_awesome) + ')',
                'feed_type': 'user',
                'feed_user': url_username,
                'page_nr': page,
