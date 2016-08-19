@@ -20,7 +20,7 @@ def epoch_seconds(date):
     return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
 
 def hot(likes, date):
-    order = log(max(abs(likes), 0), 2)
+    order = log(max(abs(likes), 1), 2)
     return round(order + epoch_seconds(date)/86400)
 
 def ajax_login_required(view_func):
