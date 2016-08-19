@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load subdomainurls %}
+
+{% block head %}
+{% load staticfiles %}
+{% load compress %}
+
+{% compress js %}
+<script src="{% static "libs/jquery.min.js" %}"></script>
+<script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
+<script src="{% static "libs/inview.min.js" %}"></script>
+<script src="{% static "libs/infinite.min.js" %}"></script>
+{% endcompress %}
+{% endblock %}
+
+{% block body_class %}{{sort}}{% endblock %}
+
+
+{% block header_title %} 
+{{ header_title }}
+{% endblock %}
+
+{% block top-nav %}
+<ul class=top-sort-list>
+  {%if feed_type == "all" %}
+  <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
+  <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  {%elif feed_type == "user" %}
+  <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
+  <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
+  {% endif %}
+</ul>
+{% endblock %}
+
+
+
+{% block fullcontent %}
+
+{% load staticfiles %}
+{% load compress %}
+{% compress js %}
+<script src="{% static "js/scrolling.js" %}"></script>
+<script src="{% static "js/ajax-handling.js" %}"></script>
+<script src="{% static "js/feed.js" %}"></script>
+<!--<script src="{% static 'js/submit-view.js' %}"></script> -->
+{% endcompress %}
+
+
+<div class=dweet-feed>
+
+  {% include 'snippets/new_dweet_card.html' %}
+
+  {% for dweet in dweet_list %}
+    {% include 'snippets/dweet_card.html' %}
+  {% endfor %}
+
+  <a class=next-page href="{{ next_url }}">Next page</a>
+
+</div>
+
+{% endblock %}

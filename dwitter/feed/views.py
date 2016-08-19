@@ -62,6 +62,14 @@ def feed(request, page_nr, sort):
                }
     return render(request, 'feed/feed.html', context)
 
+def dweet_show(request, dweet_id):
+    dweet = get_object_or_404(Dweet, id=dweet_id)
+
+    context = {
+               'dweet': dweet,
+               'header_title': 'Dwitter',
+               }
+    return render(request, 'feed/permalink.html', context)
 
 @login_required
 def dweet(request):

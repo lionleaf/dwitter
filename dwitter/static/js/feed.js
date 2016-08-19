@@ -27,11 +27,18 @@ $(document).ready(function()  {
      el.requestFullscreen).call(el);
   }
   $('.dweet').each(function(i, el) {
-    var link = $(el).find('.arktis-link');
+    var link = $(el).find('.fullscreen-button');
     var iframe = $(el).find('iframe.dweetiframe');
     link.on('click', function(e) {
       e.preventDefault();
       requestFullscreen(iframe[0]);
+    });
+
+    var sharebutt = $(el).find('.share-button');
+    var sharelink = $(el).find('.share-link');
+    sharebutt.on('click', function(e) {
+      e.preventDefault();
+      sharelink.toggle();
     });
   });
 });
