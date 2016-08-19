@@ -92,10 +92,8 @@ def dweet(request):
     d = Dweet(code=code,
               author=request.user,
               posted=timezone.now())
-
-    d.likes.add(request.user)
-    d.hotscore = hot(1, dweet.posted)
-
+    d.likes.add(d.author)
+    d.hotscore = hot(1, d.posted)
     d.save()
     return HttpResponseRedirect(reverse('root'))
 
