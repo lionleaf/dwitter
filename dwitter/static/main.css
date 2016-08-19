@@ -280,6 +280,11 @@ iframe {
   display:none;
 }
 
+.dweet-timestamp{
+  float:right;
+  clear:both;
+}
+
 .dweet-actions {
   margin-top:10px;
   margin-bottom:20px;
