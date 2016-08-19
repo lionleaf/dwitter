@@ -9,8 +9,19 @@ from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from functools import wraps
+from datetime import datetime, timedelta
+from math import log
 import json
 
+def epoch_seconds(date):
+    epoch = datetime(2015,5,5)
+    naive = date.replace(tzinfo=None)
+    td = naive - epoch
+    return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
+
+def hot(likes, date):
+    order = log(max(abs(likes), 0), 2)
+    return round(order + epoch_seconds(date)/86400)
 
 def ajax_login_required(view_func):
     @wraps(view_func)
@@ -46,7 +57,7 @@ def feed(request, page_nr, sort):
         prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "hot"):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes', '-posted')[first:last])
+                      .order_by('-hotscore', '-posted')[first:last])
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
     else:
@@ -81,6 +92,10 @@ def dweet(request):
     d = Dweet(code=code,
               author=request.user,
               posted=timezone.now())
+
+    d.likes.add(request.user)
+    d.hotscore = hot(1, dweet.posted)
+
     d.save()
     return HttpResponseRedirect(reverse('root'))
 
@@ -118,6 +133,9 @@ def like(request, dweet_id):
     else:
         liked = True
         dweet.likes.add(request.user)
+
+    likes = dweet.likes.count()
+    dweet.hotscore = hot(likes, dweet.posted)
     dweet.save()
-    json_resp = json.dumps({'likes': dweet.likes.count(), 'liked': liked})
+    json_resp = json.dumps({'likes': likes, 'liked': liked})
     return HttpResponse(json_resp, content_type='application/json')

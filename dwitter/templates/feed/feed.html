@@ -23,6 +23,7 @@
 {% block top-nav %}
 <ul class=top-sort-list>
   {%if feed_type == "all" %}
+  <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
   <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
   <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
   {%elif feed_type == "user" %}

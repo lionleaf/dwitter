@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$',
-        views.feed, {'page_nr': 1, 'sort': 'new'}, name='root'),
+        views.feed, {'page_nr': 1, 'sort': 'hot'}, name='root'),
 
     url(r'^page/(?P<page_nr>\d+)$',
         views.feed, {'sort': 'new'}, name='feed_page'),
