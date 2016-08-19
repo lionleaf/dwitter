@@ -21,7 +21,7 @@ def epoch_seconds(date):
 
 def hot(likes, date):
     order = log(max(abs(likes), 1), 2)
-    return round(order + epoch_seconds(date)/86400)
+    return round(order + epoch_seconds(date)/86400, 7)
 
 def ajax_login_required(view_func):
     @wraps(view_func)
@@ -57,7 +57,7 @@ def feed(request, page_nr, sort):
         prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "hot"):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-hotscore', '-posted')[first:last])
+                      .order_by('-hotness', '-posted')[first:last])
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
     else:
@@ -94,7 +94,7 @@ def dweet(request):
               posted=timezone.now())
     d.save()
     d.likes.add(d.author)
-    d.hotscore = hot(1, d.posted)
+    d.hotness = hot(1, d.posted)
     d.save()
     return HttpResponseRedirect(reverse('root'))
 
@@ -134,7 +134,7 @@ def like(request, dweet_id):
         dweet.likes.add(request.user)
 
     likes = dweet.likes.count()
-    dweet.hotscore = hot(likes, dweet.posted)
+    dweet.hotness = hot(likes, dweet.posted)
     dweet.save()
     json_resp = json.dumps({'likes': likes, 'liked': liked})
     return HttpResponse(json_resp, content_type='application/json')
