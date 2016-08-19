@@ -19,12 +19,18 @@ window.onload = function() {
           registerWaypoint(iframe);
 
           //Register full-screen button
-          var link = $(div).find('.arktis-link');
+          var link = $(div).find('.fullscreen-button');
           link.on('click', function(e) {
             e.preventDefault();
             requestFullscreen(iframe);
           });
 
+          var sharebutt = $(div).find('.share-button');
+          var sharelink = $(div).find('.share-link');
+          sharebutt.on('click', function(e) {
+            e.preventDefault();
+            sharelink.toggle();
+          });
         });
       }
   });
