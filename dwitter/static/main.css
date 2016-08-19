@@ -98,7 +98,7 @@ code {
   padding: 15px;
 }
 
-.dweet {
+.dweet, .card {
   margin-top: 15px;
   padding: 15px;
   background:white;
@@ -154,7 +154,7 @@ input.comment-submit:active {
   padding: 15px;
 }
 .dweet-author {
-  padding:10px 0;
+  padding:10px 0 0 0;
   font-weight: bold;
 }
 .code-input{
@@ -266,10 +266,18 @@ iframe {
   display:none;
 }
 
-.arktis-link {
+.fullscreen-button, .share-button {
   text-align:right;
   float:right;
   line-height: 26px;
+  padding:5px;
+}
+
+.share-link {
+  width:15em;
+  float:right;
+  clear:both;
+  display:none;
 }
 
 .dweet-actions {

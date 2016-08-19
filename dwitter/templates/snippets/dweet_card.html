@@ -11,7 +11,10 @@
         <span class=score-text>{{ dweet.likes.count }}</span>
         <span class=like-text>Awesome!</span>
       </a>
-      <a class=arktis-link id=arktis-link-{{dweet.id}} href="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}?autoplay=1" target="_blank">fullscreen</a>
+      <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
+      <a class=share-button href="javascript:;" target="_blank">share</a>
+      <br />
+      <input type=text class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
     </div>
     <div class=dweet-author>
       <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
