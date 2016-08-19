@@ -10,6 +10,7 @@ class Dweet(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     likes = models.ManyToManyField(User, related_name="liked")
+    hotscore = models.IntegerField(default=1)
 
     class Meta:
         ordering = ('-posted',)
