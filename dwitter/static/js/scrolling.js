@@ -30,6 +30,16 @@ window.onload = function() {
           sharebutt.on('click', function(e) {
             e.preventDefault();
             sharelink.toggle();
+
+            if(sharelink.is(":visible")){
+              sharelink.select();
+            }
+          });
+
+          $(sharelink).focus(function() {
+            $(this).on("click.a keyup.a", function(e){
+              $(this).off("click.a keyup.a").select();
+            });
           });
         });
       }
