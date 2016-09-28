@@ -107,6 +107,9 @@ def dweet_reply(request, dweet_id):
               author=request.user,
               posted=timezone.now())
     d.save()
+    d.likes.add(d.author)
+    d.hotness = hot(1, d.posted)
+    d.save()
     return HttpResponseRedirect(reverse('root'))
 
 
