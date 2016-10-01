@@ -9,19 +9,22 @@ from dwitter.models import Dweet
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from functools import wraps
-from datetime import datetime, timedelta
+from datetime import datetime
 from math import log
 import json
 
+
 def epoch_seconds(date):
-    epoch = datetime(2015,5,5)
+    epoch = datetime(2015, 5, 5)
     naive = date.replace(tzinfo=None)
     td = naive - epoch
     return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
 
+
 def hot(likes, date):
     order = log(max(abs(likes), 1), 2)
     return round(order + epoch_seconds(date)/86400, 7)
+
 
 def ajax_login_required(view_func):
     @wraps(view_func)
@@ -73,14 +76,17 @@ def feed(request, page_nr, sort):
                }
     return render(request, 'feed/feed.html', context)
 
+
 def dweet_show(request, dweet_id):
     dweet = get_object_or_404(Dweet, id=dweet_id)
 
     context = {
-               'dweet': dweet,
-               'header_title': 'Dwitter',
-               }
+        'dweet': dweet,
+        'header_title': 'Dwitter',
+        }
+
     return render(request, 'feed/permalink.html', context)
+
 
 @login_required
 def dweet(request):
@@ -106,6 +112,9 @@ def dweet_reply(request, dweet_id):
               reply_to=reply_to,
               author=request.user,
               posted=timezone.now())
+    d.save()
+    d.likes.add(d.author)
+    d.hotness = hot(1, d.posted)
     d.save()
     return HttpResponseRedirect(reverse('root'))
 
