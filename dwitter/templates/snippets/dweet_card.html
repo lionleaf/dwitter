@@ -14,7 +14,7 @@
       <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
       <a class=share-button href="javascript:;" target="_blank">share</a>
       <br />
-      <input type=text class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
+      <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
     </div>
     <div class=dweet-author>
       <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
