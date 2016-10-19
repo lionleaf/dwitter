@@ -41,11 +41,6 @@
 
 <div class=dweet-feed>
 
-  <div class=card>
-    <p> <a href="{% url 'user_feed' url_username=dweet.author.username %}">More dweets by {{ dweet.author.username }}</a></p>
-    <p> <a href="{% url 'top_feed' %}">All time top dweets</a></p>
-  </div>
-
   {% include 'snippets/dweet_card.html' %}
 
   <div class=card>
