@@ -11,7 +11,20 @@ from django.utils import timezone
 from functools import wraps
 from datetime import datetime
 from math import log
+from django.contrib import messages
+from django.utils.safestring import mark_safe
 import json
+
+
+def new_dweet_message(request, dweet_id):
+    link = reverse('dweet_show',
+                   kwargs={'dweet_id': dweet_id})
+    furl = request.build_absolute_uri(link)
+    messages.add_message(request, messages.INFO,
+                         mark_safe("Awesome dweet! "
+                                   + "Use <a href='"
+                                   + link + "'>" + furl + "</a>"
+                                   + " to share it."))
 
 
 def epoch_seconds(date):
@@ -102,7 +115,11 @@ def dweet(request):
     d.likes.add(d.author)
     d.hotness = hot(1, d.posted)
     d.save()
-    return HttpResponseRedirect(reverse('root'))
+
+    new_dweet_message(request, d.id)
+
+    return HttpResponseRedirect(reverse('dweet_show',
+                                kwargs={'dweet_id': d.id}))
 
 
 @login_required
@@ -116,7 +133,11 @@ def dweet_reply(request, dweet_id):
     d.likes.add(d.author)
     d.hotness = hot(1, d.posted)
     d.save()
-    return HttpResponseRedirect(reverse('root'))
+
+    new_dweet_message(request, d.id)
+
+    return HttpResponseRedirect(reverse('dweet_show',
+                                kwargs={'dweet_id': d.id}))
 
 
 @csrf_protect

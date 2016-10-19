@@ -69,8 +69,16 @@ code {
   white-space: pre-line;
 }
 
+ul.messages {
+  text-align: center;
+  background: #DEF0D8;
+  margin: 4;
+  padding: 0.5em;
+  list-style: none;
+}
+
 #content {
-  padding: 7em 0 1em;
+  padding: 0 0 1em;
   margin: 0 auto;
 }
 
@@ -183,7 +191,6 @@ iframe {
   height:100%;
 }
 .head-menu {
-  position:absolute;
   width:100%;
   z-index:100;
   background:white;
