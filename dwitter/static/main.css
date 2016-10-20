@@ -306,8 +306,9 @@ iframe {
 }
 
 .dweet-timestamp{
-  float:right;
   clear:both;
+  text-align: right;
+  padding-top: 10px;
 }
 
 .dweet-actions {

@@ -47,13 +47,12 @@
         <input
         class=dweet-button
         type="submit"
-        value="Post as new dweet!" />
+        value="Post as remix" />
         {% else %}
         <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
         {% endif %}
       </div>
     </form>
-    <p class=dweet-timestamp> {{ dweet.posted }} </p>
     {% if request.user.is_authenticated %}
     {% if request.user == dweet.author or request.user.is_staff %}
     <form action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
@@ -66,6 +65,7 @@
     </form>
     {% endif %}
     {% endif %}
+    <p class=dweet-timestamp> {{ dweet.posted }} </p>
   </div>
   <div class=comment-section>
     <ul class=comments>
