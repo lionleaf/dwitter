@@ -43,10 +43,6 @@
       }
 
       function newCode(code) {
-          //redefine render code with new input
-          if(code.length > 140){
-            alert("code too long (> 140 characters");
-          }
           eval("u = function(t){"+code+"};")
           reset();
       }
