@@ -16,10 +16,21 @@
       <br />
       <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
     </div>
-    <div class=dweet-author>
-      <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
+    <div class=author-remix-wrapper>
+      <div class=dweet-author>
+        <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
     </div>
-    <code>
+        {% if dweet.reply_to %}
+      <div class=remix-info>
+        remix of
+        <a href="{% url 'dweet_show' dweet_id=dweet.reply_to.id %}">#{{dweet.reply_to.id}}</a>
+         by
+        <a href="{% url 'user_feed' url_username=dweet.reply_to.author.username %}">
+          {{ dweet.reply_to.author.username }}</a>
+      </div>
+      {% endif %}
+    </div>
+    <code class="function-wrap">
       function u(t){
     </code>
     <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
@@ -28,7 +39,7 @@
         <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4>{{ dweet.code }}</textarea>
         <div class=character-count>{{ dweet.code | length }}/140</div>
       </div>
-      <code>
+      <code class="function-wrap">
         }
       </code>
       <div class=dweet-changed>
