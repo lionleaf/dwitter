@@ -161,9 +161,21 @@ input.comment-submit:active {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   padding: 15px;
 }
+
+.author-remix-wrapper{
+  padding: 10px 0;
+}
+
 .dweet-author {
-  padding:10px 0 0 0;
   font-weight: bold;
+  float:left;
+  font-size:large;
+  display:block;
+}
+
+.remix-info  {
+  font-weight: bold;
+  float:right;
 }
 .code-input{
   text-align:left;
