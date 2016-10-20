@@ -177,6 +177,12 @@ input.comment-submit:active {
   font-weight: bold;
   float:right;
 }
+
+.function-wrap{
+  color:gray;
+  font-size:small;
+}
+
 .code-input{
   text-align:left;
   resize:none;
