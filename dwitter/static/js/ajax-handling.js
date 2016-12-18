@@ -40,6 +40,8 @@ var loadComments = function() {
 
    var dweet_id = $load_comments_button.data('dweet_id');
    var next = $load_comments_button.data('next');
+   //If there is a sticky comment on the top of the comments
+   var sticky_top = $load_comments_button.data('sticky_top');
 
    var loadCommentsResponse = function(serverResponse_json, textStatus_ignored,
        jqXHR_ignored)  {
@@ -54,10 +56,12 @@ var loadComments = function() {
      var new_comment_list = '';
      for(var i in serverResponse_json.results.reverse()){
        var comment = serverResponse_json.results[i];
+       if(sticky_top && i == 0){
+         continue; //Hack that works for now to avoid reloading the first comment if it was sticky
+       }
        new_comment_list  += getCommentHTML(comment);
      }
      $comment_section[0].innerHTML = new_comment_list + $comment_section[0].innerHTML;
-     
    }
 
    var config = {

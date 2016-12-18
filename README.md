@@ -17,4 +17,5 @@ Current build: [dwitter.net](http://dwitter.net)
 * `make migrate`
 * `make lint`
 * `make shell`
+* `make thegame`
 * `make backup`
