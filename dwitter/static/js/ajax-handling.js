@@ -76,11 +76,16 @@ var postComment = function(e) {
   var $comment_text = $postForm.find('.comment-input');
   var $comment_section = $postForm.closest('.comment-section').children('.comments');
 
-  var postCommentResponse = function(serverResponse_json, textStatus_ignored,
+  var postCommentSuccess = function(serverResponse_json, textStatus_ignored,
       jqXHR_ignored)  {
 
     $comment_text[0].value = '';
     $comment_section[0].innerHTML =  $comment_section[0].innerHTML + getCommentHTML(serverResponse_json);
+  }
+
+  var postCommentError = function(serverResponse_json, textStatus_ignored,
+      jqXHR_ignored)  {
+    //Do nothing at the moment. TODO: Clearer error message displayed to the user?
   }
 
   var comment = {
@@ -92,8 +97,8 @@ var postComment = function(e) {
   var config = {
     url: '/api/comments/',
     method: 'POST',
-    success: postCommentResponse,
-    error: postCommentResponse,
+    success: postCommentSuccess,
+    error: postCommentError,
     data: comment,
   };
   $.ajax(config);

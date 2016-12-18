@@ -84,7 +84,7 @@
     </ul>
     <form class=new-comment data-csrf="{{ csrf_token }}" data-dweet_id="{{dweet.id}}">
       {% if request.user.is_authenticated %}
-      <input type=text class=comment-input />
+      <input type=text class=comment-input required />
       <input type=submit value="Post comment" class=comment-submit />
       {% else %}
       <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to comment.</p>
