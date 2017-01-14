@@ -68,11 +68,24 @@
     <p class=dweet-timestamp> {{ dweet.posted }} </p>
   </div>
   <div class=comment-section>
-    <ul class=comments>
+    {% if dweet.comments.last.author == dweet.author %}
+    <ul class=sticky-comments>
+      <li class="comment sticky-comment">
+        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.comments.last.author.username %}">{{ dweet.comments.last.author.username }}:</a>
+        <span class="comment-message sticky-comment">{{ dweet.comments.last.text }}</span>
+      </li>
+      </ul>
+        {% endif %}
+        <ul class=comments>
       {% if dweet.comments.count > 3 %}
       <li class=comment>
-      <a href="javascript:;" class="load-comments-link" data-dweet_id="{{ dweet.id }}"
-        data-offset=3>Load older comments...</a>
+      <a href="javascript:;" class="load-comments-link"
+                             data-dweet_id="{{ dweet.id }}"
+                             {% if dweet.comments.last.author == dweet.author %}
+                             data-sticky_top="1"
+                             {% endif %}
+                             data-offset=3>
+        Load older comments...</a>
       </li>
       {% endif %}
       {% for comment in dweet.comments.all|slice:"3" reversed %}
