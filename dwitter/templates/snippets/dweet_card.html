@@ -89,10 +89,12 @@
       </li>
       {% endif %}
       {% for comment in dweet.comments.all|slice:"3" reversed %}
+      {% if comment != dweet.comments.last or dweet.comments.last.author != dweet.author  %}
       <li class=comment>
       <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
       <span class="comment-message">{{ comment.text }}</span>
       </li>
+      {% endif %}
       {% endfor %}
     </ul>
     <form class=new-comment data-csrf="{{ csrf_token }}" data-dweet_id="{{dweet.id}}">
