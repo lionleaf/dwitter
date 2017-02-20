@@ -83,6 +83,18 @@
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
+    var A = Math.abs;
+    var G = Math.sign;
+    var Q = Math.sqrt;
+    var R = function(x,y,w,h) {
+        x.fillRect(x,y,w,h)
+    }
+    var P = function(x,y) {
+        x.fillRect(x,y,1,1)
+    }
+    var F = function(s) {
+        x.fillStyle = s
+    }
     var R = function(r,g,b,a) {
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
