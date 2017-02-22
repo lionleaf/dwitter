@@ -55,7 +55,9 @@
     {% include 'snippets/dweet_card.html' %}
   {% endfor %}
 
+  {% if not on_last_page %}
   <div class="loading">Loading...</div>
+  {% endif %}
 
   {% if on_last_page %}
     <div class="end-of-feed">Congratulations! You've reached the end.</div>

@@ -48,6 +48,7 @@ def user_feed(request, url_username, page_nr, sort):
                'feed_type': 'user',
                'feed_user': url_username,
                'page_nr': page,
+               'on_last_page': last == dweet_count,
                'next_url': next_url,
                'prev_url': prev_url,
                }
