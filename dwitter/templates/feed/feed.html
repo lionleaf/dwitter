@@ -16,7 +16,7 @@
 {% block body_class %}{{sort}}{% endblock %}
 
 
-{% block header_title %} 
+{% block header_title %}
 {{ header_title }}
 {% endblock %}
 
@@ -55,7 +55,13 @@
     {% include 'snippets/dweet_card.html' %}
   {% endfor %}
 
-  <a class=next-page href="{{ next_url }}">Next page</a>
+  <div class="loading">Loading...</div>
+
+  {% if on_last_page %}
+    <div class="end-of-feed">Congratulations! You've reached the end.</div>
+  {% else %}
+    <a class=next-page href="{{ next_url }}">Next page</a>
+  {% endif %}
 
 </div>
 

@@ -2,9 +2,11 @@ window.onload = function() {
 
   var infinite = new Waypoint.Infinite({
     element: $('.dweet-feed')[0],
-      items: '.dweet-wrapper',
+      items: '.dweet-wrapper, .loading, .end-of-feed',
       more: '.next-page',
       onAfterPageLoad: function(items) {
+        $('.loading:not(:last-of-type)').hide();
+
         var dwiframes = [];
 
         function requestFullscreen(el) {
