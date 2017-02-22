@@ -83,6 +83,7 @@ def feed(request, page_nr, sort):
                'header_title': 'Dwitter',
                'feed_type': 'all',
                'page_nr': page,
+               'on_last_page': last == dweet_count,
                'next_url': next_url,
                'prev_url': prev_url,
                'sort': sort,
