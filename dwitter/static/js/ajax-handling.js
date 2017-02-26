@@ -1,4 +1,17 @@
-
+function getCookie(name) {
+  if (document.cookie && document.cookie !== '') {
+    var cookies = document.cookie.split(';').map(function(cookie) {
+      return cookie.trim();
+    });
+    var cookie = cookies.find(function(cookie) {
+      return cookie.substring(0, name.length + 1) === (name + '=');
+    });
+    if (cookie) {
+      return decodeURIComponent(cookie.substring(name.length + 1));
+    }
+  }
+  return null;
+}
 
 var processLike = function()  {
    var $like_button = $(this);
@@ -20,6 +33,10 @@ var processLike = function()  {
    var config = {
      url: '/d/' + dweet_id + '/like',
      dataType: 'json',
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': getCookie('csrftoken'),
+      },
       success: processServerResponse,
    };
    $.ajax(config);
