@@ -28,7 +28,7 @@ test:
 .PHONY: setup
 setup:
 	virtualenv venv
-		cp dwitter/settings/local.py.example dwitter/settings/local.py
+	cp dwitter/settings/local.py.example dwitter/settings/local.py
 
 .PHONY: shell
 shell:
