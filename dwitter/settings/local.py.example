@@ -15,3 +15,6 @@ DATABASES = {
 # CHANGE THIS! THIS IS PUBLIC AS IT'S IN SOURCE CONTROL
 SECRET_KEY = '=^e_t38stu=a=3xuys_r1an%38xwmq347u%q0l3cy!wnybzuj)'
 
+BASE_URL = 'http://localhost:8000'
+LOGIN_REDIRECT_URL = BASE_URL
+LOGIN_URL = BASE_URL + '/accounts/login/'
