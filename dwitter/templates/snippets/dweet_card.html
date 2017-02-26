@@ -36,7 +36,7 @@
     <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
       {% csrf_token %}
       <div class=dweet-code>
-        <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4>{{ dweet.code }}</textarea>
+        <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4 oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';">{{ dweet.code }}</textarea>
         <div class=character-count>{{ dweet.code | length }}/140</div>
       </div>
       <code class="function-wrap">
