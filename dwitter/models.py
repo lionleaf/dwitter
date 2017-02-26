@@ -13,7 +13,7 @@ class Dweet(models.Model):
     hotness = models.FloatField(default=1.0)
 
     def __unicode__(self):
-        return 'd/' + str(self.id) + ' ('+ self.author.username + ')'
+        return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
     class Meta:
         ordering = ('-posted',)
@@ -27,7 +27,12 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return 'c/' + str(self.id) + ' ('+ self.author.username + ') to ' + str(self.reply_to)
+        return ('c/' +
+                str(self.id) +
+                ' (' +
+                self.author.username +
+                ') to ' +
+                str(self.reply_to))
 
     class Meta:
         ordering = ('-posted',)

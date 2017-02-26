@@ -38,7 +38,6 @@ urlpatterns = [
 
     url(r'^accounts/password/reset/confirm', auth_views.password_change),
     url(r'^u/', include('dwitter.user.urls')),
-#    url(r'^dweet/', include('dwitter.dweet.urls')),
     url(r'^', include('dwitter.feed.urls')),
     url(r'^api/', include(router.urls)),
 ]
