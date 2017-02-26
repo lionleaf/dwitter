@@ -15,7 +15,9 @@ def user_feed(request, url_username, page_nr, sort):
     last = page * dweets_per_page
     dweets = Dweet.objects.filter(author=user)
     dweet_count = dweets.count()
-    total_awesome = dweets.annotate(num_likes = Count('likes')).aggregate(totalaws = Sum('num_likes'))['totalaws']
+    total_awesome = dweets.annotate(
+        num_likes=Count('likes')).aggregate(
+            totalaws=Sum('num_likes'))['totalaws']
     if(first < 0 or first >= dweet_count):
         return render(request, 'base.html', {'text': 'No dweets here'})
     if(last >= dweet_count):
@@ -41,7 +43,6 @@ def user_feed(request, url_username, page_nr, sort):
     prev_url = reverse('user_feed_page', kwargs={'url_username': url_username,
                                                  'page_nr': page - 1,
                                                  'sort': sort})
-
 
     context = {'dweet_list': dweet_list,
                'header_title': url_username + ' (' + str(total_awesome) + ')',
