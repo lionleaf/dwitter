@@ -4,6 +4,18 @@
   padding:0px;
 }
 
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: #ccc no-repeat center;
+  background-size: cover;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
 textarea{
   border:1px solid;
   padding:3px;
@@ -181,12 +193,12 @@ input.comment-submit:active {
   display:block;
 }
 
-.remix-info  {
+.remix-info {
   font-weight: bold;
   float:right;
 }
 
-.function-wrap{
+.function-wrap {
   color:gray;
   font-size:small;
 }
@@ -218,7 +230,6 @@ iframe {
 }
 .head-menu {
   width:100%;
-  z-index:100;
   background:white;
   text-align:center;
   border-bottom:1px solid #ddd;
@@ -229,11 +240,66 @@ iframe {
   display:none;
 }
 .head-account-info {
-  padding: 0 1em;
+  margin-right: 1em;
   float:right;
   text-align:right;
-  width:20%;
+  width: 160px;
+  padding: 6px 6px 6px 14px;
 }
+
+.head-account-info .avatar {
+  margin-left: 6px;
+}
+
+.head-account-info .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 105px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .head-account-info {
+    width: 36px;
+    padding: 6px;
+  }
+  .head-account-info .avatar {
+    margin: 0;
+  }
+  .head-account-info .name {
+    display: none;
+  }
+}
+
+.head-account-info .collapsible {
+  opacity: 0;
+  position: absolute;
+  border: 1px solid #ddd;
+  right: 1em;
+  margin-top: -4px;
+  transition: all 0.05s;
+  z-index: 10;
+}
+
+.head-account-info.is-logged-in:hover {
+  background: #ddd;
+}
+
+.head-account-info.is-logged-in:hover .collapsible {
+  display: block;
+  opacity: 1;
+  margin-top: 6px;
+}
+
+.head-account-info .collapsible li {
+  list-style-type: none;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  width: 150px;
+  padding: 14px;
+}
+
 .header-center-div {
   margin:auto;
   width:30%;
