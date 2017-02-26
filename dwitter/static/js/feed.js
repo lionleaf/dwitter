@@ -51,4 +51,10 @@ $(document).ready(function()  {
 
 
   });
+
+  $('.dweet-timestamp').each(function(_, element) {
+    var dateFormat = 'MMM D[,] YYYY [at] h:mm A';
+    var postedDate = moment.utc($(element).text(), dateFormat + ' [UTC]');
+    $(element).text(postedDate.local().format(dateFormat));
+  });
 });

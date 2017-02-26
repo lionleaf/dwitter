@@ -65,7 +65,7 @@
     </form>
     {% endif %}
     {% endif %}
-    <p class=dweet-timestamp> {{ dweet.posted }} </p>
+    <p class=dweet-timestamp> {{ dweet.posted | date:"M j, Y " }} at {{ dweet.posted | time:"g:i A" }} UTC</p>
   </div>
   <div class=comment-section>
     {% if dweet.comments.last.author == dweet.author %}
