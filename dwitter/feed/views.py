@@ -154,6 +154,7 @@ def dweet_delete(request, dweet_id):
 
 
 @ajax_login_required
+@require_POST
 def like(request, dweet_id):
     dweet = get_object_or_404(Dweet, id=dweet_id)
 
