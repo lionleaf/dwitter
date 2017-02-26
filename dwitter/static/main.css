@@ -198,6 +198,7 @@ input.comment-submit:active {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
   white-space: pre-line;
   word-break: break-all;
+  max-height:20em;
 }
 
 .canvas-iframe-container-wrapper {
