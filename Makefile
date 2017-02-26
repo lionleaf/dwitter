@@ -19,7 +19,7 @@ migrations:
 
 .PHONY: lint
 lint:
-	flake8 dwitter/ --exclude=migrations,settings,diff.py
+	flake8 dwitter/ --exclude=migrations,settings
 
 .PHONY: test
 test:
