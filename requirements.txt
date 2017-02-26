@@ -1,11 +1,11 @@
-django==1.8.14
-django-registration-redux==1.2
-django-subdomains==2.1.0rc0
-djangorestframework==3.3.3
+boto==2.42
 django-anymail==0.3.1
-django-filter==0.13
 django-compressor==2.1
 django-dbbackup==2.5.0
-boto==2.42
+django-filter==0.13
+django-registration-redux==1.2
 django-storages-redux==1.3.2
+django-subdomains==2.1.0rc0
+django==1.8.14
+djangorestframework==3.3.3
 flake8==2.6.2
