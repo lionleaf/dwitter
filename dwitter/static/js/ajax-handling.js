@@ -1,21 +1,8 @@
-function getCookie(name) {
-  if (document.cookie && document.cookie !== '') {
-    var cookies = document.cookie.split(';').map(function(cookie) {
-      return cookie.trim();
-    });
-    var cookie = cookies.find(function(cookie) {
-      return cookie.substring(0, name.length + 1) === (name + '=');
-    });
-    if (cookie) {
-      return decodeURIComponent(cookie.substring(name.length + 1));
-    }
-  }
-  return null;
-}
-
-var processLike = function()  {
-   var $like_button = $(this);
-   var dweet_id = $like_button.data('dweet_id');
+var processLike = function(e)  {
+  e.preventDefault();
+  var $likeForm = $(this);
+  var dweet_id = $likeForm.data('dweet_id');
+  var $like_button = $likeForm.find('.like-button');
    var processServerResponse = function(serverResponse_json, textStatus_ignored,
        jqXHR_ignored)  {
      if(serverResponse_json.not_authenticated){
@@ -35,7 +22,7 @@ var processLike = function()  {
      dataType: 'json',
       method: 'POST',
       headers: {
-        'X-CSRFToken': getCookie('csrftoken'),
+        'X-CSRFToken': $likeForm.data('csrf'),
       },
       success: processServerResponse,
    };
@@ -127,7 +114,7 @@ var postComment = function(e) {
 
 
 $(document).ready(function()  {
-  $('body').on('click','.like-button', processLike);
+  $('body').on('submit','form.like', processLike);
   $('body').on('click','.load-comments-link', loadComments);
   $('body').on('submit','.new-comment', postComment);
 });
