@@ -39,9 +39,9 @@ class DweetTestCase(TestCase):
         Dweet.objects.get(id=2)
 
     def test_dweet_has_correct_likes(self):
-        self.assertEqual(Dweet.objects.get(id=1).likes.count(), 0)
-
+        dweet1 = Dweet.objects.get(id=1)
         dweet2 = Dweet.objects.get(id=2)
-        self.assertEqual(dweet2.likes.count(), 2)
-        self.assertIn(User.objects.get(username="user1"), dweet2.likes.all())
-        self.assertIn(User.objects.get(username="user2"), dweet2.likes.all())
+        all_users = [repr(u) for u in User.objects.all()]
+
+        self.assertQuerysetEqual(dweet1.likes.all(), [])
+        self.assertQuerysetEqual(dweet2.likes.order_by('id'), all_users)
