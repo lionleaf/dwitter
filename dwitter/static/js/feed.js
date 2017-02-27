@@ -51,4 +51,10 @@ $(document).ready(function()  {
 
 
   });
+
+  moment.locale(navigator.userLanguage || navigator.language || 'en-US');
+  $('.dweet-timestamp').each(function(_, element) {
+    var postedDate = moment.utc($(element).text(), 'MMM D YYYY h:mm A [UTC]');
+    $(element).text(postedDate.local().format('lll'));
+  });
 });
