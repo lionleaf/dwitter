@@ -25,6 +25,7 @@ input[type=text], input[type=email] {
   border:1px solid;
   padding:3px;
   border-radius: 2px;
+  font-family: 'Roboto', sans-serif;
 }
 input[type=submit], input[type=button] {
   padding: 5px;
@@ -32,6 +33,7 @@ input[type=submit], input[type=button] {
   background: white;
   border-radius:3px;
   display:inline-block;
+  font-family: 'Roboto', sans-serif;
 }
 
 input[type=submit].dweet-button {
