@@ -450,3 +450,19 @@ body.hot .top-sort-list a.hot {
 .settings-form input[type=submit] {
   float: right;
 }
+
+.center-settings {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.center-settings p {
+  margin: 15px;
+}
+
+.avatar-large {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+}

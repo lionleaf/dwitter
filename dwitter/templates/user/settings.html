@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
+{% load to_gravatar_url %}
 
 {% block content %}
+
+<div class=center-settings>
+<div
+    class="avatar avatar-large"
+    style="background-image: url({{ request.user.email | to_gravatar_url }})"
+    >
+</div>
+<p>
+<em>
+Your avatar is automatically fetched from your email address.
+Change your avatar on <a href="https://gravatar.com">Gravatar</a>.
+</em>
+</p>
+</div>
+
 
 <form class="settings-form" method=POST action="">
     {% csrf_token %}
