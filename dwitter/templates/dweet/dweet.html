@@ -56,7 +56,7 @@
 
       function newCode(code) {
           try {
-            eval("u = function(t){"+code+"};")
+            eval("u = function(t){"+code+"\n};")
           } catch (e) {
             displayError(e);
             u = function(t){}; // prevent loop() from calling displayError
