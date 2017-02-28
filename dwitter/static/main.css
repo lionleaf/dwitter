@@ -279,13 +279,14 @@ iframe {
 }
 
 .head-account-info .collapsible {
-  opacity: 0;
   position: absolute;
   border: 1px solid #ddd;
   right: 1em;
-  margin-top: -4px;
-  transition: all 0.05s;
   z-index: 10;
+  transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
+  opacity: 0;
+  height: 0;
+  margin-top: -9999px;
 }
 
 .head-account-info.is-logged-in:hover {
@@ -295,7 +296,8 @@ iframe {
 .head-account-info.is-logged-in:hover .collapsible {
   display: block;
   opacity: 1;
-  margin-top: 6px;
+  margin-top: 4px;
+  transition: opacity 0.05s ease-in-out, margin 0.05s step-start;
 }
 
 .head-account-info .collapsible li {
