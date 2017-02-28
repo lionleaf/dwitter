@@ -36,6 +36,7 @@
         <a class=name href="{% url 'user_feed' url_username=request.user.username %}">{{ request.user.username }}</a>
         <div class=avatar style="background-image: url({{ request.user.email | to_gravatar_url }})"></div>
         <ul class=collapsible>
+          <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
           <li><a href="{% url 'password_change' %}"> Change password </a></li>
           <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
         </ul>
