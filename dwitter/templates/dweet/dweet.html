@@ -6,6 +6,13 @@
       width: 100%;
       background: white;
       }
+    .error-display {
+      color: red;
+      font-size: small;
+      position: absolute;
+      top: 1em;
+      left: 1em;
+    }
     </style>
     <script>
       var autoplay = getURLParameter('autoplay');
@@ -42,8 +49,19 @@
         }
       }
 
+      function displayError(e) {
+        document.querySelector(".error-display").innerHTML = e;
+      }
+
       function newCode(code) {
-          eval("u = function(t){"+code+"};")
+          try {
+            eval("u = function(t){"+code+"};")
+          } catch (e) {
+            displayError(e);
+            u = function(t){}; // prevent loop() from calling displayError
+            throw e;
+          }
+          displayError("");
           reset();
       }
 
@@ -76,6 +94,7 @@
   </head>
 <body>
   <canvas id=c></canvas>
+  <div class=error-display></div>
   <script>
     var c = document.querySelector("#c");
     c.width = 1920;
@@ -103,7 +122,12 @@
       }
       frame++;
 
-      u(time);
+      try {
+        u(time);
+      } catch (e) {
+        displayError(e);
+        throw e;
+      }
     }
     if(autoplay) {
         loop();
