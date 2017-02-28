@@ -38,6 +38,10 @@ shell:
 backup:
 	python manage.py dbbackup
 
+.PHONY: restore-backup
+restore-backup:
+	python manage.py dbrestore
+
 .PHONY: clean
 clean:
 	find . -name '*.pyc' -delete
