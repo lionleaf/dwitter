@@ -33,7 +33,7 @@
         <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
         {% if request.user.is_authenticated %}
 
-        <a class=name href="{% url 'user_feed' url_username=request.user.username %}">{{ request.user.username }}</a>
+        <span class=name>{{ request.user.username }}</span>
         <div class=avatar style="background-image: url({{ request.user.email | to_gravatar_url }})"></div>
         <ul class=collapsible>
           <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
