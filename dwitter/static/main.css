@@ -21,9 +21,10 @@ textarea{
   padding:3px;
 }
 
-input[type=text] {
+input[type=text], input[type=email] {
   border:1px solid;
   padding:3px;
+  border-radius: 2px;
 }
 input[type=submit], input[type=button] {
   padding: 5px;
@@ -102,6 +103,7 @@ ul.messages {
   word-wrap: break-word;
   border:1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .content-div input {
@@ -427,4 +429,24 @@ body.hot .top-sort-list a.hot {
 
 .delete {
   color: #b22;
+}
+
+.settings-form {
+  text-align: center;
+}
+
+.settings-form label {
+  width: 100px;
+  display: inline-block;
+  font-size: 14px;
+  text-align: right;
+}
+
+.settings-form input {
+  margin-top: 6px;
+  text-align: left;
+}
+
+.settings-form input[type=submit] {
+  float: right;
 }

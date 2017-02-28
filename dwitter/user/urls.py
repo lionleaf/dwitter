@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^(?P<url_username>[\w.@+-]+)/'
         '(?P<sort>hot|new|top)/(?P<page_nr>\d+)$',
         views.user_feed, name='user_feed_page'),
+    url(r'^(?P<url_username>[\w.@+-]+)/settings$',
+        views.user_settings, name='user_settings'),
     ]
