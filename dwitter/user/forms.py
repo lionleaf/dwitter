@@ -5,6 +5,4 @@ from django.forms import ModelForm
 class UserSettingsForm(ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ('first_name',
-                  'last_name',
-                  'email',)
+        fields = ('email',)
