@@ -12,8 +12,8 @@ Current build: [dwitter.net](http://dwitter.net)
 * `make setup` (set up virtual environment)
 * `source venv/bin/activate` (activate virtual environment)
 * `make` (install dependencies and set up database)
-* `make run` run server
-* go to localhost:8000/admin and change localhost site to localhost:8000
+* `make run` runs the server. Writing `python manage.py 0.0.0.0:8000` will expose the app if you're working inside a VM with port forwarding.
+* go to http://localhost:8000/admin/sites/, click on the one entry, and change both `domain_name` and `site_name` to localhost:8000.
 * Make sure dweet.localhost:8000/ returns a django error. May not work in Firefox.
 
 ## Other commands
