@@ -20,7 +20,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class DweetSerializer(serializers.ModelSerializer):
     latest_comments = serializers.SerializerMethodField()
-    reply_to = serializers.PrimaryKeyRelatedField(queryset=Dweet.objects.all())
+    reply_to = serializers.PrimaryKeyRelatedField(
+        queryset=Dweet.with_deleted.all()
+    )
 
     class Meta:
         model = Dweet

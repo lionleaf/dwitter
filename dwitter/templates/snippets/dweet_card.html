@@ -24,15 +24,8 @@
         <div class=avatar style="background-image: url({{ dweet.author.email | to_gravatar_url }})"></div>
         <a href="{% url 'user_feed' url_username=dweet.author.username %}">{{ dweet.author.username }}</a>
     </div>
-        {% if dweet.reply_to %}
-      <div class=remix-info>
-        remix of
-        <a href="{% url 'dweet_show' dweet_id=dweet.reply_to.id %}">#{{dweet.reply_to.id}}</a>
-         by
-        <a href="{% url 'user_feed' url_username=dweet.reply_to.author.username %}">
-          {{ dweet.reply_to.author.username }}</a>
-        <div class=avatar style="background-image: url({{ dweet.reply_to.author.email | to_gravatar_url }})"></div>
-      </div>
+      {% if dweet.reply_to %}
+        {% include 'snippets/remix_info.html' %}
       {% endif %}
     </div>
     <br>

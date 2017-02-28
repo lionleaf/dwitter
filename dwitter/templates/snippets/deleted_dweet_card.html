@@ -1,0 +1,14 @@
+{% load subdomainurls %}
+<div class=dweet-wrapper>
+  <div class=dweet >
+    <div class=author-remix-wrapper>
+      <div class=dweet-author>
+        [deleted]
+      </div>
+      {% if dweet.reply_to %}
+        {% include 'snippets/remix_info.html' %}
+      {% endif %}
+    </div>
+    <p class=dweet-timestamp> {{ dweet.posted }} </p>
+  </div>
+</div>
