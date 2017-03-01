@@ -62,7 +62,15 @@ class Comment(models.Model):
     posted = models.DateTimeField()
     reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE,
                                  related_name="comments")
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    _author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    @property
+    def author(self):
+        return self._author
+
+    @author.setter
+    def author(self, value):
+        self._author = value
 
     def __unicode__(self):
         return ('c/' +
