@@ -14,6 +14,16 @@
           <span class="like-text">Awesome!</span>
         </button>
       </form>
+        {% if request.user == dweet.author or request.user.is_staff %}
+        <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
+          onsubmit="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?');" >
+          {% csrf_token %}
+          <input
+          class=delete-button
+          type="submit"
+          value="delete" />
+        </form>
+        {% endif %}
       <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
       <a class=share-button href="javascript:;" target="_blank">share</a>
       <br />
@@ -36,42 +46,30 @@
       {% endif %}
     </div>
     <br>
-    <code class="function-wrap">
-      function u(t){
-    </code>
-    <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
-      {% csrf_token %}
-      <div class=dweet-code>
-        <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4 oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';">{{ dweet.code }}</textarea>
-        <div class=character-count>{{ dweet.code | length }}/140</div>
-      </div>
-      <code class="function-wrap">
-        }
-      </code>
-      <div class=dweet-changed>
-        {% if request.user.is_authenticated %}
-        <input
-        class=dweet-button
-        type="submit"
-        value="Post as remix" />
-        {% else %}
-        <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
-        {% endif %}
-      </div>
-    </form>
+    <div class="dark-section">
+        <code class="function-wrap">
+          function u(t){
+        </code>
+        <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
+          {% csrf_token %}
+          <div class=dweet-code>
+            <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4 oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';">{{ dweet.code }}</textarea>
+          </div>
+          <p class=dweet-timestamp> {{ dweet.posted | date:"M j Y g:i A" }} UTC</p>
+          <code class="function-wrap">} //<div class=character-count>{{ dweet.code | length }}/140</div>
+          </code>
+        </form>
+    </div>
+  <div class=dweet-changed>
     {% if request.user.is_authenticated %}
-    {% if request.user == dweet.author or request.user.is_staff %}
-    <form action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
-      onsubmit="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?');" >
-      {% csrf_token %}
-      <input
-      class=delete-button
-      type="submit"
-      value="Delete dweet" />
-    </form>
+    <input
+    class=dweet-button
+    type="submit"
+    value="Post as remix" />
+    {% else %}
+    <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
     {% endif %}
-    {% endif %}
-    <p class=dweet-timestamp> {{ dweet.posted | date:"M j Y g:i A" }} UTC</p>
+  </div>
   </div>
   <div class=comment-section>
     {% if dweet.comments.last.author == dweet.author %}

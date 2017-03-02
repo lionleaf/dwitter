@@ -1,5 +1,5 @@
 var onDweetChanged = function() {
-  var charCount = $(this).parent().find(".character-count")[0];
+  var charCount = $(this).parent().parent().parent().find(".character-count")[0];
   var submitButton = $(this).parent().parent().find(".dweet-button")[0];
 
   charCount.textContent = this.value.length + '/140';
