@@ -50,7 +50,9 @@
 
 <div class=dweet-feed>
 
+  {% if show_submit_box %}
   {% include 'snippets/new_dweet_card.html' %}
+  {% endif %}
 
   {% for dweet in dweet_list %}
     {% include 'snippets/dweet_card.html' %}
