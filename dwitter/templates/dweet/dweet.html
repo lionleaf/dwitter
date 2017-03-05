@@ -58,8 +58,9 @@
           try {
             eval("u = function(t){"+code+"\n};")
           } catch (e) {
-            displayError(e);
-            u = function(t){}; // prevent loop() from calling displayError
+            u = function(t){
+              throw e;
+            };
             throw e;
           }
           displayError("");
@@ -125,6 +126,7 @@
 
       try {
         u(time);
+        displayError("");
       } catch (e) {
         displayError(e);
         throw e;

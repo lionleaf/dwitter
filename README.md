@@ -22,3 +22,4 @@ Current build: [dwitter.net](http://dwitter.net)
 * `make lint`
 * `make shell`
 * `make backup`
+* `make restore-backup`

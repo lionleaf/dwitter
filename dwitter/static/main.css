@@ -25,24 +25,27 @@ input[type=text], input[type=email] {
   border:1px solid;
   padding:3px;
   border-radius: 2px;
+  font-family: 'Roboto', sans-serif;
 }
 input[type=submit], input[type=button] {
   padding: 5px;
   border: 1px solid black;
   background: white;
   border-radius:3px;
-  margin-top: 2px;
   display:inline-block;
+  font-family: 'Roboto', sans-serif;
 }
 
 input[type=submit].dweet-button {
   float: right;
 }
 input[type=submit].delete-button {
-  font-weight:bold;
-  text-border:black;
-  color:white;
-  background-color:red;
+  color: red;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }
 
 
@@ -324,6 +327,11 @@ iframe {
   text-align:center;
 }
 
+form.like {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .like-button {
   background: #eee;
   border-radius: 4px;
@@ -363,22 +371,23 @@ iframe {
 }
 
 .character-count {
-  float:right;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .character-count.too-long {
-  color:red;
+  color: red;
 }
 
 
 .dweet-changed {
   display:none;
+  margin-top: 30px;
 }
 
 .fullscreen-button, .share-button {
   text-align:right;
   float:right;
-  line-height: 26px;
   padding:5px;
 }
 
@@ -390,9 +399,12 @@ iframe {
 }
 
 .dweet-timestamp{
-  clear:both;
-  text-align: right;
-  padding-top: 10px;
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  color:gray;
+  font-size:small;
+  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
 }
 
 .dweet-actions {
@@ -470,4 +482,31 @@ body.hot .top-sort-list a.hot {
   width: 150px;
   height: 150px;
   border-radius: 75px;
+}
+
+.dweet .dark-section {
+  margin-top: 20px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: -15px;
+  background: #222;
+  padding: 0 15px 15px;
+}
+
+.dark-section .dweet-code textarea {
+  background: transparent; 
+  border: 0;
+  color: white;
+  outline: 0;
+}
+
+.dark-section .dweet-code textarea:focus {
+  outline: 0;
+}
+
+.dweet-delete-form {
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 3px;
 }
