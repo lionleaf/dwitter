@@ -28,15 +28,16 @@ class DweetTestCase(TestCase):
         self.assertEqual(Dweet.objects.get(id=1).__unicode__(), "d/1 (user1)")
         self.assertEqual(Dweet.objects.get(id=2).__unicode__(), "d/2 (user2)")
 
-    def test_dweet_reply_to_set_null_on_delete(self):
-        Dweet.objects.get(id=1).delete()
-        self.assertEqual(Dweet.objects.get(id=2).reply_to, None)
+    def test_dweet_reply_to_set_deleted_field_on_delete(self):
+        dweet1 = Dweet.objects.get(id=1)
+        dweet1.delete()
+        self.assertEqual(dweet1.deleted, True)
+        self.assertEqual(Dweet.objects.get(id=2).reply_to, dweet1)
 
-    def test_dweet_author_cascade_on_delete(self):
+    def test_dweet_author_set_null_on_delete(self):
         User.objects.get(username="user1").delete()
-        with self.assertRaises(Dweet.DoesNotExist):
-            Dweet.objects.get(id=1)
-        Dweet.objects.get(id=2)
+        self.assertTrue(Dweet.with_deleted.get(id=1).deleted)
+        self.assertIsNotNone(Dweet.objects.get(id=2).author)
 
     def test_dweet_has_correct_likes(self):
         dweet1 = Dweet.objects.get(id=1)
@@ -45,3 +46,13 @@ class DweetTestCase(TestCase):
 
         self.assertQuerysetEqual(dweet1.likes.all(), [])
         self.assertQuerysetEqual(dweet2.likes.order_by('id'), all_users)
+
+    def test_default_manager_does_not_include_deleted_dweets(self):
+        second_dweet = [repr(Dweet.objects.get(id=2))]
+        Dweet.objects.get(id=1).delete()
+        self.assertQuerysetEqual(Dweet.objects.all(), second_dweet)
+
+    def test_with_deleted_manager_includes_deleted_dweets(self):
+        all_dweets = [repr(d) for d in Dweet.objects.all()]
+        Dweet.objects.get(id=1).delete()
+        self.assertQuerysetEqual(Dweet.with_deleted.all(), all_dweets)

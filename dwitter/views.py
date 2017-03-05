@@ -13,4 +13,4 @@ class CommentViewSet(viewsets.ModelViewSet):
                           IsAuthorOrReadOnly, )
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user, posted=timezone.now())
+        serializer.save(_author=self.request.user, posted=timezone.now())
