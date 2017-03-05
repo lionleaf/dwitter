@@ -8,7 +8,7 @@ from rest_framework import viewsets, permissions
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    filter_fields = ('reply_to', 'author')
+    filter_fields = ('reply_to', '_author')
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsAuthorOrReadOnly, )
 
