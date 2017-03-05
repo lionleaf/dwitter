@@ -87,6 +87,7 @@ def feed(request, page_nr, sort):
                'next_url': next_url,
                'prev_url': prev_url,
                'sort': sort,
+               'show_submit_box': True
                }
     return render(request, 'feed/feed.html', context)
 

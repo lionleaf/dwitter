@@ -78,6 +78,7 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
                'on_last_page': last == dweet_count,
                'next_url': next_url,
                'prev_url': prev_url,
+               'show_submit_box': False,
                }
     return render(request, 'feed/feed.html', context)
 
