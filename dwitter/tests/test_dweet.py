@@ -15,13 +15,13 @@ class DweetTestCase(TestCase):
         dweet1 = Dweet.objects.create(id=1,
                                       code="dweet1 code",
                                       posted=now - timedelta(minutes=1),
-                                      author=user1)
+                                      _author=user1)
 
         dweet2 = Dweet.objects.create(id=2,
                                       code="dweet2 code",
                                       posted=now,
                                       reply_to=dweet1,
-                                      author=user2)
+                                      _author=user2)
         dweet2.likes.add(user1, user2)
 
     def test_dweet_renders_to_string_correctly(self):
@@ -37,7 +37,8 @@ class DweetTestCase(TestCase):
     def test_dweet_author_set_null_on_delete(self):
         User.objects.get(username="user1").delete()
         self.assertTrue(Dweet.with_deleted.get(id=1).deleted)
-        self.assertIsNotNone(Dweet.objects.get(id=2).author)
+        self.assertEqual(Dweet.objects.get(id=2).author,
+                         User.objects.get(username="user2"))
 
     def test_dweet_has_correct_likes(self):
         dweet1 = Dweet.objects.get(id=1)
