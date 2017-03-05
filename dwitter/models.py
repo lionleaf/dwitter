@@ -12,7 +12,7 @@ def get_sentinel_user():
 
 @receiver(pre_delete, sender=User)
 def soft_delete_user_dweets(instance, **kwargs):
-    for dweet in Dweet.objects.filter(_author=instance):
+    for dweet in Dweet.objects.filter(author=instance):
         dweet.delete()
 
 
@@ -32,16 +32,8 @@ class Dweet(models.Model):
     hotness = models.FloatField(default=1.0)
     deleted = models.BooleanField(default=False)
 
-    _author = models.ForeignKey(User, on_delete=models.SET_NULL,
-                                null=True, blank=True)
-
-    @property
-    def author(self):
-        return self._author or get_sentinel_user()
-
-    @author.setter
-    def author(self, value):
-        self._author = value
+    author = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user),
+                               null=True, blank=True)
 
     objects = NotDeletedDweetManager()
     with_deleted = models.Manager()
@@ -62,15 +54,7 @@ class Comment(models.Model):
     posted = models.DateTimeField()
     reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE,
                                  related_name="comments")
-    _author = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    @property
-    def author(self):
-        return self._author
-
-    @author.setter
-    def author(self, value):
-        self._author = value
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return ('c/' +

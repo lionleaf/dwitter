@@ -15,13 +15,13 @@ class DweetTestCase(TestCase):
         dweet1 = Dweet.objects.create(id=1,
                                       code="dweet1 code",
                                       posted=now - timedelta(minutes=1),
-                                      _author=user1)
+                                      author=user1)
 
         dweet2 = Dweet.objects.create(id=2,
                                       code="dweet2 code",
                                       posted=now,
                                       reply_to=dweet1,
-                                      _author=user2)
+                                      author=user2)
         dweet2.likes.add(user1, user2)
 
     def test_dweet_renders_to_string_correctly(self):
