@@ -27,13 +27,14 @@ def user_settings(request, url_username):
     })
 
 
-def user_feed(request, url_username, page_nr, sort):
+def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     user = get_object_or_404(User, username=url_username)
     page = int(page_nr)
     dweets_per_page = 10
     first = (page - 1) * dweets_per_page
     last = page * dweets_per_page
-    dweets = Dweet.objects.filter(author=user)
+    if not dweets:
+        dweets = Dweet.objects.filter(author=user)
     dweet_count = dweets.count()
     total_awesome = dweets.annotate(
         num_likes=Count('likes')).aggregate(
@@ -43,7 +44,10 @@ def user_feed(request, url_username, page_nr, sort):
     if(last >= dweet_count):
         last = dweet_count
 
-    dweet_list = Dweet.objects.filter(author=user)
+    if not dweets:
+        dweet_list = Dweet.objects.filter(author=user)
+    else:
+        dweet_list = dweets
 
     if(sort == "top"):
         dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
@@ -56,13 +60,15 @@ def user_feed(request, url_username, page_nr, sort):
     else:
         raise Http404("No such sorting method " + sort)
 
-    next_url = reverse('user_feed_page', kwargs={'url_username': url_username,
-                                                 'page_nr': page + 1,
-                                                 'sort': sort})
+    if not url:
+        url = 'user_feed_page'
+    next_url = reverse(url, kwargs={'url_username': url_username,
+                                    'page_nr': page + 1,
+                                    'sort': sort})
 
-    prev_url = reverse('user_feed_page', kwargs={'url_username': url_username,
-                                                 'page_nr': page - 1,
-                                                 'sort': sort})
+    prev_url = reverse(url, kwargs={'url_username': url_username,
+                                    'page_nr': page - 1,
+                                    'sort': sort})
 
     context = {'dweet_list': dweet_list,
                'header_title': url_username + ' (' + str(total_awesome) + ')',
@@ -74,3 +80,11 @@ def user_feed(request, url_username, page_nr, sort):
                'prev_url': prev_url,
                }
     return render(request, 'feed/feed.html', context)
+
+
+def user_liked(request, url_username, page_nr, sort):
+    user = get_object_or_404(User, username=url_username)
+    dweets = Dweet.objects.filter(likes=user)
+
+    return user_feed(request, url_username, page_nr, sort, dweets=dweets,
+                     url='user_liked_page')
