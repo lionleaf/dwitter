@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
             old_name='author',
             new_name='_author',
         ),
-        migrations.AddField(
+        migrations.AlterField(
             model_name='dweet',
             name='_author',
             field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True),
