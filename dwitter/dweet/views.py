@@ -6,8 +6,7 @@ from django.template import RequestContext
 
 
 def handler404(request):
-    template = '404_dweet.html' if request.subdomain == 'dweet' else '404.html'
-    response = render_to_response(template, {},
+    response = render_to_response('404_dweet.html', {},
                                   context_instance=RequestContext(request))
     response.status_code = 404
     return response
