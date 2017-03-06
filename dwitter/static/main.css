@@ -382,6 +382,7 @@ form.like {
 
 .dweet-changed {
   display:none;
+  color: white;
   margin-top: 30px;
 }
 
@@ -494,7 +495,7 @@ body.hot .top-sort-list a.hot {
 }
 
 .dark-section .dweet-code textarea {
-  background: transparent; 
+  background: transparent;
   border: 0;
   color: white;
   outline: 0;
