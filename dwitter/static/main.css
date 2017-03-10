@@ -160,6 +160,11 @@ ul.messages {
   font-weight:bold;
 }
 
+.comment-message {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 .new-comment {
   margin-top: 10px;
   display: flex;
