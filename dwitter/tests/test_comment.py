@@ -24,17 +24,17 @@ class DweetTestCase(TestCase):
                                       reply_to=dweet1,
                                       _author=user2)
 
-        comment1 = Comment.objects.create(id=1,
-                                          text="comment1 text",
-                                          posted=now - timedelta(minutes=1),
-                                          reply_to=dweet2,
-                                          _author=user1)
+        Comment.objects.create(id=1,
+                               text="comment1 text",
+                               posted=now - timedelta(minutes=1),
+                               reply_to=dweet2,
+                               _author=user1)
 
-        comment1 = Comment.objects.create(id=2,
-                                          text="comment2 text",
-                                          posted=now,
-                                          reply_to=dweet1,
-                                          _author=user2)
+        Comment.objects.create(id=2,
+                               text="comment2 text",
+                               posted=now,
+                               reply_to=dweet1,
+                               _author=user2)
 
     def test_comment_renders_to_string_correctly(self):
         self.assertEqual(Comment.objects.get(id=1).__unicode__(),
