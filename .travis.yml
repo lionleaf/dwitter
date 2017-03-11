@@ -6,7 +6,7 @@ install:
       - make setup
       - make update
 before_script:
-      - make lint
+#      - make lint
 script:
       - make test
 notifications:
