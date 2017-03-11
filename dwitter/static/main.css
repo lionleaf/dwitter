@@ -39,6 +39,11 @@ input[type=submit], input[type=button] {
 input[type=submit].dweet-button {
   float: right;
 }
+
+input[type=submit].remix-button {
+  margin-top: 5px;
+}
+
 input[type=submit].delete-button {
   color: red;
   background: transparent;
@@ -386,9 +391,14 @@ form.like {
 
 
 .dweet-changed {
-  display:none;
-  color: white;
+  display: none;
   margin-top: 30px;
+  text-align: right;
+  color: white;
+}
+
+.dweet-changed > p {
+  text-align: left;
 }
 
 .fullscreen-button, .share-button {
