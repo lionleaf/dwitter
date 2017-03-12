@@ -57,4 +57,13 @@ $(document).ready(function()  {
     var postedDate = moment.utc($(element).text(), 'MMM D YYYY h:mm A [UTC]');
     $(element).text(postedDate.local().format('lll'));
   });
+
+  $('.dweet-create-form-title').click(function() {
+    $(this).hide();
+    var dweet = $('.submit-box').slideDown();
+    registerOnKeyListener(dweet);
+    var iframe =  $(dweet).find(".dweetiframe")[0];
+    registerWaypoint(iframe);
+    var textarea = $(dweet).find('textarea').focus();
+  });
 });

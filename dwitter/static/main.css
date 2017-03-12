@@ -198,6 +198,35 @@ input.comment-submit:active {
   border:1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   padding: 15px;
+  display: none;
+}
+
+.dweet-create-form-title {
+  background: #4599ca;
+  color: white;
+  font-size: 1.1em;
+  cursor: pointer;
+  width: 50%;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.dweet-create-form-title:hover {
+  text-decoration: underline;
+}
+
+.dweet-create-form-title .add-icon {
+  background: white;
+  color: #4599ca;
+  border-radius: 50%;
+  width: 27px;
+  height: 27px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .author-remix-wrapper{
@@ -219,6 +248,7 @@ input.comment-submit:active {
 .function-wrap {
   color:gray;
   font-size:small;
+  float: left;
 }
 
 .code-input{
@@ -468,7 +498,8 @@ body.hot .top-sort-list a.hot {
 #submit-preview {
 }
 
-#submit-help{
+.submit-help{
+  font-size: 0.8em;
 }
 
 .delete {
@@ -511,13 +542,11 @@ body.hot .top-sort-list a.hot {
   border-radius: 75px;
 }
 
-.dweet .dark-section {
-  margin-top: 20px;
-  margin-left: -15px;
-  margin-right: -15px;
-  margin-bottom: -15px;
+.dark-section {
+  margin: 20px -15px -15px;
   background: #222;
-  padding: 0 15px 15px;
+  padding: 15px;
+  overflow: hidden;
 }
 
 .dark-section .dweet-code textarea {
@@ -525,6 +554,8 @@ body.hot .top-sort-list a.hot {
   border: 0;
   color: white;
   outline: 0;
+  font-size: small;
+  padding: 0;
 }
 
 .dark-section .dweet-code textarea:focus {

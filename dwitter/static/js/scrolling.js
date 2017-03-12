@@ -53,25 +53,6 @@ window.onload = function() {
     registerWaypoint(iframe);
   });
 
-  function registerWaypoint(iframe){
-    console.log("Registering " + iframe.src);
-    var inview = new Waypoint.Inview({
-      element: iframe,
-        entered: function(dir) {
-          play(iframe)
-        },
-        exit: function(dir) {
-          var fullscreenElement = (document.fullscreenElement ||
-              document.webkitFullscreenElement ||
-              document.mozFullScreenElement);
-          if(fullscreenElement != iframe) {
-            pause(iframe)
-          }
-        },
-    });
-
-  }
-
   var dweets = document.querySelectorAll(".dweet");
   [].forEach.call(dweets, function(dweet) {
     registerOnKeyListener(dweet);
@@ -91,51 +72,68 @@ window.onload = function() {
     showCode(editoriframe, editor.value);
     oldCode = editor.value;
   });
-
-  function play(iframe){
-    dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("play","*");
-    console.log("Send play to " + iframe.src);
-  }
-  function pause(iframe){
-    dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("pause","*");
-    console.log("Send pause to " + iframe.src);
-  }
-
-  function showCode(iframe, code) {
-    dweetwin =  iframe.contentWindow || iframe;
-    dweetwin.postMessage("code "+code,'*');
-  }
-
-  function setEditing(iframe) {
-    (iframe.contentWindow || iframe).postMessage("editing", "*");
-  }
-
-  function registerOnKeyListener(dweet){
-    var iframe = $(dweet).find('.dweetiframe')[0];
-    var editor = $(dweet).find('.code-input')[0];
-    var changedDweetMenu = $(dweet).find('.dweet-changed');
-    var oldCode = editor.value;
-    var originalCode = oldCode;
-
-    showCode(iframe, oldCode);
-    editor.addEventListener('keyup', function() {
-      setEditing(iframe);
-
-      if(editor.value == originalCode){
-        changedDweetMenu.hide();
-      }else{
-        changedDweetMenu.show();
-      }
-
-      if(editor.value == oldCode) {
-        return;
-      }
-      editor.size = Math.max(editor.value.length, 1);
-      showCode(iframe, editor.value);
-      oldCode = editor.value;
-    });
-
-  }
 };
+
+function registerWaypoint(iframe){
+  console.log("Registering " + iframe.src);
+  var inview = new Waypoint.Inview({
+    element: iframe,
+      entered: function(dir) {
+        play(iframe)
+      },
+      exit: function(dir) {
+        var fullscreenElement = (document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement);
+        if(fullscreenElement != iframe) {
+          pause(iframe)
+        }
+      },
+  });
+}
+
+function play(iframe){
+  dweetwin =  iframe.contentWindow || iframe;
+  dweetwin.postMessage("play","*");
+  console.log("Send play to " + iframe.src);
+}
+function pause(iframe){
+  dweetwin =  iframe.contentWindow || iframe;
+  dweetwin.postMessage("pause","*");
+  console.log("Send pause to " + iframe.src);
+}
+
+function showCode(iframe, code) {
+  dweetwin =  iframe.contentWindow || iframe;
+  dweetwin.postMessage("code "+code,'*');
+}
+
+function setEditing(iframe) {
+  (iframe.contentWindow || iframe).postMessage("editing", "*");
+}
+
+function registerOnKeyListener(dweet){
+  var iframe = $(dweet).find('.dweetiframe')[0];
+  var editor = $(dweet).find('.code-input')[0];
+  var changedDweetMenu = $(dweet).find('.dweet-changed');
+  var oldCode = editor.value;
+  var originalCode = oldCode;
+
+  showCode(iframe, oldCode);
+  editor.addEventListener('keyup', function() {
+    setEditing(iframe);
+
+    if(editor.value == originalCode){
+      changedDweetMenu.hide();
+    }else{
+      changedDweetMenu.show();
+    }
+
+    if(editor.value == oldCode) {
+      return;
+    }
+    editor.size = Math.max(editor.value.length, 1);
+    showCode(iframe, editor.value);
+    oldCode = editor.value;
+  });
+}
