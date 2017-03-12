@@ -1,49 +1,45 @@
 {% load subdomainurls %}
+<div class="dweet-create-form-title"><span class="add-icon">+</span>Create new dweet</div>
 <div class=submit-box>
-  <div class=canvas-iframe-container-wrapper
+  <div
+    class=canvas-iframe-container-wrapper
     id="submit-preview">
-    <div class=canvas-iframe-container 
+    <div
+      class=canvas-iframe-container
       id="iframe-container-submit">
       <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}" sandbox="allow-scripts"></iframe>
     </div>
   </div>
-  <div id=click-the-code>
-    <b>Edit the code to start the fun or browse through other people's demos below.</b>
-    Code available at <a href="http://github.com/lionleaf/dwitter">github.com/lionleaf/dwitter</a>. Issues are welcome! :D
+  <div class="dark-section">
+    <code class="function-wrap">function u(t){</code>
+    <form action="{% url 'dweet' %}" method="post">
+      {% csrf_token %}
+      <div class=dweet-code>
+        <textarea
+          autocorrect="off" autocapitalize="off" spellcheck="false"
+          name=code
+          class=code-input
+          rows=4
+          id=editor
+          oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"
+          >c.width=1920; /* clear the canvas */
+  for(i=0;i<9;i++)
+  x.fillRect(400+i*100+S(t)*300, 400, 50, 200) /* draw 50x200 rects */</textarea>
+      </div>
+      <code class="function-wrap">} //<div class=character-count>122/140</div>
+      </code>
+      {% if request.user.is_authenticated %}
+        <input
+          class=dweet-button
+          type="submit"
+          value="Post dweet!" />
+      {% else %}
+        <p>Please <a href="{% url 'auth_login'  %}" >log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>
+      {% endif %}
+    </form>
   </div>
-  <code>
-    function u(t){
-  </code>
-  <form action="{% url 'dweet' %}" method="post">
-    {% csrf_token %}
-    <div class=dweet-code>
-      <textarea
-        autocorrect="off" autocapitalize="off" spellcheck="false"
-        name=code
-        class=code-input
-        rows=4
-        id=editor
-        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"
-        >c.width=1920; /* clear the canvas */
-for(i=0;i<9;i++)
-x.fillRect(400+i*100+S(t)*300, 400, 50, 200) /* draw 50x200 rects */</textarea>
-      <div class=character-count>122/140</div>
-    </div>
-    <code>
-      }
-    </code>
-    <br />
-    {% if request.user.is_authenticated %}
-    <input  
-    class=dweet-button
-    type="submit" 
-    value="Dweet!" />
-    {% else %}
-    <p> Please <a href="{% url 'auth_login'  %}" >log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>
-    {% endif %}
-  </form>
   <br />
-  <code id=submit-help>
+  <code class=submit-help>
     u(t) is called 60 times per second.
     t: Elapsed time in seconds.
     S: Shorthand for Math.sin.
@@ -51,6 +47,6 @@ x.fillRect(400+i*100+S(t)*300, 400, 50, 200) /* draw 50x200 rects */</textarea>
     T: Shorthand for Math.tan.
     R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
     c: A 1920x1080 canvas.
-    x: A 2D context for that canvas. 
+    x: A 2D context for that canvas.
   </code>
 </div>

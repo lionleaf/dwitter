@@ -40,17 +40,14 @@
     </div>
     <br>
     <div class="dark-section">
-        <code class="function-wrap">
-          function u(t){
-        </code>
+        <code class="function-wrap">function u(t){</code>
         <form action="{% url 'dweet_reply' dweet_id=dweet.id %}" method="post">
           {% csrf_token %}
           <div class=dweet-code>
             <textarea autocorrect="off" autocapitalize="off" spellcheck="false" name=code class=code-input rows=4 oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';">{{ dweet.code }}</textarea>
           </div>
           <p class=dweet-timestamp> {{ dweet.posted | date:"M j Y g:i A" }} UTC</p>
-          <code class="function-wrap">} //<div class=character-count>{{ dweet.code | length }}/140</div>
-          </code>
+          <code class="function-wrap">} //<div class=character-count>{{ dweet.code | length }}/140</div></code>
           <div class=dweet-changed>
             {% if request.user.is_authenticated %}
             <input
