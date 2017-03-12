@@ -76,7 +76,29 @@ window.onload = function() {
     showCode(editoriframe, editor.value);
     oldCode = editor.value;
   });
+
+  addEventListener('message', receiveMessage, false);
 };
+
+function receiveMessage(event) {
+  var origin = event.origin || event.originalEvent.origin;
+  console.log('scrolling.js received message from ' + origin);
+  if (origin !== 'http://dweet.localhost:8000'
+      && origin !== 'https://dweet.dwitter.net'
+      && origin !== 'https://dweet.localhost:8000') {
+    return;
+  }
+  console.log('Message was: ' + event.data);
+
+  if (event.data.substring(0, 6) == 'error:') {
+    var errorMsg = event.data.substring(7, event.data.length);
+    displayError(errorMsg);
+  }
+}
+
+function displayError(e) {
+  document.querySelector('.error-display').innerText = e;
+}
 
 function registerWaypoint(iframe) {
   // eslint-disable-next-line no-new
