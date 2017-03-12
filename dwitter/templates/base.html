@@ -31,32 +31,32 @@
   </head>
   <body class="{% block body_class %}{% endblock %}">
     <div class=head-menu>
-        <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
-        {% if request.user.is_authenticated %}
-
-        <span class=name>{{ request.user.username }}</span>
-        <div class=avatar style="background-image: url({{ request.user.email | to_gravatar_url }})"></div>
-        <ul class=collapsible>
-          <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
-          <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
-          <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
-          <li><a href="{% url 'password_change' %}"> Change password </a></li>
-          <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
-        </ul>
-        {% else %}
-        <a href="{% url 'auth_login'  %}" > Login </a>
-        or
-        <a href="{% url 'register'  %}" > register </a>
-        {% endif %}
-      </div>
-      <div class=header-center-div>
+      <div class=head-menu-inner>
         <h2 class=header-title>
           <a href="{% url 'root' %}">Dwitter</a>
           {% block header_title %}{% endblock %}
         </h2>
-        <br />
-        {% block top-nav %}
-        {% endblock %}
+
+        {% block top-nav %}{% endblock %}
+
+        <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
+          {% if request.user.is_authenticated %}
+
+          <span class=name>{{ request.user.username }}</span>
+          <div class=avatar style="background-image: url({{ request.user.email | to_gravatar_url }})"></div>
+          <ul class=collapsible>
+            <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
+            <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
+            <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
+            <li><a href="{% url 'password_change' %}"> Change password </a></li>
+            <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
+          </ul>
+          {% else %}
+          <a href="{% url 'auth_login'  %}" > Login </a>
+          or
+          <a href="{% url 'register'  %}" > register </a>
+          {% endif %}
+        </div>
       </div>
     </div>
     <div id=content>

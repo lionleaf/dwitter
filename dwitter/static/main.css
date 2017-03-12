@@ -247,6 +247,7 @@ iframe {
   width:100%;
   height:100%;
 }
+
 .head-menu {
   width:100%;
   background:white;
@@ -254,16 +255,24 @@ iframe {
   border-bottom:1px solid #ddd;
   box-shadow:0px 0px 2px rgba(0,0,0,0.051);
   padding: 1em 0;
+  height: 40px;
+  line-height: 40px;
 }
+
+.head-menu-inner {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
 .next-page {
   display:none;
 }
 .head-account-info {
   margin-right: 1em;
-  float:right;
-  text-align:right;
+  float: right;
+  text-align: right;
   width: 160px;
-  padding: 6px 6px 6px 14px;
 }
 
 .head-account-info .avatar {
@@ -281,7 +290,6 @@ iframe {
 @media (max-width: 768px) {
   .head-account-info {
     width: 36px;
-    padding: 6px;
   }
   .head-account-info .avatar {
     margin: 0;
@@ -300,6 +308,7 @@ iframe {
   opacity: 0;
   height: 0;
   margin-top: -9999px;
+  font-size: 0.8em;
 }
 
 .head-account-info.is-logged-in:hover {
@@ -319,6 +328,7 @@ iframe {
   border-bottom: 1px solid #ddd;
   width: 150px;
   padding: 14px;
+  line-height: normal;
 }
 
 .header-center-div {
@@ -329,7 +339,8 @@ iframe {
 }
 
 .header-title {
-  margin:0px;
+  margin: 0 1em;
+  float: left;
 }
 
 .footer {
@@ -430,6 +441,7 @@ form.like {
 .top-sort-list {
   list-style-type:none;
   padding:0;
+  float: left;
 }
 .top-sort-list li {
   display: inline-block;
