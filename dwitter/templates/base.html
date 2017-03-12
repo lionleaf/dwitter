@@ -50,7 +50,10 @@
         {% endif %}
       </div>
       <div class=header-center-div>
-        <h2 class=header-title><a  href="{% url 'root' %}">{% block header_title %}Dwitter{% endblock %}</a></h2>
+        <h2 class=header-title>
+          <a href="{% url 'root' %}">Dwitter</a>
+          {% block header_title %}{% endblock %}
+        </h2>
         <br />
         {% block top-nav %}
         {% endblock %}

@@ -18,7 +18,11 @@
 
 
 {% block header_title %}
-{{ header_title }}
+  {% if feed_type == "user" %}
+    | <a href="{% url 'user_feed' url_username=feed_user %}">
+    {{ header_title }}
+    </a>
+  {% endif %}
 {% endblock %}
 
 {% block top-nav %}
