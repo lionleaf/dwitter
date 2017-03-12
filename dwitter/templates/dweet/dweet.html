@@ -30,18 +30,19 @@
           }
         console.log("Message was: " + event.data);
 
-        if(event.data == "toggle"){
-          if(playing){
-            pauseDemo();
-          }else{
+        switch (event.data) {
+          case "toggle":
+            playing ? pauseDemo() : playDemo();
+            break;
+          case "play":
             playDemo();
-          }
-        }
-        if(event.data == "play"){
-          playDemo();
-        }
-        if(event.data == "pause"){
-          pauseDemo();
+            break;
+          case "pause":
+            pauseDemo();
+            break;
+          case "editing":
+            setStatsVisibility(true);
+            break;
         }
 
         if(event.data.substring(0, 4) == "code"){
@@ -92,12 +93,28 @@
       function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
       }
+
+      function setStatsVisibility(visible) {
+        document.getElementById('stats').style.visibility = visible ? 'visible' : 'hidden';
+      }
     </script>
+    {% load compress %}
+    {% load staticfiles %}
+    {% compress js %}
+    <script src="{% static "libs/stats.min.js" %}"></script>
+    {% endcompress %}
   </head>
 <body>
   <canvas id=c></canvas>
   <div class=error-display></div>
   <script>
+    var stats = new Stats();
+    stats.showPanel(0);
+    stats.dom.setAttribute('id', 'stats');
+    document.body.appendChild(stats.dom);
+
+    setStatsVisibility({{ newDweet }});
+
     var c = document.querySelector("#c");
     c.width = 1920;
     c.height = 1080;
@@ -125,7 +142,9 @@
       frame++;
 
       try {
+        stats.begin();
         u(time);
+        stats.end();
         displayError("");
       } catch (e) {
         displayError(e);
@@ -154,4 +173,3 @@
     </script>
 
 </body>
-

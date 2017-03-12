@@ -108,6 +108,10 @@ window.onload = function() {
     dweetwin.postMessage("code "+code,'*');
   }
 
+  function setEditing(iframe) {
+    (iframe.contentWindow || iframe).postMessage("editing", "*");
+  }
+
   function registerOnKeyListener(dweet){
     var iframe = $(dweet).find('.dweetiframe')[0];
     var editor = $(dweet).find('.code-input')[0];
@@ -117,6 +121,8 @@ window.onload = function() {
 
     showCode(iframe, oldCode);
     editor.addEventListener('keyup', function() {
+      setEditing(iframe);
+
       if(editor.value == originalCode){
         changedDweetMenu.hide();
       }else{
