@@ -6,3 +6,5 @@ urlpatterns = [
         name='fullscreen_dweet'),
     url(r'^blank$', views.blank_dweet, name='blank_dweet'),
 ]
+
+handler404 = views.handler404
