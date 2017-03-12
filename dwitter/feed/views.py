@@ -80,7 +80,6 @@ def feed(request, page_nr, sort):
         raise Http404("No such sorting method " + sort)
 
     context = {'dweet_list': dweet_list,
-               'header_title': 'Dwitter',
                'feed_type': 'all',
                'page_nr': page,
                'on_last_page': last == dweet_count,
@@ -96,8 +95,7 @@ def dweet_show(request, dweet_id):
     dweet = get_object_or_404(Dweet.with_deleted, id=dweet_id)
 
     context = {
-        'dweet': dweet,
-        'header_title': 'Dwitter',
+        'dweet': dweet
     }
 
     return render(request, 'feed/permalink.html', context)
