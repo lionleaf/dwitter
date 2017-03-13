@@ -17,6 +17,7 @@ window.onload = function() {
 
         $.each(items, function(index, div){
           registerOnKeyListener(div);
+          registerStatsClickListeners(div);
           var iframe =  $(div).find(".dweetiframe")[0];
           registerWaypoint(iframe);
 
@@ -56,6 +57,7 @@ window.onload = function() {
   var dweets = document.querySelectorAll(".dweet");
   [].forEach.call(dweets, function(dweet) {
     registerOnKeyListener(dweet);
+    registerStatsClickListeners(dweet);
   });
 
 
@@ -108,8 +110,16 @@ function showCode(iframe, code) {
   dweetwin.postMessage("code "+code,'*');
 }
 
-function setEditing(iframe) {
-  (iframe.contentWindow || iframe).postMessage("editing", "*");
+function showStats(dweet, iframe) {
+  (iframe.contentWindow || iframe).postMessage("showStats", "*");
+  $(dweet).find('.show-stats').hide();
+  $(dweet).find('.hide-stats').show();
+}
+
+function hideStats(dweet, iframe) {
+  (iframe.contentWindow || iframe).postMessage("hideStats", "*");
+  $(dweet).find('.show-stats').show();
+  $(dweet).find('.hide-stats').hide();
 }
 
 function registerOnKeyListener(dweet){
@@ -121,7 +131,7 @@ function registerOnKeyListener(dweet){
 
   showCode(iframe, oldCode);
   editor.addEventListener('keyup', function() {
-    setEditing(iframe);
+    showStats(dweet, iframe);
 
     if(editor.value == originalCode){
       changedDweetMenu.hide();
@@ -135,5 +145,15 @@ function registerOnKeyListener(dweet){
     editor.size = Math.max(editor.value.length, 1);
     showCode(iframe, editor.value);
     oldCode = editor.value;
+  });
+}
+
+function registerStatsClickListeners(element) {
+  var iframe = $(element).find('.dweetiframe')[0];
+  $(element).find('.show-stats').click(function() {
+    showStats(element, iframe);
+  });
+  $(element).find('.hide-stats').click(function() {
+    hideStats(element, iframe);
   });
 }

@@ -1,6 +1,6 @@
 {% load subdomainurls %}
 <div class="dweet-create-form-title"><span class="add-icon">+</span>Create new dweet</div>
-<div class=submit-box>
+<div class="dweet submit-box">
   <div
     class=canvas-iframe-container-wrapper
     id="submit-preview">
@@ -9,6 +9,10 @@
       id="iframe-container-submit">
       <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}" sandbox="allow-scripts"></iframe>
     </div>
+  </div>
+  <div class="dweet-actions">
+    <a class="show-stats" href="javascript:;" target="_blank">show FPS</a>
+    <a class="hide-stats visible" href="javascript:;" target="_blank">hide FPS</a>
   </div>
   <div class="dark-section">
     <code class="function-wrap">function u(t){</code>
