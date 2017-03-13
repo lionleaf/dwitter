@@ -14,7 +14,11 @@
           <span class="like-text">Awesome!</span>
         </button>
       </form>
-        {% if request.user == dweet.author or request.user.is_staff %}
+      <a class="show-stats" href="javascript:;" target="_blank">show FPS</a>
+      <a class="hide-stats" href="javascript:;" target="_blank">hide FPS</a>
+      <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
+      <a class=share-button href="javascript:;" target="_blank">share</a>
+      {% if request.user == dweet.author or request.user.is_staff %}
         <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
           onsubmit="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?');" >
           {% csrf_token %}
@@ -23,10 +27,7 @@
           type="submit"
           value="delete" />
         </form>
-        {% endif %}
-      <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
-      <a class=share-button href="javascript:;" target="_blank">share</a>
-      <br />
+      {% endif %}
       <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
     </div>
     <div class=author-remix-wrapper>

@@ -41,6 +41,8 @@ input[type=submit].dweet-button {
 }
 
 input[type=submit].remix-button {
+  float: right;
+  clear: both;
   margin-top: 5px;
 }
 
@@ -441,17 +443,24 @@ form.like {
   text-align: left;
 }
 
-.fullscreen-button, .share-button {
-  text-align:right;
-  float:right;
+.show-stats, .hide-stats {
+  display: none;
+}
+
+.hide-stats.visible {
+  display: initial;
+}
+
+.fullscreen-button, .share-button, .show-stats, .hide-stats {
+  flex-grow: 0;
   padding:5px;
 }
 
 .share-link {
   width:15em;
-  float:right;
-  clear:both;
   display:none;
+  position: absolute;
+  top: 2em;
 }
 
 .dweet-timestamp{
@@ -464,8 +473,17 @@ form.like {
 }
 
 .dweet-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   margin-top:10px;
   margin-bottom:20px;
+  position: relative;
+}
+
+.dweet-actions > form.like {
+  flex-grow: 1;
+  margin: auto 0;
 }
 
 .top-sort-list {
@@ -563,7 +581,6 @@ body.hot .top-sort-list a.hot {
 }
 
 .dweet-delete-form {
-  float: right;
   display: inline-block;
   vertical-align: middle;
   padding: 3px;
