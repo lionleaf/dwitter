@@ -1,5 +1,4 @@
-var processLike = function(e) {
-  e.preventDefault();
+function processLike(e) {
   var $likeForm = $(this);
   var dweetId = $likeForm.data('dweet_id');
   var $likeButton = $likeForm.find('.like-button');
@@ -25,17 +24,19 @@ var processLike = function(e) {
     },
     success: processServerResponse,
   };
-  $.ajax(config);
-};
 
-var getCommentHTML = function(comment) {
+  e.preventDefault();
+  $.ajax(config);
+}
+
+function getCommentHTML(comment) {
   return '<li class=comment><a class=comment-name href="/u/' + comment.author + '">' +
     comment.author + ':</a> ' +
     '<span class="comment-message">' + comment.urlized_text +
     '</span></li>';
-};
+}
 
-var loadComments = function() {
+function loadComments() {
   var step = 1000;
   var currentOffset = $(this).data('offset');
 
@@ -43,10 +44,13 @@ var loadComments = function() {
 
   var dweetId = $loadCommentsButton.data('dweet_id');
   // If there is a sticky comment on the top of the comments
-  var stickyTop = $loadCommentsButton.data('stickyTop');
+  var stickyTop = $loadCommentsButton.data('sticky_top');
 
   var loadCommentsResponse = function(response) {
     var commentSection = $loadCommentsButton.parents('.comments')[0];
+    var newCommentList = response.results.reverse().map(function(comment, index) {
+      return stickyTop && index === 0 ? '' : getCommentHTML(comment);
+    }).join('');
 
     if (response.next) {
       alert('Woops, there are more comments, but they are unloadable as of now. ' +
@@ -54,9 +58,7 @@ var loadComments = function() {
     } else {
       $loadCommentsButton.parents('.comment').hide();
     }
-    var newCommentList = response.results.reverse().map(function(comment, index) {
-      return stickyTop && index === 0 ? '' : getCommentHTML(comment);
-    }).join('');
+
     $(commentSection)
       .html(newCommentList + commentSection.innerHTML)
       .promise()
@@ -64,15 +66,17 @@ var loadComments = function() {
   };
 
   var config = {
-    url: '/api/comments/?offset=' + currentOffset + '&limit=' + step + '&format=json&reply_to=' + dweetId,
+    url: '/api/comments/?offset=' + currentOffset +
+         '&limit=' + step +
+         '&format=json&reply_to=' + dweetId,
     dataType: 'json',
     success: loadCommentsResponse,
   };
-  $.ajax(config);
-};
 
-var postComment = function(e) {
-  e.preventDefault();
+  $.ajax(config);
+}
+
+function postComment(e) {
   var $postForm = $(this);
   var dweetId = $postForm.data('dweet_id');
   var csrf = $postForm.data('csrf');
@@ -101,8 +105,10 @@ var postComment = function(e) {
     error: postCommentError,
     data: comment,
   };
+
+  e.preventDefault();
   $.ajax(config);
-};
+}
 
 $(document).ready(function() {
   $('body').on('submit', 'form.like', processLike);
