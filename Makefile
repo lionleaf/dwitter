@@ -8,6 +8,7 @@ run:
 .PHONY: update
 update:
 	pip install --upgrade -r requirements.txt
+	npm install
 
 .PHONY: migrate
 migrate:
@@ -47,4 +48,3 @@ clean:
 	find . -name '*.pyc' -delete
 	find . -name '__pycache__' -delete
 	find . -type d -empty -delete
-

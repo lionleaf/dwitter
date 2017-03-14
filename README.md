@@ -9,6 +9,7 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 Current build: [dwitter.net](http://dwitter.net)
 
 ## Pre-requisites and first-time installation
+* Install `npm`
 * `sudo apt install git virtualenv python-pip`
 * `git clone https://github.com/lionleaf/dwitter.git`
 
