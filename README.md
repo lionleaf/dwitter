@@ -26,6 +26,8 @@ Current build: [dwitter.net](http://dwitter.net)
 * `make migrations`
 * `make migrate`
 * `make lint`
+  * lints Python and JS files
+  * automatically fixes some JS issues (mostly whitespace-related)
 * `make shell`
 * `make backup`
 * `make restore-backup`

@@ -1,24 +1,23 @@
-var processLike = function(e) {
-  e.preventDefault();
+function processLike(e) {
   var $likeForm = $(this);
-  var dweet_id = $likeForm.data('dweet_id');
-  var $like_button = $likeForm.find('.like-button');
-  var processServerResponse = function(serverResponse_json, textStatus_ignored,
-       jqXHR_ignored) {
-    if (serverResponse_json.not_authenticated) {
+  var dweetId = $likeForm.data('dweet_id');
+  var $likeButton = $likeForm.find('.like-button');
+
+  var processServerResponse = function(response) {
+    if (response.not_authenticated) {
       window.location = '/accounts/login/';
     } else {
-      $like_button.find('.score-text').html(serverResponse_json.likes);
-      if (serverResponse_json.liked) {
-        $like_button.addClass('liked');
+      $likeButton.find('.score-text').html(response.likes);
+      if (response.liked) {
+        $likeButton.addClass('liked');
       } else {
-        $like_button.removeClass('liked');
+        $likeButton.removeClass('liked');
       }
     }
   };
 
   var config = {
-    url: '/d/' + dweet_id + '/like',
+    url: '/d/' + dweetId + '/like',
     dataType: 'json',
     method: 'POST',
     headers: {
@@ -26,77 +25,74 @@ var processLike = function(e) {
     },
     success: processServerResponse,
   };
-  $.ajax(config);
-};
 
-var getCommentHTML = function(comment) {
+  e.preventDefault();
+  $.ajax(config);
+}
+
+function getCommentHTML(comment) {
   return '<li class=comment><a class=comment-name href="/u/' + comment.author + '">' +
     comment.author + ':</a> ' +
     '<span class="comment-message">' + comment.text +
     '</span></li>';
-};
+}
 
-var loadComments = function() {
+function loadComments() {
   var step = 1000;
-  var current_offset = $(this).data('offset');
+  var currentOffset = $(this).data('offset');
 
-  var $load_comments_button = $(this);
+  var $loadCommentsButton = $(this);
 
-  var dweet_id = $load_comments_button.data('dweet_id');
-  var next = $load_comments_button.data('next');
+  var dweetId = $loadCommentsButton.data('dweet_id');
    // If there is a sticky comment on the top of the comments
-  var sticky_top = $load_comments_button.data('sticky_top');
+  var stickyTop = $loadCommentsButton.data('sticky_top');
 
-  var loadCommentsResponse = function(serverResponse_json, textStatus_ignored,
-       jqXHR_ignored) {
-    var $comment_section = $load_comments_button.parents('.comments');
+  var loadCommentsResponse = function(response) {
+    var $commentSection = $loadCommentsButton.parents('.comments');
+    var newCommentList = response.results.reverse().map(function(comment, index) {
+      return stickyTop && index === 0 ? '' : getCommentHTML(comment);
+    }).join('');
 
-    if (serverResponse_json.next) {
-      alert('Woops, there are more comments, but they are unloadable as of now. Please bug lionleaf to fix');
+    if (response.next) {
+      alert('Woops, there are more comments, but they are unloadable as of now. ' +
+            'Please bug lionleaf to fix');
     } else {
-      $load_comments_button.parents('.comment').hide();
+      $loadCommentsButton.parents('.comment').hide();
     }
-    var new_comment_list = '';
-    for (var i in serverResponse_json.results.reverse()) {
-      var comment = serverResponse_json.results[i];
-      if (sticky_top && i == 0) {
-        continue; // Hack that works for now to avoid reloading the first comment if it was sticky
-      }
-      new_comment_list += getCommentHTML(comment);
-    }
-    $comment_section[0].innerHTML = new_comment_list + $comment_section[0].innerHTML;
+
+    $commentSection[0].innerHTML = newCommentList + $commentSection[0].innerHTML;
   };
 
   var config = {
-    url: '/api/comments/?offset=' + current_offset + '&limit=' + step + '&format=json&reply_to=' + dweet_id,
+    url: '/api/comments/?offset=' + currentOffset +
+         '&limit=' + step +
+         '&format=json&reply_to=' + dweetId,
     dataType: 'json',
     success: loadCommentsResponse,
   };
+
   $.ajax(config);
-};
+}
 
-var postComment = function(e) {
-  e.preventDefault();
+function postComment(e) {
   var $postForm = $(this);
-  var dweet_id = $postForm.data('dweet_id');
+  var dweetId = $postForm.data('dweet_id');
   var csrf = $postForm.data('csrf');
-  var $comment_text = $postForm.find('.comment-input');
-  var $comment_section = $postForm.closest('.comment-section').children('.comments');
+  var $commentText = $postForm.find('.comment-input');
+  var $commentSection = $postForm.closest('.comment-section').children('.comments');
 
-  var postCommentSuccess = function(serverResponse_json, textStatus_ignored,
-      jqXHR_ignored) {
-    $comment_text[0].value = '';
-    $comment_section[0].innerHTML = $comment_section[0].innerHTML + getCommentHTML(serverResponse_json);
+  var postCommentSuccess = function(response) {
+    $commentText[0].value = '';
+    $commentSection[0].innerHTML += getCommentHTML(response);
   };
 
-  var postCommentError = function(serverResponse_json, textStatus_ignored,
-      jqXHR_ignored) {
+  var postCommentError = function() {
     // Do nothing at the moment. TODO: Clearer error message displayed to the user?
   };
 
   var comment = {
-    reply_to: dweet_id,
-    text: $comment_text[0].value,
+    reply_to: dweetId,
+    text: $commentText[0].value,
     csrfmiddlewaretoken: csrf,
   };
 
@@ -107,8 +103,10 @@ var postComment = function(e) {
     error: postCommentError,
     data: comment,
   };
+
+  e.preventDefault();
   $.ajax(config);
-};
+}
 
 $(document).ready(function() {
   $('body').on('submit', 'form.like', processLike);

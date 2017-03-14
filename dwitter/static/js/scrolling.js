@@ -1,12 +1,39 @@
 window.onload = function() {
-  var infinite = new Waypoint.Infinite({
+  var dweets = document.querySelectorAll('.dweet');
+  var dweetiframes = document.querySelectorAll('.dweetiframe');
+  var editor = document.querySelector('#editor');
+  var editoriframe = document.querySelector('#preview-iframe');
+  var oldCode = editor && editor.value;
+
+  [].forEach.call(dweetiframes, function(iframe) {
+    registerWaypoint(iframe);
+  });
+
+  [].forEach.call(dweets, function(dweet) {
+    registerOnKeyListener(dweet);
+    registerStatsClickListeners(dweet);
+  });
+
+  if (editor && editoriframe) {
+    // Update editor!
+    showCode(editoriframe, oldCode);
+    editor.addEventListener('keyup', function() {
+      if (editor.value === oldCode) {
+        return;
+      }
+      editor.size = Math.max(editor.value.length, 1);
+      showCode(editoriframe, editor.value);
+      oldCode = editor.value;
+    });
+  }
+
+  // eslint-disable-next-line no-new
+  new Waypoint.Infinite({
     element: $('.dweet-feed')[0],
     items: '.dweet-wrapper, .loading, .end-of-feed',
     more: '.next-page',
     onAfterPageLoad: function(items) {
       $('.loading:not(:last-of-type)').hide();
-
-      var dwiframes = [];
 
       function requestFullscreen(el) {
         (el.mozRequestFullScreen ||
@@ -15,20 +42,21 @@ window.onload = function() {
       }
 
       $.each(items, function(index, div) {
+        var iframe = $(div).find('.dweetiframe')[0];
+        var link = $(div).find('.fullscreen-button');
+        var sharebutt = $(div).find('.share-button');
+        var sharelink = $(div).find('.share-link');
+
         registerOnKeyListener(div);
         registerStatsClickListeners(div);
-        var iframe = $(div).find('.dweetiframe')[0];
         registerWaypoint(iframe);
 
-          // Register full-screen button
-        var link = $(div).find('.fullscreen-button');
+        // Register full-screen button
         link.on('click', function(e) {
           e.preventDefault();
           requestFullscreen(iframe);
         });
 
-        var sharebutt = $(div).find('.share-button');
-        var sharelink = $(div).find('.share-link');
         sharebutt.on('click', function(e) {
           e.preventDefault();
           sharelink.toggle();
@@ -39,58 +67,33 @@ window.onload = function() {
         });
 
         $(sharelink).focus(function() {
-          $(this).on('click.a keyup.a', function(e) {
-            $(this).off('click.a keyup.a').select();
-          });
-
-          moment.locale(navigator.userLanguage || navigator.language || 'en-US');
           var timestamp = $(div).find('time');
           var postedDate = moment.utc(timestamp.attr('datetime'));
+
+          moment.locale(navigator.userLanguage || navigator.language || 'en-US');
           timestamp.text(postedDate.local().format('lll'));
+
+          $(this).on('click.a keyup.a', function() {
+            $(this).off('click.a keyup.a').select();
+          });
         });
       });
     },
   });
-
-  var dweetiframes = document.querySelectorAll('.dweetiframe');
-
-  [].forEach.call(dweetiframes, function(iframe) {
-    registerWaypoint(iframe);
-  });
-
-  var dweets = document.querySelectorAll('.dweet');
-  [].forEach.call(dweets, function(dweet) {
-    registerOnKeyListener(dweet);
-    registerStatsClickListeners(dweet);
-  });
-
-  // Update editor!
-  var editor = document.querySelector('#editor');
-  var editoriframe = document.querySelector('#preview-iframe');
-  oldCode = editor.value;
-  showCode(editoriframe, oldCode);
-  editor.addEventListener('keyup', function() {
-    if (editor.value == oldCode) {
-      return;
-    }
-    editor.size = Math.max(editor.value.length, 1);
-    showCode(editoriframe, editor.value);
-    oldCode = editor.value;
-  });
 };
 
 function registerWaypoint(iframe) {
-  console.log('Registering ' + iframe.src);
-  var inview = new Waypoint.Inview({
+  // eslint-disable-next-line no-new
+  new Waypoint.Inview({
     element: iframe,
-    entered: function(dir) {
+    entered: function() {
       play(iframe);
     },
-    exit: function(dir) {
+    exit: function() {
       var fullscreenElement = (document.fullscreenElement ||
             document.webkitFullscreenElement ||
             document.mozFullScreenElement);
-      if (fullscreenElement != iframe) {
+      if (fullscreenElement !== iframe) {
         pause(iframe);
       }
     },
@@ -98,18 +101,17 @@ function registerWaypoint(iframe) {
 }
 
 function play(iframe) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('play', '*');
-  console.log('Send play to ' + iframe.src);
 }
+
 function pause(iframe) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('pause', '*');
-  console.log('Send pause to ' + iframe.src);
 }
 
 function showCode(iframe, code) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('code ' + code, '*');
 }
 
@@ -136,13 +138,13 @@ function registerOnKeyListener(dweet) {
   editor.addEventListener('keyup', function() {
     showStats(dweet, iframe);
 
-    if (editor.value == originalCode) {
+    if (editor.value === originalCode) {
       changedDweetMenu.hide();
     } else {
       changedDweetMenu.show();
     }
 
-    if (editor.value == oldCode) {
+    if (editor.value === oldCode) {
       return;
     }
     editor.size = Math.max(editor.value.length, 1);
