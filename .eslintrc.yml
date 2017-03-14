@@ -1,0 +1,27 @@
+extends:
+  - defaults/configurations/airbnb/es5
+rules:
+  no-empty-label: off
+  space-after-keywords: off
+  space-return-throw-case: off
+  no-labels: error
+  keyword-spacing: error
+  space-before-function-paren:
+    - error
+    - never
+  comma-dangle:
+    - error
+    - always-multiline
+  no-multiple-empty-lines:
+    - error
+    - max: 1
+  indent:
+    - error
+    - 2
+env:
+  browser: true
+  jquery: true
+globals:
+  Waypoint: false
+  moment: false
+  Stats: false

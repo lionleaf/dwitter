@@ -1,7 +1,6 @@
 *.log
 *.pot
 *.pyc
-.*
 dwitter/settings/local.py
 dwitter/static/CACHE/*
 dwitter/static/admin/*
@@ -12,3 +11,4 @@ venv/*
 backups/*
 *.iml
 backup*.json
+node_modules
