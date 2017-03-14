@@ -23,7 +23,7 @@ class DweetTestCase(TransactionTestCase):
         self.dweet = Dweet.objects.create(id=1,
                                           code="dweet code",
                                           posted=timezone.now(),
-                                          _author=self.user)
+                                          author=self.user)
 
     def test_fullscreen_dweet_returns_404_if_dweet_does_not_exist(self):
         response = self.client.get('/id/2')
