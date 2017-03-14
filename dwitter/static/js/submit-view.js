@@ -2,15 +2,13 @@ $('window').ready(function() {
   // Unfocus when we scroll away
   var wayp = new Waypoint.Inview({
     element: $('#editor'),
-    exited: function(dir) {
+    exited: function() {
       $('#editor').blur();
     },
   });
 
-  console.log(wayp);
-
   $('#editor').focusin(function() {
-    $('#submit-preview').show(500, function() {wayp.element.context.refresh();});
+    $('#submit-preview').show(500, function() { wayp.element.context.refresh(); });
     $('#submit-help').show(500);
     $('#click-the-code').hide();
     play($('#preview-iframe')[0]);
@@ -24,16 +22,12 @@ $('window').ready(function() {
   });
 
   function play(iframe) {
-    console.log(iframe);
-    dweetwin = iframe.contentWindow || iframe;
+    var dweetwin = iframe.contentWindow || iframe;
     dweetwin.postMessage('play', '*');
-    console.log('Send play to ' + iframe.src);
   }
 
   function pause(iframe) {
-    console.log(iframe);
-    dweetwin = iframe.contentWindow || iframe;
+    var dweetwin = iframe.contentWindow || iframe;
     dweetwin.postMessage('pause', '*');
-    console.log('Send pause to ' + iframe.src);
   }
 });
