@@ -1,0 +1,23 @@
+{
+  "name": "dwitter",
+  "version": "1.0.0",
+  "description": "Social network for short js demos",
+  "scripts": {
+    "lint": "eslint --fix dwitter/static/js/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lionleaf/dwitter.git"
+  },
+  "author": "Andreas Løve Selvik <andreas.l.selvik@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/lionleaf/dwitter/issues"
+  },
+  "homepage": "https://github.com/lionleaf/dwitter#readme",
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.17.1",
+    "eslint-config-defaults": "^9.0.0"
+  }
+}
