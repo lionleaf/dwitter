@@ -1,4 +1,5 @@
 var onDweetChanged = function() {
+  // eslint-disable-next-line newline-per-chained-call
   var charCount = $(this).parent().parent().parent().find('.character-count')[0];
   var submitButton = $(this).parent().parent().find('.remix-button')[0];
 
@@ -43,7 +44,7 @@ $(document).ready(function() {
       }
     });
     $(sharelink).focus(function() {
-      $(this).on('click.a keyup.a', function(e) {
+      $(this).on('click.a keyup.a', function() {
         $(this).off('click.a keyup.a').select();
       });
     });
@@ -57,10 +58,12 @@ $(document).ready(function() {
 
   $('.dweet-create-form-title').click(function() {
     $(this).hide();
+    /* eslint-disable no-undef */
     var dweet = $('.submit-box').slideDown(Waypoint.refreshAll);
     registerOnKeyListener(dweet);
     var iframe = $(dweet).find('.dweetiframe')[0];
     registerWaypoint(iframe);
-    var textarea = $(dweet).find('textarea').focus();
+    /* eslint-enable no-undef */
+    $(dweet).find('textarea').focus();
   });
 });

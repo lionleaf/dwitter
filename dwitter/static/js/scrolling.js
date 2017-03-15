@@ -1,12 +1,11 @@
 window.onload = function() {
-  var infinite = new Waypoint.Infinite({
+  // eslint-disable-next-line no-new
+  new Waypoint.Infinite({
     element: $('.dweet-feed')[0],
     items: '.dweet-wrapper, .loading, .end-of-feed',
     more: '.next-page',
     onAfterPageLoad: function(items) {
       $('.loading:not(:last-of-type)').hide();
-
-      var dwiframes = [];
 
       function requestFullscreen(el) {
         (el.mozRequestFullScreen ||
@@ -39,7 +38,7 @@ window.onload = function() {
         });
 
         $(sharelink).focus(function() {
-          $(this).on('click.a keyup.a', function(e) {
+          $(this).on('click.a keyup.a', function() {
             $(this).off('click.a keyup.a').select();
           });
 
@@ -67,10 +66,10 @@ window.onload = function() {
   // Update editor!
   var editor = document.querySelector('#editor');
   var editoriframe = document.querySelector('#preview-iframe');
-  oldCode = editor.value;
+  var oldCode = editor.value;
   showCode(editoriframe, oldCode);
   editor.addEventListener('keyup', function() {
-    if (editor.value == oldCode) {
+    if (editor.value === oldCode) {
       return;
     }
     editor.size = Math.max(editor.value.length, 1);
@@ -80,17 +79,17 @@ window.onload = function() {
 };
 
 function registerWaypoint(iframe) {
-  console.log('Registering ' + iframe.src);
-  var inview = new Waypoint.Inview({
+  // eslint-disable-next-line no-new
+  new Waypoint.Inview({
     element: iframe,
-    entered: function(dir) {
+    entered: function() {
       play(iframe);
     },
-    exit: function(dir) {
+    exit: function() {
       var fullscreenElement = (document.fullscreenElement ||
             document.webkitFullscreenElement ||
             document.mozFullScreenElement);
-      if (fullscreenElement != iframe) {
+      if (fullscreenElement !== iframe) {
         pause(iframe);
       }
     },
@@ -98,18 +97,16 @@ function registerWaypoint(iframe) {
 }
 
 function play(iframe) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('play', '*');
-  console.log('Send play to ' + iframe.src);
 }
 function pause(iframe) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('pause', '*');
-  console.log('Send pause to ' + iframe.src);
 }
 
 function showCode(iframe, code) {
-  dweetwin = iframe.contentWindow || iframe;
+  var dweetwin = iframe.contentWindow || iframe;
   dweetwin.postMessage('code ' + code, '*');
 }
 
@@ -136,13 +133,13 @@ function registerOnKeyListener(dweet) {
   editor.addEventListener('keyup', function() {
     showStats(dweet, iframe);
 
-    if (editor.value == originalCode) {
+    if (editor.value === originalCode) {
       changedDweetMenu.hide();
     } else {
       changedDweetMenu.show();
     }
 
-    if (editor.value == oldCode) {
+    if (editor.value === oldCode) {
       return;
     }
     editor.size = Math.max(editor.value.length, 1);
