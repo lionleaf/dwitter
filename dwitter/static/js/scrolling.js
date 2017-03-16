@@ -153,10 +153,12 @@ function registerOnKeyListener(dweet) {
 
 function registerStatsClickListeners(element) {
   var iframe = $(element).find('.dweetiframe')[0];
-  $(element).find('.show-stats').click(function() {
+  $(element).find('.show-stats').click(function(e) {
+    e.preventDefault();
     showStats(element, iframe);
   });
-  $(element).find('.hide-stats').click(function() {
+  $(element).find('.hide-stats').click(function(e) {
+    e.preventDefault();
     hideStats(element, iframe);
   });
 }
