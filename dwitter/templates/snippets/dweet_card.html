@@ -71,7 +71,7 @@
     <ul class=sticky-comments>
       <li class="comment sticky-comment">
         <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.comments.last.author.username %}">{{ dweet.comments.last.author.username }}:</a>
-        <span class="comment-message sticky-comment">{{ dweet.comments.last.text }}</span>
+        <span class="comment-message sticky-comment">{{ dweet.comments.last.text | urlizetrunc:45 }}</span>
       </li>
       </ul>
         {% endif %}
