@@ -111,11 +111,15 @@
   <canvas id=c></canvas>
   <div class=error-display></div>
   <script>
-    var stats = new Stats();
-    stats.showPanel(0);
-    stats.dom.setAttribute('id', 'stats');
-    document.body.appendChild(stats.dom);
+    function createStats() {
+      var stats = new Stats();
+      stats.showPanel(0);
+      stats.dom.setAttribute('id', 'stats');
+      document.body.appendChild(stats.dom);
+      return stats;
+    }
 
+    var stats = createStats();
     setStatsVisibility({{ newDweet }});
 
     var c = document.querySelector("#c");
@@ -135,6 +139,8 @@
        {{ code | safe }}
       }
     function loop() {
+      stats = stats || createStats();
+
       if (playing){
         requestAnimationFrame(loop);
       }
