@@ -57,7 +57,7 @@ $(document).ready(function() {
 
   $('.dweet-create-form-title').click(function() {
     $(this).hide();
-    var dweet = $('.submit-box').slideDown();
+    var dweet = $('.submit-box').slideDown(Waypoint.refreshAll);
     registerOnKeyListener(dweet);
     var iframe = $(dweet).find('.dweetiframe')[0];
     registerWaypoint(iframe);
