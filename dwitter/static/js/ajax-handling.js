@@ -32,7 +32,7 @@ var processLike = function(e) {
 var getCommentHTML = function(comment) {
   return '<li class=comment><a class=comment-name href="/u/' + comment.author + '">' +
     comment.author + ':</a> ' +
-    '<span class="comment-message">' + comment.text +
+    '<span class="comment-message">' + comment.urlized_text +
     '</span></li>';
 };
 

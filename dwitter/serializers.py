@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from dwitter.models import Dweet, Comment
 from django.contrib.auth.models import User
+from django.template.defaultfilters import urlizetrunc
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,10 +13,14 @@ class UserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
     posted = serializers.ReadOnlyField()
+    urlized_text = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ('text', 'posted', 'reply_to', 'author')
+        fields = ('urlized_text', 'text', 'posted', 'reply_to', 'author')
+
+    def get_urlized_text(self, obj):
+        return urlizetrunc(obj.text, 45)
 
 
 class DweetSerializer(serializers.ModelSerializer):
