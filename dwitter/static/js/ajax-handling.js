@@ -49,7 +49,7 @@ var loadComments = function() {
 
   var loadCommentsResponse = function(serverResponse_json, textStatus_ignored,
        jqXHR_ignored) {
-    var $comment_section = $load_comments_button.parents('.comments');
+    var comment_section = $load_comments_button.parents('.comments')[0];
 
     if (serverResponse_json.next) {
       alert('Woops, there are more comments, but they are unloadable as of now. Please bug lionleaf to fix');
@@ -64,7 +64,10 @@ var loadComments = function() {
       }
       new_comment_list += getCommentHTML(comment);
     }
-    $comment_section[0].innerHTML = new_comment_list + $comment_section[0].innerHTML;
+    $(comment_section)
+      .html(new_comment_list + comment_section.innerHTML)
+      .promise()
+      .done(Waypoint.refreshAll);
   };
 
   var config = {
