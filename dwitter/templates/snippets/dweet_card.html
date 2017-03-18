@@ -60,6 +60,7 @@
                 type="submit"
                 value="Post as remix" />
             {% else %}
+            <br />
             <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
             {% endif %}
           </div>

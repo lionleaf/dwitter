@@ -32,6 +32,7 @@
       </div>
       <code class="function-wrap">} //<div class=character-count>122/140</div>
       </code>
+      <div class=dweet-changed>
       {% if request.user.is_authenticated %}
         <input
           class=dweet-button
@@ -39,8 +40,9 @@
           value="Post dweet!" />
       {% else %}
         <br />
-        <p style="color: white;">Please <a href="{% url 'auth_login'  %}" style="color: lightgray;" >log in</a> (or <a href="{% url 'register'  %}" style="color: lightgray;" >register</a>) to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>
+        <p>Please <a href="{% url 'auth_login'  %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>
       {% endif %}
+      </div>
     </form>
   </div>
   <br />
