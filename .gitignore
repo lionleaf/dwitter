@@ -12,3 +12,4 @@ backups/*
 *.iml
 backup*.json
 node_modules
+.idea
