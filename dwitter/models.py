@@ -24,12 +24,12 @@ class NotDeletedDweetManager(models.Manager):
 
 class Dweet(models.Model):
     code = models.TextField()
-    posted = models.DateTimeField()
+    posted = models.DateTimeField(db_index=True)
     reply_to = models.ForeignKey("self", on_delete=models.DO_NOTHING,
                                  null=True, blank=True)
 
     likes = models.ManyToManyField(User, related_name="liked")
-    hotness = models.FloatField(default=1.0)
+    hotness = models.FloatField(default=1.0, db_index=True)
     deleted = models.BooleanField(default=False)
 
     author = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user),
