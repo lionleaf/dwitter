@@ -63,8 +63,18 @@ window.onload = function() {
     registerStatsClickListeners(dweet);
   });
 
+  addEventListener('message', receiveMessage, false);
+
+  editorSetup();
+};
+
+function editorSetup() {
   // Update editor!
   var editor = document.querySelector('#editor');
+  // Until the js is rebased, this file might be included where there's no main editor
+  if (editor === null) {
+    return;
+  }
   var editoriframe = document.querySelector('#preview-iframe');
   var oldCode = editor.value;
   showCode(editoriframe, oldCode);
@@ -76,28 +86,26 @@ window.onload = function() {
     showCode(editoriframe, editor.value);
     oldCode = editor.value;
   });
-
-  addEventListener('message', receiveMessage, false);
-};
+}
 
 function receiveMessage(event) {
   var origin = event.origin || event.originalEvent.origin;
-  console.log('scrolling.js received message from ' + origin);
   if (origin !== 'http://dweet.localhost:8000'
       && origin !== 'https://dweet.dwitter.net'
       && origin !== 'https://dweet.localhost:8000') {
     return;
   }
-  console.log('Message was: ' + event.data);
 
-  if (event.data.substring(0, 6) == 'error:') {
-    var errorMsg = event.data.substring(7, event.data.length);
-    displayError(errorMsg);
+  if (event.data.type === 'error') {
+    displayError(event.data.location, event.data.error);
   }
 }
 
-function displayError(e) {
-  document.querySelector('.error-display').innerText = e;
+function displayError(iframeurl, e) {
+  $('iframe[src^="' + iframeurl + '"]')
+    .closest('.dweet')
+    .find('.error-display')[0]
+    .innerText = e;
 }
 
 function registerWaypoint(iframe) {

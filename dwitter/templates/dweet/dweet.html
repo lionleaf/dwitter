@@ -48,15 +48,19 @@
       }
 
       function displayError(e) {
-        if(lastError != e && {{newDweet}}){
+        if(lastError != e){
           lastError = e;
-          parent.postMessage("error: "+e,"*");
+          parent.postMessage({
+            'type': 'error',
+            'error': ""+e,
+            'location': window.location.href
+          },"*");
         }
       }
 
       function newCode(code) {
           try {
-            eval("u = function(t){"+code+"\n};")
+            eval("u = function(t){"+code+"\n};");
           } catch (e) {
             u = function(t){
               throw e;
