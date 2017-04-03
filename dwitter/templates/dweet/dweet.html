@@ -128,10 +128,26 @@
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
+    var A = Math.abs;
+    var G = Math.sign;
+    var Q = Math.sqrt;
+    var D = function(scale) {
+      scale = scale === undefined ? 1 : scale;
+      return Math.random() * scale;
+    };
+    var B = function(x,y,w,h) {
+        x.fillRect(x,y,w,h)
+    };
+    var P = function(x,y) {
+        x.fillRect(x,y,1,1)
+    };
+    var F = function(s) {
+        x.fillStyle = s
+    };
     var R = function(r,g,b,a) {
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
-      };
+    };
     var x = c.getContext("2d");
     var time = 0;
     var frame = 0;
@@ -171,6 +187,22 @@
       S = Math.sin;
       C = Math.cos;
       T = Math.tan;
+      A = Math.abs;
+      G = Math.sign;
+      Q = Math.sqrt;
+      D = function(scale) {
+        scale = scale === undefined ? 1 : scale;
+        return Math.random() * scale;
+      };
+      B = function(x,y,w,h) {
+        x.fillRect(x,y,w,h)
+      };
+      P = function(x,y) {
+        x.fillRect(x,y,1,1)
+      };
+      F = function(s) {
+        x.fillStyle = s
+      };
       R = function(r,g,b,a) {
         a = a === undefined ? 1 : a;
         return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
