@@ -23,6 +23,11 @@ urlpatterns = [
     url(r'^new/page/(?P<page_nr>\d+)$',
         views.feed, {'sort': 'new'}, name='new_feed_page'),
 
+    url(r'^random$',
+        views.feed, {'page_nr': 1, 'sort': 'random'}, name='random_feed'),
+    url(r'^random/page/(?P<page_nr>\d+)$',
+        views.feed, {'sort': 'random'}, name='random_feed_page'),
+
     url(r'^d/(?P<dweet_id>\d+)$',
         views.dweet_show, name='dweet_show'),
     url(r'^d/(?P<dweet_id>\d+)/reply$',

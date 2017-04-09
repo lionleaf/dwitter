@@ -76,6 +76,10 @@ def feed(request, page_nr, sort):
                       .order_by('-hotness', '-posted')[first:last])
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
+    elif (sort == "random"):
+        dweet_list = Dweet.objects.order_by('?')[first:last]
+        next_url = reverse('random_feed_page', kwargs={'page_nr': page + 1})
+        prev_url = reverse('random_feed_page', kwargs={'page_nr': page - 1})
     else:
         raise Http404("No such sorting method " + sort)
 
