@@ -57,9 +57,8 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     elif (sort == "hot"):
         dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
                       .order_by('-num_likes')[first:last])
-    elif (sort == "old"):
-        dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
-                      .order_by('?')[first:last])
+    elif (sort == "random"):
+        dweet_list = dweet_list.order_by('?')[first:last]
     else:
         raise Http404("No such sorting method " + sort)
 
