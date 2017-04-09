@@ -31,6 +31,7 @@
   <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
   <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
   <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  <li><a class="old" href="{% url 'old_feed' %}">old</a></li>
   {%elif feed_type == "user" %}
   <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
   <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
