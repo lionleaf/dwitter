@@ -6,17 +6,10 @@
       width: 100%;
       background: white;
       }
-    .error-display {
-      color: red;
-      font-size: small;
-      position: absolute;
-      font-family: sans-serif;
-      top: 1em;
-      left: 1em;
-    }
     </style>
     <script>
       var autoplay = getURLParameter('autoplay');
+      var lastError = "";
       var playing = !!autoplay;
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
@@ -55,12 +48,19 @@
       }
 
       function displayError(e) {
-        document.querySelector(".error-display").innerHTML = e;
+        if(lastError != e){
+          lastError = e;
+          parent.postMessage({
+            'type': 'error',
+            'error': ""+e,
+            'location': window.location.href
+          },"*");
+        }
       }
 
       function newCode(code) {
           try {
-            eval("u = function(t){"+code+"\n};")
+            eval("u = function(t){"+code+"\n};");
           } catch (e) {
             u = function(t){
               throw e;
@@ -109,7 +109,6 @@
   </head>
 <body>
   <canvas id=c></canvas>
-  <div class=error-display></div>
   <script>
     function createStats() {
       var stats = new Stats();

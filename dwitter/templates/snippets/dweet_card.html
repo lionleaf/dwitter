@@ -4,7 +4,9 @@
   <div class=dweet >
     <div class=canvas-iframe-container-wrapper>
       <div class=canvas-iframe-container >
-        <iframe class="dweetiframe" src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}" sandbox="allow-same-origin allow-scripts"></iframe>
+        <iframe class="dweetiframe"
+          src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"
+          sandbox="allow-same-origin allow-scripts"></iframe>
       </div>
     </div>
     <div class=dweet-actions>
@@ -52,8 +54,11 @@
               {{ dweet.posted | date:"M j Y g:i A" }} UTC
             </time>
           </p>
-          <code class="function-wrap">} //<div class=character-count>{{ dweet.code | length }}/140</div></code>
-          <div class=dweet-changed>
+          <code class="function-wrap">}//<div class=character-count>{{ dweet.code | length }}/140</div>
+          </code>
+      </br>
+      <div class=error-display></div>
+      <div class=dweet-changed>
             {% if request.user.is_authenticated %}
             <input
                 class="remix-button"

@@ -7,7 +7,9 @@
     <div
       class=canvas-iframe-container
       id="iframe-container-submit">
-      <iframe class="dweetiframe" id=preview-iframe src="{% url 'blank_dweet' subdomain='dweet' %}" sandbox="allow-scripts"></iframe>
+      <iframe class="dweetiframe" id=preview-iframe
+      src="{% url 'blank_dweet' subdomain='dweet' %}"
+      sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
   </div>
   <div class="dweet-actions">
@@ -32,6 +34,8 @@
       </div>
       <code class="function-wrap">} //<div class=character-count>122/140</div>
       </code>
+      </br>
+      <div class=error-display></div>
       <div class=dweet-changed>
       {% if request.user.is_authenticated %}
         <input

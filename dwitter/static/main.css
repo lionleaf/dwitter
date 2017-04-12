@@ -55,6 +55,11 @@ input[type=submit].delete-button {
   font-family: 'Roboto', sans-serif;
 }
 
+.error-display {
+  color: red;
+  font-size: small;
+  font-family: 'Roboto', sans-serif;
+}
 
 a {
   color: #666;
