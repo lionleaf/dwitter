@@ -19,8 +19,19 @@ migrations:
 	python manage.py makemigrations
 
 .PHONY: lint
-lint:
+lint: lint-python lint-js-fix
+
+.PHONY: lint-python
+lint-python:
 	flake8 dwitter/ --exclude=migrations,settings
+
+.PHONY: lint-js
+lint-js:
+	npm run lint
+
+.PHONY: lint-js-fix
+lint-js-fix:
+	npm run lint-fix
 
 .PHONY: test
 test:
