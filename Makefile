@@ -27,11 +27,11 @@ lint-python:
 
 .PHONY: lint-js
 lint-js:
-	npm run lint
+	npm run lint -- --max-warnings 0
 
 .PHONY: lint-js-fix
 lint-js-fix:
-	npm run lint-fix
+	npm run lint-fix -- --max-warnings 0
 
 .PHONY: test
 test:
