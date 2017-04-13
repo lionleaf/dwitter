@@ -52,10 +52,7 @@ function loadComments() {
       return stickyTop && index === 0 ? '' : getCommentHTML(comment);
     }).join('');
 
-    if (response.next) {
-      alert('Woops, there are more comments, but they are unloadable as of now. ' +
-            'Please bug lionleaf to fix');
-    } else {
+    if (!response.next) {
       $loadCommentsButton.parents('.comment').hide();
     }
 
