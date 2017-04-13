@@ -5,6 +5,8 @@ window.onload = function() {
   var editoriframe = document.querySelector('#preview-iframe');
   var oldCode = editor && editor.value;
 
+  addEventListener('message', receiveMessage, false);
+
   [].forEach.call(dweetiframes, function(iframe) {
     registerWaypoint(iframe);
   });
@@ -81,6 +83,26 @@ window.onload = function() {
     },
   });
 };
+
+function receiveMessage(event) {
+  var origin = event.origin || event.originalEvent.origin;
+  if (origin !== 'http://dweet.localhost:8000'
+      && origin !== 'https://dweet.dwitter.net'
+      && origin !== 'https://dweet.localhost:8000') {
+    return;
+  }
+
+  if (event.data.type === 'error') {
+    displayError(event.data.location, event.data.error);
+  }
+}
+
+function displayError(iframeurl, e) {
+  $('iframe[src^="' + iframeurl + '"]')
+    .closest('.dweet')
+    .find('.error-display')[0]
+    .innerText = e;
+}
 
 function registerWaypoint(iframe) {
   // eslint-disable-next-line no-new
