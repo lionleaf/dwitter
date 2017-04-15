@@ -517,6 +517,9 @@ body.top .top-sort-list a.top {
 body.hot .top-sort-list a.hot {
   font-weight: bold;
 }
+body.random .top-sort-list a.random {
+  font-weight: bold;
+}
 
 #submit-preview {
 }
