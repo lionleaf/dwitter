@@ -238,6 +238,8 @@ input.comment-submit:active {
 
 .author-remix-wrapper{
   padding: 10px 0;
+  display: inline-block;
+  width: 100%;
 }
 
 .dweet-author {
@@ -569,7 +571,7 @@ body.random .top-sort-list a.random {
 }
 
 .dark-section {
-  margin: 20px -15px -15px;
+  margin: 10px -15px -15px;
   background: #222;
   padding: 15px;
   overflow: hidden;
