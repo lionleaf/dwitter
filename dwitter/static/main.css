@@ -4,6 +4,12 @@
   padding:0px;
 }
 
+.clear-fix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .avatar {
   width: 36px;
   height: 36px;
@@ -213,7 +219,7 @@ input.comment-submit:active {
   color: white;
   font-size: 1.1em;
   cursor: pointer;
-  width: 50%;
+  width: 200px;
   font-weight: bold;
   text-align: center;
   padding: 10px;
@@ -290,11 +296,10 @@ iframe {
 .head-menu {
   width:100%;
   background:white;
-  text-align:center;
+  text-align:left;
   border-bottom:1px solid #ddd;
   box-shadow:0px 0px 2px rgba(0,0,0,0.051);
   padding: 1em 0;
-  height: 40px;
   line-height: 40px;
 }
 
@@ -302,6 +307,7 @@ iframe {
   position: relative;
   max-width: 960px;
   margin: 0 auto;
+  padding-left: 1em;
 }
 
 .next-page {
@@ -378,8 +384,9 @@ iframe {
 }
 
 .header-title {
-  margin: 0 1em;
-  float: left;
+  margin-right: 1em;
+  padding-left: 15px;
+  display: inline-block;
 }
 
 .footer {
@@ -496,7 +503,7 @@ form.like {
 .top-sort-list {
   list-style-type:none;
   padding:0;
-  float: left;
+  display: inline-block;
 }
 .top-sort-list li {
   display: inline-block;
