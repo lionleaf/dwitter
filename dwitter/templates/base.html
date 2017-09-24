@@ -30,14 +30,13 @@
     {% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
-    <div class=head-menu>
+    <div class="head-menu clear-fix">
       <div class=head-menu-inner>
         <h2 class=header-title>
           <a href="{% url 'root' %}">Dwitter</a>
           {% block header_title %}{% endblock %}
         </h2>
 
-        {% block top-nav %}{% endblock %}
 
         <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
           {% if request.user.is_authenticated %}
@@ -57,6 +56,9 @@
           <a href="{% url 'register'  %}" > register </a>
           {% endif %}
         </div>
+
+        {% block top-nav %}{% endblock %}
+
       </div>
     </div>
     <div id=content>
