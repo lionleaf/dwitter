@@ -115,7 +115,7 @@ ul.messages {
 }
 
 #content {
-  padding: 0 0 1em;
+  padding: 50px 0 1em;
   margin: 0 auto;
 }
 
@@ -141,7 +141,7 @@ ul.messages {
 .dweet-feed {
   max-width: 600px;
   margin: 0 auto;
-  padding: 15px;
+  padding: 0 15px;
 }
 
 .dweet, .card, .loading, .end-of-feed {
@@ -219,13 +219,14 @@ input.comment-submit:active {
   color: white;
   font-size: 1.1em;
   cursor: pointer;
-  width: 200px;
   font-weight: bold;
   text-align: center;
   padding: 10px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  margin: 0 auto;
+  height: 20px;
+  line-height: 20px;
+  float: right;
 }
 
 .dweet-create-form-title:hover {
@@ -236,8 +237,8 @@ input.comment-submit:active {
   background: white;
   color: #4599ca;
   border-radius: 50%;
-  width: 27px;
-  height: 27px;
+  width: 20px;
+  height: 20px;
   display: inline-block;
   margin-right: 10px;
 }
@@ -294,12 +295,14 @@ iframe {
 }
 
 .head-menu {
+  position: fixed;
+  z-index: 100;
   width:100%;
   background:white;
   text-align:left;
   border-bottom:1px solid #ddd;
   box-shadow:0px 0px 2px rgba(0,0,0,0.051);
-  padding: 1em 0;
+  padding: 5px 0;
   line-height: 40px;
 }
 
@@ -314,10 +317,9 @@ iframe {
   display:none;
 }
 .head-account-info {
-  margin-right: 1em;
+  margin: 0 1em;
   float: right;
   text-align: right;
-  width: 160px;
 }
 
 .head-account-info .avatar {
@@ -327,7 +329,6 @@ iframe {
 .head-account-info .name {
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 105px;
   display: inline-block;
   vertical-align: middle;
 }
@@ -340,6 +341,18 @@ iframe {
     margin: 0;
   }
   .head-account-info .name {
+    display: none;
+  }
+}
+
+@media (max-width: 660px) {
+  #content {
+    padding-top: 90px;
+  }
+}
+
+@media (max-width: 350px) {
+  .dweet-create-form-title-label span {
     display: none;
   }
 }

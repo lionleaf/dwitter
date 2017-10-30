@@ -68,7 +68,6 @@ $(document).ready(function() {
     registerWaypoint(iframe);
     /* eslint-enable no-undef */
 
-    $(this).hide();
     $(dweet).find('textarea').focus();
   });
 });

@@ -37,7 +37,6 @@
           {% block header_title %}{% endblock %}
         </h2>
 
-
         <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
           {% if request.user.is_authenticated %}
 
@@ -56,6 +55,13 @@
           <a href="{% url 'register'  %}" > register </a>
           {% endif %}
         </div>
+
+        {% if show_submit_box %}
+        <div class="dweet-create-form-title">
+          <span class="add-icon">+</span>
+          <span class="dweet-create-form-title-label">New <span>dweet</span></span>
+        </div>
+        {% endif %}
 
         {% block top-nav %}{% endblock %}
 
