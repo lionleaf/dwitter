@@ -26,7 +26,10 @@ LOGIN_URL = BASE_URL + '/accounts/login/'  # The page users are directed to if t
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    'dweet.localhost',
+]
 
 
 TEMPLATES = [
@@ -59,12 +62,12 @@ INSTALLED_APPS = [
     'dbbackup',
 ]
 
-DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 
 }
 
@@ -75,7 +78,7 @@ REST_FRAMEWORK = {
 #            # 'django.template.loaders.eggs.Loader',
 #            )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'subdomains.middleware.SubdomainURLRoutingMiddleware',
@@ -106,7 +109,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.request',
             ],
         },
     },
