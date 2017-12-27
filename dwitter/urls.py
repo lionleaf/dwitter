@@ -4,6 +4,7 @@ from registration.backends.simple.views import RegistrationView
 from django.contrib.auth import views as auth_views
 from . import views
 from rest_framework.routers import DefaultRouter
+from django.conf import settings
 
 router = DefaultRouter()
 router.register(r'comments', views.CommentViewSet)
@@ -41,3 +42,9 @@ urlpatterns = [
     url(r'^', include('dwitter.feed.urls')),
     url(r'^api/', include(router.urls)),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
