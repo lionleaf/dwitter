@@ -186,3 +186,10 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK':
     show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'dwitter-default',
+    }
+}
