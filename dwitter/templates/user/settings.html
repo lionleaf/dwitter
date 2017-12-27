@@ -18,7 +18,7 @@ Change your avatar on <a href="https://gravatar.com">Gravatar</a>.
 </div>
 
 
-<form class="settings-form" method=POST action="">
+<form class="accounts" method=POST action="">
     {% csrf_token %}
     {{ settings_form.as_p }}
     <input type=submit name=submit value=Save />
