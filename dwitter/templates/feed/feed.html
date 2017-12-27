@@ -66,7 +66,7 @@
       {% endfor %}
   {% else %}
       {% for dweet in dweet_list %}
-        {% cache 900 dweetcard dweet.pk %}
+        {% cache 60 dweetcard dweet.pk %}
           {% include 'snippets/dweet_card.html' %}
         {% endcache %}
       {% endfor %}
