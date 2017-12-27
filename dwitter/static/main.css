@@ -615,3 +615,43 @@ body.random .top-sort-list a.random {
   vertical-align: middle;
   padding: 3px;
 }
+
+form.accounts {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+@media (max-width: 767px) {
+    form.accounts {
+        width: 100%;
+    }
+}
+
+form.accounts label {
+    display: block;
+    width: 100%;
+    text-transform: uppercase;
+    color: #888;
+    font-size: 14px;
+}
+
+form.accounts input[type=text],
+form.accounts input[type=email],
+form.accounts input[type=password] {
+    margin-bottom: 15px;
+    font-size: 16px;
+    width: 100%;
+    display: block;
+    padding: 5px 0;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid #aaa;
+}
+
+form.accounts input[type=submit] {
+    float: right;
+    text-transform: uppercase;
+    color: #666;
+    cursor: pointer;
+}
