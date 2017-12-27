@@ -5,6 +5,10 @@ all: update migrate
 run:
 	python manage.py runserver
 
+.PHONY: serve
+serve:
+	python manage.py runserver 0.0.0.0:8000
+
 .PHONY: update
 update:
 	pip install --upgrade -r requirements.txt
