@@ -83,6 +83,14 @@ def feed(request, page_nr, sort):
     else:
         raise Http404("No such sorting method " + sort)
 
+    dweet_list.annotate(num_likes=Count('likes'))
+    dweet_list = list(
+        dweet_list
+        .select_related('author')
+        .select_related('reply_to')
+        .select_related('reply_to__author__username')
+        .prefetch_related('comments'))
+
     context = {'dweet_list': dweet_list,
                'feed_type': 'all',
                'page_nr': page,
