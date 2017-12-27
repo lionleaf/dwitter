@@ -4,6 +4,7 @@
 {% block head %}
 {% load staticfiles %}
 {% load compress %}
+{% load cache %}
 
 {% compress js %}
 <script src="{% static "libs/jquery.min.js" %}"></script>
@@ -59,9 +60,17 @@
   {% include 'snippets/new_dweet_card.html' %}
   {% endif %}
 
-  {% for dweet in dweet_list %}
-    {% include 'snippets/dweet_card.html' %}
-  {% endfor %}
+  {% if request.user.is_authenticated %}
+      {% for dweet in dweet_list %}
+        {% include 'snippets/dweet_card.html' %}
+      {% endfor %}
+  {% else %}
+      {% for dweet in dweet_list %}
+        {% cache 60 dweetcard dweet.pk %}
+          {% include 'snippets/dweet_card.html' %}
+        {% endcache %}
+      {% endfor %}
+  {% endif %}
 
   {% if not on_last_page %}
   <div class="loading">Loading...</div>
