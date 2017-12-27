@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'anymail',
     'compressor',
     'dbbackup',
+    'debug_toolbar',
 ]
 
 DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
@@ -85,6 +86,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'dwitter.urls'
@@ -172,3 +174,15 @@ STATICFILES_FINDERS = (
         )
 
 
+def show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain(request):
+    if request.subdomain == 'dweet':
+        return False
+    # Import here so that we get the settings from local.py as well
+    from django.conf import settings
+    return settings.DEBUG
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK':
+    show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain
+}
