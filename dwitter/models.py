@@ -66,3 +66,13 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ('-posted',)
+
+class Hashtag(models.Model):
+    name = models.CharField(max_length=30, unique=True, db_index=True)
+    dweets = models.ManyToManyField(Dweet, related_name="hashtag")
+
+    def __unicode__(self):
+        return '#' + self.name
+
+    
+
