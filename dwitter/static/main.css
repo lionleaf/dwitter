@@ -108,10 +108,23 @@ code {
 
 ul.messages {
   text-align: center;
-  background: #DEF0D8;
   margin: 4;
   padding: 0.5em;
   list-style: none;
+}
+ul.messages li{
+  background: #DEF0D8;
+  margin: 4 auto;
+  max-width: 585;
+  border:1px solid #ddd;
+}
+
+ul.messages li.warning{
+  background: #ffcece;
+}
+
+ul.messages li.success{
+  background: #DEF0D8;
 }
 
 #content {
