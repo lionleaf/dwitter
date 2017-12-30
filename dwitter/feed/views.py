@@ -20,7 +20,7 @@ def new_dweet_message(request, dweet_id):
     link = reverse('dweet_show',
                    kwargs={'dweet_id': dweet_id})
     furl = request.build_absolute_uri(link)
-    messages.add_message(request, messages.INFO,
+    messages.add_message(request, messages.SUCCESS,
                          mark_safe("Awesome dweet! "
                                    + "Use <a href='"
                                    + link + "'>" + furl + "</a>"
