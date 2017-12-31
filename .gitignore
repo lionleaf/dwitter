@@ -13,3 +13,6 @@ backups/*
 backup*.json
 node_modules
 .idea
+package-lock.json
+newrelic.ini
+
