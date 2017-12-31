@@ -68,7 +68,8 @@ def feed(request, page_nr, sort):
         next_url = reverse('top_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('top_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "new"):
-        dweet_list = Dweet.objects.order_by('-posted')[first:last]
+        dweet_list = Dweet.objects.annotate(
+            num_likes=Count('likes')).order_by('-posted')[first:last]
         next_url = reverse('new_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "hot"):
@@ -77,13 +78,13 @@ def feed(request, page_nr, sort):
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "random"):
-        dweet_list = Dweet.objects.order_by('?')[first:last]
+        dweet_list = Dweet.objects.annotate(
+            num_likes=Count('likes')).order_by('?')[first:last]
         next_url = reverse('random_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('random_feed_page', kwargs={'page_nr': page - 1})
     else:
         raise Http404("No such sorting method " + sort)
 
-    dweet_list.annotate(num_likes=Count('likes'))
     dweet_list = list(
         dweet_list
         .select_related('author')
