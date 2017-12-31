@@ -34,7 +34,8 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     first = (page - 1) * dweets_per_page
     last = page * dweets_per_page
     if not dweets:
-        dweets = Dweet.objects.filter(author=user)
+        dweets = Dweet.objects.filter(
+            author=user).annotate(num_likes=Count('likes'))
     dweet_count = dweets.count()
     total_awesome = dweets.annotate(
         num_likes=Count('likes')).aggregate(

@@ -105,7 +105,8 @@ def feed(request, page_nr, sort):
 
 
 def dweet_show(request, dweet_id):
-    dweet = get_object_or_404(Dweet.with_deleted, id=dweet_id)
+    dweet = get_object_or_404(Dweet.with_deleted.annotate(
+        num_likes=Count('likes')), id=dweet_id)
 
     context = {
         'dweet': dweet
