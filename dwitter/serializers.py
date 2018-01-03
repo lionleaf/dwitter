@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from dwitter.models import Dweet, Comment
+from dwitter.templatetags.insert_magic_links import insert_magic_links
 from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
 
@@ -20,7 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('urlized_text', 'text', 'posted', 'reply_to', 'author')
 
     def get_urlized_text(self, obj):
-        return urlizetrunc(obj.text, 45)
+        return insert_magic_links(urlizetrunc(obj.text, 45))
 
 
 class DweetSerializer(serializers.ModelSerializer):
