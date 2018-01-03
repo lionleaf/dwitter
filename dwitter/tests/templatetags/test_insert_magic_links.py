@@ -9,7 +9,7 @@ class DweetTestCase(TestCase):
             insert_magic_links('prefix <h1>content</h1> suffix')
         )
 
-    ### user ###
+    # user
 
     def test_insert_magic_links_replaces_user_with_valid_characters(self):
         self.assertEqual(
@@ -65,7 +65,7 @@ class DweetTestCase(TestCase):
             insert_magic_links('prefix /u/a prefix/u/a')
         )
 
-    ### dweet ###
+    # dweet
 
     def test_insert_magic_links_replaces_dweet_with_valid_characters(self):
         self.assertEqual(
@@ -121,7 +121,7 @@ class DweetTestCase(TestCase):
             insert_magic_links('prefix /d/1 prefix/d/1')
         )
 
-    ### mixed ###
+    # mixed
 
     def test_insert_magic_links_mixed(self):
         self.assertEqual(
