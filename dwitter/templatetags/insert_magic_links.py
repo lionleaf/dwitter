@@ -22,10 +22,11 @@ def to_link(m):
 def insert_magic_links(text):
     return re.sub(
         r'(?:^|(?<=\s))'                # start of string or whitespace
+        r'/?'                           # optional /
         r'(?P<text>'                    # capture original pattern
-        r'/d/(?P<dweet_id>\d+)'         # dweet reference
+        r'd/(?P<dweet_id>\d+)'          # dweet reference
         r'|'                            # or
-        r'/u/(?P<username>[\w.@+-]+))'  # user reference
+        r'u/(?P<username>[\w.@+-]+))'   # user reference
         r'(?=$|\s)',                    # end of string or whitespace
         to_link,
         text

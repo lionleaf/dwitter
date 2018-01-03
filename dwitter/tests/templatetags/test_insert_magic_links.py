@@ -9,106 +9,124 @@ class DweetTestCase(TestCase):
             insert_magic_links('prefix <h1>content</h1> suffix')
         )
 
+    # user
+
     def test_insert_magic_links_replaces_user_with_valid_characters(self):
         self.assertEqual(
-            '<a href="/u/a1_.@+-">/u/a1_.@+-</a>',
-            insert_magic_links('/u/a1_.@+-')
+            '<a href="/u/a1_.@+-">u/a1_.@+-</a>',
+            insert_magic_links('u/a1_.@+-')
         )
 
     def test_insert_magic_links_bypasses_user_with_invalid_characters(self):
         self.assertEqual(
-            '/u/a1$',
-            '/u/a1$'
+            'u/a1$',
+            'u/a1$'
         )
 
     def test_insert_magic_links_replaces_standalone_user(self):
         self.assertEqual(
-            '<a href="/u/a">/u/a</a>',
-            insert_magic_links('/u/a')
+            '<a href="/u/a">u/a</a>',
+            insert_magic_links('u/a')
         )
 
     def test_insert_magic_links_replaces_user_at_start_of_string(self):
         self.assertEqual(
-            '<a href="/u/a">/u/a</a> suffix',
-            insert_magic_links('/u/a suffix')
+            '<a href="/u/a">u/a</a> suffix',
+            insert_magic_links('u/a suffix')
         )
 
     def test_insert_magic_links_replaces_user_at_end_of_string(self):
         self.assertEqual(
-            'prefix <a href="/u/a">/u/a</a>',
-            insert_magic_links('prefix /u/a')
+            'prefix <a href="/u/a">u/a</a>',
+            insert_magic_links('prefix u/a')
         )
 
     def test_insert_magic_links_replaces_user_at_middle_of_string(self):
         self.assertEqual(
-            'prefix <a href="/u/a">/u/a</a> suffix',
-            insert_magic_links('prefix /u/a suffix')
+            'prefix <a href="/u/a">u/a</a> suffix',
+            insert_magic_links('prefix u/a suffix')
         )
 
     def test_insert_magic_links_bypasses_user_prefixed_by_non_space(self):
         self.assertEqual(
-            'prefix/u/a suffix',
-            insert_magic_links('prefix/u/a suffix')
+            'prefixu/a suffix',
+            insert_magic_links('prefixu/a suffix')
         )
 
     def test_insert_magic_links_bypasses_user_suffixed_by_non_space(self):
         self.assertEqual(
-            'prefix /u/a/suffix',
-            insert_magic_links('prefix /u/a/suffix')
+            'prefix u/a/suffix',
+            insert_magic_links('prefix u/a/suffix')
         )
+
+    def test_insert_magic_links_replaces_user_suffixed_by_slash(self):
+        self.assertEqual(
+            'prefix <a href="/u/a">u/a</a> prefix/u/a',
+            insert_magic_links('prefix /u/a prefix/u/a')
+        )
+
+    # dweet
 
     def test_insert_magic_links_replaces_dweet_with_valid_characters(self):
         self.assertEqual(
-            '<a href="/d/1234567890">/d/1234567890</a>',
-            insert_magic_links('/d/1234567890')
+            '<a href="/d/1234567890">d/1234567890</a>',
+            insert_magic_links('d/1234567890')
         )
 
     def test_insert_magic_links_bypasses_dweet_with_invalid_characters(self):
         self.assertEqual(
-            '/d/1a',
-            '/d/1a'
+            'd/1a',
+            'd/1a'
         )
 
     def test_insert_magic_links_replaces_standalone_dweet(self):
         self.assertEqual(
-            '<a href="/d/1">/d/1</a>',
-            insert_magic_links('/d/1')
+            '<a href="/d/1">d/1</a>',
+            insert_magic_links('d/1')
         )
 
     def test_insert_magic_links_replaces_dweet_at_start_of_string(self):
         self.assertEqual(
-            '<a href="/d/1">/d/1</a> suffix',
-            insert_magic_links('/d/1 suffix')
+            '<a href="/d/1">d/1</a> suffix',
+            insert_magic_links('d/1 suffix')
         )
 
     def test_insert_magic_links_replaces_dweet_at_end_of_string(self):
         self.assertEqual(
-            'prefix <a href="/d/1">/d/1</a>',
-            insert_magic_links('prefix /d/1')
+            'prefix <a href="/d/1">d/1</a>',
+            insert_magic_links('prefix d/1')
         )
 
     def test_insert_magic_links_replaces_dweet_at_middle_of_string(self):
         self.assertEqual(
-            'prefix <a href="/d/1">/d/1</a> suffix',
-            insert_magic_links('prefix /d/1 suffix')
+            'prefix <a href="/d/1">d/1</a> suffix',
+            insert_magic_links('prefix d/1 suffix')
         )
 
     def test_insert_magic_links_bypasses_dweet_prefixed_by_non_space(self):
         self.assertEqual(
-            'prefix/d/1 suffix',
-            insert_magic_links('prefix/d/1 suffix')
+            'prefixd/1 suffix',
+            insert_magic_links('prefixd/1 suffix')
         )
 
     def test_insert_magic_links_bypasses_dweet_suffixed_by_non_space(self):
         self.assertEqual(
-            'prefix /d/1/suffix',
-            insert_magic_links('prefix /d/1/suffix')
+            'prefix d/1/suffix',
+            insert_magic_links('prefix d/1/suffix')
         )
+
+    def test_insert_magic_links_replaces_dweet_suffixed_by_slash(self):
+        self.assertEqual(
+            'prefix <a href="/d/1">d/1</a> prefix/d/1',
+            insert_magic_links('prefix /d/1 prefix/d/1')
+        )
+
+    # mixed
 
     def test_insert_magic_links_mixed(self):
         self.assertEqual(
-            '<a href="/u/john">/u/john</a> remixed '
-            '<a href="/d/123">/d/123</a> by '
-            '<a href="/u/jane">/u/jane</a>',
-            insert_magic_links('/u/john remixed /d/123 by /u/jane')
+            '<a href="/u/john">u/john</a> remixed '
+            '<a href="/d/123">d/123</a> by '
+            '<a href="/u/jane">u/jane</a>',
+            insert_magic_links('u/john remixed d/123 by /u/jane')
         )
