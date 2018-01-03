@@ -28,4 +28,5 @@ def insert_magic_links(text):
         r'/u/(?P<username>[\w.@+-]+))'  # user reference
         r'(?=$|\s)',                    # end of string or whitespace
         to_link,
-        text)
+        text
+    )
