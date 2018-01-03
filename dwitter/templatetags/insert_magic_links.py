@@ -17,6 +17,15 @@ def to_link(m):
 
     return '<a href="%s">%s</a>' % (path, text)
 
+
 @register.filter(is_safe=True)
 def insert_magic_links(text):
-    return re.sub(r'(?:^|(?<=\s))(?P<text>/d/(?P<dweet_id>\d+)|/u/(?P<username>[\w.@+-]+))(?=$|\s)', to_link, text)
+    return re.sub(
+        r'(?:^|(?<=\s))'                # start of string or whitespace
+        r'(?P<text>'                    # capture original pattern
+        r'/d/(?P<dweet_id>\d+)'         # dweet reference
+        r'|'                            # or
+        r'/u/(?P<username>[\w.@+-]+))'  # user reference
+        r'(?=$|\s)',                    # end of string or whitespace
+        to_link,
+        text)
