@@ -617,6 +617,7 @@ body.random .top-sort-list a.random {
   outline: 0;
   font-size: small;
   padding: 0;
+  padding-left: 1em;
 }
 
 .dark-section .dweet-code textarea:focus {
