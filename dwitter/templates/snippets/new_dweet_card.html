@@ -16,22 +16,22 @@
     <a class="hide-stats visible" href="javascript:;" target="_blank">hide FPS</a>
   </div>
   <div class="dark-section">
-    <code class="function-wrap">function u(t){</code>
+    <code class="function-wrap">function u(t) {</code>
     <form action="{% url 'dweet' %}" method="post">
       {% csrf_token %}
       <div class=dweet-code>
         <textarea
           autocorrect="off" autocapitalize="off" spellcheck="false"
-          name=code
-          class=code-input
-          rows=4
-          id=editor
+          name="code"
+          class="code-input"
+          rows="4"
+          id="editor"
           oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';"
-          >c.width=1920; /* clear the canvas */
-  for(i=0;i<9;i++)
-  x.fillRect(400+i*100+S(t)*300, 400, 50, 200) /* draw 50x200 rects */</textarea>
+          >c.width=1920 // clear the canvas
+for(i=0;i<9;i++)
+x.fillRect(400+i*100+S(t)*300,400,50,200) // draw 50x200 rects</textarea>
       </div>
-      <code class="function-wrap">} //<div class=character-count>122/140</div>
+      <code class="function-wrap">} // <div class=character-count>122/140</div>
       </code>
       </br>
       <div class=error-display></div>
