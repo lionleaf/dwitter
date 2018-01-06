@@ -1,11 +1,11 @@
 {% load to_gravatar_url %}
 <div class="remix-info">
   remix of
-  <a href="{% url 'dweet_show' dweet_id=dweet.reply_to.id %}">#{{dweet.reply_to.id}}</a>
-  by
   {% if dweet.reply_to.deleted %}
     [deleted]
   {% else %}
+    <a href="{% url 'dweet_show' dweet_id=dweet.reply_to.id %}">#{{dweet.reply_to.id}}</a>
+    by
     <a href="{% url 'user_feed' url_username=dweet.reply_to.author.username %}">
       {{ dweet.reply_to.author.username }}
     </a>
