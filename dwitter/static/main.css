@@ -274,6 +274,10 @@ input.comment-submit:active {
   float:right;
 }
 
+.faded {
+  opacity: 0.5;
+}
+
 .function-wrap {
   color:gray;
   font-size:small;
