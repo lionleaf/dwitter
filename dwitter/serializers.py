@@ -7,34 +7,39 @@ from django.template.defaultfilters import urlizetrunc
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
+        id = serializers.ReadOnlyField(source='pk')
         model = User
-        fields = ('pk', 'username')
+        fields = ('id', 'username')
 
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
-    posted = serializers.ReadOnlyField()
     urlized_text = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ('urlized_text', 'text', 'posted', 'reply_to', 'author')
+        fields = ('pk', 'urlized_text', 'text', 'posted', 'reply_to', 'author')
 
     def get_urlized_text(self, obj):
         return insert_magic_links(urlizetrunc(obj.text, 45))
 
 
 class DweetSerializer(serializers.ModelSerializer):
-    latest_comments = serializers.SerializerMethodField()
-    reply_to = serializers.PrimaryKeyRelatedField(
+    id = serializers.ReadOnlyField(source='pk')
+    remix_of = serializers.PrimaryKeyRelatedField(
+        source='reply_to',
         queryset=Dweet.with_deleted.all()
     )
+    awesome_count = serializers.SerializerMethodField()
+    author_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Dweet
-        fields = ('pk', 'code', 'posted', 'author',
-                  'likes', 'reply_to', 'latest_comments')
+        fields = ('id', 'code', 'posted', 'author', 'author_name', 'awesome_count',
+                  'remix_of')
 
-    def get_latest_comments(self, obj):
-        cmnts = obj.comments.all().order_by('-posted')
-        return CommentSerializer(cmnts[:3], many=True).data
+    def get_author_name(self, obj):
+        return obj.author.username
+
+    def get_awesome_count(self, obj):
+        return obj.likes.all().count()
