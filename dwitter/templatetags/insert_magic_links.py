@@ -1,6 +1,5 @@
 import re
 from django import template
-from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -11,9 +10,11 @@ def to_link(m):
     username = m.group('username')
 
     if username is None:
-        path = reverse('dweet_show', kwargs={'dweet_id': dweet_id})
+        path = '/d/' + dweet_id  # hardcode for speed!
+        # path = reverse('dweet_show', kwargs={'dweet_id': dweet_id})
     else:
-        path = reverse('user_feed', kwargs={'url_username': username})
+        path = '/u/' + username  # hardcode for speed!
+        # path = reverse('user_feed', kwargs={'url_username': username})
 
     return '<a href="%s">%s</a>' % (path, text)
 

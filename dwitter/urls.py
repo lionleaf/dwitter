@@ -8,7 +8,8 @@ from django.conf import settings
 
 router = DefaultRouter()
 router.register(r'comments', views.CommentViewSet)
-router.register(r'd', views.DweetViewSet)
+router.register(r'dweets', views.DweetViewSet)
+router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
