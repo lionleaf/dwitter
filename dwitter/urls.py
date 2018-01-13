@@ -36,6 +36,10 @@ urlpatterns = [
         auth_views.password_reset_confirm,
         name='password_reset_confirm'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^about$',
+        views.about,
+        name='about'),
+
 
     url(r'^accounts/password/reset/confirm', auth_views.password_change),
     url(r'^u/', include('dwitter.user.urls')),
