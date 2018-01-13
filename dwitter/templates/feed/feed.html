@@ -36,6 +36,7 @@
   {%elif feed_type == "user" %}
   <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
   <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
+  <li><a class="awesome" href="{% url 'user_liked' sort='new' url_username=feed_user %}">awesomed</a></li>
   {% endif %}
 </ul>
 {% endblock %}
