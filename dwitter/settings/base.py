@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_filters',
     'rest_framework',
     'dwitter',
     'registration',
@@ -66,6 +67,8 @@ DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'PAGE_SIZE': 10,                   # Default to 10
+    'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
 
 }
 

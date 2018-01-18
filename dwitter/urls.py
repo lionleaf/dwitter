@@ -8,8 +8,8 @@ from django.conf import settings
 
 router = DefaultRouter()
 router.register(r'comments', views.CommentViewSet)
-# WARNING! Enabling this might cause unauthorized dweet posting
-# router.register(r'dweets', views.DweetViewSet)
+router.register(r'dweets', views.DweetViewSet)
+router.register(r'users', views.UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
