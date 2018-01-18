@@ -40,11 +40,15 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 
 ### Dweets
 ```
-GET dwitter.net/api/dweets/  - list of the last 10 dweets
+GET www.dwitter.net/api/dweets/  - list of the last 10 dweets
+       
        ?limit=100            - number of results to return, default 10, max 100 (subject to change)
        &offset=200           - offset page by 200 dweets
        &reply_to=123         - all remixes of 123
        &author=lionleaf      - dweets by author
+
+
+GET www.dwitter.net/api/dweets/123  - get details about d/123
 ```
 
 Latest dweet: `https://www.dwitter.net/api/dweets/?limit=1`  (sorted by posted date by default)
