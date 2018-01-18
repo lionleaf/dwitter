@@ -69,7 +69,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'PAGE_SIZE': 10,                   # Default to 10
     'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
-
+    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
 }
 
 # List of callables that know how to import templates from various sources.
