@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from dwitter.models import Dweet, Comment
 from dwitter.templatetags.insert_magic_links import insert_magic_links
+from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
 
@@ -8,10 +9,14 @@ from django.template.defaultfilters import urlizetrunc
 class UserSerializer(serializers.ModelSerializer):
     link = serializers.SerializerMethodField()
     date_joined = serializers.DateTimeField(format="%Y-%m-%d")
+    avatar = serializers.SerializerMethodField()
+
+    def get_avatar(self, obj):
+        return to_gravatar_url(obj.email)
 
     class Meta:
         model = User
-        fields = ('username', 'date_joined', 'link')
+        fields = ('username', 'date_joined', 'link', 'avatar')
 
     def get_link(self, obj):
         return 'https://www.dwitter.net/u/%s' % obj.username
