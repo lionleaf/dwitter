@@ -1,6 +1,5 @@
 from dwitter.models import Comment, Dweet
 from django.shortcuts import render
-from dwitter.models import Comment
 from dwitter.permissions import IsAuthorOrReadOnly
 from dwitter.serializers import CommentSerializer, DweetSerializer
 from dwitter.serializers import UserSerializer
