@@ -11,12 +11,12 @@ class UserSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(format="%Y-%m-%d")
     avatar = serializers.SerializerMethodField()
 
-    def get_avatar(self, obj):
-        return to_gravatar_url(obj.email)
-
     class Meta:
         model = User
         fields = ('username', 'date_joined', 'link', 'avatar')
+
+    def get_avatar(self, obj):
+        return to_gravatar_url(obj.email)
 
     def get_link(self, obj):
         return 'https://www.dwitter.net/u/%s' % obj.username
