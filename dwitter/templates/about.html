@@ -1,19 +1,41 @@
 {% extends 'base.html' %}
 
+{% block top-nav %}
+<ul class=top-sort-list>
+  <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
+  <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
+  <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  <li><a class="random" href="{% url 'random_feed' %}">random</a></li>
+  <li><b><a class="about" href="{% url 'about' %}">about</a></b></li>
+</ul>
+{% endblock %}
+
 {% block content %}
 
-    <h2 class=header-title>About Dwitter</h2>
+    <h2 class=header-title>About dwitter.net</h2>
     <p>
-        Dwitter is a social network for short js demos.
+    <br />
+    Dwitter is a platform to create and share visual art written in 140 characters of javascript.
+
+    It was created by <a href='u/lionleaf'>u/lionleaf</a> as a side project inspired by the concept of <a href='u/lionleaf'>u/sigveseb</a> at arkt.is/t (github).
+
+    Its first official launch was at the Demoparty 'Solskogen' in 2016 where it won <a href=http://www.pouet.net/prod.php?which=67794>the wild compo.</a>
+    </p>
+    
+    <br />
+    <p>
+    The website itself is open source, and is being developed by a number of contributors. We are happy to accept pull requests and issues on <a href="https://github.com/lionleaf/dwitter">github</a>.
+    <br />
+    Check out the <a href="https://github.com/lionleaf/dwitter/issues">issue tracker</a> for previous suggestions and discussions.
+    <br />
     </p>
 
-    <hr>
+    <br />
+    <p>
+    Please join us in the <a href="https://discordapp.com/channels/395956681793863690">discord chat</a> to hang out, ask for coding help, or discuss anything :D See you there!
+    </p>
 
-    <a href="https://github.com/lionleaf/dwitter">git repo</a>
-    <br>
-    <a href="https://github.com/lionleaf/dwitter/issues">issue tracker</a>
-    <br>
-    <a href="https://discordapp.com/channels/395956681793863690">discord chat</a>
+
 
 {% endblock %}
 
