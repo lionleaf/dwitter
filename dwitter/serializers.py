@@ -40,7 +40,12 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.author.username
 
     def get_urlized_text(self, obj):
-        return insert_magic_links(urlizetrunc(insert_code_blocks(obj.text), 45))
+        return insert_magic_links(
+            urlizetrunc(
+                insert_code_blocks(obj.text),
+                45
+            )
+        )
 
 
 class DweetSerializer(serializers.ModelSerializer):
