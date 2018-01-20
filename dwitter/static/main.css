@@ -74,6 +74,10 @@ a {
 a:hover {
   text-decoration: underline;
 }
+p a, .comment-message a {
+  color: #4599ca;
+  text-decoration: none;
+}
 
 .button{
   padding: 5px;
