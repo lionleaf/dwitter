@@ -78,8 +78,7 @@ def feed(request, page_nr, sort):
         next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
     elif (sort == "random"):
-        dweet_list = Dweet.objects.annotate(
-            num_likes=Count('likes')).order_by('?')[first:last]
+        dweet_list = Dweet.objects.all().order_by('?')[:last-first]
         next_url = reverse('random_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('random_feed_page', kwargs={'page_nr': page - 1})
     else:
@@ -91,6 +90,13 @@ def feed(request, page_nr, sort):
         .select_related('reply_to')
         .select_related('reply_to__author__username')
         .prefetch_related('comments'))
+
+    # For some reason order_by('?') and .annotate(num_likes=Count('likes'))
+    # don't work together, so we need to do extra work if the sorting is
+    # random.
+    if sort == 'random':
+        for dweet in dweet_list:
+            dweet.num_likes = dweet.likes.count()
 
     context = {'dweet_list': dweet_list,
                'feed_type': 'all',
