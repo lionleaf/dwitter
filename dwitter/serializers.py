@@ -25,6 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     urlized_text = serializers.SerializerMethodField()
     author = serializers.SerializerMethodField()
+    posted = serializers.ReadOnlyField()
     reply_to = serializers.PrimaryKeyRelatedField(
         queryset=Dweet.with_deleted.all()
     )
