@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block top-nav %}
+<ul class=top-sort-list>
+  <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
+  <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
+  <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  <li><a class="random" href="{% url 'random_feed' %}">random</a></li>
+  <li><b><a class="about" href="{% url 'about' %}">about</a></b></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+    <h2 class=header-title>About dwitter.net</h2>
+    <p>
+    <br />
+    Dwitter.net is a challenge to see what awesomeness you can create when limited to only 140 characters of javascript and a canvas. Give it a go!
+
+    <br />
+    <br />
+
+    It was created by <a href='u/lionleaf'>u/lionleaf</a> as a side project inspired by the concept of <a href='u/sigveseb'>u/sigveseb</a> at <a href='http://arkt.is/t/Yy53aWR0aD0yZTM7dCo9Mzt4LnRyYW5zbGF0ZSg5ODAsNDUwKTtmb3IoaT0wO2k8MzIyOyl4LmZpbGxTdHlsZT1SKGkpLHgucm90YXRlKCFpKkModC09LjAzKSshKGkrKyU0KSpTKHQpLzkrMS41NykseC5maWxsUmVjdCg1KmksNSppLDk5LDk5KQ=='>arkt.is/t</a> (<a href='https://github.com/sigvef/arktis-tweet-demo'>github</a>).
+
+    Its first official launch was at the Demoparty 'Solskogen' in 2016 where it won <a href=http://www.pouet.net/prod.php?which=67794>the wild compo.</a>
+    </p>
+    
+    <br />
+    <p>
+    The website itself is open source, and is being developed by a number of <a href='https://github.com/lionleaf/dwitter/graphs/contributors'>contributors</a>. We are happy to accept pull requests and issues on <a href="https://github.com/lionleaf/dwitter">github</a>.
+    <br />
+    Check out the <a href="https://github.com/lionleaf/dwitter/issues">issue tracker</a> for previous suggestions and discussions.
+    <br />
+    </p>
+
+    <br />
+    <p>
+    Please join us in the <a href="https://discordapp.com/channels/395956681793863690">discord chat</a> to hang out, ask for coding help, or discuss anything :D If you don't know where to start and want to learn, this is the perfect place to start. See you there!
+    </p>
+    <br />
+    <p>
+    <b>Contact</b> <br/> <a href='https://twitter.com/lionleaf'>twitter.com/lionleaf</a> and <a href='https://twitter.com/sigvef'>twitter.com/sigvef</a> or <b>@lionleaf</b> and <b>@sigveseb</b> on <a href="https://discordapp.com/channels/395956681793863690">discord</a>
+    </p>
+
+
+
+{% endblock %}
+

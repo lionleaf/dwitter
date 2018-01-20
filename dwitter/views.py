@@ -1,4 +1,5 @@
 from dwitter.models import Comment, Dweet
+from django.shortcuts import render
 from dwitter.permissions import IsAuthorOrReadOnly
 from dwitter.serializers import CommentSerializer, DweetSerializer
 from dwitter.serializers import UserSerializer
@@ -47,3 +48,7 @@ class UserViewSet(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'username'
+
+
+def about(request):
+    return render(request, 'about.html')
