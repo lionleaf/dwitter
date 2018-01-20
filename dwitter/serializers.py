@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from dwitter.models import Dweet, Comment
+from dwitter.templatetags.insert_code_blocks import insert_code_blocks
 from dwitter.templatetags.insert_magic_links import insert_magic_links
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
@@ -39,7 +40,12 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.author.username
 
     def get_urlized_text(self, obj):
-        return insert_magic_links(urlizetrunc(obj.text, 45))
+        return insert_magic_links(
+            urlizetrunc(
+                insert_code_blocks(obj.text),
+                45
+            )
+        )
 
 
 class DweetSerializer(serializers.ModelSerializer):

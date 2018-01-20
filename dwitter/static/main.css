@@ -200,6 +200,10 @@ ul.messages li.success{
   word-wrap: break-word;
 }
 
+.comment-message code {
+  background: #eee;
+}
+
 .new-comment {
   margin-top: 10px;
   display: flex;
