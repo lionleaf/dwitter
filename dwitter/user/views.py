@@ -50,18 +50,25 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     else:
         dweet_list = dweets
 
+    dweet_list = dweet_list.annotate(num_likes=Count('likes'))
+
     if(sort == "top"):
-        dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes', '-posted')[first:last])
+        dweet_list = dweet_list.order_by('-num_likes',
+                                         '-posted')[first:last]
     elif (sort == "new"):
         dweet_list = dweet_list.order_by('-posted')[first:last]
     elif (sort == "hot"):
-        dweet_list = (dweet_list.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes')[first:last])
+        dweet_list = dweet_list.order_by('-num_likes')[first:last]
     elif (sort == "random"):
         dweet_list = dweet_list.order_by('?')[first:last]
     else:
         raise Http404("No such sorting method " + sort)
+
+    # Special casing for this, annotate doesn't seem to
+    # work properly in this case.
+    if url == 'user_liked_page':
+        for dweet in dweet_list:
+            dweet.num_likes = dweet.likes.count()
 
     if not url:
         url = 'user_feed_page'
