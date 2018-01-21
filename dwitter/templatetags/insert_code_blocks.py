@@ -17,7 +17,7 @@ def to_code_block(m):
 def insert_code_blocks(text):
     result = re.sub(
         r'`'                # start with `
-        r'(?P<code>.*)'     # capture code block
+        r'(?P<code>.*?)'    # capture code block
         r'(?<!\\)'          # not preceded by \
         r'`',               # end with `
         to_code_block,
