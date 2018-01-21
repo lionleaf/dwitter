@@ -201,7 +201,11 @@ ul.messages li.success{
 }
 
 .comment-message code {
-  background: #eee;
+  font-size: 13px;
+  line-height: 25.28px;
+  padding: .25em;
+  background: hsl(250, 56%, 95%);
+  color: hsl(250, 56%, 53%);
 }
 
 .new-comment {
