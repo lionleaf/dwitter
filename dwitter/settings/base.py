@@ -196,3 +196,6 @@ CACHES = {
         'LOCATION': 'dwitter-default',
     }
 }
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 3600 * 24 * 365 * 100 # Keep user logged in until logout is requested (or 100 years, whichever comes first)
