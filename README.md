@@ -44,7 +44,7 @@ GET www.dwitter.net/api/dweets/  - list of the last 10 dweets
        
        ?limit=100            - number of results to return, default 10, max 100 (subject to change)
        &offset=200           - offset page by 200 dweets
-       &reply_to=123         - all remixes of 123
+       &remix_of=123         - all remixes of 123
        &author=lionleaf      - dweets by author
 
 
