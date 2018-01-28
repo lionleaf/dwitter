@@ -32,6 +32,8 @@ $(document).ready(function() {
     var iframe = $(el).find('iframe.dweetiframe');
     var sharebutt = $(el).find('.share-button');
     var sharelink = $(el).find('.share-link');
+    var embedbutt = $(el).find('.embed-button');
+    var embedsrc = $(el).find('.embed-src');
 
     link.on('click', function(e) {
       e.preventDefault();
@@ -41,12 +43,28 @@ $(document).ready(function() {
     sharebutt.on('click', function(e) {
       e.preventDefault();
       sharelink.toggle();
+      embedsrc.hide();
       if (sharelink.is(':visible')) {
         sharelink.select();
       }
     });
 
     $(sharelink).focus(function() {
+      $(this).on('click.a keyup.a', function() {
+        $(this).off('click.a keyup.a').select();
+      });
+    });
+
+    embedbutt.on('click', function(e) {
+      e.preventDefault();
+      embedsrc.toggle();
+      sharelink.hide();
+      if (embedsrc.is(':visible')) {
+        embedsrc.select();
+      }
+    });
+
+    $(embedsrc).focus(function() {
       $(this).on('click.a keyup.a', function() {
         $(this).off('click.a keyup.a').select();
       });

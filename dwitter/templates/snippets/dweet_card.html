@@ -18,10 +18,13 @@
           <span class="like-text">Awesome!</span>
         </button>
       </form>
-      <a class="show-stats" href="javascript:;" target="_blank">show FPS</a>
-      <a class="hide-stats" href="javascript:;" target="_blank">hide FPS</a>
-      <a class=fullscreen-button href="javascript:;" target="_blank">fullscreen</a>
-      <a class=share-button href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">share</a>
+      <a class="dweet-option show-stats" href="javascript:;" target="_blank">show FPS</a>
+      <a class="dweet-option hide-stats" href="javascript:;" target="_blank">hide FPS</a>
+      {% if embed %}
+      <a class="dweet-option embed-dwitter-link"  href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">full version</a>
+      {% endif %}
+      <a class="dweet-option share-button" href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">share</a>
+      <a class="dweet-option embed-button" href="" target="_blank">embed</a>
       {% if request.user == dweet.author or request.user.is_staff %}
         <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
           onsubmit="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?');" >
@@ -32,7 +35,9 @@
           value="delete" />
         </form>
       {% endif %}
+      <a class="dweet-option fullscreen-button" href="javascript:;" target="_blank">fullscreen</a>
       <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
+      <input type=text readonly class=embed-src value='<iframe width=500 height=550 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}"></iframe>'/>
     </div>
     <div class=author-remix-wrapper>
       <div class=dweet-author>
@@ -74,6 +79,7 @@
         </form>
     </div>
   </div>
+  {% if not embed %}
   <div class=comment-section>
     {% if dweet.comments.last.author == dweet.author %}
     <ul class=sticky-comments>
@@ -113,4 +119,5 @@
       {%endif%}
     </form>
   </div>
+  {% endif %}
 </div>
