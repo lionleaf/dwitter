@@ -37,7 +37,7 @@
       {% endif %}
       <a class="dweet-option fullscreen-button" href="javascript:;" target="_blank">fullscreen</a>
       <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
-      <input type=text readonly class=embed-src value='<iframe width=500 height=550 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}"></iframe>'/>
+      <input type=text readonly class=embed-src value='<iframe width=500 height=550 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}" allowFullScreen="true"></iframe>'/>
     </div>
     <div class=author-remix-wrapper>
       <div class=dweet-author>
