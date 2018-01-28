@@ -37,7 +37,7 @@
       {% endif %}
       <a class="dweet-option fullscreen-button" href="javascript:;" target="_blank">fullscreen</a>
       <input type=text readonly class=share-link value='{% url 'dweet_show' dweet_id=dweet.id %}'/>
-      <input type=text readonly class=embed-src value='<iframe width=500 height=550 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}" allowFullScreen="true"></iframe>'/>
+      <input type=text readonly class=embed-src value='<iframe width=500 height=570 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}" allowFullScreen="true"></iframe>'/>
     </div>
     <div class=author-remix-wrapper>
       <div class=dweet-author>
@@ -66,6 +66,7 @@
       </br>
       <div class=error-display></div>
       <div class=dweet-changed>
+            {% if not embed %}
             {% if request.user.is_authenticated %}
             <input
                 class="remix-button"
@@ -74,6 +75,7 @@
             {% else %}
               <br />
               <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
+            {% endif %}
             {% endif %}
           </div>
         </form>
