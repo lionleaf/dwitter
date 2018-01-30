@@ -4,7 +4,8 @@ function processLike(e) {
   var $likeButton = $likeForm.find('.like-button');
   var processServerResponse = function(response) {
     if (response.not_authenticated) {
-      window.location = '/accounts/login/';
+      $likeForm.parent().parent().find('.error-display')[0]
+        .innerText = 'You have to be logged in to vote';
     } else {
       $likeButton.find('.score-text').html(response.likes);
       if (response.liked) {

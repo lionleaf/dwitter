@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import Http404, HttpResponseBadRequest
 from django.core.urlresolvers import reverse
@@ -119,6 +120,17 @@ def dweet_show(request, dweet_id):
     }
 
     return render(request, 'feed/permalink.html', context)
+
+
+@xframe_options_exempt
+def dweet_embed(request, dweet_id):
+    dweet = get_object_or_404(Dweet.with_deleted.annotate(
+        num_likes=Count('likes')), id=dweet_id)
+    context = {
+        'dweet': dweet
+    }
+
+    return render(request, 'feed/embed.html', context)
 
 
 @login_required

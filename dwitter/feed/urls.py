@@ -36,5 +36,8 @@ urlpatterns = [
         views.dweet_delete, name='dweet_delete'),
     url(r'^d/(?P<dweet_id>\d+)/like$', views.like, name='like'),
 
+    url(r'^e/(?P<dweet_id>\d+)$',
+        views.dweet_embed, name='dweet_embed'),
+
     url(r'^dweet$', views.dweet, name='dweet'),
 ]

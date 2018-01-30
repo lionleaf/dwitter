@@ -104,6 +104,9 @@ body{
   line-height: 1.58;
   letter-spacing: -0.003;
 }
+body.embed{
+  background:#ffffff;
+}
 
 code {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
@@ -507,12 +510,13 @@ form.like {
   display: initial;
 }
 
-.fullscreen-button, .share-button, .show-stats, .hide-stats {
+.dweet-option {
   flex-grow: 0;
   padding:5px;
 }
 
-.share-link {
+.share-link,
+.embed-src {
   width:15em;
   display:none;
   position: absolute;
