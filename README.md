@@ -4,7 +4,7 @@ A platform to write visual art in javascript limited to 140 characters.
 
 Available on [dwitter.net](http://dwitter.net)
 
-[![Join the chat at https://gitter.im/lionleaf/dwitter](https://badges.gitter.im/lionleaf/dwitter.svg)](https://gitter.im/lionleaf/dwitter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[Join the chat at https://discord.gg/r5nXDsQ](https://discord.gg/r5nXDsQ)
 
 [![license](https://img.shields.io/github/license/lionleaf/dwitter.svg)]()
 
