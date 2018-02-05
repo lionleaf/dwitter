@@ -40,8 +40,6 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     total_awesome = dweets.annotate(
         num_likes=Count('likes')).aggregate(
             totalaws=Sum('num_likes'))['totalaws']
-    if(first < 0 or first >= dweet_count):
-        return render(request, 'base.html', {'text': 'No dweets here'})
     if(last >= dweet_count):
         last = dweet_count
 
@@ -66,7 +64,9 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
 
     # Special casing for this, annotate doesn't seem to
     # work properly in this case.
+    sort_override = sort
     if url == 'user_liked_page':
+        sort_override = 'awesome'
         for dweet in dweet_list:
             dweet.num_likes = dweet.likes.count()
 
@@ -81,14 +81,15 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
                                     'sort': sort})
 
     context = {'dweet_list': dweet_list,
-               'header_title': url_username + ' (' + str(total_awesome) + ')',
+               'header_title': url_username + ' (' + str(total_awesome or 0) + ')',
                'feed_type': 'user',
                'feed_user': url_username,
                'page_nr': page,
                'on_last_page': last == dweet_count,
                'next_url': next_url,
                'prev_url': prev_url,
-               'show_submit_box': False,
+               'show_submit_box': True,
+               'sort': sort_override,
                }
     return render(request, 'feed/feed.html', context)
 
