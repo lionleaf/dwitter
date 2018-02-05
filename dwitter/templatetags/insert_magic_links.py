@@ -10,25 +10,24 @@ def to_link(m):
     username = m.group('username')
 
     if username is None:
-        path = '/d/' + dweet_id  # hardcode for speed!
-        # path = reverse('dweet_show', kwargs={'dweet_id': dweet_id})
+        url = 'd/' + dweet_id
     else:
-        path = '/u/' + username  # hardcode for speed!
-        # path = reverse('user_feed', kwargs={'url_username': username})
+        url = 'u/' + username
 
-    return '<a href="%s">%s</a>' % (path, text)
+    result = '<a href="/{0}">{0}</a>'.format(url)
+    return text.replace(url, result)
 
 
 @register.filter(is_safe=True)
 def insert_magic_links(text):
     return re.sub(
-        r'(?:^|(?<=\s))'                # start of string or whitespace
-        r'/?'                           # optional /
-        r'(?P<text>'                    # capture original pattern
-        r'd/(?P<dweet_id>\d+)'          # dweet reference
-        r'|'                            # or
-        r'u/(?P<username>[\w.@+-]+))'   # user reference
-        r'(?=$|\s)',                    # end of string or whitespace
+        r'(?:^|(?<=\s))'                                        # start of string or whitespace
+        r'/?'                                                   # optional /
+        r'(?P<text>'                                            # capture original pattern
+        r'[^a-zA-Z\d]?d/(?P<dweet_id>\d+)[^a-zA-Z]?'            # dweet reference
+        r'|'                                                    # or
+        r'[^a-zA-Z\d]?u/(?P<username>[\w.@+-]+)[^a-zA-Z\d]?)'   # user reference
+        r'(?=$|\s)',                                            # end of string or whitespace
         to_link,
         text
     )
