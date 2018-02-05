@@ -43,6 +43,8 @@
 
 <div class=dweet-feed>
 
+  {% include 'snippets/new_dweet_card.html' %}
+
   {% if dweet.deleted %}
     {% include 'snippets/deleted_dweet_card.html' %}
   {% else %}

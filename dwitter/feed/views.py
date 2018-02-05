@@ -116,7 +116,8 @@ def dweet_show(request, dweet_id):
         num_likes=Count('likes')), id=dweet_id)
 
     context = {
-        'dweet': dweet
+        'dweet': dweet,
+        'show_submit_box': True,
     }
 
     return render(request, 'feed/permalink.html', context)
