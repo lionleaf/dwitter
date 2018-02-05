@@ -66,7 +66,9 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
 
     # Special casing for this, annotate doesn't seem to
     # work properly in this case.
+    sort_override = sort
     if url == 'user_liked_page':
+        sort_override = 'awesome'
         for dweet in dweet_list:
             dweet.num_likes = dweet.likes.count()
 
@@ -89,6 +91,7 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
                'next_url': next_url,
                'prev_url': prev_url,
                'show_submit_box': True,
+               'sort': sort_override,
                }
     return render(request, 'feed/feed.html', context)
 
