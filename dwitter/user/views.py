@@ -40,8 +40,6 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     total_awesome = dweets.annotate(
         num_likes=Count('likes')).aggregate(
             totalaws=Sum('num_likes'))['totalaws']
-    if(first < 0 or first >= dweet_count):
-        return render(request, 'base.html', {'text': 'No dweets here'})
     if(last >= dweet_count):
         last = dweet_count
 
@@ -83,7 +81,7 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
                                     'sort': sort})
 
     context = {'dweet_list': dweet_list,
-               'header_title': url_username + ' (' + str(total_awesome) + ')',
+               'header_title': url_username + ' (' + str(total_awesome or 0) + ')',
                'feed_type': 'user',
                'feed_user': url_username,
                'page_nr': page,
