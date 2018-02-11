@@ -12,10 +12,8 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 
 
 ## Pre-requisites and first-time installation
-* Install `npm` and `ruby `
-* `sudo apt install npm ruby`
-* Install `sass`
-* `gem install sass`
+* Install `npm`
+* `sudo apt install npm`
 *  Get packages needed for server and clone the repository
 * `sudo apt install git virtualenv python-pip`
 * `git clone https://github.com/lionleaf/dwitter.git`
