@@ -23,9 +23,8 @@
 }
 
 textarea{
-  border:1px solid;
+  border: none;
   padding:3px;
-  background-color: #faf;
 }
 
 input[type=text], input[type=email] {
@@ -33,7 +32,6 @@ input[type=text], input[type=email] {
   padding:3px;
   border-radius: 2px;
   font-family: 'Roboto', sans-serif;
-  background-color: #faf;
 }
 input[type=submit], input[type=button] {
   padding: 5px;
@@ -42,23 +40,20 @@ input[type=submit], input[type=button] {
   border-radius:3px;
   display:inline-block;
   font-family: 'Roboto', sans-serif;
-  background-color: #cac;
 }
 
 input[type=submit].dweet-button {
   float: right;
-  background-color: #ddd;
 }
 
 input[type=submit].remix-button {
   float: right;
   clear: both;
   margin-top: 5px;
-  background-color: #ada;
 }
 
 input[type=submit].delete-button {
-  color: green;
+  color: red;
   background: transparent;
   border: 0;
   outline: 0;
@@ -67,13 +62,13 @@ input[type=submit].delete-button {
 }
 
 .error-display {
-  color: green;
+  color: red;
   font-size: small;
   font-family: 'Roboto', sans-serif;
 }
 
 a {
-  color: #616;
+  color: #666;
   text-decoration: none;
 }
 a:hover {
@@ -92,7 +87,6 @@ p a, .comment-message a {
   margin-top: 2px;
   text-decoration:none;
   display:inline-block;
-  background-color: #bab;
 }
 
 a.button,
@@ -104,7 +98,7 @@ a.button:visited {
 
 
 body{
-  background:#4c4c4c;
+  background:#f5f5f5;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   line-height: 1.58;
@@ -126,10 +120,10 @@ ul.messages {
   list-style: none;
 }
 ul.messages li{
-  background: #2f554d;
+  background: #DEF0D8;
   margin: 4 auto;
   max-width: 585;
-  border:1px solid #4c4c4c;
+  border:1px solid black;
 }
 
 ul.messages li.warning{
@@ -137,7 +131,7 @@ ul.messages li.warning{
 }
 
 ul.messages li.success{
-  background: #ffcece;
+  background: #DEF0D8;
 }
 
 #content {
@@ -149,15 +143,16 @@ ul.messages li.success{
   max-width: 600px;
   margin: 15px auto;
   padding: 15px;
-  background:white;
+  background:#4b4b4b;
+  color: white;
   word-wrap: break-word;
-  border:1px solid #4c4c4c;
+  border:1px solid black;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
 .content-div input {
-  border:1px solid #4c4c4c;
+  border:1px solid black;
 }
 .dweet .code {
   white-space: pre;
@@ -175,7 +170,7 @@ ul.messages li.success{
   padding: 15px;
   background:white;
   word-wrap: break-word;
-  border:1px solid #4c4c4c;
+  border:1px solid black;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
@@ -184,7 +179,7 @@ ul.messages li.success{
 }
 
 .comment-section{
-  background: #bc3434;
+  background: #fbfbfb;
   padding: 20px;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
@@ -242,14 +237,14 @@ input.comment-submit:active {
 
 .submit-box {
   background:white;
-  border:1px solid #ddd;
+  border:1px solid black;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   padding: 15px;
   display: none;
 }
 
 .dweet-create-form-title {
-  background: #4599ca;
+  background: #ffa500;
   color: white;
   font-size: 1.1em;
   cursor: pointer;
@@ -269,7 +264,7 @@ input.comment-submit:active {
 
 .dweet-create-form-title .add-icon {
   background: white;
-  color: #4599ca;
+  color: rgba(215, 125, 0, 1);
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -338,7 +333,7 @@ iframe {
   width:100%;
   background:white;
   text-align:left;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid black;
   box-shadow:0px 0px 2px rgba(0,0,0,0.051);
   padding: 5px 0;
   line-height: 40px;
@@ -397,18 +392,19 @@ iframe {
 
 .head-account-info .collapsible {
   position: absolute;
-  border: 1px solid #ddd;
+  border: 1px solid black !important;
   right: 1em;
   z-index: 10;
   transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
   opacity: 0;
   height: 0;
-  margin-top: -9999px;
+  margin-top: 6px !important;
+  right: -25px !important;
   font-size: 0.8em;
 }
 
 .head-account-info.is-logged-in:hover {
-  background: #ddd;
+  background: #666;
 }
 
 .head-account-info.is-logged-in:hover .collapsible {
@@ -421,10 +417,10 @@ iframe {
 .head-account-info .collapsible li {
   list-style-type: none;
   background: white;
-  border-bottom: 1px solid #ddd;
   width: 150px;
   padding: 14px;
   line-height: normal;
+  color: #666;
 }
 
 .header-center-div {
@@ -438,6 +434,7 @@ iframe {
   margin-right: 1em;
   padding-left: 15px;
   display: inline-block;
+  color: white;
 }
 
 .footer {
@@ -453,7 +450,7 @@ form.like {
 .like-button {
   background: #eee;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid black;
   padding: 3px 6px 3px 3px;
   font-size: 1rem;
   font-weight: bold;
@@ -581,6 +578,9 @@ body.hot .top-sort-list a.hot {
 body.random .top-sort-list a.random {
   font-weight: bold;
 }
+body.awesome .top-sort-list a.awesome {
+  font-weight: bold;
+}
 
 #submit-preview {
 }
@@ -638,7 +638,7 @@ body.random .top-sort-list a.random {
 
 .dark-section .dweet-code textarea {
   background: transparent;
-  border: 0;
+  border: none;
   color: white;
   outline: 0;
   font-size: small;
@@ -646,8 +646,9 @@ body.random .top-sort-list a.random {
   padding-left: 1em;
 }
 
-.dark-section .dweet-code textarea:focus {
+.dark-section .dweet-code textarea:focusÃ‚Â {
   outline: 0;
+  border: none;
 }
 
 .dweet-delete-form {
@@ -694,4 +695,64 @@ form.accounts input[type=submit] {
     text-transform: uppercase;
     color: #666;
     cursor: pointer;
+}
+
+/* Dark-theme-specific properties */
+
+.head-menu{
+  background-color: #4b4b4b;
+}
+
+.head-menu a{
+  color: white;
+}
+
+.body{
+  background: #383838;
+}
+
+.header-title a{
+  color: white;
+}
+
+.head-account-info .name{
+  color: white;
+}
+
+body{
+  background: #383838;
+}
+
+
+.head-account-info.is-logged-in .collapsible li{
+  background: #666;
+}
+
+#settings-list{
+  border:1px solid black;
+  border-top: none;
+}
+
+.card{
+ background: #4b4b4b;
+ color:white;
+}
+
+.comment-section{
+  background: #4b4b4b;
+  color: white;
+  border: 1px solid black;
+}
+
+.comment-name{
+  color: black;
+}
+
+textarea{
+  border: none;
+}
+
+.end-of-feed{
+  background: #4b4b4b !important;
+  color: white;
 }
