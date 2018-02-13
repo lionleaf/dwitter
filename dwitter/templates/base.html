@@ -23,13 +23,45 @@
     {% load staticfiles %}
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
     {% compress css %}
-    <link rel=stylesheet href='{% static "main.css" %}' >
+    <link id='style' rel=stylesheet href='{% static "main.css" %}' >
     {% endcompress %}
 
     {% block head %}
     {% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
+    <script type="text/javascript">
+      var switchTheme = function(){
+        // Change the imported stylesheet from main.css to main_dark.css or vice versa
+        // Change localstorage darkMode to true/false
+        var mode = localStorage.getItem('darkMode');
+        if (mode == 'true')
+        {
+          localStorage.setItem('darkMode','false');
+          l = document.getElementById('style');
+          l.setAttribute('href', '{% static "main.css" %}');
+        }
+        else{
+          localStorage.setItem('darkMode','true');
+          l = document.getElementById('style');
+          l.setAttribute('href', '{% static "main_dark.css" %}');
+        }
+        location.reload();
+        // Call this function in the li to change the mode
+      }
+
+      // Do the same thing outside the function without changing localStorage to set correct theme
+      var mode = localStorage.getItem('darkMode');
+      if (mode == 'true')
+      {
+        l = document.getElementById('style');
+        l.setAttribute('href', '{% static "main.css" %}');
+      }
+      else{
+        l = document.getElementById('style');
+        l.setAttribute('href', '{% static "main_dark.css" %}');
+      }
+    </script>
     <div class="head-menu clear-fix">
       <div class=head-menu-inner>
         <h2 class=header-title>
@@ -46,6 +78,7 @@
             <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
             <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
             <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
+            <li><a href="#" onclick="switchTheme();return false;">Switch theme</a></li>
             <li><a href="{% url 'password_change' %}"> Change password </a></li>
             <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
           </ul>
