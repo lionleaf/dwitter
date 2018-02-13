@@ -575,6 +575,9 @@ body.hot .top-sort-list a.hot {
 body.random .top-sort-list a.random {
   font-weight: bold;
 }
+body.awesome .top-sort-list a.awesome {
+  font-weight: bold;
+}
 
 #submit-preview {
 }

@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
+{% block head %}
+{% load staticfiles %}
+{% load compress %}
+
+{% compress js %}
+<script src="{% static "libs/jquery.min.js" %}"></script>
+<script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
+<script src="{% static "libs/inview.min.js" %}"></script>
+<script src="{% static "libs/infinite.min.js" %}"></script>
+<script src="{% static "libs/moment-with-locales.min.js" %}"></script>
+<script src="{% static "js/scrolling.js" %}"></script>
+<script src="{% static "js/ajax-handling.js" %}"></script>
+<script src="{% static "js/feed.js" %}"></script>
+<!-- <script src="{% static 'js/submit-view.js' %}"></script> -->
+{% endcompress %}
+{% endblock %}
+
 {% block top-nav %}
 <ul class=top-sort-list>
   <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
@@ -10,7 +27,13 @@
 </ul>
 {% endblock %}
 
-{% block content %}
+{% block fullcontent %}
+
+<div class="dweet-feed">
+  {% include 'snippets/new_dweet_card.html' %}
+</div>
+
+<div class="content-div">
 
     <h2 class=header-title>About dwitter.net</h2>
     <p>
@@ -24,7 +47,6 @@
 
     Its first official launch was at the Demoparty 'Solskogen' in 2016 where it won <a href=http://www.pouet.net/prod.php?which=67794>the wild compo.</a>
     </p>
-    
     <br />
     <p>
     The website itself is open source, and is being developed by a number of <a href='https://github.com/lionleaf/dwitter/graphs/contributors'>contributors</a>. We are happy to accept pull requests and issues on <a href="https://github.com/lionleaf/dwitter">github</a>.
@@ -73,6 +95,5 @@
     </p>
 
 
-
+</div>
 {% endblock %}
-
