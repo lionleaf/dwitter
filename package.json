@@ -1,7 +1,7 @@
 {
   "name": "dwitter",
   "version": "1.0.0",
-  "description": "Social network for short js demos",
+  "description": "A twitter-style network of 140-byte javascript canvas demos",
   "scripts": {
     "lint": "eslint dwitter/static/js/*.js",
     "lint-fix": "eslint --fix dwitter/static/js/*.js"
