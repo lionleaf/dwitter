@@ -5,6 +5,7 @@ from dwitter.templatetags.insert_magic_links import insert_magic_links
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
+from django.utils.html import escape
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -42,7 +43,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_urlized_text(self, obj):
         return insert_magic_links(
             urlizetrunc(
-                insert_code_blocks(obj.text),
+                insert_code_blocks(escape(obj.text)),
                 45
             )
         )
