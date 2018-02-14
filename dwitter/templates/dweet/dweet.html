@@ -131,6 +131,10 @@
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
       };
+    function L(h,s,l,a) {
+      a = a === undefined ? 1 : a;
+      return "hsla("+(h|0)+","+(s|0)+"%,"+(l|0)+"%,"+a+")";
+      };
     var x = c.getContext("2d");
     var time = 0;
     var frame = 0;
