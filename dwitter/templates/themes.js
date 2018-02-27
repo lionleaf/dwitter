@@ -1,5 +1,5 @@
 // Check for compatibility
-if (localStorage){
+if (window.localStorage){
   var switchTheme = function(){
     // Change the imported stylesheet from main.css to main_dark.css or vice versa
     // Change localstorage theme to 'dark'
