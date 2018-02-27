@@ -1,5 +1,6 @@
 // Check for compatibility
 if (window.localStorage){
+  var l = document.getElementById('style');
   var switchTheme = function(){
     // Change the imported stylesheet from main.css to main_dark.css or vice versa
     // Change localstorage theme to 'dark'
@@ -7,12 +8,10 @@ if (window.localStorage){
     if (theme == 'dark')
     {
       localStorage.setItem('theme','');
-      l = document.getElementById('style');
       l.setAttribute('href', '{% static "main.css" %}');
     }
     else{
       localStorage.setItem('theme','dark');
-      l = document.getElementById('style');
       l.setAttribute('href', '{% static "main_dark.css" %}');
     }
     location.reload();
@@ -23,11 +22,9 @@ if (window.localStorage){
   var theme = localStorage.getItem('theme');
   if (theme == '')
   {
-    l = document.getElementById('style');
     l.setAttribute('href', '{% static "main.css" %}');
   }
   else{
-    l = document.getElementById('style');
     l.setAttribute('href', '{% static "main_dark.css" %}');
   }
 }
