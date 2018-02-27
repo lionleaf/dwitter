@@ -55,8 +55,6 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
                                          '-posted')[first:last]
     elif (sort == "new"):
         dweet_list = dweet_list.order_by('-posted')[first:last]
-    elif (sort == "hot"):
-        dweet_list = dweet_list.order_by('-num_likes')[first:last]
     elif (sort == "random"):
         dweet_list = dweet_list.order_by('?')[first:last]
     else:
