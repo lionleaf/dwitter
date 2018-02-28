@@ -65,6 +65,12 @@ class DweetTestCase(TestCase):
             insert_magic_links('prefix /u/a prefix/u/a')
         )
 
+    def test_insert_magic_links_replaces_user_inside_parenthases(self):
+        self.assertEqual(
+            '(<a href="/u/a">u/a</a>)',
+            insert_magic_links('(u/a)')
+        )
+
     # dweet
 
     def test_insert_magic_links_replaces_dweet_with_valid_characters(self):
@@ -119,6 +125,12 @@ class DweetTestCase(TestCase):
         self.assertEqual(
             'prefix <a href="/d/1">d/1</a> prefix/d/1',
             insert_magic_links('prefix /d/1 prefix/d/1')
+        )
+
+    def test_insert_magic_links_replaces_dweet_in_parenthases(self):
+        self.assertEqual(
+            '(<a href="/d/1">d/1</a>)',
+            insert_magic_links('(d/1)')
         )
 
     # mixed
