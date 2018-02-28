@@ -31,38 +31,37 @@
   </head>
   <body class="{% block body_class %}{% endblock %}">
     <script type="text/javascript">
-		// Check for compatibility
-		if (window.localStorage){
-			var l = document.getElementById('style');
-			var switchTheme = function(){
-				// Change the imported stylesheet from main.css to main_dark.css or vice versa
-				// Change localstorage theme to 'dark'
-				var theme = localStorage.getItem('theme');
-				if (theme == 'dark'){
-					localStorage.setItem('theme','');
-					l.setAttribute('href', '{% static "main.css" %}');
-				}
-				else{
-					localStorage.setItem('theme','dark');
-					l.setAttribute('href', '{% static "main_dark.css" %}');
-				}
-				location.reload();
-				// Call this function in the li to change the mode
-			}
-		}
-		else {
-			alert('Your browser seems not to support localStorage/cookies, therefore this feature will not work for you.');
-		}
-    
-
-		// Do the same thing outside the function without changing localStorage to set correct theme
-		var theme = localStorage.getItem('theme');
-		if (theme == 'dark'){
-			l.setAttribute('href', '{% static "main_dark.css" %}');
-		}
-		else{
-			l.setAttribute('href', '{% static "main.css" %}');
-		}
+      // Check for compatibility
+      if (window.localStorage){
+        var l = document.getElementById('style');
+	var switchTheme = function(){
+	  // Change the imported stylesheet from main.css to main_dark.css or vice versa
+	  // Change localstorage theme to 'dark'
+	  var theme = localStorage.getItem('theme');
+	  if (theme == 'dark'){
+	    localStorage.setItem('theme','');
+	    l.setAttribute('href', '{% static "main.css" %}');
+	  }
+	  else{
+	    localStorage.setItem('theme','dark');
+	    l.setAttribute('href', '{% static "main_dark.css" %}');
+	  }
+	  location.reload();
+	  // Call this function in the li to change the mode
+	  }
+		
+	  // Do the same thing outside the function without changing localStorage to set correct theme
+	  var theme = localStorage.getItem('theme');
+	  if (theme == 'dark'){
+	    l.setAttribute('href', '{% static "main_dark.css" %}');
+	  }
+	  else{
+	    l.setAttribute('href', '{% static "main.css" %}');
+	  }
+      }
+      else {
+        alert('Your browser seems not to support localStorage/cookies, therefore this feature will not work for you.');
+      }
     </script>
     <div class="head-menu clear-fix">
       <div class=head-menu-inner>
