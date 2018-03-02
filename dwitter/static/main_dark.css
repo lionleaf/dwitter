@@ -1,0 +1,758 @@
+* {
+  border:0px;
+  margin:0px;
+  padding:0px;
+}
+
+.clear-fix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: #ccc no-repeat center;
+  background-size: cover;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+textarea{
+  border: none;
+  padding:3px;
+}
+
+input[type=text], input[type=email] {
+  border:1px solid;
+  padding:3px;
+  border-radius: 2px;
+  font-family: 'Roboto', sans-serif;
+}
+input[type=submit], input[type=button] {
+  padding: 5px;
+  border: 1px solid black;
+  background: white;
+  border-radius:3px;
+  display:inline-block;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type=submit].dweet-button {
+  float: right;
+}
+
+input[type=submit].remix-button {
+  float: right;
+  clear: both;
+  margin-top: 5px;
+}
+
+input[type=submit].delete-button {
+  color: red;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.error-display {
+  color: red;
+  font-size: small;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+p a, .comment-message a {
+  color: #4599ca;
+  text-decoration: none;
+}
+
+.button{
+  padding: 5px;
+  border: 1px solid black;
+  background: white;
+  border-radius:3px;
+  margin-top: 2px;
+  text-decoration:none;
+  display:inline-block;
+}
+
+a.button,
+a.button:hover,
+a.button:active,
+a.button:visited {
+  color:inherit;
+}
+
+
+body{
+  background:#f5f5f5;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.58;
+  letter-spacing: -0.003;
+}
+body.embed{
+  background:#ffffff;
+}
+
+code {
+  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+  white-space: pre-line;
+}
+
+ul.messages {
+  text-align: center;
+  margin: 4;
+  padding: 0.5em;
+  list-style: none;
+}
+ul.messages li{
+  background: #DEF0D8;
+  margin: 4 auto;
+  max-width: 585;
+  border:1px solid black;
+}
+
+ul.messages li.warning{
+  background: #ffcece;
+}
+
+ul.messages li.success{
+  background: #DEF0D8;
+}
+
+#content {
+  padding: 50px 0 1em;
+  margin: 0 auto;
+}
+
+.content-div {
+  max-width: 600px;
+  margin: 15px auto;
+  padding: 15px;
+  background:#4b4b4b;
+  color: white;
+  word-wrap: break-word;
+  border:1px solid black;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.content-div input {
+  border:1px solid black;
+}
+.dweet .code {
+  white-space: pre;
+  word-wrap: break;
+}
+
+.dweet-feed {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.dweet, .card, .loading, .end-of-feed {
+  margin-top: 15px;
+  padding: 15px;
+  background:white;
+  word-wrap: break-word;
+  border:1px solid black;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.loading, .end-of-feed {
+  text-align: center;
+}
+
+.comment-section{
+  background: #fbfbfb;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.comments,.sticky-comments {
+  list-style-type: none;
+  padding: none;
+}
+
+.comment.sticky-comment{
+  font-weight:bold;
+}
+
+.comment-name{
+  font-weight:bold;
+}
+
+.comment-message {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.comment-message code {
+  font-size: 13px;
+  line-height: 25.28px;
+  padding: .25em;
+  background: hsl(250, 56%, 95%);
+  color: hsl(250, 56%, 53%);
+}
+
+.new-comment {
+  margin-top: 10px;
+  display: flex;
+  display: -webkit-flex;
+}
+
+.comment-input{
+  flex: 1;
+  text-align:left;
+  width:80%;
+}
+
+input.comment-submit {
+  padding: 3px;
+  margin: 0;
+  margin-left: 5px;
+  color: currentcolor;
+  cursor: pointer;
+}
+input.comment-submit:active {
+  transform: translateY(1px);
+}
+
+.submit-box {
+  background:white;
+  border:1px solid black;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  display: none;
+}
+
+.dweet-create-form-title {
+  background: #ffa500;
+  color: white;
+  font-size: 1.1em;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  height: 20px;
+  line-height: 20px;
+  float: right;
+}
+
+.dweet-create-form-title:hover {
+  text-decoration: underline;
+}
+
+.dweet-create-form-title .add-icon {
+  background: white;
+  color: rgba(215, 125, 0, 1);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.author-remix-wrapper{
+  padding: 10px 0;
+  display: inline-block;
+  width: 100%;
+}
+
+.dweet-author {
+  font-weight: bold;
+  float:left;
+  font-size:large;
+  display:block;
+}
+
+.remix-info {
+  font-weight: bold;
+  float:right;
+}
+
+.faded {
+  opacity: 0.5;
+}
+
+.function-wrap {
+  color:gray;
+  font-size:small;
+  float: left;
+}
+
+.code-input{
+  text-align:left;
+  resize:none;
+  width:100%;
+  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+  white-space: pre-line;
+  word-break: break-all;
+  max-height:20em;
+}
+
+.canvas-iframe-container-wrapper {
+  width: 100%;
+  /*padding: 0 0 56.25% 0; /* 16:9 */
+  padding: 0 0 56.25% 0; /* 16:9 */
+  position: relative;
+}
+
+.canvas-iframe-container {
+  position: absolute;
+  width:100%;
+  top: 0; bottom: 0; left: 0; right: 0;
+}
+iframe {
+  width:100%;
+  height:100%;
+}
+
+.head-menu {
+  position: fixed;
+  z-index: 100;
+  width:100%;
+  background:white;
+  text-align:left;
+  border-bottom:1px solid black;
+  box-shadow:0px 0px 2px rgba(0,0,0,0.051);
+  padding: 5px 0;
+  line-height: 40px;
+}
+
+.head-menu-inner {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 1em;
+}
+
+.next-page {
+  display:none;
+}
+.head-account-info {
+  margin: 0 1em;
+  float: right;
+  text-align: right;
+}
+
+.head-account-info .avatar {
+  margin-left: 6px;
+}
+
+.head-account-info .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .head-account-info {
+    width: 36px;
+  }
+  .head-account-info .avatar {
+    margin: 0;
+  }
+  .head-account-info .name {
+    display: none;
+  }
+}
+
+@media (max-width: 660px) {
+  #content {
+    padding-top: 90px;
+  }
+}
+
+@media (max-width: 350px) {
+  .dweet-create-form-title-label span {
+    display: none;
+  }
+}
+
+.head-account-info .collapsible {
+  position: absolute;
+  border: 1px solid black !important;
+  right: 1em;
+  z-index: 10;
+  transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
+  opacity: 0;
+  height: 0;
+  margin-top: 6px !important;
+  right: -25px !important;
+  font-size: 0.8em;
+}
+
+.head-account-info.is-logged-in:hover {
+  background: #666;
+}
+
+.head-account-info.is-logged-in:hover .collapsible {
+  display: block;
+  opacity: 1;
+  margin-top: 4px;
+  transition: opacity 0.05s ease-in-out, margin 0.05s step-start;
+}
+
+.head-account-info .collapsible li {
+  list-style-type: none;
+  background: white;
+  width: 150px;
+  padding: 14px;
+  line-height: normal;
+  color: #666;
+}
+
+.header-center-div {
+  margin:auto;
+  width:30%;
+  padding:1px;
+  text-align:center;
+}
+
+.header-title {
+  margin-right: 1em;
+  padding-left: 15px;
+  display: inline-block;
+  color: white;
+}
+
+.footer {
+  background:white;
+  text-align:center;
+}
+
+form.like {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.like-button {
+  background: #eee;
+  border-radius: 4px;
+  border: 1px solid black;
+  padding: 3px 6px 3px 3px;
+  font-size: 1rem;
+  font-weight: bold;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-block;
+}
+.like-button.liked {
+  background: linear-gradient(to top, #2ab6e1, #4599ca);
+}
+
+.like-button.liked .like-text {
+  color: white;
+  text-shadow: 0 -1px rgba(106, 130, 135, 0.5);
+}
+
+.like-button.liked:hover {
+  background: linear-gradient(to top, #e1362a, #ca3945);
+}
+
+.like-button:hover {
+  text-decoration: none;
+  background: #ddd;
+  border-color: #ccc;
+}
+
+.score-text {
+  font-weight: normal;
+  background: white;
+  padding: 3px;
+  margin-left: -3px;
+  border-right: 1px solid #ddd;
+}
+
+.character-count {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.character-count.too-long {
+  color: red;
+}
+
+
+.dweet-changed {
+  display: none;
+  text-align: right;
+  color: white;
+}
+
+.dweet-changed > p {
+  text-align: left;
+}
+
+.show-stats, .hide-stats {
+  display: none;
+}
+
+.hide-stats.visible {
+  display: initial;
+}
+
+.dweet-option {
+  flex-grow: 0;
+  padding:5px;
+}
+
+.share-link,
+.embed-src {
+  width:15em;
+  display:none;
+  position: absolute;
+  top: 2em;
+}
+
+.dweet-timestamp{
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  color:gray;
+  font-size:small;
+  font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+}
+
+.dweet-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top:10px;
+  margin-bottom:20px;
+  position: relative;
+}
+
+.dweet-actions > form.like {
+  flex-grow: 1;
+  margin: auto 0;
+}
+
+.top-sort-list {
+  list-style-type:none;
+  padding:0;
+  display: inline-block;
+}
+.top-sort-list li {
+  display: inline-block;
+  padding:0 15px;
+}
+.top-sort-list a {
+  text-decoration:none;
+  color:#333;
+}
+.top-sort-list a:hover {
+  text-decoration:underline;
+}
+
+body.new .top-sort-list a.new {
+  font-weight: bold;
+}
+body.top .top-sort-list a.top {
+  font-weight: bold;
+}
+body.hot .top-sort-list a.hot {
+  font-weight: bold;
+}
+body.random .top-sort-list a.random {
+  font-weight: bold;
+}
+body.awesome .top-sort-list a.awesome {
+  font-weight: bold;
+}
+
+#submit-preview {
+}
+
+.submit-help{
+  font-size: 0.8em;
+}
+
+.delete {
+  color: #b22;
+}
+
+.settings-form {
+  text-align: center;
+}
+
+.settings-form label {
+  width: 100px;
+  display: inline-block;
+  font-size: 14px;
+  text-align: right;
+}
+
+.settings-form input {
+  margin-top: 6px;
+  text-align: left;
+}
+
+.settings-form input[type=submit] {
+  float: right;
+}
+
+.center-settings {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.center-settings p {
+  margin: 15px;
+}
+
+.avatar-large {
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+}
+
+.dark-section {
+  margin: 10px -15px -15px;
+  background: #222;
+  padding: 15px;
+  overflow: hidden;
+}
+
+.dark-section .dweet-code textarea {
+  background: transparent;
+  border: none;
+  color: white;
+  outline: 0;
+  font-size: small;
+  padding: 0;
+  padding-left: 1em;
+}
+
+.dark-section .dweet-code textarea:focusÃ‚Â {
+  outline: 0;
+  border: none;
+}
+
+.dweet-delete-form {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 3px;
+}
+
+form.accounts {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+@media (max-width: 767px) {
+    form.accounts {
+        width: 100%;
+    }
+}
+
+form.accounts label {
+    display: block;
+    width: 100%;
+    text-transform: uppercase;
+    color: #888;
+    font-size: 14px;
+}
+
+form.accounts input[type=text],
+form.accounts input[type=email],
+form.accounts input[type=password] {
+    margin-bottom: 15px;
+    font-size: 16px;
+    width: 100%;
+    display: block;
+    padding: 5px 0;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid #aaa;
+}
+
+form.accounts input[type=submit] {
+    float: right;
+    text-transform: uppercase;
+    color: #666;
+    cursor: pointer;
+}
+
+/* Dark-theme-specific properties */
+
+.head-menu{
+  background-color: #4b4b4b;
+}
+
+.head-menu a{
+  color: white;
+}
+
+.body{
+  background: #383838;
+}
+
+.header-title a{
+  color: white;
+}
+
+.head-account-info .name{
+  color: white;
+}
+
+body{
+  background: #383838;
+}
+
+
+.head-account-info.is-logged-in .collapsible li{
+  background: #666;
+}
+
+#settings-list{
+  border:1px solid black;
+  border-top: none;
+}
+
+.card{
+ background: #4b4b4b;
+ color:white;
+}
+
+.comment-section{
+  background: #4b4b4b;
+  color: white;
+  border: 1px solid black;
+}
+
+.comment-name{
+  color: black;
+}
+
+textarea{
+  border: none;
+}
+
+.end-of-feed{
+  background: #4b4b4b !important;
+  color: white;
+}
