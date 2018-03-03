@@ -392,7 +392,7 @@ iframe {
 .head-account-info .collapsible {
   position: absolute;
   border: 1px solid #ddd;
-  right: 1em;
+  right: 0.7em;
   z-index: 10;
   transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
   opacity: 0;
