@@ -156,6 +156,7 @@
         stats.end();
         displayError("");
       } catch (e) {
+        stats.end();
         displayError(e);
         throw e;
       }
