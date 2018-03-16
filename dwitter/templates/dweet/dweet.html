@@ -60,9 +60,10 @@
 
       function newCode(code) {
           try {
-            eval("u = function(t){"+code+"\n};");
+            eval("function u(t) {\n"+code+"\n}");
+            window.u = u;
           } catch (e) {
-            u = function(t){
+            window.u = function(t) {
               throw e;
             };
             throw e;
