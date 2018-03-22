@@ -395,6 +395,7 @@ iframe {
   right: 0.7em;
   z-index: 10;
   transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
+  display: none;
   opacity: 0;
   height: 0;
   margin-top: 7px !important;
