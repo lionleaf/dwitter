@@ -1,0 +1,126 @@
+textarea {
+  border: none;
+}
+
+ul.messages li{
+  border:1px solid black;
+}
+
+.content-div {
+  background:#4b4b4b;
+  color: white;
+  border:1px solid black;
+}
+
+.content-div input {
+  border:1px solid black;
+}
+.dweet, .card, .loading, .end-of-feed {
+  border:1px solid black;
+}
+
+.submit-box {
+  border:1px solid black;
+}
+
+.dweet-create-form-title {
+  background: #ffa500;
+}
+
+.dweet-create-form-title:hover {
+  text-decoration: underline;
+}
+
+.dweet-create-form-title .add-icon {
+  color: rgba(215, 125, 0, 1);
+}
+
+.head-menu {
+  background-color: #4b4b4b;
+  border-bottom:1px solid black;
+}
+
+.head-account-info .collapsible {
+  border: 1px solid black !important;
+}
+
+.head-account-info.is-logged-in:hover {
+  background: #666;
+}
+
+.head-account-info .collapsible li {
+  border-bottom: none;
+  color: #666;
+}
+
+.header-title {
+  color: white;
+}
+
+.like-button {
+  border: 1px solid black;
+}
+
+.dark-section .dweet-code textarea {
+  border: none;
+}
+
+.dark-section .dweet-code textarea:focus {
+  border: none;
+}
+
+/* Dark-theme-specific properties */
+
+.head-menu a {
+  color: white;
+}
+
+.body{
+  background: #383838;
+}
+
+.header-title a{
+  color: white;
+}
+
+.head-account-info .name{
+  color: white;
+}
+
+body{
+  background: #383838;
+}
+
+
+.head-account-info.is-logged-in .collapsible li{
+  background: #666;
+}
+
+#settings-list{
+  border:1px solid black;
+  border-top: none;
+}
+
+.card{
+ background: #4b4b4b;
+ color:white;
+}
+
+.comment-section{
+  background: #4b4b4b;
+  color: white;
+  border: 1px solid black;
+}
+
+.comment-name{
+  color: #ffa500;
+}
+
+input.comment-submit {
+  color: black;
+}
+
+.end-of-feed{
+  background: #4b4b4b !important;
+  color: white;
+}
