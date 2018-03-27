@@ -430,7 +430,6 @@ iframe {
 
 .header-title {
   margin-right: 1em;
-  padding-left: 15px;
   display: inline-block;
 }
 
@@ -536,6 +535,7 @@ form.like {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  flex-wrap: wrap;
   margin-top:10px;
   margin-bottom:20px;
   position: relative;
@@ -553,7 +553,7 @@ form.like {
 }
 .top-sort-list li {
   display: inline-block;
-  padding:0 15px;
+  padding-right: 15px;
 }
 .top-sort-list a {
   text-decoration:none;
