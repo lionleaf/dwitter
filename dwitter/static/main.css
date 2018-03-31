@@ -392,12 +392,12 @@ iframe {
 .head-account-info .collapsible {
   position: absolute;
   border: 1px solid #ddd;
-  right: 0.7em;
+  right: 1rem;
   z-index: 10;
-  transition: opacity 0.05s ease-in-out, margin 0.05s step-end;
+  transition: opacity .1s ease-in-out, margin .1s step-end;
   opacity: 0;
   height: 0;
-  margin-top: 7px !important;
+  margin-top: -9999px;
   font-size: 0.8em;
 }
 
@@ -408,8 +408,8 @@ iframe {
 .head-account-info.is-logged-in:hover .collapsible {
   display: block;
   opacity: 1;
-  margin-top: 4px;
-  transition: opacity 0.05s ease-in-out, margin 0.05s step-start;
+  margin-top: 0;
+  transition: opacity .1s ease-in-out, margin .1s step-start;
 }
 
 .head-account-info .collapsible li {
