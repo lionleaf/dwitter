@@ -515,21 +515,12 @@ form.like {
   padding:5px;
 }
 
-.share-container {
-  display: none;
+.share-link,
+.embed-src {
+  width:15em;
+  display:none;
   position: absolute;
   top: 2em;
-  background: white;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  padding: 1em;
-}
-
-.share-container ul {
-  list-style-type: none;
-}
-
-.share-container li {
-  text-align: right;
 }
 
 .dweet-timestamp{
