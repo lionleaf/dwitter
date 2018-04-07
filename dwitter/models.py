@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
@@ -64,12 +65,22 @@ class Comment(models.Model):
                 ') to ' +
                 str(self.reply_to))
 
+    # Go through hashtags mentioned in the comment
+    # and add them to the parent dweet.
+    def add_hashtags(self):
+        hash_pattern = re.compile(r'#(?P<hashtag>[a-zA-Z\d]+)')
+        for hashtag in re.findall(hash_pattern, self.text):
+            h = Hashtag.objects.get_or_create(name=hashtag)[0]
+            if not h.dweets.filter(id=self.reply_to.id).exists():
+                h.dweets.add(self.reply_to)
+        
+
     class Meta:
         ordering = ('-posted',)
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=30, unique=True, db_index=True)
-    dweets = models.ManyToManyField(Dweet, related_name="hashtag")
+    dweets = models.ManyToManyField(Dweet, related_name="hashtag", blank=True)
 
     def __unicode__(self):
         return '#' + self.name

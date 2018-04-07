@@ -21,7 +21,8 @@ class CommentViewSet(viewsets.ModelViewSet):
                           IsAuthorOrReadOnly, )
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user, posted=timezone.now())
+        c = serializer.save(author=self.request.user, posted=timezone.now())
+        c.add_hashtags()
 
 
 class DweetFilterSet(FilterSet):
