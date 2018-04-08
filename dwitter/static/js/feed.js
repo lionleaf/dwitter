@@ -34,21 +34,26 @@ $(document).ready(function() {
     requestFullscreen(iframe[0]);
   });
 
-  $('body').on('click', '.share-button', function(e) {
+  $('body').on('click', '[data-popover]', function(e) {
     var dweetCard = $(this).closest('.dweet');
-    var shareContainer = $(dweetCard).find('.share-container');
-    var shareLink = $(dweetCard).find('.share-link');
+    var $popover = $(dweetCard).find($(this).data('popover'));
+    var shareLink = $popover.find('.share-link');
     e.preventDefault();
-    shareContainer.toggle();
-    if (shareLink.is(':visible')) {
-      shareLink.select();
+
+    if ($popover.is(':visible')) {
+      $popover.hide();
+    } else {
+      $('.popover').hide();
+      $popover.show();
+
+      if ($(this).data('popover') === '.share-container') {
+        shareLink.select();
+      }
     }
   });
 
-  $('body').on('focus', '.share-link', function() {
-    $(this).on('click.a keyup.a', function() {
-      $(this).off('click.a keyup.a').select();
-    });
+  $('body').on('focus', '.share-link, .embed-src', function() {
+    $(this).select();
   });
 
   moment.locale(navigator.userLanguage || navigator.language || 'en-US');

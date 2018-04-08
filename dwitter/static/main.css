@@ -515,7 +515,7 @@ form.like {
   padding:5px;
 }
 
-.share-container {
+.popover {
   display: none;
   position: absolute;
   top: 2em;
@@ -525,12 +525,16 @@ form.like {
   z-index: 100;
 }
 
-.share-container ul {
+.popover ul {
   list-style-type: none;
 }
 
 .share-container li {
   text-align: right;
+}
+
+.remixes-container li {
+  padding: 5px 0;
 }
 
 .dweet-timestamp{
