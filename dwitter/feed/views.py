@@ -124,11 +124,10 @@ def view_hashtag(request, page_nr, hashtag_name):
     if(last >= dweet_count):
         last = dweet_count
 
-    dweet_list = hashtag.dweets.order_by('-posted')[first:last]
+    dweet_list = hashtag.dweets.annotate(num_likes=Count('likes')).order_by('-posted')[first:last]
     next_url = reverse('new_feed_page', kwargs={'page_nr': page + 1})
     prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
 
-    dweet_list.annotate(num_likes=Count('likes'))
     dweet_list = list(
         dweet_list
         .select_related('author')
@@ -137,7 +136,8 @@ def view_hashtag(request, page_nr, hashtag_name):
         .prefetch_related('comments'))
 
     context = {'dweet_list': dweet_list,
-               'feed_type': 'all',
+               'feed_type': 'hashtag',
+               'hashtag': hashtag_name,
                'page_nr': page,
                'on_last_page': last == dweet_count,
                'next_url': next_url,

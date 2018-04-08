@@ -24,6 +24,11 @@
     {{ header_title }}
     </a>
   {% endif %}
+  {% if feed_type == "hashtag" %}
+    |  <a href="{% url 'view_hashtag' hashtag_name=hashtag %}">
+    #{{ hashtag }}
+    </a>
+  {% endif %}
 {% endblock %}
 
 {% block top-nav %}
