@@ -23,7 +23,10 @@
       {% if embed %}
       <a class="dweet-option embed-dwitter-link"  href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">full version</a>
       {% endif %}
-      <a class="dweet-option share-button" href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">share</a>
+      <a class="dweet-option share-button" href="" data-popover=".share-container">share</a>
+      {% if dweet.dweet_set.count > 0 %}
+      <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">remixes</a>
+      {% endif %}
       {% if request.user == dweet.author or request.user.is_staff %}
         <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
           onsubmit="return confirm('Are you sure you want to delete the dweet (cannot be reversed)?');" >
@@ -35,7 +38,7 @@
         </form>
       {% endif %}
       <a class="dweet-option fullscreen-button" href="javascript:;" target="_blank">fullscreen</a>
-      <div class="share-container">
+      <div class="popover share-container">
         <ul>
           <li>
             <label>Permalink:</label>
@@ -45,6 +48,22 @@
             <label>Embed:</label>
             <input type=text readonly class=embed-src value='<iframe width=500 height=570 frameBorder="0" src="{% url 'dweet_embed' dweet_id=dweet.id %}" allowFullScreen="true"></iframe>'/>
           </li>
+        </ul>
+      </div>
+      <div class="popover remixes-container">
+        <ul>
+          {% for remix in dweet.dweet_set.all %}
+            <li>
+              <a href="{% url 'dweet_show' dweet_id=remix.id %}">
+                <span class="faded">d/</span>{{remix.id}}
+              </a>
+              by
+              <a href="{% url 'user_feed' url_username=remix.author.username %}">
+                <span class="faded">u/</span>{{ remix.author.username }}
+                <div class="avatar" style="background-image: url({{ remix.author.email | to_gravatar_url }})"></div>
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
