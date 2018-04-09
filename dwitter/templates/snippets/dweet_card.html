@@ -25,7 +25,7 @@
       {% endif %}
       <a class="dweet-option share-button" href="" data-popover=".share-container">share</a>
       {% if dweet.dweet_set.count > 0 %}
-      <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">remixes</a>
+      <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">{{ dweet.dweet_set.count }} remix{% if dweet.dweet_set.count > 1 %}es{% endif %}</a>
       {% endif %}
       {% if request.user == dweet.author or request.user.is_staff %}
         <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
