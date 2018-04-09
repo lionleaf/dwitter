@@ -23,7 +23,7 @@
       {% if embed %}
       <a class="dweet-option embed-dwitter-link"  href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">full version</a>
       {% endif %}
-      <a class="dweet-option share-button" href="" data-popover=".share-container">share</a>
+      <a class="dweet-option share-button" href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank" data-popover=".share-container">share</a>
       {% if dweet.dweet_set.count > 0 %}
       <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">remixes</a>
       {% endif %}
