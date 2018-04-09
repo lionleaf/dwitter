@@ -52,6 +52,13 @@ $(document).ready(function() {
     }
   });
 
+  $('body').on('click', function(e) {
+    if (!$(e.target).is('[data-popover]') &&
+        $(e.target).closest('.popover').length === 0) {
+      $('.popover').hide();
+    }
+  });
+
   $('body').on('focus', '.share-link, .embed-src', function() {
     $(this).select();
   });
