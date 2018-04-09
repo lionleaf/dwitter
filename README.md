@@ -24,7 +24,8 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 * `make` (install dependencies and set up database)
 * `python manage.py createsuperuser` (create admin account used below)
 * `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
-* go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/), login with admin account created above, click on the one entry, and change both `domain name` and `display name` to localhost:8000.
+* Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
+* Click on the one entry, and change both `domain name` and `display name` to localhost:8000.
 * Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
 
 ## Other commands
