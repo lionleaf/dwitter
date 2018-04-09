@@ -46,8 +46,8 @@ window.onload = function() {
       $.each(items, function(index, div) {
         var iframe = $(div).find('.dweetiframe')[0];
         var link = $(div).find('.fullscreen-button');
-        var sharebutt = $(div).find('.share-button');
-        var sharelink = $(div).find('.share-link');
+        var timestamp = $(div).find('time');
+        var postedDate = moment.utc(timestamp.attr('datetime'));
 
         registerOnKeyListener(div);
         registerStatsClickListeners(div);
@@ -59,26 +59,8 @@ window.onload = function() {
           requestFullscreen(iframe);
         });
 
-        sharebutt.on('click', function(e) {
-          e.preventDefault();
-          sharelink.toggle();
-
-          if (sharelink.is(':visible')) {
-            sharelink.select();
-          }
-        });
-
-        $(sharelink).focus(function() {
-          var timestamp = $(div).find('time');
-          var postedDate = moment.utc(timestamp.attr('datetime'));
-
-          moment.locale(navigator.userLanguage || navigator.language || 'en-US');
-          timestamp.text(postedDate.local().format('lll'));
-
-          $(this).on('click.a keyup.a', function() {
-            $(this).off('click.a keyup.a').select();
-          });
-        });
+        moment.locale(navigator.userLanguage || navigator.language || 'en-US');
+        timestamp.text(postedDate.local().format('lll'));
       });
     },
   });

@@ -27,47 +27,27 @@ $(document).ready(function() {
   $('body').on('input', '.code-input', onDweetChanged);
   $('.code-input').each(onDweetChanged);
 
-  $('.dweet').each(function(i, el) {
-    var link = $(el).find('.fullscreen-button');
-    var iframe = $(el).find('iframe.dweetiframe');
-    var sharebutt = $(el).find('.share-button');
-    var sharelink = $(el).find('.share-link');
-    var embedbutt = $(el).find('.embed-button');
-    var embedsrc = $(el).find('.embed-src');
+  $('body').on('click', '.fullscreen-button', function(e) {
+    var dweetCard = $(this).closest('.dweet');
+    var iframe = $(dweetCard).find('iframe.dweetiframe');
+    e.preventDefault();
+    requestFullscreen(iframe[0]);
+  });
 
-    link.on('click', function(e) {
-      e.preventDefault();
-      requestFullscreen(iframe[0]);
-    });
+  $('body').on('click', '.share-button', function(e) {
+    var dweetCard = $(this).closest('.dweet');
+    var shareContainer = $(dweetCard).find('.share-container');
+    var shareLink = $(dweetCard).find('.share-link');
+    e.preventDefault();
+    shareContainer.toggle();
+    if (shareLink.is(':visible')) {
+      shareLink.select();
+    }
+  });
 
-    sharebutt.on('click', function(e) {
-      e.preventDefault();
-      sharelink.toggle();
-      embedsrc.hide();
-      if (sharelink.is(':visible')) {
-        sharelink.select();
-      }
-    });
-
-    $(sharelink).focus(function() {
-      $(this).on('click.a keyup.a', function() {
-        $(this).off('click.a keyup.a').select();
-      });
-    });
-
-    embedbutt.on('click', function(e) {
-      e.preventDefault();
-      embedsrc.toggle();
-      sharelink.hide();
-      if (embedsrc.is(':visible')) {
-        embedsrc.select();
-      }
-    });
-
-    $(embedsrc).focus(function() {
-      $(this).on('click.a keyup.a', function() {
-        $(this).off('click.a keyup.a').select();
-      });
+  $('body').on('focus', '.share-link', function() {
+    $(this).on('click.a keyup.a', function() {
+      $(this).off('click.a keyup.a').select();
     });
   });
 
