@@ -22,8 +22,6 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         c = serializer.save(author=self.request.user, posted=timezone.now())
-        c.add_hashtags()
-
 
 class DweetFilterSet(FilterSet):
     remix_of = NumberFilter(name='reply_to')
