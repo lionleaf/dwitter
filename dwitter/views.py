@@ -21,7 +21,8 @@ class CommentViewSet(viewsets.ModelViewSet):
                           IsAuthorOrReadOnly, )
 
     def perform_create(self, serializer):
-        c = serializer.save(author=self.request.user, posted=timezone.now())
+        serializer.save(author=self.request.user, posted=timezone.now())
+
 
 class DweetFilterSet(FilterSet):
     remix_of = NumberFilter(name='reply_to')

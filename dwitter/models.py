@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save
 
 
-
 def get_sentinel_user():
     users = get_user_model().objects
     return users.get_or_create(username='[deleted]', is_active=False)[0]
@@ -69,6 +68,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ('-posted',)
 
+
 # Go through hashtags mentioned in the comment
 # and add them to the parent dweet.
 # Should be idempotent.
@@ -79,6 +79,7 @@ def add_hashtags(sender, instance, **kwargs):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
         if not h.dweets.filter(id=instance.reply_to.id).exists():
             h.dweets.add(instance.reply_to)
+
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=30, unique=True, db_index=True)
