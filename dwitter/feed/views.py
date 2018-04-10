@@ -112,7 +112,7 @@ def feed(request, page_nr, sort):
 
 
 def view_hashtag(request, page_nr, hashtag_name):
-    hashtag = get_object_or_404(Hashtag.objects.all(), name=hashtag_name)
+    hashtag = get_object_or_404(Hashtag.objects.all(), name=hashtag_name.lower())
     page = int(page_nr)
     dweets_per_page = 10
     first = (page - 1) * dweets_per_page

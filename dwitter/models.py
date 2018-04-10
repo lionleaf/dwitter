@@ -70,7 +70,7 @@ class Comment(models.Model):
     def add_hashtags(self):
         hash_pattern = re.compile(r'#(?P<hashtag>[a-zA-Z\d]+)')
         for hashtag in re.findall(hash_pattern, self.text):
-            h = Hashtag.objects.get_or_create(name=hashtag)[0]
+            h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
             if not h.dweets.filter(id=self.reply_to.id).exists():
                 h.dweets.add(self.reply_to)
 
