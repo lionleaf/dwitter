@@ -133,6 +133,42 @@ class DweetTestCase(TestCase):
             insert_magic_links('(d/1)')
         )
 
+    def test_insert_magic_replaces_basic_hashtag(self):
+        self.assertEqual(
+            '<a href="/h/test">#test</a>',
+            insert_magic_links('#test')
+        )
+
+    def test_insert_magic_replaces_prefix_hashtag(self):
+        self.assertEqual(
+            'prefix <a href="/h/test">#test</a>',
+            insert_magic_links('prefix #test')
+        )
+
+    def test_insert_magic_replaces_hashtag_prefix_no_space(self):
+        self.assertEqual(
+            'prefix<a href="/h/test">#test</a>',
+            insert_magic_links('prefix#test')
+        )
+
+    def test_insert_magic_replaces_hashtag_paren(self):
+        self.assertEqual(
+            'prefix(<a href="/h/test">#test</a>)',
+            insert_magic_links('prefix(#test)')
+        )
+
+    def test_insert_magic_replaces_hashtag_underscore(self):
+        self.assertEqual(
+            'Dwitter is just <a href="/h/amazing_underscore">#amazing_underscore</a>, right?',
+            insert_magic_links('Dwitter is just #amazing_underscore, right?')
+        )
+
+    def test_insert_magic_replaces_hashtag_illegal_hyphen(self):
+        self.assertEqual(
+            'Dwitter is just <a href="/h/amaze">#amaze</a>-balls, right?',
+            insert_magic_links('Dwitter is just #amaze-balls, right?')
+        )
+
     # mixed
 
     def test_insert_magic_links_mixed(self):
@@ -141,4 +177,15 @@ class DweetTestCase(TestCase):
             '<a href="/d/123">d/123</a> by '
             '<a href="/u/jane">u/jane</a>',
             insert_magic_links('u/john remixed d/123 by /u/jane')
+        )
+
+    def test_insert_magic_links_mixed_hashtag(self):
+        self.assertEqual(
+            '<a href="/h/awesome">#awesome</a> '
+            '<a href="/u/john">u/john</a> remixed '
+            '<a href="/h/amazing">#amazing</a> '
+            '<a href="/d/123">d/123</a> by '
+            '<a href="/u/jane">u/jane</a>'
+            '<a href="/h/yey">#yey</a>',
+            insert_magic_links('#awesome u/john remixed #amazing d/123 by /u/jane#yey')
         )
