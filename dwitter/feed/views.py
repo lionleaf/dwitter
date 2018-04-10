@@ -110,6 +110,7 @@ def feed(request, page_nr, sort):
                }
     return render(request, 'feed/feed.html', context)
 
+
 def view_hashtag(request, page_nr, hashtag_name):
     hashtag = get_object_or_404(Hashtag.objects.all(), name=hashtag_name)
     page = int(page_nr)
@@ -145,7 +146,6 @@ def view_hashtag(request, page_nr, hashtag_name):
                'show_submit_box': True
                }
     return render(request, 'feed/feed.html', context)
-
 
 
 def dweet_show(request, dweet_id):

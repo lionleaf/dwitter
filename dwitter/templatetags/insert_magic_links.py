@@ -17,6 +17,7 @@ def user_dweet_to_link(m):
     result = '<a href="/{0}">{0}</a>'.format(url)
     return text.replace(url, result)
 
+
 def hashtag_to_link(m):
     text = m.group('text')
     hashtag = m.group('hashtag')
@@ -24,7 +25,7 @@ def hashtag_to_link(m):
     url = 'h/' + hashtag
     tag = '#' + hashtag
 
-    result = '<a href="/{0}">{1}</a>'.format(url,tag)
+    result = '<a href="/{0}">{1}</a>'.format(url, tag)
     return text.replace(tag, result)
 
 

@@ -73,10 +73,10 @@ class Comment(models.Model):
             h = Hashtag.objects.get_or_create(name=hashtag)[0]
             if not h.dweets.filter(id=self.reply_to.id).exists():
                 h.dweets.add(self.reply_to)
-        
 
     class Meta:
         ordering = ('-posted',)
+
 
 class Hashtag(models.Model):
     name = models.CharField(max_length=30, unique=True, db_index=True)
@@ -84,6 +84,3 @@ class Hashtag(models.Model):
 
     def __unicode__(self):
         return '#' + self.name
-
-    
-
