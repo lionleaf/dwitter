@@ -8,7 +8,7 @@ def add_hashtags(apps, schema_editor):
     Comment = apps.get_model("dwitter", "Comment")
     Hashtag = apps.get_model("dwitter", "Hashtag")
     for comment in Comment.objects.all():
-        hash_pattern = re.compile(r'#(?P<hashtag>[a-zA-Z\d]+)')
+        hash_pattern = re.compile(r'#(?P<hashtag>[_a-zA-Z\d]+)')
         for hashtag in re.findall(hash_pattern, comment.text):
             h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
             if not h.dweets.filter(id=comment.reply_to.id).exists():
