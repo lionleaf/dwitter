@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils.html import escape
 from dwitter.models import Dweet, Comment
 from dwitter.templatetags.insert_code_blocks import insert_code_blocks
 from dwitter.templatetags.insert_magic_links import insert_magic_links
@@ -42,7 +43,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def get_urlized_text(self, obj):
         return insert_magic_links(
             urlizetrunc(
-                insert_code_blocks(obj.text),
+                insert_code_blocks(escape(obj.text)),
                 45
             )
         )
