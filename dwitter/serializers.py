@@ -6,6 +6,7 @@ from dwitter.templatetags.insert_magic_links import insert_magic_links
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
+from django.utils.html import escape
 
 
 class UserSerializer(serializers.ModelSerializer):
