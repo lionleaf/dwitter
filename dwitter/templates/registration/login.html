@@ -17,7 +17,7 @@
         type="text"
         placeholder="..."
         />
-
+	<span class="error-display">{{ form.username.errors }}</span>
     <label for="id_password">
         Password
     </label>
@@ -27,7 +27,8 @@
         type="password"
         placeholder="..."
         />
-
+	<span class="error-display">{{ form.password.errors }}</span>
+	<span class="error-display">{{ form.non_field_errors }}</span>
     <input type="submit" value="{% trans 'Log in' %}" />
     <input type="hidden" name="next" value="{{ next }}" />
 
