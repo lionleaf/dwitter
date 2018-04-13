@@ -1,6 +1,5 @@
 import re
 from django import template
-from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -10,7 +9,7 @@ def to_code_block(m):
     code = m.group('code')
     code = re.sub(r'\\`', '`', code)
 
-    return '<code>%s</code>' % (escape(code))
+    return '<code>%s</code>' % code
 
 
 @register.filter
