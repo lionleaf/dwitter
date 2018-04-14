@@ -2,7 +2,7 @@ function onDweetChanged() {
   // eslint-disable-next-line newline-per-chained-call
   var charCount = $(this).parent().parent().parent().find('.character-count')[0];
   var submitButton = $(this).parent().parent().find('.remix-button')[0];
-  
+
   charCount.textContent = this.value.length + '/140';
   if (this.value.length > 140) {
     $(charCount).addClass('too-long');

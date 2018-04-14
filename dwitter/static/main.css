@@ -465,18 +465,18 @@ form.like {
 }
 
 .record-button .record-icon {
-	display: inline-block;
-	vertical-align: bottom;
-	margin-bottom: 2px;
-	width: 1em;
-	height: 1em;
-	background-color: red;
-	border-radius: 50%;
-	transition-duration: 0.3s;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-bottom: 2px;
+  width: 1em;
+  height: 1em;
+  background-color: red;
+  border-radius: 50%;
+  transition-duration: 0.3s;
 }
 
 .record-button.recording .record-icon {
-	border-radius: 2px;
+  border-radius: 2px;
 }
 
 .like-button.liked:hover {
