@@ -7,10 +7,20 @@
       background: white;
       }
     </style>
+	<script type="text/javascript" src="/static/libs/gif.js"></script>
     <script>
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
       var playing = !!autoplay;
+	  var FPS = 60;
+	  
+	  var recording = false;
+	  var encoder = new GIF({ 
+		workers: 4, 
+		quality: 5, 
+		workerScript: "http://dweet.localhost:8000/static/libs/gif.worker.js"
+	  });
+	  
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
         console.log("Received message from " + origin);
@@ -39,6 +49,29 @@
           case "hideStats":
             setStatsVisibility(false);
             break;
+		  case "record":
+			recording = true;
+			encoder.setOptions({
+				width: c.width, 
+				height: c.height
+			});
+			FPS = 25;
+			break;
+		  case "stop":
+			recording = false;
+			encoder.render();
+			encoder.on("finished", function (blob) {
+				let a = document.createElement("a");
+				document.body.appendChild(a);
+				a.style.display = "none";
+				a.href = URL.createObjectURL(blob);
+				a.download = "dweet.gif";
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(a.href);
+			});
+			FPS = 60;
+		    break;
         }
 
         if(event.data.substring(0, 4) == "code"){
@@ -53,7 +86,7 @@
           parent.postMessage({
             'type': 'error',
             'error': ""+e,
-            'location': window.location.href
+            'location': location.href
           },"*");
         }
       }
@@ -92,7 +125,7 @@
       }
       var timeOffset = 0;
 
-      window.addEventListener("message", receiveMessage, false);
+      addEventListener("message", receiveMessage, false);
 
       function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
@@ -125,14 +158,15 @@
     var c = document.querySelector("#c");
     c.width = 1920;
     c.height = 1080;
+    var x = c.getContext("2d");
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
     function R(r,g,b,a) {
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
-      };
-    var x = c.getContext("2d");
+    }
+	
     var time = 0;
     var frame = 0;
     function u(t) {
@@ -144,8 +178,8 @@
       if (playing){
         requestAnimationFrame(loop);
       }
-      time = frame/60;
-      if(time * 60 | 0 == frame - 1){
+	  time = frame/FPS;
+      if(time * FPS | 0 == frame - 1){
         time += 0.000001;
       }
       frame++;
@@ -153,6 +187,15 @@
       try {
         stats.begin();
         u(time);
+		if (recording) {
+			var data = x.getImageData(0, 0, c.width, c.height);
+			for (var i = 0; i < data.data.length; i += 4) {
+				if (data.data[i + 3] == 0)
+					[data.data[i], data.data[i + 1], data.data[i + 2], data.data[i + 3]] = [255, 255, 255, 255];
+			}
+			x.putImageData(data, 0, 0);
+			encoder.addFrame(x, { copy: true, delay: 40 });
+		}
         stats.end();
         displayError("");
       } catch (e) {

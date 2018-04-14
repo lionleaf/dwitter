@@ -16,6 +16,19 @@ window.onload = function() {
     registerStatsClickListeners(dweet);
   });
 
+  var recordButtons = document.getElementsByClassName("record-button");
+  for (var recordButton of recordButtons) {
+  	recordButton.onclick = function() {
+  		var iframe = document.getElementById(recordButton.dataset.dweet_id);
+  		if (recordButton.classList.contains("recording")) {
+  			iframe.contentWindow.postMessage("stop", "*");
+  		} else {
+  			iframe.contentWindow.postMessage("record", "*");
+  		}
+  		recordButton.classList.toggle("recording");
+  	}
+  }
+  
   if (editor && editoriframe) {
     // Update editor!
     showCode(editoriframe, oldCode);

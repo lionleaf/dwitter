@@ -444,7 +444,7 @@ form.like {
   vertical-align: middle;
 }
 
-.like-button {
+.like-button, .record-button {
   background: #eee;
   border-radius: 4px;
   border: 1px solid #ddd;
@@ -455,20 +455,35 @@ form.like {
   cursor: pointer;
   display: inline-block;
 }
-.like-button.liked {
+.like-button.liked, .record-button.recording, .record-button.recording:hover {
   background: linear-gradient(to top, #2ab6e1, #4599ca);
 }
 
-.like-button.liked .like-text {
+.like-button.liked .like-text, .record-button.recording .record-text {
   color: white;
   text-shadow: 0 -1px rgba(106, 130, 135, 0.5);
+}
+
+.record-button .record-icon {
+	display: inline-block;
+	vertical-align: bottom;
+	margin-bottom: 2px;
+	width: 1em;
+	height: 1em;
+	background-color: red;
+	border-radius: 50%;
+	transition-duration: 0.3s;
+}
+
+.record-button.recording .record-icon {
+	border-radius: 2px;
 }
 
 .like-button.liked:hover {
   background: linear-gradient(to top, #e1362a, #ca3945);
 }
 
-.like-button:hover {
+.like-button:hover, .record-button:hover {
   text-decoration: none;
   background: #ddd;
   border-color: #ccc;
