@@ -2,7 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %} Dwitter {% endblock %} </title>
+    <title> {% block title %}
+      {% if dweet %}
+        {% if dweet.comments.last.author == dweet.author %}
+          {% with dweet.comments.last.text as author_comment %}
+            {# TODO: Djangify this: (author_comment[:37] + '...') if len(author_comment) > 40 else author_comment #}
+            {{ author_comment }}
+          {% endwith %}
+        {% else %}
+          d/{{ dweet.id }}
+        {% endif %}
+        by {{ dweet.author.username }} - Dwitter
+      {% else %}
+        Dwitter
+      {% endif %}
+    {% endblock %} </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load compress %}
 
