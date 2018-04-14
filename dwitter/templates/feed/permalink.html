@@ -15,15 +15,19 @@
 {% endblock %}
 
 {% block title %}
-  {% if dweet.comments.last.author == dweet.author %}
-    {% with dweet.comments.last.text as author_comment %}
-      {# TODO: Djangify this: (author_comment[:37] + '...') if len(author_comment) > 40 else author_comment #}
-      {{ author_comment }}
-    {% endwith %}
+  {% if dweet.deleted %}
+    Deleted dweet - Dwitter
   {% else %}
-    d/{{ dweet.id }}
+    {% if dweet.comments.last.author == dweet.author %}
+      {% with dweet.comments.last.text as author_comment %}
+        {# TODO: Djangify this: (author_comment[:37] + '...') if len(author_comment) > 40 else author_comment #}
+        {{ author_comment }}
+      {% endwith %}
+    {% else %}
+      d/{{ dweet.id }}
+    {% endif %}
+    by {{ dweet.author.username }} - Dwitter
   {% endif %}
-  by {{ dweet.author.username }} - Dwitter
 {% endblock %}
 
 {% block body_class %}{{sort}}{% endblock %}
