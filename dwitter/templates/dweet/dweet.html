@@ -15,11 +15,7 @@
     var FPS = 60;
     
     var recording = false;
-    var encoder = new GIF({ 
-    workers: 4, 
-    quality: 5, 
-    workerScript: "http://dweet.localhost:8000/static/libs/gif.worker.js"
-    });
+    var encoder;
     
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
@@ -49,29 +45,34 @@
           case "hideStats":
             setStatsVisibility(false);
             break;
-      case "record":
-      recording = true;
-      encoder.setOptions({
-        width: c.width, 
-        height: c.height
-      });
-      FPS = 25;
-      break;
-      case "stop":
-      recording = false;
-      encoder.render();
-      encoder.on("finished", function (blob) {
-        let a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style.display = "none";
-        a.href = URL.createObjectURL(blob);
-        a.download = "dweet.gif";
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
-      });
-      FPS = 60;
-        break;
+          case "record":
+            recording = true;
+            encoder = new GIF({ 
+              workers: 4, 
+              quality: 5, 
+              workerScript: "/static/libs/gif.worker.js",
+              width: c.width, 
+              height: c.width / 16 * 9
+            });
+            FPS = 25;
+            break;
+          case "stop":
+            recording = false;
+            encoder.render();
+            encoder.on("finished", function (blob) {
+            let a = document.createElement("a");
+              document.body.appendChild(a);
+              a.style.display = "none";
+              a.href = URL.createObjectURL(blob);
+              a.download = "dweet.gif";
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(a.href);
+            });
+            FPS = 60;
+			time = 0;
+			frame = 0;
+            break;
         }
 
         if(event.data.substring(0, 4) == "code"){
