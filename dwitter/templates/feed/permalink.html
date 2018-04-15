@@ -18,11 +18,8 @@
   {% if dweet.deleted %}
     Deleted dweet - Dwitter
   {% else %}
-    {% if dweet.comments.last.author == dweet.author %}
-      {% with dweet.comments.last.text as author_comment %}
-        {# TODO: Djangify this: (author_comment[:37] + '...') if len(author_comment) > 40 else author_comment #}
-        {{ author_comment }}
-      {% endwith %}
+    {% if dweet.comments.last.author == dweet.author and not dweet.comments.last.text.41 %}
+      {{ dweet.comments.last.text }}
     {% else %}
       d/{{ dweet.id }}
     {% endif %}
