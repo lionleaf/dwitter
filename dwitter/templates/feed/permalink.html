@@ -14,6 +14,19 @@
 {% endcompress %}
 {% endblock %}
 
+{% block title %}
+  {% if dweet.deleted %}
+    Deleted dweet - Dwitter
+  {% else %}
+    {% if dweet.comments.last.author == dweet.author %}
+      {{ dweet.comments.last.text | truncatechars:40 }}
+    {% else %}
+      d/{{ dweet.id }}
+    {% endif %}
+    by {{ dweet.author.username }} - Dwitter
+  {% endif %}
+{% endblock %}
+
 {% block body_class %}{{sort}}{% endblock %}
 
 
