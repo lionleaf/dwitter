@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <head>
   <style>
-    * {padding:0;margin:0;border:0;outline:0;overflow:hidden}
-    canvas {
-      width: 100%;
-      background: white;
+      * {
+        padding:0;
+        margin:0;
+        border:0;
+        outline:0;
+        overflow:hidden;
+      }
+      canvas {
+        width: 100%;
+        background: white;
       }
     </style>
   <script type="text/javascript" src="/static/libs/gif.js"></script>
@@ -12,12 +18,13 @@
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
       var playing = !!autoplay;
-    var FPS = 60;
-    
-    var recording = false;
-    var encoder;
-	var gifCanvas = document.createElement("canvas");
-	var gifctx;
+      var FPS = 60;
+      
+      var recording = false;
+      var encoder;
+    var gifCanvas = document.createElement("canvas");
+    var gifctx;
+    var dweetId;
     
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
@@ -47,26 +54,12 @@
           case "hideStats":
             setStatsVisibility(false);
             break;
-          case "record":
-            recording = true;
-            encoder = new GIF({ 
-              workers: 4, 
-              quality: 5, 
-              workerScript: "/static/libs/gif.worker.js",
-              width: c.width, 
-              height: c.width / 16 * 9,
-			  background: ""
-            });
-            FPS = 25;
-			gifCanvas.width = c.width;
-			gifCanvas.height = c.width / 16 * 9;
-			gifctx = gifCanvas.getContext("2d");
-            break;
-          case "stop":
+          case "stopGifRecord":
+            if (recording) {
             recording = false;
             encoder.render();
             encoder.on("finished", function (blob) {
-            let a = document.createElement("a");
+              let a = document.createElement("a");
               document.body.appendChild(a);
               a.style.display = "none";
               a.href = URL.createObjectURL(blob);
@@ -74,14 +67,37 @@
               a.click();
               document.body.removeChild(a);
               URL.revokeObjectURL(a.href);
+              window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
             });
-            FPS = 60;
-			time = 0;
-			frame = 0;
+            time = 0;
+            frame = 0;
             break;
+          }
         }
 
-        if(event.data.substring(0, 4) == "code"){
+        if (event.data.msg == "startGifRecord") {
+          if (!recording) {
+            dweetId = event.data.dweetId;
+          
+            recording = true;
+            var workerCount = 4;
+            if (typeof navigator.hardwareConcurrency !== "undefined")
+              workerCount = navigator.hardwareConcurrency;
+            encoder = new GIF({ 
+              workers: workerCount, 
+              quality: 5, 
+              workerScript: "/static/libs/gif.worker.js",
+              width: c.width, 
+              height: c.width / 16 * 9,
+              background: ""
+            });
+            gifCanvas.width = c.width;
+            gifCanvas.height = c.width / 16 * 9;
+            gifctx = gifCanvas.getContext("2d");
+            time = 0;
+            frame = 0;
+          }
+        } else if (event.data.substring(0, 4) == "code"){
           var code = event.data.substring(5,event.data.length);
           newCode(code);
         }
@@ -93,7 +109,7 @@
           parent.postMessage({
             'type': 'error',
             'error': ""+e,
-            'location': location.href
+            'location': window.location.href
           },"*");
         }
       }
@@ -161,7 +177,7 @@
 
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
-	
+  
     var c = document.querySelector("#c");
     c.width = 1920;
     c.height = 1080;
@@ -194,11 +210,11 @@
       try {
         stats.begin();
         u(time);
-        if (recording) {
+        if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
-	      gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
-	      gifctx.drawImage(c, 0, 0);
-          encoder.addFrame(gifctx, { copy: true, delay: 40 });
+        gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
+        gifctx.drawImage(c, 0, 0);
+          encoder.addFrame(gifctx, { copy: true, delay: 1000 / 30 });
         } 
         stats.end();
         displayError("");

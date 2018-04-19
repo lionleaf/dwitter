@@ -444,7 +444,20 @@ form.like {
   vertical-align: middle;
 }
 
-.like-button, .record-button {
+.record-button {
+  outline: none;
+  width: 11em;
+  text-align: right;
+  background: rgba(0, 0, 0, 0);
+}
+
+.record-text {
+  color: #666;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+.like-button {
   background: #eee;
   border-radius: 4px;
   border: 1px solid #ddd;
@@ -455,28 +468,47 @@ form.like {
   cursor: pointer;
   display: inline-block;
 }
-.like-button.liked, .record-button.recording, .record-button.recording:hover {
+
+.like-button.liked {
   background: linear-gradient(to top, #2ab6e1, #4599ca);
 }
 
-.like-button.liked .like-text, .record-button.recording .record-text {
+.like-button.liked .like-text{
   color: white;
   text-shadow: 0 -1px rgba(106, 130, 135, 0.5);
 }
 
 .record-button .record-icon {
+  width: 0;
+  height: 1em;
   display: inline-block;
   vertical-align: bottom;
   margin-bottom: 2px;
-  width: 1em;
-  height: 1em;
-  background-color: red;
   border-radius: 50%;
+  background-color: red;
   transition-duration: 0.3s;
 }
 
 .record-button.recording .record-icon {
-  border-radius: 2px;
+  width: 1em;
+}
+
+.record-button.processing .record-icon {
+  width: 1em;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0);
+  border-top: 3px solid red;
+  animation: load 1s linear infinite;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .like-button.liked:hover {

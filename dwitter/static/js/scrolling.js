@@ -4,7 +4,6 @@ window.onload = function() {
   var editor = document.querySelector('#editor');
   var editoriframe = document.querySelector('#preview-iframe');
   var oldCode = editor && editor.value;
-  var recordButtons = document.querySelectorAll('.record-button');
 
   addEventListener('message', receiveMessage, false);
 
@@ -17,17 +16,14 @@ window.onload = function() {
     registerStatsClickListeners(dweet);
   });
 
-  [].forEach.call(recordButtons, function(recordButton) {
-    recordButton.addEventListener('click', function() {
-      var iframe = document.getElementById(recordButton.dataset.dweet_id);
-      if (recordButton.classList.contains('recording')) {
-        iframe.contentWindow.postMessage('stop', '*');
-      } else {
-        iframe.contentWindow.postMessage('record', '*');
-      }
-      recordButton.classList.toggle('recording');
-    });
-  });
+  window.onmessage = function(event) {
+    var recordButton;
+    if (event.data.msg === 'finished') {
+      recordButton = document.getElementById('record-' + event.data.dweetId);
+      recordButton.classList.remove('processing');
+      recordButton.getElementsByTagName('span')[0].innerHTML = 'record';
+    }
+  };
 
   if (editor && editoriframe) {
     // Update editor!
