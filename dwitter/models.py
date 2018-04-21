@@ -74,7 +74,7 @@ class Comment(models.Model):
 # Should be idempotent.
 @receiver(post_save, sender=Comment, dispatch_uid="add_hashtags_from_comment")
 def add_hashtags(sender, instance, **kwargs):
-    hash_pattern = re.compile(r'#(?P<hashtag>[_a-zA-Z\d]+)')
+    hash_pattern = re.compile(r'#(?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)')
     for hashtag in re.findall(hash_pattern, instance.text):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
         if not h.dweets.filter(id=instance.reply_to.id).exists():

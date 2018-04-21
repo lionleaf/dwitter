@@ -44,9 +44,8 @@ def insert_magic_links(text):
     )
     text = re.sub(
         r'(?P<text>'                                            # capture original pattern
-        r'#(?P<hashtag>[_a-zA-Z\d]+)[^_a-zA-Z\d]?)',              # hashtag
+        r'#(?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)[^_a-zA-Z\d]?)',   # hashtag
         hashtag_to_link,
         text
     )
-
     return text
