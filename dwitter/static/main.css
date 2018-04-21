@@ -448,7 +448,7 @@ form.like {
   outline: none;
   width: 11em;
   text-align: right;
-  background: rgba(0, 0, 0, 0);
+  background: transparent;
 }
 
 .record-text {
@@ -515,7 +515,7 @@ form.like {
   background: linear-gradient(to top, #e1362a, #ca3945);
 }
 
-.like-button:hover, .record-button:hover {
+.like-button:hover {
   text-decoration: none;
   background: #ddd;
   border-color: #ccc;
