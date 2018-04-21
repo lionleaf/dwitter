@@ -40,8 +40,8 @@ urlpatterns = [
         views.dweet_embed, name='dweet_embed'),
 
     url(r'^h/(?P<hashtag_name>[\w._]+)$', views.view_hashtag, {'page_nr': 1}, name='view_hashtag'),
-    url(r'^h/page/(?P<page_nr>\d+)$',
-        views.view_hashtag, name='new_feed_page'),
+    url(r'^h/(?P<hashtag_name>[\w._]+)/page/(?P<page_nr>\d+)$',
+        views.view_hashtag, name='view_hashtag_page'),
 
     url(r'^dweet$', views.dweet, name='dweet'),
 ]
