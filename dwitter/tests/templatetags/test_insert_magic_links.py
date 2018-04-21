@@ -169,6 +169,26 @@ class DweetTestCase(TestCase):
             insert_magic_links('Dwitter is just #amaze-balls, right?')
         )
 
+    def test_insert_magic_hashtag_not_start_with_digit(self):
+        self.assertEqual(
+            'Dwitter is just #1337 or <a href="/h/super1337">#super1337</a>?',
+            insert_magic_links('Dwitter is just #1337 or #super1337?')
+        )
+
+    def test_insert_magic_single_character_hashtag(self):
+        self.assertEqual(
+            '<a href="/h/s">#s</a>',
+            insert_magic_links('#s')
+        )
+        self.assertEqual(
+            '<a href="/h/S">#S</a>',
+            insert_magic_links('#S')
+        )
+        self.assertEqual(
+            '#1',  # Start with digit not legal
+            insert_magic_links('#1')
+        )
+
     # mixed
 
     def test_insert_magic_links_mixed(self):
