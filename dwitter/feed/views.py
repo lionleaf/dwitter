@@ -118,7 +118,7 @@ def view_hashtag(request, page_nr, hashtag_name):
     first = (page - 1) * dweets_per_page
     last = page * dweets_per_page
 
-    dweet_count = Dweet.objects.count()
+    dweet_count = hashtag.dweets.count()
 
     if(first < 0 or first > dweet_count):
         raise Http404("No such page")
@@ -126,8 +126,8 @@ def view_hashtag(request, page_nr, hashtag_name):
         last = dweet_count
 
     dweet_list = hashtag.dweets.annotate(num_likes=Count('likes')).order_by('-posted')[first:last]
-    next_url = reverse('new_feed_page', kwargs={'page_nr': page + 1})
-    prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
+    next_url = reverse('view_hashtag_page', kwargs={'hashtag_name': hashtag_name, 'page_nr': page + 1})
+    prev_url = reverse('view_hashtag_page', kwargs={'hashtag_name': hashtag_name, 'page_nr': page - 1})
 
     dweet_list = list(
         dweet_list
