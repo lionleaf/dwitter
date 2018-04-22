@@ -16,6 +16,15 @@ window.onload = function() {
     registerStatsClickListeners(dweet);
   });
 
+  window.onmessage = function(event) {
+    var recordButton;
+    if (event.data.msg === 'finished') {
+      recordButton = document.getElementById('record-' + event.data.dweetId);
+      recordButton.classList.remove('processing');
+      recordButton.getElementsByTagName('span')[0].innerHTML = 'record';
+    }
+  };
+
   if (editor && editoriframe) {
     // Update editor!
     showCode(editoriframe, oldCode);

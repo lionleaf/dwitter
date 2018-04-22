@@ -8,7 +8,7 @@
       <div class=canvas-iframe-container >
         <iframe class="dweetiframe"
           src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"
-          sandbox="allow-same-origin allow-scripts"></iframe>
+          sandbox="allow-same-origin allow-scripts" id="{{ dweet.id }}"></iframe>
       </div>
     </div>
     <div class=dweet-actions>
@@ -18,6 +18,10 @@
           <span class="like-text">Awesome!</span>
         </button>
       </form>
+    <button class="record-button" id="record-{{ dweet.id }}" data-dweet_id="{{ dweet.id }}" data-username="{{ dweet.author.username }}">
+    <span class="record-text">record</span>
+    <span class="record-icon"></span>
+    </button>
       <a class="dweet-option show-stats" href="javascript:;" target="_blank">show FPS</a>
       <a class="dweet-option hide-stats" href="javascript:;" target="_blank">hide FPS</a>
       {% if embed %}

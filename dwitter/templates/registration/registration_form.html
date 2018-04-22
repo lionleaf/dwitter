@@ -16,7 +16,7 @@
         type="text"
         placeholder="..."
         />
-
+    <span class="error-display">{{ form.username.errors }}</span>
     <label for="id_email">
         Email
     </label>
@@ -26,7 +26,7 @@
         type="email"
         placeholder="e.g. example@example.com"
         />
-
+    <span class="error-display">{{ form.email.errors }}</span>
     <label for="id_password1">
         Password
     </label>
@@ -36,7 +36,7 @@
         type="password"
         placeholder="..."
         />
-
+    <span class="error-display">{{ form.password1.errors }}</span>
     <label for="id_password2">
         Password confirmation
     </label>
@@ -46,6 +46,8 @@
         type="password"
         placeholder="..."
         />
+    <span class="error-display">{{ form.password2.errors }}</span>
+    <span class="error-display">{{ form.non_field_errors }}</span>
     <input type="submit" value="Register" />
 </form>
 {% endblock %}

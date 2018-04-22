@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <head>
   <style>
-    * {padding:0;margin:0;border:0;outline:0;overflow:hidden}
-    canvas {
-      width: 100%;
-      background: white;
+      * {
+        padding:0;
+        margin:0;
+        border:0;
+        outline:0;
+        overflow:hidden;
+      }
+      canvas {
+        width: 100%;
+        background: white;
       }
     </style>
+  <script type="text/javascript" src="/static/libs/gif.js"></script>
     <script>
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
       var playing = !!autoplay;
+      var FPS = 60;
+      
+      var recording = false;
+      var encoder;
+      var gifCanvas = document.createElement("canvas");
+      var gifctx;
+      var dweetId;
+	  var username;
+      var minGIFWidth = 640;
+    
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
         console.log("Received message from " + origin);
@@ -39,9 +56,52 @@
           case "hideStats":
             setStatsVisibility(false);
             break;
+          case "stopGifRecord":
+            if (recording) {
+            recording = false;
+            encoder.render();
+            encoder.on("finished", function (blob) {
+              let a = document.createElement("a");
+              document.body.appendChild(a);
+              a.style.display = "none";
+              a.href = URL.createObjectURL(blob);
+              a.download = "dweet.gif";
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(a.href);
+              window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
+            });
+            time = 0;
+            frame = 0;
+            break;
+          }
         }
 
-        if(event.data.substring(0, 4) == "code"){
+        if (event.data.msg == "startGifRecord") {
+          if (!recording) {
+            dweetId = event.data.dweetId;
+			username = event.data.username;
+          
+            recording = true;
+            var workerCount = 4;
+            var width = Math.max(c.width, minGIFWidth);
+            if (typeof navigator.hardwareConcurrency !== "undefined")
+              workerCount = navigator.hardwareConcurrency;
+            encoder = new GIF({ 
+              workers: workerCount, 
+              quality: 5, 
+              workerScript: "/static/libs/gif.worker.js",
+              width: width, 
+              height: width / 16 * 9,
+              background: ""
+            });
+            gifCanvas.width = width;
+            gifCanvas.height = width / 16 * 9;
+            gifctx = gifCanvas.getContext("2d");
+            time = 0;
+            frame = 0;
+          }
+        } else if (event.data.substring(0, 4) == "code"){
           var code = event.data.substring(5,event.data.length);
           newCode(code);
         }
@@ -92,7 +152,7 @@
       }
       var timeOffset = 0;
 
-      window.addEventListener("message", receiveMessage, false);
+      addEventListener("message", receiveMessage, false);
 
       function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
@@ -121,18 +181,19 @@
 
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
-
+  
     var c = document.querySelector("#c");
     c.width = 1920;
     c.height = 1080;
+    var x = c.getContext("2d");
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
     function R(r,g,b,a) {
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
-      };
-    var x = c.getContext("2d");
+    }
+  
     var time = 0;
     var frame = 0;
     function u(t) {
@@ -144,8 +205,8 @@
       if (playing){
         requestAnimationFrame(loop);
       }
-      time = frame/60;
-      if(time * 60 | 0 == frame - 1){
+      time = frame/FPS;
+      if(time * FPS | 0 == frame - 1){
         time += 0.000001;
       }
       frame++;
@@ -153,6 +214,33 @@
       try {
         stats.begin();
         u(time);
+        if (recording && frame % 2 == 0) {
+          gifctx.fillStyle = "white";
+          gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
+          
+          gifctx.drawImage(c, 0, 0, gifCanvas.width, gifCanvas.width / c.width * c.height);
+          
+          gifctx.font = "20px sans-serif";
+          
+          gifctx.strokeStyle = "white";
+          gifctx.fillStyle = "black";
+          gifctx.miterLimit = 2;
+          gifctx.lineJoin = 'circle';
+          
+          gifctx.lineWidth = 3;
+          gifctx.strokeText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
+          gifctx.lineWidth = 1;
+          gifctx.fillText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
+		  
+		  var usernameWidth = gifctx.measureText("u/" + username).width;
+		  
+		  gifctx.lineWidth = 3;
+          gifctx.strokeText("u/" + username, gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
+          gifctx.lineWidth = 1;
+          gifctx.fillText("u/" + username,  gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
+          
+          encoder.addFrame(gifctx, { copy: true, delay: 1000 / 30 });
+        } 
         stats.end();
         displayError("");
       } catch (e) {

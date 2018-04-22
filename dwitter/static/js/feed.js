@@ -52,6 +52,22 @@ $(document).ready(function() {
     }
   });
 
+  $('body').on('click', '.record-button', function() {
+    var recordButton = $(this)[0];
+    var iframe = document.getElementById(recordButton.dataset.dweet_id);
+    var span = recordButton.getElementsByTagName('span')[0];
+    if (recordButton.classList.contains('recording')) {
+      iframe.contentWindow.postMessage('stopGifRecord', '*');
+      recordButton.classList.remove('recording');
+      recordButton.classList.add('processing');
+      span.innerHTML = 'processing';
+    } else if (!recordButton.classList.contains('processing')) {
+      iframe.contentWindow.postMessage({ msg: 'startGifRecord', dweetId: recordButton.dataset.dweet_id, username: recordButton.dataset.username }, '*');
+      recordButton.classList.add('recording');
+      span.innerHTML = 'recording';
+    }
+  });
+
   $('body').on('click', function(e) {
     if (!$(e.target).is('[data-popover]') &&
         $(e.target).closest('.popover').length === 0) {
