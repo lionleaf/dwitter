@@ -62,7 +62,7 @@ $(document).ready(function() {
       recordButton.classList.add('processing');
       span.innerHTML = 'processing';
     } else if (!recordButton.classList.contains('processing')) {
-      iframe.contentWindow.postMessage({ msg: 'startGifRecord', dweetId: recordButton.dataset.dweet_id }, '*');
+      iframe.contentWindow.postMessage({ msg: 'startGifRecord', dweetId: recordButton.dataset.dweet_id, username: recordButton.dataset.username }, '*');
       recordButton.classList.add('recording');
       span.innerHTML = 'recording';
     }

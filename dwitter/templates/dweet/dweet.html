@@ -25,7 +25,8 @@
       var gifCanvas = document.createElement("canvas");
       var gifctx;
       var dweetId;
-	  var minGIFWidth = 640;
+	  var username;
+      var minGIFWidth = 640;
     
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
@@ -79,10 +80,11 @@
         if (event.data.msg == "startGifRecord") {
           if (!recording) {
             dweetId = event.data.dweetId;
+			username = event.data.username;
           
             recording = true;
             var workerCount = 4;
-			var width = Math.max(c.width, minGIFWidth);
+            var width = Math.max(c.width, minGIFWidth);
             if (typeof navigator.hardwareConcurrency !== "undefined")
               workerCount = navigator.hardwareConcurrency;
             encoder = new GIF({ 
@@ -215,21 +217,28 @@
         if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
           gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
-		  
+          
           gifctx.drawImage(c, 0, 0, gifCanvas.width, gifCanvas.width / c.width * c.height);
-		  
-		  gifctx.font = "20px sans-serif";
-		  
-		  gifctx.strokeStyle = "white";
-		  gifctx.fillStyle = "black";
-		  gifctx.miterLimit = 2;
+          
+          gifctx.font = "20px sans-serif";
+          
+          gifctx.strokeStyle = "white";
+          gifctx.fillStyle = "black";
+          gifctx.miterLimit = 2;
           gifctx.lineJoin = 'circle';
+          
+          gifctx.lineWidth = 3;
+          gifctx.strokeText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
+          gifctx.lineWidth = 1;
+          gifctx.fillText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
+		  
+		  var usernameWidth = gifctx.measureText("u/" + username).width;
 		  
 		  gifctx.lineWidth = 3;
-          gifctx.strokeText("dwitter.net/d/" + dweetId, 3, 16);
+          gifctx.strokeText("u/" + username, gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
           gifctx.lineWidth = 1;
-          gifctx.fillText("dwitter.net/d/" + dweetId, 3, 16);
-		  
+          gifctx.fillText("u/" + username,  gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
+          
           encoder.addFrame(gifctx, { copy: true, delay: 1000 / 30 });
         } 
         stats.end();
