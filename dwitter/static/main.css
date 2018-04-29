@@ -207,8 +207,8 @@ ul.messages li.success{
   font-size: 13px;
   line-height: 25.28px;
   padding: .25em;
-  background: hsl(250, 56%, 95%);
-  color: hsl(250, 56%, 53%);
+  background: hsl(0, 0%, 92.5%);
+  color: hsl(250, 55%, 60%);
 }
 
 .new-comment {

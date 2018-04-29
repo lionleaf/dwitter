@@ -124,3 +124,8 @@ input.comment-submit {
   background: #4b4b4b !important;
   color: white;
 }
+
+.comment-message code {
+  background: #404040;
+  color: hsl(250, 55%, 65%);
+}
