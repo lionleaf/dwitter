@@ -580,6 +580,11 @@ form.like {
   text-align: right;
 }
 
+.share-container input {
+  /* Wide enough so that a five digit dweet ID displays fully, with a small gap left over */
+  width: 15.5em;
+}
+
 .remixes-container li {
   padding: 5px 0;
 }
