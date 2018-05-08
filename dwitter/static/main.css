@@ -346,6 +346,19 @@ iframe {
   padding-left: 1em;
 }
 
+/* Enable hide/show styles for the header when scrolling, but only at low res. */
+/* A dweet canvas never grows taller than 320px, so after 420px both canvas and header can fit on screen. */
+@media (max-height: 420px) {
+  .head-menu {
+    top: 0;
+    transition: top 0.3s ease-out;
+  }
+  .head-menu.hidden {
+    top: -150px;
+    transition: top 0.3s ease-out;
+  }
+}
+
 .next-page {
   display:none;
 }
