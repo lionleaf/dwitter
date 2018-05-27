@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load subdomainurls %}
 
+{% block title %}
+{{ title }}
+{% endblock %}
+
 {% block head %}
 {% load staticfiles %}
 {% load compress %}

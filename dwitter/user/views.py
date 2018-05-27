@@ -53,10 +53,13 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     if(sort == "top"):
         dweet_list = dweet_list.order_by('-num_likes',
                                          '-posted')[first:last]
+        title = "Top dweets by u/" + url_username + " | Dwitter"
     elif (sort == "new"):
         dweet_list = dweet_list.order_by('-posted')[first:last]
+        title = "Dweets by u/" + url_username + " | Dwitter"
     elif (sort == "random"):
         dweet_list = dweet_list.order_by('?')[first:last]
+        title = "Random dweets by u/" + url_username + " | Dwitter"
     else:
         raise Http404("No such sorting method " + sort)
 
@@ -65,6 +68,7 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     sort_override = sort
     if url == 'user_liked_page':
         sort_override = 'awesome'
+        title = "Dweets awesomed by u/" + url_username + " | Dwitter"
         for dweet in dweet_list:
             dweet.num_likes = dweet.likes.count()
 
@@ -81,6 +85,7 @@ def user_feed(request, url_username, page_nr, sort, dweets=None, url=None):
     context = {'dweet_list': dweet_list,
                'header_title': url_username + ' (' + str(total_awesome or 0) + ')',
                'feed_type': 'user',
+               'title': title,
                'feed_user': url_username,
                'page_nr': page,
                'on_last_page': last == dweet_count,
