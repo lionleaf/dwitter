@@ -62,26 +62,31 @@ def feed(request, page_nr, sort):
     if(last >= dweet_count):
         last = dweet_count
 
-    if(sort == "top"):
+    if (sort == "hot"):
+        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
+                      .order_by('-hotness', '-posted')[first:last])
+        next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
+        prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
+        # Main page title:
+        title = "Dwitter  - javascript demos in 140 characters"
+    elif(sort == "top"):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
                       .order_by('-num_likes', '-posted')[first:last])
 
         next_url = reverse('top_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('top_feed_page', kwargs={'page_nr': page - 1})
+        title = "Top dweets | Dwitter"
     elif (sort == "new"):
         dweet_list = Dweet.objects.annotate(
             num_likes=Count('likes')).order_by('-posted')[first:last]
         next_url = reverse('new_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
-    elif (sort == "hot"):
-        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-hotness', '-posted')[first:last])
-        next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
-        prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
+        title = "New dweets | Dwitter"
     elif (sort == "random"):
         dweet_list = Dweet.objects.all().order_by('?')[:last-first]
         next_url = reverse('random_feed_page', kwargs={'page_nr': page + 1})
         prev_url = reverse('random_feed_page', kwargs={'page_nr': page - 1})
+        title = "Random dweets | Dwitter"
     else:
         raise Http404("No such sorting method " + sort)
 
@@ -101,6 +106,7 @@ def feed(request, page_nr, sort):
 
     context = {'dweet_list': dweet_list,
                'feed_type': 'all',
+               'title': title,
                'page_nr': page,
                'on_last_page': last == dweet_count,
                'next_url': next_url,
@@ -125,6 +131,8 @@ def view_hashtag(request, page_nr, hashtag_name):
     if(last >= dweet_count):
         last = dweet_count
 
+    title = "#" + hashtag_name + " tagged dweets | Dwitter"
+
     dweet_list = hashtag.dweets.annotate(num_likes=Count('likes')).order_by('-posted')[first:last]
     next_url = reverse('view_hashtag_page',
                        kwargs={'hashtag_name': hashtag_name, 'page_nr': page + 1})
@@ -140,6 +148,7 @@ def view_hashtag(request, page_nr, hashtag_name):
 
     context = {'dweet_list': dweet_list,
                'feed_type': 'hashtag',
+               'title': title,
                'hashtag': hashtag_name,
                'page_nr': page,
                'on_last_page': last == dweet_count,
