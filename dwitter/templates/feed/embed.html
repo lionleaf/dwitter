@@ -4,6 +4,19 @@
 
 <html>
     <head>
+        <title>  
+            {% if dweet.deleted %}
+            Embedded - deleted dweet | Dwitter
+            {% else %}
+            Embedded -
+            {% if dweet.comments.last.author == dweet.author %}
+            {{ dweet.comments.last.text | truncatechars:40 }}
+            {% else %}
+            d/{{ dweet.id }}
+            {% endif %}
+            by {{ dweet.author.username }} | Dwitter
+            {% endif %}
+        </title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
