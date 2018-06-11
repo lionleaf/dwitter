@@ -205,8 +205,13 @@ def dweet(request):
 
 @login_required
 def dweet_reply(request, dweet_id):
+    code = request.POST['code']
+
+    if(len(code.replace('\r\n', '\n')) > 140):
+        return HttpResponseBadRequest("Dweet code too long! Code: " + code)
+
     reply_to = get_object_or_404(Dweet, id=dweet_id)
-    d = Dweet(code=request.POST['code'],
+    d = Dweet(code=code,
               reply_to=reply_to,
               author=request.user,
               posted=timezone.now())
