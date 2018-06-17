@@ -87,11 +87,11 @@
             var width = Math.max(c.width, minGIFWidth);
             if (typeof navigator.hardwareConcurrency !== "undefined")
               workerCount = navigator.hardwareConcurrency;
-            encoder = new GIF({ 
-              workers: workerCount, 
-              quality: 5, 
+            encoder = new GIF({
+              workers: workerCount,
+              quality: 5,
               workerScript: "/static/libs/gif.worker.js",
-              width: width, 
+              width: width,
               height: width / 16 * 9,
               background: ""
             });
@@ -183,9 +183,13 @@
     setStatsVisibility({{ newDweet }});
   
     var c = document.querySelector("#c");
+        
     c.width = 1920;
     c.height = 1080;
     var x = c.getContext("2d");
+    
+    setupPolyfills(x);
+    
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
@@ -231,16 +235,16 @@
           gifctx.strokeText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
           gifctx.lineWidth = 1;
           gifctx.fillText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
-		  
-		  var usernameWidth = gifctx.measureText("u/" + username).width;
-		  
-		  gifctx.lineWidth = 3;
+          
+          var usernameWidth = gifctx.measureText("u/" + username).width;
+          
+          gifctx.lineWidth = 3;
           gifctx.strokeText("u/" + username, gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
           gifctx.lineWidth = 1;
           gifctx.fillText("u/" + username,  gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
           
           encoder.addFrame(gifctx, { copy: true, delay: 1000 / 30 });
-        } 
+        }
         stats.end();
         displayError("");
       } catch (e) {
@@ -265,9 +269,142 @@
         return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
       };
       x = c.getContext("2d");
+      
+      setupPolyfills(x);
+      
       time = 0;
       frame = 0;
     }
+    
+    function setupPolyfills(x) {
+      c._width = c.width;
+      Object.defineProperty(c, "width", {
+        set: function(value) {
+          x.beginPath();
+          x.resetTransform();
+          x.clearRect(0, 0, c.width, c.height);
+          c._width = value;
+        },
+        get: function() {
+          return c._width;
+        },
+        configurable: true
+      });
+      c._height = c.height;
+      Object.defineProperty(c, "height", {
+        set: function(value) {
+          x.beginPath();
+          x.resetTransform();
+          x.clearRect(0, 0, c.width, c.height);
+          c._height = value;
+        },
+        get: function() {
+          return c._height;
+        },
+        configurable: true
+      });
+      
+      if (typeof x.resetTransform === "undefined") {
+        x.resetTransform = function() {
+          this.setTransform(1, 0, 0, 1, 0, 0);
+        };
+      }
+      
+      if (typeof x.ellipse === "undefined") {
+        x.ellipse = function(x, y, rx, ry, rotation, startAngle, endAngle, antiClockwise) {
+          this.save();
+          this.translate(x, y);
+          this.rotate(rotation);
+          this.scale(rx, ry);
+          this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+          this.restore();
+        };
+      }
+      
+      // Internet Explorer Math stuff
+      // Mostly from https://www.developer.mozilla.org
+      let polyfills = {
+        cosh: function(v) {
+          return (Math.pow(Math.E, v) + Math.pow(Math.E, -v)) / 2;
+        },
+        acosh: function(v) {
+          return Math.log(v + Math.sqrt(v * v - 1));
+        },
+        asinh: function(x) {
+          if (x === -Infinity) {
+            return x;
+          } else {
+            return Math.log(x + Math.sqrt(x * x + 1));
+          }
+        },
+        atanh: function(x) {
+          return Math.log((1+x)/(1-x)) / 2;
+        },
+        cbrt: function(x) {
+          var y = Math.pow(Math.abs(x), 1/3);
+          return x < 0 ? -y : y;
+        },
+        clz32: function(x) {
+          if (x == null || x === 0) {
+            return 32;
+          }
+          return 31 - Math.floor(Math.log(x >>> 0) * Math.LOG2E);
+        },
+        expm1: function(x) {
+          return Math.exp(x) - 1;
+        },
+        fround: (function (array) {
+          return function(x) {
+            return array[0] = x, array[0];
+          };
+        })(new Float32Array(1)),
+        hypot: function() {
+          var y = 0, i = arguments.length;
+          while (i--) y += arguments[i] * arguments[i];
+          return Math.sqrt(y);
+        },
+        imul: function(a, b) {
+          var aHi = (a >>> 16) & 0xffff;
+          var aLo = a & 0xffff;
+          var bHi = (b >>> 16) & 0xffff;
+          var bLo = b & 0xffff;
+          return ((aLo * bLo) + (((aHi * bLo + aLo * bHi) << 16) >>> 0) | 0);
+        },
+        log1p: function(x) {
+          return Math.log(1 + x);
+        },
+        log2: function(x) {
+          return Math.log(x) * Math.LOG2E;
+        },
+        log10: function(x) {
+          return Math.log(x) * Math.LOG10E;
+        },
+        sign: function(x) {
+          return ((x > 0) - (x < 0)) || +x;
+        },
+        sinh: function(x) {
+          return (Math.exp(x) - Math.exp(-x)) / 2;
+        },
+        tanh: function(x){
+            var a = Math.exp(+x), b = Math.exp(-x);
+            return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (a + b);
+        },
+        trunc: function(v) {
+      		v = +v;
+      		if (!isFinite(v)) return v;
+      		
+      		return (v - v % 1)   ||   (v < 0 ? -0 : v === 0 ? v : 0);
+      	}
+      };
+      for (var key in polyfills) {
+        if (polyfills.hasOwnProperty(key)) {
+          if (typeof Math[key] === "undefined") {
+            Math[key] = polyfills[key];
+          }
+        }
+      }
+    }
+    
     </script>
 
 </body>
