@@ -13,7 +13,8 @@
         background: white;
       }
     </style>
-  <script type="text/javascript" src="/static/libs/gif.js"></script>
+    <script type="text/javascript" src="/static/libs/gif.js"></script>
+    <script type="text/javascript" src="/static/libs/jquery.min.js"></script>
     <script>
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
@@ -277,31 +278,10 @@
     }
     
     function setupPolyfills(x) {
-      c._width = c.width;
-      Object.defineProperty(c, "width", {
-        set: function(value) {
-          x.beginPath();
-          x.resetTransform();
-          x.clearRect(0, 0, c.width, c.height);
-          c._width = value;
-        },
-        get: function() {
-          return c._width;
-        },
-        configurable: true
-      });
-      c._height = c.height;
-      Object.defineProperty(c, "height", {
-        set: function(value) {
-          x.beginPath();
-          x.resetTransform();
-          x.clearRect(0, 0, c.width, c.height);
-          c._height = value;
-        },
-        get: function() {
-          return c._height;
-        },
-        configurable: true
+      $(c).resize(function() {
+        x.beginPath();
+        x.resetTransform();
+        x.clearRect(0, 0, obj.width, obj.height);
       });
       
       if (typeof x.resetTransform === "undefined") {
