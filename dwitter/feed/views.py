@@ -14,7 +14,74 @@ from datetime import datetime
 from math import log
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.views.generic import ListView
 import json
+
+class DweetFeed(ListView):
+    model = Dweet
+    context_object_name = 'dweets'
+    template_name = 'feed.html'
+    paginate_by = 10
+    title = "Dwitter"
+    feed_type = "all" #TODO: Find a better mechanism for this
+    show_submit_box = True
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(DweetFeed, self).get_context_data(**kwargs)
+        # Add additional context data 
+        context['title'] = self.title
+        context['feed_type'] = self.feed_type
+        context['show_submit_box'] = self.show_submit_box
+        return context
+
+
+    def get_queryset(self):
+        dweet_list = self.get_dweet_list()
+
+        # Optimize the SQL query:
+        queryset = list(
+            dweet_list
+            .select_related('author')
+            .select_related('reply_to')
+            .select_related('reply_to__author__username')
+            .prefetch_related('comments'))
+
+        return queryset
+
+
+    def get_dweet_list(self):
+        pass
+
+
+class HotDweetFeed(DweetFeed):
+    title = "Dwitter  - javascript demos in 140 characters"
+    def get_dweet_list(self):
+        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
+                    .order_by('-hotness', '-posted'))
+        return dweet_list
+
+class TopDweetFeed(DweetFeed):
+    title = "Top dweets | Dwitter"
+    def get_queryset(self):
+        queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
+                      .order_by('-num_likes', '-posted'))
+        return queryset
+
+class NewDweetFeed(DweetFeed):
+    title = "New dweets | Dwitter"
+    def get_queryset(self):
+        queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
+                .order_by('-posted'))
+        return queryset
+
+
+class RandomDweetFeed(DweetFeed):
+    title = "Random dweets | Dwitter"
+    def get_queryset(self):
+        queryset = Dweet.objects.all().order_by('?')
+#TODO: annotation is still broken here! What do?!
+        return queryset
 
 
 def new_dweet_message(request, dweet_id):
