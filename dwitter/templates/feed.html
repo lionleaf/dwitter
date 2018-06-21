@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load subdomainurls %}
+
+{% block meta_description %}
+Dwitter is a social network for building and sharing visual javascript demos limited to 140 characters. See the impressive creations crammed into so few characters, and play around with your own code!
+{% endblock %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block head %}
+{% load staticfiles %}
+{% load compress %}
+{% load cache %}
+
+{% compress js %}
+<script src="{% static "libs/jquery.min.js" %}"></script>
+<script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
+<script src="{% static "libs/inview.min.js" %}"></script>
+<script src="{% static "libs/infinite.min.js" %}"></script>
+<script src="{% static "libs/moment-with-locales.min.js" %}"></script>
+{% endcompress %}
+{% endblock %}
+
+{% block body_class %}{{sort}}{% endblock %}
+
+
+{% block header_title %}
+  {% if feed_type == "user" %}
+    | <a href="{% url 'user_feed' url_username=feed_user %}">
+    {{ header_title }}
+    </a>
+  {% endif %}
+  {% if feed_type == "hashtag" %}
+    |  <a href="{% url 'view_hashtag' hashtag_name=hashtag %}">
+    #{{ hashtag }}
+    </a>
+  {% endif %}
+{% endblock %}
+
+{% block top-nav %}
+<ul class=top-sort-list>
+  {%if feed_type == "all" %}
+  <li><a class="hot" href="{% url 'hot_feed' %}">hot</a></li>
+  <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
+  <li><a class="top" href="{% url 'top_feed' %}">top</a></li>
+  <li><a class="random" href="{% url 'random_feed' %}">random</a></li>
+  <li><a class="about" href="{% url 'about' %}">about</a></li>
+  {%elif feed_type == "user" %}
+  <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
+  <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
+  <li><a class="awesome" href="{% url 'user_liked' sort='new' url_username=feed_user %}">awesomed</a></li>
+  {% endif %}
+</ul>
+{% endblock %}
+
+
+
+{% block fullcontent %}
+
+{% load staticfiles %}
+{% load compress %}
+{% compress js %}
+<script src="{% static "js/scrolling.js" %}"></script>
+<script src="{% static "js/ajax-handling.js" %}"></script>
+<script src="{% static "js/feed.js" %}"></script>
+<!--<script src="{% static 'js/submit-view.js' %}"></script> -->
+{% endcompress %}
+
+
+<div class=dweet-feed>
+
+  {% if show_submit_box %}
+  {% include 'snippets/new_dweet_card.html' %}
+  {% endif %}
+
+  {% if request.user.is_authenticated %}
+    {% for dweet in dweets %}
+      {% include 'snippets/dweet_card.html' %}
+    {% endfor %}
+  {% else %}
+    {% for dweet in dweets %}
+      {% cache 60 dweetcard dweet.pk %}
+      {% include 'snippets/dweet_card.html' %}
+      {% endcache %}
+    {% endfor %}
+  {% endif %}
+
+
+  {% if not on_last_page %}
+    <div class="loading">Loading...</div>
+  {% endif %}
+
+  {% if page_obj.has_next %}
+    <a class=next-page href="?page={{ page_obj.next_page_number }}">Next page</a>
+  {% else %}
+    <div class="end-of-feed">You've reached the end.</div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

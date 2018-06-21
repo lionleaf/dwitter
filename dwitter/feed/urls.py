@@ -1,32 +1,15 @@
 from django.conf.urls import url
 from . import views
+from .views import HotDweetFeed, TopDweetFeed, NewDweetFeed, RandomDweetFeed
 
 urlpatterns = [
-    url(r'^$',
-        views.feed, {'page_nr': 1, 'sort': 'hot'}, name='root'),
+    url(r'^test/', HotDweetFeed.as_view()),
 
-    url(r'^page/(?P<page_nr>\d+)$',
-        views.feed, {'sort': 'new'}, name='feed_page'),
-
-    url(r'^hot$',
-        views.feed, {'page_nr': 1, 'sort': 'hot'}, name='hot_feed'),
-    url(r'^hot/page/(?P<page_nr>\d+)$',
-        views.feed, {'sort': 'hot'}, name='hot_feed_page'),
-
-    url(r'^top$',
-        views.feed, {'page_nr': 1, 'sort': 'top'}, name='top_feed'),
-    url(r'^top/page/(?P<page_nr>\d+)$',
-        views.feed, {'sort': 'top'}, name='top_feed_page'),
-
-    url(r'^new$',
-        views.feed, {'page_nr': 1, 'sort': 'new'}, name='new_feed'),
-    url(r'^new/page/(?P<page_nr>\d+)$',
-        views.feed, {'sort': 'new'}, name='new_feed_page'),
-
-    url(r'^random$',
-        views.feed, {'page_nr': 1, 'sort': 'random'}, name='random_feed'),
-    url(r'^random/page/(?P<page_nr>\d+)$',
-        views.feed, {'sort': 'random'}, name='random_feed_page'),
+    url(r'^$', HotDweetFeed.as_view(), name='root'),
+    url(r'^hot$', HotDweetFeed.as_view(), name='hot_feed'),
+    url(r'^top$', TopDweetFeed.as_view(), name='top_feed'),
+    url(r'^new$', NewDweetFeed.as_view(), name='new_feed'),
+    url(r'^random$', RandomDweetFeed.as_view(), name='random_feed'),
 
     url(r'^d/(?P<dweet_id>\d+)$',
         views.dweet_show, name='dweet_show'),
