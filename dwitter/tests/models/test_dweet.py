@@ -14,7 +14,7 @@ class DweetTestCase(TestCase):
 
         dweet1 = Dweet.objects.create(id=1,
                                       code="dweet1 code",
-                                      posted=now - timedelta(minutes=1),
+                                      posted=now - timedelta(hours=1),
                                       author=user1)
 
         dweet2 = Dweet.objects.create(id=2,
@@ -22,6 +22,7 @@ class DweetTestCase(TestCase):
                                       posted=now,
                                       reply_to=dweet1,
                                       author=user2)
+
         dweet2.likes.add(user1, user2)
 
     def test_dweet_renders_to_string_correctly(self):
@@ -57,3 +58,42 @@ class DweetTestCase(TestCase):
         all_dweets = [repr(d) for d in Dweet.objects.all()]
         Dweet.objects.get(id=1).delete()
         self.assertQuerysetEqual(Dweet.with_deleted.all(), all_dweets)
+
+    def test_dweet_hotness(self):
+        dweet1 = Dweet.objects.get(id=1)
+        dweet2 = Dweet.objects.get(id=2)
+        user1 = User.objects.get(username="user1")
+        user2 = User.objects.get(username="user2")
+
+        self.assertNotEqual(dweet1.hotness, 1.0, "Hotness not set correctly for new dweet")
+        self.assertEqual(dweet1.likes.count(), 0, "Fresh dweet doesn't start with 0 likes")
+
+        hotness = dweet2.hotness
+        dweet2.calculate_hotness()
+        self.assertEqual(hotness, dweet2.hotness, "hotness should not change with manual calc")
+
+        # Add a like and see that the hotness increases
+        hotness = dweet1.hotness
+        dweet1.likes.add(user1, user2)  # note 0 and 1 like gives equal hotness
+        self.assertTrue(dweet1.hotness > hotness, "Hotness didn't increase when adding like")
+
+        # Remove a like and see that the hotness decreases
+        hotness = dweet1.hotness
+        dweet1.likes.remove(user2)
+        self.assertTrue(dweet1.hotness < hotness, "Hotness didn't decrease when removing like")
+
+        # Clear all likes and see that the hotness decreases
+        dweet1.likes.add(user1, user2)  # note 0 and 1 like gives equal hotness
+        hotness = dweet1.hotness
+        dweet1.likes.clear()
+        self.assertTrue(dweet1.hotness < hotness, "Hotness didn't decrease when clearing likes")
+
+        # Newer dweets are hotter
+        dweet1.likes.add(user1, user2)
+        self.assertEqual(dweet1.likes.count(), dweet2.likes.count(), "test not set up correctly")
+
+        self.assertGreater(dweet2.posted, dweet1.posted,
+                           "dweet1 is not correctly set up to be older than dweet2")
+
+        self.assertGreater(dweet2.hotness, dweet1.hotness,
+                           "dweets with equal likes should be sorted by posted date")
