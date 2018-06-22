@@ -251,6 +251,9 @@ def dweet_embed(request, dweet_id):
 
 @login_required
 def dweet(request):
+    if request.method != 'POST':
+        return HttpResponse(status=405)
+
     code = request.POST['code']
 
     if(len(code.replace('\r\n', '\n')) > 140):
@@ -272,6 +275,9 @@ def dweet(request):
 
 @login_required
 def dweet_reply(request, dweet_id):
+    if request.method != 'POST':
+        return HttpResponse(status=405)
+
     code = request.POST['code']
 
     if(len(code.replace('\r\n', '\n')) > 140):

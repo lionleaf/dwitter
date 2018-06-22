@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.db.models import Sum
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from dwitter.models import Dweet
 from dwitter.user.forms import UserSettingsForm
@@ -12,7 +12,7 @@ from dwitter.user.forms import UserSettingsForm
 def user_settings(request, url_username):
     user = get_object_or_404(User, username=url_username)
     if request.user != user:
-        raise Http404
+        return HttpResponse(status=403)
 
     if request.method == 'POST':
         user_settings_form = UserSettingsForm(request.POST, instance=user)
