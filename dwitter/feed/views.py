@@ -10,12 +10,11 @@ from ..models import Dweet, Hashtag
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from functools import wraps
-from datetime import datetime
-from math import log
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView
 import json
+
 
 class DweetFeed(ListView):
     model = Dweet
@@ -23,24 +22,23 @@ class DweetFeed(ListView):
     template_name = 'feed.html'
     paginate_by = 10
     title = "Dwitter"
-    feed_type = "all" #TODO: Find a better mechanism for this
+    feed_type = "all"  # TODO: Find a better mechanism for this
     show_submit_box = True
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super(DweetFeed, self).get_context_data(**kwargs)
-        # Add additional context data 
+        # Add additional context data
         context['title'] = self.title
         context['feed_type'] = self.feed_type
         context['show_submit_box'] = self.show_submit_box
         return context
 
-
     def get_queryset(self):
         dweet_list = self.get_dweet_list()
 
         # Optimize the SQL query:
-        queryset = list(
+        queryset = (
             dweet_list
             .select_related('author')
             .select_related('reply_to')
@@ -49,38 +47,43 @@ class DweetFeed(ListView):
 
         return queryset
 
-
     def get_dweet_list(self):
-        pass
+        raise  # should be implemented by all subclasses!
 
 
 class HotDweetFeed(DweetFeed):
     title = "Dwitter  - javascript demos in 140 characters"
+
     def get_dweet_list(self):
         dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                    .order_by('-hotness', '-posted'))
+                      .order_by('-hotness', '-posted'))
         return dweet_list
+
 
 class TopDweetFeed(DweetFeed):
     title = "Top dweets | Dwitter"
-    def get_queryset(self):
+
+    def get_dweet_list(self):
         queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes', '-posted'))
+                    .order_by('-num_likes', '-posted'))
         return queryset
+
 
 class NewDweetFeed(DweetFeed):
     title = "New dweets | Dwitter"
-    def get_queryset(self):
+
+    def get_dweet_list(self):
         queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
-                .order_by('-posted'))
+                    .order_by('-posted'))
         return queryset
 
 
 class RandomDweetFeed(DweetFeed):
     title = "Random dweets | Dwitter"
-    def get_queryset(self):
+
+    def get_dweet_list(self):
         queryset = Dweet.objects.all().order_by('?')
-#TODO: annotation is still broken here! What do?!
+        queryset = queryset.annotate(num_likes=Count('likes'))
         return queryset
 
 
@@ -95,18 +98,6 @@ def new_dweet_message(request, dweet_id):
                                    + " to share it."))
 
 
-def epoch_seconds(date):
-    epoch = datetime(2015, 5, 5)
-    naive = date.replace(tzinfo=None)
-    td = naive - epoch
-    return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
-
-
-def hot(likes, date):
-    order = log(max(abs(likes), 1), 2)
-    return round(order + epoch_seconds(date)/86400, 7)
-
-
 def ajax_login_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
@@ -115,73 +106,6 @@ def ajax_login_required(view_func):
         json_resp = json.dumps({'not_authenticated': True})
         return HttpResponse(json_resp, content_type='application/json')
     return wrapper
-
-
-def feed(request, page_nr, sort):
-    page = int(page_nr)
-    dweets_per_page = 10
-    first = (page - 1) * dweets_per_page
-    last = page * dweets_per_page
-    dweet_count = Dweet.objects.count()
-
-    if(first < 0 or first > dweet_count):
-        raise Http404("No such page")
-    if(last >= dweet_count):
-        last = dweet_count
-
-    if (sort == "hot"):
-        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-hotness', '-posted')[first:last])
-        next_url = reverse('hot_feed_page', kwargs={'page_nr': page + 1})
-        prev_url = reverse('hot_feed_page', kwargs={'page_nr': page - 1})
-        # Main page title:
-        title = "Dwitter  - javascript demos in 140 characters"
-    elif(sort == "top"):
-        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-num_likes', '-posted')[first:last])
-
-        next_url = reverse('top_feed_page', kwargs={'page_nr': page + 1})
-        prev_url = reverse('top_feed_page', kwargs={'page_nr': page - 1})
-        title = "Top dweets | Dwitter"
-    elif (sort == "new"):
-        dweet_list = Dweet.objects.annotate(
-            num_likes=Count('likes')).order_by('-posted')[first:last]
-        next_url = reverse('new_feed_page', kwargs={'page_nr': page + 1})
-        prev_url = reverse('new_feed_page', kwargs={'page_nr': page - 1})
-        title = "New dweets | Dwitter"
-    elif (sort == "random"):
-        dweet_list = Dweet.objects.all().order_by('?')[:last-first]
-        next_url = reverse('random_feed_page', kwargs={'page_nr': page + 1})
-        prev_url = reverse('random_feed_page', kwargs={'page_nr': page - 1})
-        title = "Random dweets | Dwitter"
-    else:
-        raise Http404("No such sorting method " + sort)
-
-    dweet_list = list(
-        dweet_list
-        .select_related('author')
-        .select_related('reply_to')
-        .select_related('reply_to__author__username')
-        .prefetch_related('comments'))
-
-    # For some reason order_by('?') and .annotate(num_likes=Count('likes'))
-    # don't work together, so we need to do extra work if the sorting is
-    # random.
-    if sort == 'random':
-        for dweet in dweet_list:
-            dweet.num_likes = dweet.likes.count()
-
-    context = {'dweet_list': dweet_list,
-               'feed_type': 'all',
-               'title': title,
-               'page_nr': page,
-               'on_last_page': last == dweet_count,
-               'next_url': next_url,
-               'prev_url': prev_url,
-               'sort': sort,
-               'show_submit_box': True
-               }
-    return render(request, 'feed/feed.html', context)
 
 
 def view_hashtag(request, page_nr, hashtag_name):
@@ -264,7 +188,6 @@ def dweet(request):
               posted=timezone.now())
     d.save()
     d.likes.add(d.author)
-    d.hotness = hot(1, d.posted)
     d.save()
 
     new_dweet_message(request, d.id)
@@ -290,7 +213,6 @@ def dweet_reply(request, dweet_id):
               posted=timezone.now())
     d.save()
     d.likes.add(d.author)
-    d.hotness = hot(1, d.posted)
     d.save()
 
     new_dweet_message(request, d.id)
@@ -324,7 +246,6 @@ def like(request, dweet_id):
         dweet.likes.add(request.user)
 
     likes = dweet.likes.count()
-    dweet.hotness = hot(likes, dweet.posted)
     dweet.save()
     json_resp = json.dumps({'likes': likes, 'liked': liked})
     return HttpResponse(json_resp, content_type='application/json')

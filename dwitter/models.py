@@ -3,7 +3,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.db.models.signals import pre_delete, post_save
+from django.db.models.signals import pre_delete, post_save, m2m_changed
+from math import log
+from datetime import datetime
 
 
 def get_sentinel_user():
@@ -39,15 +41,45 @@ class Dweet(models.Model):
     objects = NotDeletedDweetManager()
     with_deleted = models.Manager()
 
+    class Meta:
+        ordering = ('-posted',)
+
     def delete(self):
         self.deleted = True
         self.save()
 
+    def save(self, *args, **kwargs):
+        self.calculate_hotness()
+        super(Dweet, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
-    class Meta:
-        ordering = ('-posted',)
+    def calculate_hotness(self):
+        """
+        Hotness is inspired by the Hackernews ranking algorithm
+        Read more here:
+        https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d
+        """
+        def epoch_seconds(date):
+            epoch = datetime(2015, 5, 5)  # arbitrary start date before Dwitter existed
+            naive = date.replace(tzinfo=None)
+            td = naive - epoch
+            return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
+
+        order = log(max(abs(self.likes.count()), 1), 2)
+        # 86400 seconds = 24 hours.
+        # So for every log(2) likes on a dweet, its effective
+        # "posted time" moves 24 forward
+        # In other words, it takes log2(likes) * 24hrs before
+        # a dweet with a single like beat yours
+        self.hotness = round(order + epoch_seconds(self.posted)/86400, 7)
+
+
+@receiver(m2m_changed, sender=Dweet.likes.through, dispatch_uid="recalculate_hotness")
+def recalc_hotness(sender, instance, action, **kwargs):
+    if action in ("post_add", "post_remove", "post_clear"):
+        instance.save()  # Trigger save on m2m_change forces calculate_hotness again
 
 
 class Comment(models.Model):
@@ -57,6 +89,9 @@ class Comment(models.Model):
                                  related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ('-posted',)
+
     def __unicode__(self):
         return ('c/' +
                 str(self.id) +
@@ -65,8 +100,13 @@ class Comment(models.Model):
                 ') to ' +
                 str(self.reply_to))
 
-    class Meta:
-        ordering = ('-posted',)
+
+class Hashtag(models.Model):
+    name = models.CharField(max_length=30, unique=True, db_index=True)
+    dweets = models.ManyToManyField(Dweet, related_name="hashtag", blank=True)
+
+    def __unicode__(self):
+        return '#' + self.name
 
 
 # Go through hashtags mentioned in the comment
@@ -79,11 +119,3 @@ def add_hashtags(sender, instance, **kwargs):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
         if not h.dweets.filter(id=instance.reply_to.id).exists():
             h.dweets.add(instance.reply_to)
-
-
-class Hashtag(models.Model):
-    name = models.CharField(max_length=30, unique=True, db_index=True)
-    dweets = models.ManyToManyField(Dweet, related_name="hashtag", blank=True)
-
-    def __unicode__(self):
-        return '#' + self.name
