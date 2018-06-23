@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
 from .views import HotDweetFeed, TopDweetFeed, NewDweetFeed, RandomDweetFeed
+from .views import NewHashtagFeed, TopHashtagFeed
 
 urlpatterns = [
     url(r'^test/', HotDweetFeed.as_view()),
@@ -10,6 +11,9 @@ urlpatterns = [
     url(r'^top$', TopDweetFeed.as_view(), name='top_feed'),
     url(r'^new$', NewDweetFeed.as_view(), name='new_feed'),
     url(r'^random$', RandomDweetFeed.as_view(), name='random_feed'),
+
+    url(r'^h/(?P<hashtag_name>[\w._]+)$', NewHashtagFeed.as_view(), name='view_hashtag'),
+    url(r'^h/(?P<hashtag_name>[\w._]+)/top$', TopHashtagFeed.as_view(), name='view_hashtag_top'),
 
     url(r'^d/(?P<dweet_id>\d+)$',
         views.dweet_show, name='dweet_show'),
@@ -22,9 +26,6 @@ urlpatterns = [
     url(r'^e/(?P<dweet_id>\d+)$',
         views.dweet_embed, name='dweet_embed'),
 
-    url(r'^h/(?P<hashtag_name>[\w._]+)$', views.view_hashtag, {'page_nr': 1}, name='view_hashtag'),
-    url(r'^h/(?P<hashtag_name>[\w._]+)/page/(?P<page_nr>\d+)$',
-        views.view_hashtag, name='view_hashtag_page'),
 
     url(r'^dweet$', views.dweet, name='dweet'),
 ]

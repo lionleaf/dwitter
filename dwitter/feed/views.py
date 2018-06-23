@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
-from django.http import Http404, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from ..models import Dweet, Hashtag
@@ -14,6 +14,13 @@ from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView
 import json
+
+
+class SortMethod:
+    NEW = ['-posted']
+    HOT = ['-hotness', '-posted']
+    TOP = ['-num_likes', '-posted']
+    RANDOM = ['?']
 
 
 class DweetFeed(ListView):
@@ -35,11 +42,12 @@ class DweetFeed(ListView):
         return context
 
     def get_queryset(self):
-        dweet_list = self.get_dweet_list()
+        queryset = self.get_dweet_list()
+        queryset = queryset.order_by(*self.get_ordering())
 
         # Optimize the SQL query:
         queryset = (
-            dweet_list
+            queryset
             .select_related('author')
             .select_related('reply_to')
             .select_related('reply_to__author__username')
@@ -51,40 +59,69 @@ class DweetFeed(ListView):
         raise  # should be implemented by all subclasses!
 
 
-class HotDweetFeed(DweetFeed):
-    title = "Dwitter  - javascript demos in 140 characters"
-
+class AllDweetFeed(DweetFeed):
+    """
+    Base class for the main dweet feeds that contains all dweets
+    """
     def get_dweet_list(self):
-        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes'))
-                      .order_by('-hotness', '-posted'))
+        dweet_list = (Dweet.objects.annotate(num_likes=Count('likes')))
         return dweet_list
 
 
-class TopDweetFeed(DweetFeed):
+class HotDweetFeed(AllDweetFeed):
+    title = "Dwitter  - javascript demos in 140 characters"
+    ordering = SortMethod.HOT
+
+
+class TopDweetFeed(AllDweetFeed):
     title = "Top dweets | Dwitter"
-
-    def get_dweet_list(self):
-        queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
-                    .order_by('-num_likes', '-posted'))
-        return queryset
+    ordering = SortMethod.TOP
 
 
-class NewDweetFeed(DweetFeed):
+class NewDweetFeed(AllDweetFeed):
     title = "New dweets | Dwitter"
-
-    def get_dweet_list(self):
-        queryset = (Dweet.objects.annotate(num_likes=Count('likes'))
-                    .order_by('-posted'))
-        return queryset
+    ordering = SortMethod.NEW
 
 
-class RandomDweetFeed(DweetFeed):
+class RandomDweetFeed(AllDweetFeed):
     title = "Random dweets | Dwitter"
+    ordering = SortMethod.RANDOM
+
+
+class HashtagFeed(DweetFeed):
+    """
+    Base class for the hashtag feeds.
+    Should be subclassed for different sort methods
+    """
+    feed_type = 'hashtag'
+
+    def get_context_data(self, **kwargs):
+        self.title = self.get_title(**kwargs)
+        context = super(DweetFeed, self).get_context_data(**kwargs)
+        context['hashtag'] = self.kwargs['hashtag_name']
+        return context
 
     def get_dweet_list(self):
-        queryset = Dweet.objects.all().order_by('?')
-        queryset = queryset.annotate(num_likes=Count('likes'))
+        hashtag_name = self.kwargs['hashtag_name']
+        hashtag = get_object_or_404(Hashtag.objects.all(), name=hashtag_name.lower())
+        queryset = hashtag.dweets.annotate(num_likes=Count('likes'))
         return queryset
+
+
+class NewHashtagFeed(HashtagFeed):
+    ordering = SortMethod.NEW
+
+    def get_title(self, **kwargs):
+        hashtag_name = self.kwargs['hashtag_name']
+        self.title = "New #" + hashtag_name + " dweets | Dwitter"
+
+
+class TopHashtagFeed(HashtagFeed):
+    ordering = ['-posted']
+
+    def get_title(self, **kwargs):
+        hashtag_name = self.kwargs['hashtag_name']
+        self.title = "Top #" + hashtag_name + " dweets | Dwitter"
 
 
 def new_dweet_message(request, dweet_id):
@@ -106,48 +143,6 @@ def ajax_login_required(view_func):
         json_resp = json.dumps({'not_authenticated': True})
         return HttpResponse(json_resp, content_type='application/json')
     return wrapper
-
-
-def view_hashtag(request, page_nr, hashtag_name):
-    hashtag = get_object_or_404(Hashtag.objects.all(), name=hashtag_name.lower())
-    page = int(page_nr)
-    dweets_per_page = 10
-    first = (page - 1) * dweets_per_page
-    last = page * dweets_per_page
-
-    dweet_count = hashtag.dweets.count()
-
-    if(first < 0 or first > dweet_count):
-        raise Http404("No such page")
-    if(last >= dweet_count):
-        last = dweet_count
-
-    title = "#" + hashtag_name + " tagged dweets | Dwitter"
-
-    dweet_list = hashtag.dweets.annotate(num_likes=Count('likes')).order_by('-posted')[first:last]
-    next_url = reverse('view_hashtag_page',
-                       kwargs={'hashtag_name': hashtag_name, 'page_nr': page + 1})
-    prev_url = reverse('view_hashtag_page',
-                       kwargs={'hashtag_name': hashtag_name, 'page_nr': page - 1})
-
-    dweet_list = list(
-        dweet_list
-        .select_related('author')
-        .select_related('reply_to')
-        .select_related('reply_to__author__username')
-        .prefetch_related('comments'))
-
-    context = {'dweet_list': dweet_list,
-               'feed_type': 'hashtag',
-               'title': title,
-               'hashtag': hashtag_name,
-               'page_nr': page,
-               'on_last_page': last == dweet_count,
-               'next_url': next_url,
-               'prev_url': prev_url,
-               'show_submit_box': True
-               }
-    return render(request, 'feed/feed.html', context)
 
 
 def dweet_show(request, dweet_id):
