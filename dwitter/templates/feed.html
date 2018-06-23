@@ -55,8 +55,6 @@ Dwitter is a social network for building and sharing visual javascript demos lim
 </ul>
 {% endblock %}
 
-
-
 {% block fullcontent %}
 
 {% load staticfiles %}
@@ -87,12 +85,8 @@ Dwitter is a social network for building and sharing visual javascript demos lim
     {% endfor %}
   {% endif %}
 
-
-  {% if not on_last_page %}
-    <div class="loading">Loading...</div>
-  {% endif %}
-
   {% if page_obj.has_next %}
+    <div class="loading">Loading...</div>
     <a class=next-page href="?page={{ page_obj.next_page_number }}">Next page</a>
   {% else %}
     <div class="end-of-feed">You've reached the end.</div>
