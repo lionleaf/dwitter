@@ -21,11 +21,12 @@
       var FPS = 60;
       
       var recording = false;
+      var rendering = false;
       var encoder;
       var gifCanvas = document.createElement("canvas");
       var gifctx;
       var dweetId;
-	  var username;
+      var username;
       var minGIFWidth = 640;
     
       function receiveMessage(event){
@@ -58,30 +59,37 @@
             break;
           case "stopGifRecord":
             if (recording) {
-            recording = false;
-            encoder.render();
-            encoder.on("finished", function (blob) {
-              let a = document.createElement("a");
-              document.body.appendChild(a);
-              a.style.display = "none";
-              a.href = URL.createObjectURL(blob);
-              a.download = "dweet.gif";
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(a.href);
-              window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
-            });
-            time = 0;
-            frame = 0;
+              recording = false;
+              rendering = true;
+              encoder.render();
+              encoder.on("finished", function (blob) {
+                let a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style.display = "none";
+                a.href = URL.createObjectURL(blob);
+                a.download = "dweet.gif";
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+                window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
+                rendering = false;
+              });
+              time = 0;
+              frame = 0;
+            }
             break;
-          }
+          case "abortGifProcessing":
+            if (rendering) {
+              encoder.abort();
+            }
+            break;
         }
 
         if (event.data.msg == "startGifRecord") {
           if (!recording) {
             dweetId = event.data.dweetId;
-			username = event.data.username;
-          
+            username = event.data.username;
+            
             recording = true;
             var workerCount = 4;
             var width = Math.max(c.width, minGIFWidth);

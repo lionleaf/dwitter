@@ -65,6 +65,10 @@ $(document).ready(function() {
       iframe.contentWindow.postMessage({ msg: 'startGifRecord', dweetId: recordButton.dataset.dweet_id, username: recordButton.dataset.username }, '*');
       recordButton.classList.add('recording');
       span.innerHTML = 'recording';
+    } else if (recordButton.classList.contains('processing')) {
+      iframe.contentWindow.postMessage('abortGifProcessing', '*');
+      recordButton.classList.remove('processing');
+      span.innerHTML = 'record';
     }
   });
 
