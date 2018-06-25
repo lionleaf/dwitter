@@ -1,13 +1,15 @@
 import random
 from django.test import TestCase
 from dwitter.feed.views import NewDweetFeed, TopDweetFeed, RandomDweetFeed, HotDweetFeed, DweetFeed
+from dwitter.models import Comment, Dweet
+from django.test.client import RequestFactory
 from django.contrib.auth.models import User
-from dwitter.models import Dweet
 from django.utils import timezone
 from datetime import timedelta
 
 
 class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+    request_factory = RequestFactory()
 
     def setUp(self):
         self.nr_dweets = 12
@@ -47,6 +49,19 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
             for i in range(random.randrange(0, 5)):
                 filler_dweet.likes.add(users[i])
 
+        # Add comments with some #hashtags
+        Comment.objects.create(id=1,
+                               text="comment1 text with #hashtag #test ",
+                               posted=now - timedelta(minutes=1),
+                               reply_to=self.top_old_dweet,
+                               author=users[1])
+
+        Comment.objects.create(id=2,
+                               text="comment2 text #hashtag #test #hash1",
+                               posted=now,
+                               reply_to=self.hottest_dweet,
+                               author=users[2])
+
     def test_annotation(self):
         queryset = self.dweetFeed.get_queryset()
         for dweet in queryset:
@@ -63,6 +78,14 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
     def test_no_default_title(self):
         title = self.dweetFeed.title
         self.assertNotEqual(DweetFeed().title, title, "Each feed should have a unique title")
+
+    def test_html_response(self):
+        request = self.request_factory.get('/')
+        request.session = {}
+        response = self.dweetFeed.__class__.as_view()(request)
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertIn('<title>' + self.dweetFeed.title + '</title>', html)
 
 
 class HotDweetFeedTests(DweetFeedTestCase, TestCase):

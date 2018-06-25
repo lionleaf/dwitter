@@ -12,8 +12,8 @@ urlpatterns = [
     url(r'^new$', NewDweetFeed.as_view(), name='new_feed'),
     url(r'^random$', RandomDweetFeed.as_view(), name='random_feed'),
 
-    url(r'^h/(?P<hashtag_name>[\w._]+)$', NewHashtagFeed.as_view(), name='view_hashtag'),
-    url(r'^h/(?P<hashtag_name>[\w._]+)/top$', TopHashtagFeed.as_view(), name='view_hashtag_top'),
+    url(r'^h/(?P<hashtag_name>[\w._]+)$', NewHashtagFeed.as_view(), name='hashtag_feed'),
+    url(r'^h/(?P<hashtag_name>[\w._]+)/top$', TopHashtagFeed.as_view(), name='top_hashtag_feed'),
 
     url(r'^d/(?P<dweet_id>\d+)$',
         views.dweet_show, name='dweet_show'),

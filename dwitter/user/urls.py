@@ -1,21 +1,13 @@
 from django.conf.urls import url
 from . import views
+from ..feed.views import NewUserFeed, HotUserFeed, TopUserFeed, NewLikedFeed
 
 urlpatterns = [
-    url(r'^(?P<url_username>[\w.@+-]+)$',
-        views.user_feed, {'page_nr': '1', 'sort': 'new'}, name='user_feed'),
-    url(r'^(?P<url_username>[\w.@+-]+)/(?P<sort>new|top|random)$',
-        views.user_feed, {'page_nr': '1'}, name='user_sort_feed'),
-    url(r'^(?P<url_username>[\w.@+-]+)/'
-        '(?P<sort>new|top|random)/(?P<page_nr>\d+)$',
-        views.user_feed, name='user_feed_page'),
-    url(r'^(?P<url_username>[\w.@+-]+)/awesome$',
-        views.user_liked, {'page_nr': '1', 'sort': 'new'}, name='user_liked'),
-    url(r'^(?P<url_username>[\w.@+-]+)/awesome/(?P<sort>new|top|random)$',
-        views.user_liked, {'page_nr': '1'}, name='user_sort_liked'),
-    url(r'^(?P<url_username>[\w.@+-]+)/'
-        '(?P<sort>new|top|random)/awesome/(?P<page_nr>\d+)$',
-        views.user_liked, name='user_liked_page'),
-    url(r'^(?P<url_username>[\w.@+-]+)/settings$',
-        views.user_settings, name='user_settings'),
+    url(r'^(?P<url_username>[\w.@+-]+)$', NewUserFeed.as_view(), name='user_feed'),
+    url(r'^(?P<url_username>[\w.@+-]+)/hot$', HotUserFeed.as_view(), name='hot_user_feed'),
+    url(r'^(?P<url_username>[\w.@+-]+)/top$', TopUserFeed.as_view(), name='top_user_feed'),
+
+    url(r'^(?P<url_username>[\w.@+-]+)/awesome$', NewLikedFeed.as_view(), name='user_liked'),
+
+    url(r'^(?P<url_username>[\w.@+-]+)/settings$', views.user_settings, name='user_settings'),
     ]
