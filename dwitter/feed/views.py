@@ -5,8 +5,9 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db.models import Count, Sum
 from ..models import Dweet, Hashtag
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from functools import wraps
@@ -17,13 +18,19 @@ import json
 
 
 class SortMethod:
-    NEW = ['-posted']
-    HOT = ['-hotness', '-posted']
-    TOP = ['-num_likes', '-posted']
-    RANDOM = ['?']
+    NEW = {'ordering': ['-posted'],
+           'name': 'new'}
+    HOT = {'ordering': ['-hotness', '-posted'],
+           'name': 'hot'}
+    TOP = {'ordering': ['-num_likes', '-posted'],
+           'name': 'top'}
+    RANDOM = {'ordering': ['?'],
+              'name': 'random'}
 
 
 class DweetFeed(ListView):
+
+    sort = SortMethod.NEW  # default sort by new
     model = Dweet
     context_object_name = 'dweets'
     template_name = 'feed.html'
@@ -39,6 +46,7 @@ class DweetFeed(ListView):
         context['title'] = self.title
         context['feed_type'] = self.feed_type
         context['show_submit_box'] = self.show_submit_box
+        context['sort'] = self.sort['name']
         return context
 
     def get_queryset(self):
@@ -55,6 +63,9 @@ class DweetFeed(ListView):
 
         return queryset
 
+    def get_ordering(self):
+        return self.sort['ordering']
+
     def get_dweet_list(self):
         raise  # should be implemented by all subclasses!
 
@@ -70,22 +81,22 @@ class AllDweetFeed(DweetFeed):
 
 class HotDweetFeed(AllDweetFeed):
     title = "Dwitter  - javascript demos in 140 characters"
-    ordering = SortMethod.HOT
+    sort = SortMethod.HOT
 
 
 class TopDweetFeed(AllDweetFeed):
     title = "Top dweets | Dwitter"
-    ordering = SortMethod.TOP
+    sort = SortMethod.TOP
 
 
 class NewDweetFeed(AllDweetFeed):
     title = "New dweets | Dwitter"
-    ordering = SortMethod.NEW
+    sort = SortMethod.NEW
 
 
 class RandomDweetFeed(AllDweetFeed):
     title = "Random dweets | Dwitter"
-    ordering = SortMethod.RANDOM
+    sort = SortMethod.RANDOM
 
 
 class HashtagFeed(DweetFeed):
@@ -96,8 +107,8 @@ class HashtagFeed(DweetFeed):
     feed_type = 'hashtag'
 
     def get_context_data(self, **kwargs):
-        self.title = self.get_title(**kwargs)
-        context = super(DweetFeed, self).get_context_data(**kwargs)
+        self.title = self.get_title()
+        context = super(HashtagFeed, self).get_context_data(**kwargs)
         context['hashtag'] = self.kwargs['hashtag_name']
         return context
 
@@ -109,19 +120,103 @@ class HashtagFeed(DweetFeed):
 
 
 class NewHashtagFeed(HashtagFeed):
-    ordering = SortMethod.NEW
+    sort = SortMethod.NEW
 
-    def get_title(self, **kwargs):
+    def get_title(self):
         hashtag_name = self.kwargs['hashtag_name']
-        self.title = "New #" + hashtag_name + " dweets | Dwitter"
+        return "New #" + hashtag_name + " dweets | Dwitter"
 
 
 class TopHashtagFeed(HashtagFeed):
-    ordering = ['-posted']
+    sort = SortMethod.TOP
 
-    def get_title(self, **kwargs):
+    def get_title(self):
         hashtag_name = self.kwargs['hashtag_name']
-        self.title = "Top #" + hashtag_name + " dweets | Dwitter"
+        return "Top #" + hashtag_name + " dweets | Dwitter"
+
+
+class UserFeed(DweetFeed):
+    """
+    Base class for the user feeds.
+    Should be subclassed for different sort methods
+    """
+    feed_type = 'user'
+
+    def get_context_data(self):
+        context = super(UserFeed, self).get_context_data()
+
+        username = self.kwargs['url_username']
+        user = get_object_or_404(User, username=username)
+        total_awesome = self.get_queryset().aggregate(
+            totalaws=Sum('num_likes'))['totalaws']
+
+        context['title'] = self.get_title()
+        context['user'] = user
+        context['total_awesome'] = total_awesome
+        return context
+
+    def get_dweet_list(self):
+        username = self.kwargs['url_username']
+        user = get_object_or_404(User, username=username)
+        queryset = Dweet.objects.filter(
+            author=user).annotate(num_likes=Count('likes'))
+        return queryset
+
+
+class NewUserFeed(UserFeed):
+    sort = SortMethod.NEW
+
+    def get_title(self):
+        return "Dweets by u/" + self.kwargs['url_username'] + " | Dwitter"
+
+
+class TopUserFeed(UserFeed):
+    sort = SortMethod.TOP
+
+    def get_title(self):
+        return "Top dweets by u/" + self.kwargs['url_username'] + " | Dwitter"
+
+
+class HotUserFeed(UserFeed):
+    sort = SortMethod.HOT
+
+    def get_title(self):
+        return "Hot dweets by u/" + self.kwargs['url_username'] + " | Dwitter"
+
+
+class LikedFeed(DweetFeed):
+    """
+    Base class for the list of dweets liked by a specific user
+    Should be subclassed for different sort methods
+    """
+    feed_type = 'user'
+
+    def get_context_data(self):
+        context = super(LikedFeed, self).get_context_data()
+
+        username = self.kwargs['url_username']
+        user = get_object_or_404(User, username=username)
+        total_awesome = self.get_queryset().aggregate(
+            totalaws=Sum('num_likes'))['totalaws']
+
+        context['title'] = self.get_title()
+        context['user'] = user
+        context['total_awesome'] = total_awesome
+        context['sort'] = 'awesome'
+        return context
+
+    def get_dweet_list(self):
+        username = self.kwargs['url_username']
+        user = get_object_or_404(User, username=username)
+        queryset = Dweet.objects.annotate(num_likes=Count('likes')).filter(likes=user)
+        return queryset
+
+
+class NewLikedFeed(LikedFeed):
+    sort = SortMethod.NEW
+
+    def get_title(self):
+        return "Dweets awesomed by u/" + self.kwargs['url_username'] + " | Dwitter"
 
 
 def new_dweet_message(request, dweet_id):

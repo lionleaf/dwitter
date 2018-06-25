@@ -5,9 +5,7 @@
 Dwitter is a social network for building and sharing visual javascript demos limited to 140 characters. See the impressive creations crammed into so few characters, and play around with your own code!
 {% endblock %}
 
-{% block title %}
-{{ title }}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block head %}
 {% load staticfiles %}
@@ -28,12 +26,12 @@ Dwitter is a social network for building and sharing visual javascript demos lim
 
 {% block header_title %}
   {% if feed_type == "user" %}
-    | <a href="{% url 'user_feed' url_username=feed_user %}">
-    {{ header_title }}
+    | <a href="{% url 'user_feed' url_username=user.username %}">
+        {{ user.username }} ({{total_awesome}})
     </a>
   {% endif %}
   {% if feed_type == "hashtag" %}
-    |  <a href="{% url 'view_hashtag' hashtag_name=hashtag %}">
+    |  <a href="{% url 'hashtag_feed' hashtag_name=hashtag %}">
     #{{ hashtag }}
     </a>
   {% endif %}
@@ -48,9 +46,13 @@ Dwitter is a social network for building and sharing visual javascript demos lim
   <li><a class="random" href="{% url 'random_feed' %}">random</a></li>
   <li><a class="about" href="{% url 'about' %}">about</a></li>
   {%elif feed_type == "user" %}
-  <li><a class="new" href="{% url 'user_sort_feed' sort='new' url_username=feed_user %}">new</a></li>
-  <li><a class="top" href="{% url 'user_sort_feed' sort='top' url_username=feed_user %}">top</a></li>
-  <li><a class="awesome" href="{% url 'user_liked' sort='new' url_username=feed_user %}">awesomed</a></li>
+  <li><a class="hot" href="{% url 'hot_user_feed' url_username=user.username %}">hot</a></li>
+  <li><a class="new" href="{% url 'user_feed' url_username=user.username %}">new</a></li>
+  <li><a class="top" href="{% url 'top_user_feed' url_username=user.username %}">top</a></li>
+  <li><a class="awesome" href="{% url 'user_liked' url_username=user.username %}">awesomed</a></li>
+  {%elif feed_type == "hashtag" %}
+  <li><a class="new" href="{% url 'hashtag_feed' hashtag_name=hashtag %}">new</a></li>
+  <li><a class="top" href="{% url 'top_hashtag_feed' hashtag_name=hashtag %}">top</a></li>
   {% endif %}
 </ul>
 {% endblock %}
