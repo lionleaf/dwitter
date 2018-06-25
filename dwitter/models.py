@@ -49,13 +49,13 @@ class Dweet(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
-        self.calculate_hotness()
+        self.calculate_hotness((self.pk is None))
         super(Dweet, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
-    def calculate_hotness(self):
+    def calculate_hotness(self, is_new):
         """
         Hotness is inspired by the Hackernews ranking algorithm
         Read more here:
@@ -67,7 +67,11 @@ class Dweet(models.Model):
             td = naive - epoch
             return td.days * 86400 + td.seconds + (float(td.microseconds) / 1000000)
 
-        order = log(max(abs(self.likes.count()), 1), 2)
+        likes = 1
+        if not is_new:
+            likes = max(self.likes.count(), 1)
+
+        order = log(likes, 2)
         # 86400 seconds = 24 hours.
         # So for every log(2) likes on a dweet, its effective
         # "posted time" moves 24 forward
