@@ -13,12 +13,11 @@
         background: white;
       }
     </style>
-    <script type="text/javascript" src="/static/libs/gif.js"></script>
-    <script type="text/javascript" src="/static/libs/jquery.min.js"></script>
     <script>
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
       var playing = !!autoplay;
+      var infinite = false;
       var FPS = 60;
       
       var recording = false;
@@ -128,8 +127,10 @@
       }
 
       function newCode(code) {
+          window.stopper.reset();
+          infinite = false;
           try {
-            eval("function u(t) {\n"+code+"\n}");
+            eval("function u(t) {\n"+instrument(code)+"\n}");
             window.u = u;
           } catch (e) {
             window.u = function(t) {
@@ -153,7 +154,7 @@
 
       function playDemo(){
         if(playing){
-          return
+          return;
         }
 
         playing = true;
@@ -175,6 +176,10 @@
     {% load staticfiles %}
     {% compress js %}
     <script src="{% static "libs/stats.min.js" %}"></script>
+    <script src="{% static "libs/gif.js" %}"></script>
+    <script src="{% static "libs/loopbuster.js" %}"></script>
+    <script src="{% static "libs/loopstopper.js" %}"></script>
+    <script src="{% static "libs/jquery.min.js" %}"></script>
     {% endcompress %}
   </head>
 <body>
@@ -199,6 +204,7 @@
     
     setupPolyfills(x);
     
+    
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
@@ -210,8 +216,12 @@
     var time = 0;
     var frame = 0;
     function u(t) {
-       {{ code | safe }}
-      }
+      {{ code | safe }}
+    }
+    
+    let src = (u + "").split(/[{}]/g)[1];
+    u = new Function("t", instrument(src));
+    
     function loop() {
       stats = stats || createStats();
 
@@ -226,7 +236,12 @@
 
       try {
         stats.begin();
-        u(time);
+        if (!infinite) {
+          u(time);
+        } else {
+          throw "Infinite loop!";
+          console.warn("Infinite loop detected");
+        }
         if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
           gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
@@ -257,6 +272,9 @@
         stats.end();
         displayError("");
       } catch (e) {
+        if (e == "Infinite loop") {
+          infinite = true;
+        }
         stats.end();
         displayError(e);
         throw e;
