@@ -212,9 +212,11 @@
   
     var time = 0;
     var frame = 0;
+    
     function u(t) {
       {{ code | safe }}
     }
+    
     
     let src = (u + "").split(/[{}]/g)[1];
     u = new Function("t", instrument(src));

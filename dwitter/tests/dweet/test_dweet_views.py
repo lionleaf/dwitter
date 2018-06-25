@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 def wrap_content(content):
-    return 'function u(t) {\n       ' + content + '\n      }'
+    return 'function u(t) {\n      ' + content + '\n    }';
 
 
 def assertResponse(self, response, **kwargs):
