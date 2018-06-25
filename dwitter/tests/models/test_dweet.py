@@ -69,7 +69,7 @@ class DweetTestCase(TestCase):
         self.assertEqual(dweet1.likes.count(), 0, "Fresh dweet doesn't start with 0 likes")
 
         hotness = dweet2.hotness
-        dweet2.calculate_hotness()
+        dweet2.calculate_hotness(is_new=False)
         self.assertEqual(hotness, dweet2.hotness, "hotness should not change with manual calc")
 
         # Add a like and see that the hotness increases
