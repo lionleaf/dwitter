@@ -177,7 +177,6 @@
     <script src="{% static "libs/gif.js" %}"></script>
     <script src="{% static "libs/loopbuster.js" %}"></script>
     <script src="{% static "libs/loopstopper.js" %}"></script>
-    <script src="{% static "libs/jquery.min.js" %}"></script>
     {% endcompress %}
   </head>
 <body>
@@ -235,6 +234,11 @@
 
       try {
         stats.begin();
+        if ((u + "").match(/c\s*\.\s*width\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
+            x.beginPath();
+            x.resetTransform();
+            x.clearRect(0, 0, c.width, c.height);
+        }
         u(time);
         
         if (recording && frame % 2 == 0) {
@@ -296,11 +300,6 @@
     }
     
     function setupPolyfills(x) {
-      $(c).resize(function() {
-        x.beginPath();
-        x.resetTransform();
-        x.clearRect(0, 0, obj.width, obj.height);
-      });
       
       if (typeof x.resetTransform === "undefined") {
         x.resetTransform = function() {
