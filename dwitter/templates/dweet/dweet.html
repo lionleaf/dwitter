@@ -216,8 +216,7 @@
       {{ code | safe }}
     }
     
-    
-    let src = (u + "").split(/[{}]/g)[1];
+    let src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
     u = new Function("t", instrument(src));
     
     function loop() {

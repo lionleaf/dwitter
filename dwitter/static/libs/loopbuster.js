@@ -29,38 +29,42 @@
       var n =
         1,
         l = [];
-      c.parse(k, {
-        range: !0,
-        tolerant: !1,
-        sourceType: "script",
-        jsx: !0
-      }, function(a) {
-        switch (a.type) {
-          case "DoWhileStatement":
-          case "ForStatement":
-          case "ForInStatement":
-          case "ForOfStatement":
-          case "WhileStatement":
-            var m = 1 + a.body.range[0],
-              h = a.body.range[1],
-              c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Infinite loop!';}".replace(/%d/g, n),
-              e = "";
-            "BlockStatement" !== a.body.type && (c = "{" + c, e = "}", --m);
-            l.push({
-              pos: m,
-              str: c
-            });
-            l.push({
-              pos: h,
-              str: e
-            });
-            l.push({
-              pos: a.range[1],
-              str: "\nwindow.stopper.exitLoop(%d);\n".replace("%d", n)
-            });
-            ++n
-        }
-      });
+      try {
+        c.parse(k, {
+          range: !0,
+          tolerant: !1,
+          sourceType: "script",
+          jsx: !0
+        }, function(a) {
+          switch (a.type) {
+            case "DoWhileStatement":
+            case "ForStatement":
+            case "ForInStatement":
+            case "ForOfStatement":
+            case "WhileStatement":
+              var m = 1 + a.body.range[0],
+                h = a.body.range[1],
+                c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Infinite loop!';}".replace(/%d/g, n),
+                e = "";
+              "BlockStatement" !== a.body.type && (c = "{" + c, e = "}", --m);
+              l.push({
+                pos: m,
+                str: c
+              });
+              l.push({
+                pos: h,
+                str: e
+              });
+              l.push({
+                pos: a.range[1],
+                str: "\nwindow.stopper.exitLoop(%d);\n".replace("%d", n)
+              });
+              ++n
+          }
+        });
+      } catch (e) {
+        // Parsing errors, ignore
+      }
       l.sort(function(a,
         m) {
         return m.pos - a.pos
