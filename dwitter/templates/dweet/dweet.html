@@ -233,7 +233,7 @@
 
       try {
         stats.begin();
-        if ((u + "").match(/c\s*\.\s*(width|height)\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
+        if (window.navigator.userAgent.indexOf("Edge") > -1 && (u + "").match(/c\s*\.\s*(width|height)\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
             x.beginPath();
             x.resetTransform();
             x.clearRect(0, 0, c.width, c.height);
