@@ -233,7 +233,7 @@
 
       try {
         stats.begin();
-        if ((u + "").match(/c\s*\.\s*width\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
+        if ((u + "").match(/c\s*\.\s*(width|height)\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
             x.beginPath();
             x.resetTransform();
             x.clearRect(0, 0, c.width, c.height);
