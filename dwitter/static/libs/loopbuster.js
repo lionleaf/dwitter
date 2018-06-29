@@ -52,12 +52,12 @@
                 str: c
               });
               l.push({
-                pos: h,
-                str: e
-              });
-              l.push({
                 pos: a.range[1],
                 str: "\nwindow.stopper.exitLoop(%d);\n".replace("%d", n)
+              });
+              l.push({
+                pos: h,
+                str: e
               });
               ++n
           }
