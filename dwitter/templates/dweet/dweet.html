@@ -190,7 +190,11 @@
 
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
-  
+
+    // Remember the default globals so that later we can remove any that
+    // were created by the dweet
+    var browserGlobals = Object.keys(window);
+
     var c = document.querySelector("#c");
         
     c.width = 1920;
@@ -267,6 +271,12 @@
     }
 
     function reset(){
+      Object.keys(window).forEach(key => {
+        if (!browserGlobals.includes(key)) {
+          // console.log("Removing new global: " + key);
+          delete window[key];
+        }
+      });
       c = document.querySelector("#c");
       c.width = 1920;
       c.height = 1080;
