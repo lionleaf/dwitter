@@ -194,7 +194,10 @@
 
     // Remember the default globals so that later we can remove any that
     // were created by the dweet
-    var browserGlobals = Object.keys(window);
+    var browserGlobals = {};
+    Object.keys(window).forEach(key => {
+      browserGlobals[key] = true;
+    });
 
     var c = document.querySelector("#c");
         
@@ -273,7 +276,7 @@
 
     function reset(){
       Object.keys(window).forEach(key => {
-        if (!browserGlobals.includes(key)) {
+        if (!browserGlobals[key]) {
           // console.log("Removing new global: " + key);
           delete window[key];
         }
