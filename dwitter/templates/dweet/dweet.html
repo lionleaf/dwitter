@@ -277,7 +277,9 @@
     function reset(){
       Object.keys(window).forEach(key => {
         if (!browserGlobals[key]) {
-          // console.log("Removing new global: " + key);
+          if (window.debug) {
+            console.log("Removing new global: " + key);
+          }
           delete window[key];
         }
       });
