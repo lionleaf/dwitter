@@ -45,8 +45,8 @@
         && origin !== "https://localhost:8000"
         && origin !== "https://www.dwitter.net"
         && origin !== "https://dwitter.net"){
-          return;
-        }
+        return;
+      }
       console.log("Message was: " + event.data);
 
       switch (event.data) {
@@ -67,23 +67,23 @@
           break;
         case "stopGifRecord":
           if (recording) {
-          recording = false;
-          encoder.render();
-          encoder.on("finished", function (blob) {
-            let a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style.display = "none";
-            a.href = URL.createObjectURL(blob);
-            a.download = "dweet.gif";
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(a.href);
-            window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
-          });
-          time = 0;
-          frame = 0;
-          break;
-        }
+            recording = false;
+            encoder.render();
+            encoder.on("finished", function (blob) {
+              let a = document.createElement("a");
+              document.body.appendChild(a);
+              a.style.display = "none";
+              a.href = URL.createObjectURL(blob);
+              a.download = "dweet.gif";
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(a.href);
+              window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
+            });
+            time = 0;
+            frame = 0;
+            break;
+          }
       }
 
       if (event.data.msg == "startGifRecord") {
@@ -128,17 +128,17 @@
     }
 
     function newCode(code) {
-        try {
-          eval("function u(t) {\n"+code+"\n}");
-          window.u = u;
-        } catch (e) {
-          window.u = function(t) {
-            throw e;
-          };
+      try {
+        eval("function u(t) {\n"+code+"\n}");
+        window.u = u;
+      } catch (e) {
+        window.u = function(t) {
           throw e;
-        }
-        displayError("");
-        reset();
+        };
+        throw e;
+      }
+      displayError("");
+      reset();
     }
 
     function pauseDemo(){
@@ -181,7 +181,7 @@
 
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
-  
+
     var c = document.querySelector("#c");
     c.width = 1920;
     c.height = 1080;
@@ -217,28 +217,28 @@
         if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
           gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
-          
+
           gifctx.drawImage(c, 0, 0, gifCanvas.width, gifCanvas.width / c.width * c.height);
-          
+
           gifctx.font = "20px sans-serif";
-          
+
           gifctx.strokeStyle = "white";
           gifctx.fillStyle = "black";
           gifctx.miterLimit = 2;
           gifctx.lineJoin = 'circle';
-          
+
           gifctx.lineWidth = 3;
           gifctx.strokeText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
           gifctx.lineWidth = 1;
           gifctx.fillText("dwitter.net/d/" + dweetId, 3, gifCanvas.height - 16);
-		  
-		  var usernameWidth = gifctx.measureText("u/" + username).width;
-		  
-		  gifctx.lineWidth = 3;
+
+          var usernameWidth = gifctx.measureText("u/" + username).width;
+
+          gifctx.lineWidth = 3;
           gifctx.strokeText("u/" + username, gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
           gifctx.lineWidth = 1;
           gifctx.fillText("u/" + username,  gifCanvas.width - usernameWidth - 3, gifCanvas.height - 16);
-          
+
           encoder.addFrame(gifctx, { copy: true, delay: 1000 / 30 });
         } 
         stats.end();
@@ -250,7 +250,7 @@
       }
     }
     if(autoplay) {
-        loop();
+      loop();
     }
 
     function reset(){
