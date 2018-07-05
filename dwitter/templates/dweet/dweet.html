@@ -14,154 +14,6 @@
       }
     </style>
   <script type="text/javascript" src="/static/libs/gif.js"></script>
-    <script>
-      var autoplay = getURLParameter('autoplay');
-      var lastError = "";
-      var playing = !!autoplay;
-      var FPS = 60;
-      
-      var recording = false;
-      var encoder;
-      var gifCanvas = document.createElement("canvas");
-      var gifctx;
-      var dweetId;
-	  var username;
-      var minGIFWidth = 640;
-    
-      function receiveMessage(event){
-        var origin = event.origin || event.originalEvent.origin;
-        console.log("Received message from " + origin);
-        if(origin !== "http://dwitter.localhost:8000"
-          && origin !== "http://localhost:8000"
-          && origin !== "https://localhost:8000"
-          && origin !== "https://www.dwitter.net"
-          && origin !== "https://dwitter.net"){
-            return;
-          }
-        console.log("Message was: " + event.data);
-
-        switch (event.data) {
-          case "toggle":
-            playing ? pauseDemo() : playDemo();
-            break;
-          case "play":
-            playDemo();
-            break;
-          case "pause":
-            pauseDemo();
-            break;
-          case "showStats":
-            setStatsVisibility(true);
-            break;
-          case "hideStats":
-            setStatsVisibility(false);
-            break;
-          case "stopGifRecord":
-            if (recording) {
-            recording = false;
-            encoder.render();
-            encoder.on("finished", function (blob) {
-              let a = document.createElement("a");
-              document.body.appendChild(a);
-              a.style.display = "none";
-              a.href = URL.createObjectURL(blob);
-              a.download = "dweet.gif";
-              a.click();
-              document.body.removeChild(a);
-              URL.revokeObjectURL(a.href);
-              window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
-            });
-            time = 0;
-            frame = 0;
-            break;
-          }
-        }
-
-        if (event.data.msg == "startGifRecord") {
-          if (!recording) {
-            dweetId = event.data.dweetId;
-			username = event.data.username;
-          
-            recording = true;
-            var workerCount = 4;
-            var width = Math.max(c.width, minGIFWidth);
-            if (typeof navigator.hardwareConcurrency !== "undefined")
-              workerCount = navigator.hardwareConcurrency;
-            encoder = new GIF({ 
-              workers: workerCount, 
-              quality: 5, 
-              workerScript: "/static/libs/gif.worker.js",
-              width: width, 
-              height: width / 16 * 9,
-              background: ""
-            });
-            gifCanvas.width = width;
-            gifCanvas.height = width / 16 * 9;
-            gifctx = gifCanvas.getContext("2d");
-            time = 0;
-            frame = 0;
-          }
-        } else if (event.data.substring(0, 4) == "code"){
-          var code = event.data.substring(5,event.data.length);
-          newCode(code);
-        }
-      }
-
-      function displayError(e) {
-        if(lastError != e){
-          lastError = e;
-          parent.postMessage({
-            'type': 'error',
-            'error': ""+e,
-            'location': window.location.href
-          },"*");
-        }
-      }
-
-      function newCode(code) {
-          try {
-            eval("function u(t) {\n"+code+"\n}");
-            window.u = u;
-          } catch (e) {
-            window.u = function(t) {
-              throw e;
-            };
-            throw e;
-          }
-          displayError("");
-          reset();
-      }
-
-      function pauseDemo(){
-        if(!playing){
-          return;
-        }
-
-        pauseTime = +new Date();
-
-        playing = false;
-      }
-
-      function playDemo(){
-        if(playing){
-          return
-        }
-
-        playing = true;
-        requestAnimationFrame(loop);
-      }
-      var timeOffset = 0;
-
-      addEventListener("message", receiveMessage, false);
-
-      function getURLParameter(name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
-      }
-
-      function setStatsVisibility(visible) {
-        document.getElementById('stats').style.visibility = visible ? 'visible' : 'hidden';
-      }
-    </script>
     {% load compress %}
     {% load staticfiles %}
     {% compress js %}
@@ -171,6 +23,154 @@
 <body>
   <canvas id=c></canvas>
   <script>
+  (function() {
+    var autoplay = getURLParameter('autoplay');
+    var lastError = "";
+    var playing = !!autoplay;
+    var FPS = 60;
+
+    var recording = false;
+    var encoder;
+    var gifCanvas = document.createElement("canvas");
+    var gifctx;
+    var dweetId;
+    var username;
+    var minGIFWidth = 640;
+
+    function receiveMessage(event){
+      var origin = event.origin || event.originalEvent.origin;
+      console.log("Received message from " + origin);
+      if(origin !== "http://dwitter.localhost:8000"
+        && origin !== "http://localhost:8000"
+        && origin !== "https://localhost:8000"
+        && origin !== "https://www.dwitter.net"
+        && origin !== "https://dwitter.net"){
+          return;
+        }
+      console.log("Message was: " + event.data);
+
+      switch (event.data) {
+        case "toggle":
+          playing ? pauseDemo() : playDemo();
+          break;
+        case "play":
+          playDemo();
+          break;
+        case "pause":
+          pauseDemo();
+          break;
+        case "showStats":
+          setStatsVisibility(true);
+          break;
+        case "hideStats":
+          setStatsVisibility(false);
+          break;
+        case "stopGifRecord":
+          if (recording) {
+          recording = false;
+          encoder.render();
+          encoder.on("finished", function (blob) {
+            let a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style.display = "none";
+            a.href = URL.createObjectURL(blob);
+            a.download = "dweet.gif";
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            window.top.postMessage({ msg: "finished", dweetId: dweetId }, "*");
+          });
+          time = 0;
+          frame = 0;
+          break;
+        }
+      }
+
+      if (event.data.msg == "startGifRecord") {
+        if (!recording) {
+          dweetId = event.data.dweetId;
+          username = event.data.username;
+
+          recording = true;
+          var workerCount = 4;
+          var width = Math.max(c.width, minGIFWidth);
+          if (typeof navigator.hardwareConcurrency !== "undefined")
+            workerCount = navigator.hardwareConcurrency;
+          encoder = new GIF({ 
+            workers: workerCount, 
+            quality: 5, 
+            workerScript: "/static/libs/gif.worker.js",
+            width: width, 
+            height: width / 16 * 9,
+            background: ""
+          });
+          gifCanvas.width = width;
+          gifCanvas.height = width / 16 * 9;
+          gifctx = gifCanvas.getContext("2d");
+          time = 0;
+          frame = 0;
+        }
+      } else if (event.data.substring(0, 4) == "code"){
+        var code = event.data.substring(5,event.data.length);
+        newCode(code);
+      }
+    }
+
+    function displayError(e) {
+      if(lastError != e){
+        lastError = e;
+        parent.postMessage({
+          'type': 'error',
+          'error': ""+e,
+          'location': window.location.href
+        },"*");
+      }
+    }
+
+    function newCode(code) {
+        try {
+          eval("function u(t) {\n"+code+"\n}");
+          window.u = u;
+        } catch (e) {
+          window.u = function(t) {
+            throw e;
+          };
+          throw e;
+        }
+        displayError("");
+        reset();
+    }
+
+    function pauseDemo(){
+      if(!playing){
+        return;
+      }
+
+      pauseTime = +new Date();
+
+      playing = false;
+    }
+
+    function playDemo(){
+      if(playing){
+        return
+      }
+
+      playing = true;
+      requestAnimationFrame(loop);
+    }
+    var timeOffset = 0;
+
+    addEventListener("message", receiveMessage, false);
+
+    function getURLParameter(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+    }
+
+    function setStatsVisibility(visible) {
+      document.getElementById('stats').style.visibility = visible ? 'visible' : 'hidden';
+    }
+
     function createStats() {
       var stats = new Stats();
       stats.showPanel(0);
@@ -268,6 +268,7 @@
       time = 0;
       frame = 0;
     }
-    </script>
+  }());
+  </script>
 
 </body>
