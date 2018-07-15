@@ -46,7 +46,7 @@
                 h = a.body.range[1],
                 c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Infinite loop!';}".replace(/%d/g, n),
                 e = "";
-              "BlockStatement" !== a.body.type && (c = "{" + c, e = "}", --m);
+              "BlockStatement" !== a.body.type && (c = "{" + c, e = "\n}", --m);
               l.push({
                 pos: m,
                 str: c
