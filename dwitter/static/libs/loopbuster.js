@@ -44,7 +44,7 @@
             case "WhileStatement":
               var m = 1 + a.body.range[0],
                 h = a.body.range[1],
-                c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Infinite loop!';}".replace(/%d/g, n),
+                c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Frame timed out, paused dweet.';}".replace(/%d/g, n),
                 e = "";
               "BlockStatement" !== a.body.type && (c = "{" + c, e = "\n}", --m);
               l.push({
