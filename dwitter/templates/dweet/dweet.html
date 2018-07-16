@@ -13,8 +13,6 @@
         background: white;
       }
     </style>
-    <script type="text/javascript" src="/static/libs/gif.js"></script>
-    <script type="text/javascript" src="/static/libs/jquery.min.js"></script>
     <script>
       var autoplay = getURLParameter('autoplay');
       var lastError = "";
@@ -129,8 +127,9 @@
       }
 
       function newCode(code) {
+          window.stopper.reset();
           try {
-            eval("function u(t) {\n"+code+"\n}");
+            eval("function u(t) {\n"+instrument(code)+"\n}");
             window.u = u;
           } catch (e) {
             window.u = function(t) {
@@ -154,7 +153,7 @@
 
       function playDemo(){
         if(playing){
-          return
+          return;
         }
 
         playing = true;
@@ -176,6 +175,9 @@
     {% load staticfiles %}
     {% compress js %}
     <script src="{% static "libs/stats.min.js" %}"></script>
+    <script src="{% static "libs/gif.js" %}"></script>
+    <script src="{% static "libs/loopbuster.js" %}"></script>
+    <script src="{% static "libs/loopstopper.js" %}"></script>
     {% endcompress %}
   </head>
 <body>
@@ -217,9 +219,14 @@
   
     var time = 0;
     var frame = 0;
+    
     function u(t) {
-       {{ code | safe }}
-      }
+      {{ code | safe }}
+    }
+    
+    let src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
+    u = new Function("t", instrument(src));
+    
     function loop() {
       stats = stats || createStats();
 
@@ -234,7 +241,13 @@
 
       try {
         stats.begin();
+        if (window.navigator.userAgent.indexOf("Edge") > -1 && (u + "").match(/c\s*\.\s*(width|height)\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
+            x.beginPath();
+            x.resetTransform();
+            x.clearRect(0, 0, c.width, c.height);
+        }
         u(time);
+        
         if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
           gifctx.fillRect(0, 0, gifCanvas.width, gifCanvas.height);
@@ -302,11 +315,6 @@
     }
     
     function setupPolyfills(x) {
-      $(c).resize(function() {
-        x.beginPath();
-        x.resetTransform();
-        x.clearRect(0, 0, obj.width, obj.height);
-      });
       
       if (typeof x.resetTransform === "undefined") {
         x.resetTransform = function() {
