@@ -54,7 +54,7 @@ ul.messages li{
 }
 
 .head-account-info.is-logged-in:hover {
-  background: #00ff18;
+  background: #141d14;
 }
 
 .head-account-info .collapsible li {
@@ -77,6 +77,8 @@ ul.messages li{
 .dark-section .dweet-code textarea:focus {
   border: none;
 }
+
+/* Dark-theme-specific properties */
 
 .head-menu a {
   color: #17ff00;
