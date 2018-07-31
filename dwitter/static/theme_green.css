@@ -1,0 +1,161 @@
+textarea {
+  border: none;
+}
+
+ul.messages li{
+  border:1px solid #0cff00;
+}
+
+.dweet{
+  background: #011900;
+}
+
+.content-div {
+  background:#000000;
+  color: #00ff47;
+  border:1px solid #0c5800;
+}
+
+.content-div input {
+  border:1px solid black;
+}
+.dweet, .card, .loading, .end-of-feed {
+  border:1px solid black;
+}
+
+.comment-input
+{
+  background:#3a0000
+}
+
+.submit-box {
+  border:1px solid black;
+}
+
+.dweet-create-form-title {
+  background: #00a708;
+}
+
+.dweet-create-form-title:hover {
+  text-decoration: underline;
+}
+
+.dweet-create-form-title .add-icon {
+  color: rgb(0, 78, 4);
+}
+
+.head-menu {
+  background-color: #4b4b4b;
+  border-bottom:1px solid black;
+}
+
+.head-account-info .collapsible {
+  border: 1px solid black !important;
+}
+
+.head-account-info.is-logged-in:hover {
+  background: #00ff18;
+}
+
+.head-account-info .collapsible li {
+  border-bottom: none;
+  color: #ff0606;
+}
+
+.header-title {
+  color: #00ff24;
+}
+
+.like-button {
+  border: 1px solid black;
+}
+
+.dark-section .dweet-code textarea {
+  border: none;
+}
+
+.dark-section .dweet-code textarea:focus {
+  border: none;
+}
+
+/* Dark-theme-specific properties */
+
+.head-menu a {
+  color: #17ff00;
+}
+
+.head-menu
+{
+  background: #141d14;
+}
+
+.body{
+  background: #000000;
+}
+
+.header-title a{
+  color: lime;
+}
+
+.head-account-info .name{
+  color: red;
+  font-size: large;
+}
+
+body{
+  background: #000000;
+}
+
+
+.head-account-info.is-logged-in .collapsible li{
+  background: #666;
+}
+
+#settings-list{
+  border:1px solid black;
+  border-top: none;
+}
+
+.card{
+ background: #4b4b4b;
+ color:#7fff69;
+}
+
+.comment-section{
+  background: #051700;
+  color: #00ffe0;
+  border: 1px solid black;
+}
+
+.comment-name{
+  color: #3bff00;
+}
+
+input.comment-submit {
+  color: #046300;
+}
+
+input.comment-input
+{
+  color: red;
+}
+
+a
+{
+  color: green;
+}
+
+div.dark-section
+{
+  background: #000e00
+}
+
+.end-of-feed{
+  background: #074c00 !important;
+  color: #770000;
+}
+
+.comment-message code {
+  background: #404040;
+  color: hsl(139, 53%, 43%);
+}
