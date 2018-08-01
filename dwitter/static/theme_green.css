@@ -3,21 +3,21 @@ textarea {
 }
 
 ul.messages li{
-  border:1px solid #0cff00;
+  border:1px solid #7cff76;
 }
 
 .dweet{
-  background: #011900;
+  background: #030e0033;
 }
 
 .content-div {
   background:#000000;
-  color: #00ff47;
+  color: #5fff0069;
   border:1px solid #0c5800;
 }
 
 .content-div input {
-  border:1px solid black;
+  border:1px solid #2b0000;
 }
 .dweet, .card, .loading, .end-of-feed {
   border:1px solid black;
@@ -25,7 +25,7 @@ ul.messages li{
 
 .comment-input
 {
-  background:#3a0000
+  background:#020e00
 }
 
 .submit-box {
@@ -33,7 +33,8 @@ ul.messages li{
 }
 
 .dweet-create-form-title {
-  background: #00a708;
+  background: #003402;
+  color: lime;
 }
 
 .dweet-create-form-title:hover {
@@ -41,12 +42,13 @@ ul.messages li{
 }
 
 .dweet-create-form-title .add-icon {
-  color: rgb(0, 78, 4);
+  color: #003402;
 }
 
+
 .head-menu {
-  background-color: #4b4b4b;
-  border-bottom:1px solid black;
+  background-color: #000000;
+  border-bottom:1px solid #39ff00;
 }
 
 .head-account-info .collapsible {
@@ -66,8 +68,16 @@ ul.messages li{
   color: #00ff24;
 }
 
+.score-text
+{
+  background: black;
+  border: none;
+}
+
 .like-button {
-  border: 1px solid black;
+  border: 1px solid #11ff00;
+  color:#1eff00;
+  background: #0a2b00;
 }
 
 .dark-section .dweet-code textarea {
@@ -86,11 +96,7 @@ ul.messages li{
 
 .head-menu
 {
-  background: #141d14;
-}
-
-.body{
-  background: #000000;
+  background: #001b00;
 }
 
 .header-title a{
@@ -103,7 +109,7 @@ ul.messages li{
 }
 
 body{
-  background: #000000;
+  background: #081d00;
 }
 
 
@@ -121,9 +127,14 @@ body{
  color:#7fff69;
 }
 
+textarea#editor.code-input
+{
+  color: #6aff31;
+}
+
 .comment-section{
   background: #051700;
-  color: #00ffe0;
+  color: #00ff53;
   border: 1px solid black;
 }
 
@@ -132,30 +143,48 @@ body{
 }
 
 input.comment-submit {
-  color: #046300;
+  color: #058e00;
+  background-color: #003100;
+  border-color: #38ff00;
 }
 
 input.comment-input
 {
-  color: red;
+  color: #3bff00;
 }
 
 a
 {
-  color: green;
+  color: lime;
 }
 
 div.dark-section
 {
-  background: #000e00
+  background: #002500ab
 }
 
 .end-of-feed{
-  background: #074c00 !important;
-  color: #770000;
+  background: #153a11 !important;
+  color: #ff5b5b;
 }
 
 .comment-message code {
-  background: #404040;
-  color: hsl(139, 53%, 43%);
+  background: #4040406e;
+  color: hsl(117, 100%, 50%);
+}
+
+.dweet-button
+{
+  color:#043c00;
+  background: #96ff70;
+}
+
+.function-wrap
+{
+  color:#00deff;
+}
+
+.submit-help
+{
+  color:#00b70096;
 }
