@@ -209,27 +209,31 @@
     
     setupPolyfills(x);
     
+    var S = Math.sin;
+    var C = Math.cos;
+    var T = Math.tan;
+    function R(r,g,b,a) {
+      a = a === undefined ? 1 : a;
+      return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
+    }
+    
     function $MM(_i)
     {
       return S(_i)+C(_i)+T(_i);
     }
-
     function $cs(_i)
     {
       return S(_i)*C(_i)
     }
-
     function $lD(_i)
     {
       _i = _i/(_i%10);
       return _i;
     }
-
     function $l(_i,b)
     {
       return b?Math.log10(_i):Math.log(_i);
     }
-
     function $net(input, output, get=1)
     {
     	io = ""
@@ -240,21 +244,19 @@
     	xt = parseInt(io,2);
     	return xt/(get**(1/2))
     }
-
     function $c(t=0)
     {
       return t==0?Math.PI:Math.E
     }
-
     var $rnd = Math.random
     var $min = Math.min
     var $max = Math.max
     var $abs = Math.abs
-
     function $sig(x)
     {
         return 1/(1+$c(!0)**-x)
     }
+  
   
     var time = 0;
     var frame = 0;
