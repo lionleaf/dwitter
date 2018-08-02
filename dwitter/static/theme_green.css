@@ -191,3 +191,7 @@ div.dark-section
 .liked{
   color:red;
 }
+
+.record-text:hover, input.delete-button:hover{
+  text-decoration:underline;
+}
