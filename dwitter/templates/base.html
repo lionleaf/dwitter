@@ -39,9 +39,9 @@
         var switchTheme = function(){
           // Shift themes
           var theme = localStorage.getItem('theme');
-          if (theme == 'default') {
+          if (theme && theme !== 'default') { 
             localStorage.setItem('theme','black');
-          } else if (theme == 'black') {
+          } else if (theme === 'black') {
             localStorage.setItem('theme','green');
           } else {
             localStorage.setItem('theme','default');
@@ -55,6 +55,7 @@
         if (theme != 'default'){
           var l = document.createElement('link');
           l.setAttribute('href', '{% static "theme_'+theme+'.css" %}');
+          // Themes must be similar to the file
           l.setAttribute('type', 'text/css');
           l.setAttribute('rel', 'stylesheet');
           l.setAttribute('id', 'theme-style');
@@ -84,7 +85,7 @@
               <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
               <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
               <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
-              <li><a href="#" onclick="switchTheme();return false;">Switch theme</a></li>
+              <li><a href="#" onclick="switchTheme();return false;">Shift themes</a></li>
               <li><a href="{% url 'password_change' %}"> Change password </a></li>
               <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
             </div>
