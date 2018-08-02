@@ -28,7 +28,9 @@
       var dweetId;
       var username;
       var minGIFWidth = 640;
-    
+
+      var browserGlobals = {};
+
       function receiveMessage(event){
         var origin = event.origin || event.originalEvent.origin;
         console.log("Received message from " + origin);
@@ -179,6 +181,13 @@
     <script src="{% static "libs/loopbuster.js" %}"></script>
     <script src="{% static "libs/loopstopper.js" %}"></script>
     {% endcompress %}
+    <script>
+      // Remember the default globals so that later we can remove any that
+      // were created by the dweet
+      Object.keys(window).forEach(key => {
+        browserGlobals[key] = true;
+      });
+    </script>
   </head>
 <body>
   <canvas id=c></canvas>
@@ -193,13 +202,6 @@
 
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
-
-    // Remember the default globals so that later we can remove any that
-    // were created by the dweet
-    var browserGlobals = {};
-    Object.keys(window).forEach(key => {
-      browserGlobals[key] = true;
-    });
 
     var c = document.querySelector("#c");
         
@@ -290,9 +292,7 @@
     function reset(){
       Object.keys(window).forEach(key => {
         if (!browserGlobals[key]) {
-          if (window.debug) {
-            console.log("Removing new global: " + key);
-          }
+          console.log("Removing new global: " + key);
           delete window[key];
         }
       });
@@ -416,7 +416,11 @@
         }
       }
     }
-    
-    </script>
+
+    // Remember any new globals added by this script too
+    Object.keys(window).forEach(key => {
+      browserGlobals[key] = true;
+    });
+  </script>
 
 </body>
