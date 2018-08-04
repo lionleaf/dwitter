@@ -54,8 +54,9 @@
         var theme = localStorage.getItem('theme');
         if (theme && theme !== 'default') {
           var l = document.createElement('link');
-          l.setAttribute('href', '{% static "theme_'+theme+'.css" %}');
-          // Themes must be similar to the file
+          if(theme==='green') l.setAttribute('href', '{% static "theme_green.css" %}');
+          if(theme==='black') l.setAttribute('href', '{% static "theme_black.css" %}');
+          // if(theme==='blue') l.setAttribute('href', '{% static "theme_blue.css" %}');
           l.setAttribute('type', 'text/css');
           l.setAttribute('rel', 'stylesheet');
           l.setAttribute('id', 'theme-style');
