@@ -38,6 +38,9 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 * `make backup`
 * `make restore-backup`
 
+## Local development on Firefox
+
+If the dweets don't load on Firefox while devloping, you might need to set the 'network.dns.localDomains' string to 'dweet.localhost'. The option can be found by going to about:config. Note; this is only for Firefox when developing locally.
 
 # Dwitter API
 
