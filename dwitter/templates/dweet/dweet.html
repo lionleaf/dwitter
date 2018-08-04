@@ -40,6 +40,7 @@
             return;
           }
         console.log("Message was: " + event.data);
+
         switch (event.data) {
           case "toggle":
             playing ? pauseDemo() : playDemo();
@@ -83,6 +84,7 @@
             }
             break;
         }
+
         if (event.data.msg == "startGifRecord") {
           if (!recording) {
             dweetId = event.data.dweetId;
@@ -112,6 +114,7 @@
           newCode(code);
         }
       }
+
       function displayError(e) {
         if(lastError != e){
           lastError = e;
@@ -122,6 +125,7 @@
           },"*");
         }
       }
+
       function newCode(code) {
           window.stopper.reset();
           try {
@@ -136,25 +140,33 @@
           displayError("");
           reset();
       }
+
       function pauseDemo(){
         if(!playing){
           return;
         }
+
         pauseTime = +new Date();
+
         playing = false;
       }
+
       function playDemo(){
         if(playing){
           return;
         }
+
         playing = true;
         requestAnimationFrame(loop);
       }
       var timeOffset = 0;
+
       addEventListener("message", receiveMessage, false);
+
       function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
       }
+
       function setStatsVisibility(visible) {
         document.getElementById('stats').style.visibility = visible ? 'visible' : 'hidden';
       }
@@ -178,14 +190,17 @@
       document.body.appendChild(stats.dom);
       return stats;
     }
+
     var stats = createStats();
     setStatsVisibility({{ newDweet }});
+
     // Remember the default globals so that later we can remove any that
     // were created by the dweet
     var browserGlobals = {};
     Object.keys(window).forEach(key => {
       browserGlobals[key] = true;
     });
+
     var c = document.querySelector("#c");
         
     c.width = 1920;
@@ -214,6 +229,7 @@
     
     function loop() {
       stats = stats || createStats();
+
       if (playing){
         requestAnimationFrame(loop);
       }
@@ -222,6 +238,7 @@
         time += 0.000001;
       }
       frame++;
+
       try {
         stats.begin();
         if (window.navigator.userAgent.indexOf("Edge") > -1 && (u + "").match(/c\s*\.\s*(width|height)\s*(=|\+=|-=|\*=|\/=|%=|\**=|<<=|>>=|>>>=|&=|\^=|\|=)/) != null) {
@@ -269,6 +286,7 @@
     if(autoplay) {
         loop();
     }
+
     function reset(){
       Object.keys(window).forEach(key => {
         if (!browserGlobals[key]) {
