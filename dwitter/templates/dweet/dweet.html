@@ -415,6 +415,7 @@
 
     // Remember the default globals so that later we can remove any that
     // were created by the dweet
+    browserGlobals = {};
     Object.keys(window).forEach(key => {
       browserGlobals[key] = true;
     });
