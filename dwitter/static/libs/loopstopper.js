@@ -2,7 +2,7 @@ window.stopper = {
 
   loops: [],
   loopTimers: [],
-  TIME_OUT_LENGTH: 500,
+  TIME_OUT_LENGTH: 4000,
   states: Object.freeze({ 
     UNMONITORED: 0,
     MONITORED: 1,
