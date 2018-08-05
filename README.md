@@ -26,7 +26,13 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 * `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
 * Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
 * Click on the one entry, and change both `domain name` and `display name` to localhost:8000.
-* Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
+* Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox, see fix below
+
+
+## Local development on Firefox
+
+If the dweets don't load on Firefox while devloping, you might need to set the 'network.dns.localDomains' string to 'dweet.localhost'. The option can be found by going to about:config. Note; this is only for Firefox when developing locally.
+
 
 ## Other commands
 * `make migrations`
@@ -38,9 +44,6 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 * `make backup`
 * `make restore-backup`
 
-## Local development on Firefox
-
-If the dweets don't load on Firefox while devloping, you might need to set the 'network.dns.localDomains' string to 'dweet.localhost'. The option can be found by going to about:config. Note; this is only for Firefox when developing locally.
 
 # Dwitter API
 
