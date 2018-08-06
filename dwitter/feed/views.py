@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum
-from ..models import Dweet, Hashtag
+from ..models import Dweet, Hashtag, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -280,6 +280,14 @@ def dweet(request):
     d.likes.add(d.author)
     d.save()
 
+    first_comment = request.POST.get('first-comment', '')
+    if first_comment:
+        c = Comment(text=first_comment,
+                    posted=timezone.now(),
+                    author=request.user,
+                    reply_to=d)
+        c.save()
+
     new_dweet_message(request, d.id)
 
     return HttpResponseRedirect(reverse('dweet_show',
@@ -304,6 +312,14 @@ def dweet_reply(request, dweet_id):
     d.save()
     d.likes.add(d.author)
     d.save()
+
+    first_comment = request.POST.get('first-comment', '')
+    if first_comment:
+        c = Comment(text=first_comment,
+                    posted=timezone.now(),
+                    author=request.user,
+                    reply_to=d)
+        c.save()
 
     new_dweet_message(request, d.id)
 
