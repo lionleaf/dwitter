@@ -39,12 +39,12 @@
         var switchTheme = function(){
           // Shift themes
           var theme = localStorage.getItem('theme');
-          if (theme && theme !== 'default') { 
-            localStorage.setItem('theme','black');
-          } else if (theme === 'black') {
+          if (theme !== '') { 
+            localStorage.setItem('theme','dark');
+          } else if (theme === 'dark') {
             localStorage.setItem('theme','green');
           } else {
-            localStorage.setItem('theme','default');
+            localStorage.setItem('theme','');
           }
           location.reload();
           // Call this function in the li to change the mode
@@ -52,10 +52,10 @@
 
         // Do the same thing outside the function without changing localStorage to set correct theme
         var theme = localStorage.getItem('theme');
-        if (theme && theme !== 'default') {
+        if (theme !== '') {
           var l = document.createElement('link');
           if(theme==='green') l.setAttribute('href', '{% static "theme_green.css" %}');
-          if(theme==='black') l.setAttribute('href', '{% static "theme_black.css" %}');
+          if(theme==='dark') l.setAttribute('href', '{% static "theme_dark.css" %}');
           // if(theme==='blue') l.setAttribute('href', '{% static "theme_blue.css" %}');
           l.setAttribute('type', 'text/css');
           l.setAttribute('rel', 'stylesheet');
@@ -86,7 +86,7 @@
               <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
               <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
               <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
-              <li><a href="#" onclick="switchTheme();return false;">Next themes</a></li>
+              <li><a href="#" onclick="switchTheme();return false;">Next theme</a></li>
               <li><a href="{% url 'password_change' %}"> Change password </a></li>
               <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
             </div>
