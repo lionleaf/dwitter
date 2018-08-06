@@ -43,10 +43,11 @@ input[type=submit], input[type=button] {
 }
 
 input[type=submit].dweet-button {
-  float: right;
+    margin-left: 5px;
 }
 
 input[type=submit].remix-button {
+  margin-left: 5px;
   float: right;
   clear: both;
   margin-top: 5px;
@@ -215,6 +216,15 @@ ul.messages li.success{
   margin-top: 10px;
   display: flex;
   display: -webkit-flex;
+}
+
+input[type=text].new-dweet-comment-input{
+    flex: 1;
+    background: transparent;
+    color: white;
+    border-color: gray;
+    width: 80%;
+    margin-top: 2px;
 }
 
 .comment-input{
@@ -554,9 +564,14 @@ form.like {
 
 
 .dweet-changed {
-  display: none;
   text-align: right;
   color: white;
+  display: none;
+}
+
+.post-dweet-div {
+  display: flex;
+  display: -webkit-flex;
 }
 
 .dweet-changed > p {
