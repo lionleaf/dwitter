@@ -19,20 +19,23 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 * `git clone https://github.com/lionleaf/dwitter.git`
 
 ## Setup
-* `make setup` (set up virtual environment)
+#### **Linux**
+1. `make setup` (set up virtual environment)
 * `source venv/bin/activate` (activate virtual environment)
 * `make` (install dependencies and set up database)
 * `python manage.py createsuperuser` (create admin account used below)
 * `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
 * Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
 * Click on the one entry, and change both `domain name` and `display name` to localhost:8000.
-* Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox, see fix below
+* Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
 
-
-## Local development on Firefox
-
-If the dweets don't load on Firefox while devloping, you might need to set the 'network.dns.localDomains' string to 'dweet.localhost'. The option can be found by going to about:config. Note; this is only for Firefox when developing locally.
-
+#### **Windows**
+1. Download the latest [python2.7 release]("https://www.python.org/download/releases/2.7/").
+* Without installing the setup, extract all the files in the a new directory such as `./python27`
+* Set up virtual environment using the extracted interpreter: `virtualenv --python ./python27/python.exe venv`
+* Activate the venv: `cd venv/Scripts && activate.bat`
+* Get back in the main directory (`cd ../.. && make`) and use `make` command (install dependencies and set up database)
+* Continue with the fourth step from **Linux setup**.
 
 ## Other commands
 * `make migrations`
@@ -50,7 +53,7 @@ If the dweets don't load on Firefox while devloping, you might need to set the '
 ### Dweets
 ```
 GET www.dwitter.net/api/dweets/  - list of the last 10 dweets
-       
+
        ?limit=100            - number of results to return, default 10, max 100 (subject to change)
        &offset=200           - offset page by 200 dweets
        &remix_of=123         - all remixes of 123
