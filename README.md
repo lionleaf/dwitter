@@ -21,21 +21,21 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 ## Setup
 #### **Linux**
 1. `make setup` (set up virtual environment)
-* `source venv/bin/activate` (activate virtual environment)
-* `make` (install dependencies and set up database)
-* `python manage.py createsuperuser` (create admin account used below)
-* `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
-* Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
-* Click on the one entry, and change both `domain name` and `display name` to localhost:8000.
-* Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
+2. `source venv/bin/activate` (activate virtual environment)
+3. `make` (install dependencies and set up database)
+4. `python manage.py createsuperuser` (create admin account used below)
+5. `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
+6. Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
+7. Click on the one entry, and change both `domain name` and `display name` to localhost:8000.
+8. Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
 
 #### **Windows**
 1. Download the latest [python2.7 release]("https://www.python.org/download/releases/2.7/").
-* Without installing the setup, extract all the files in the a new directory such as `./python27`
-* Set up virtual environment using the extracted interpreter: `virtualenv --python ./python27/python.exe venv`
-* Activate the venv: `cd venv/Scripts && activate.bat`
-* Get back in the main directory (`cd ../.. && make`) and use `make` command (install dependencies and set up database)
-* Continue with the fourth step from **Linux setup**.
+2. Without installing the setup, extract all the files in the a new directory such as `./python27`
+3. Set up virtual environment using the extracted interpreter: `virtualenv --python ./python27/python.exe venv`
+4. Activate the venv: `cd venv/Scripts && activate.bat`
+5. Get back in the main directory (`cd ../.. && make`) and use `make` command (install dependencies and set up database)
+6. Continue with the fourth step from **Linux setup**.
 
 ## Other commands
 * `make migrations`
