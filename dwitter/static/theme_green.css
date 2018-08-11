@@ -166,7 +166,8 @@ input.comment-submit:hover,
   background-color: #006200;
 }
 
-a {
+a,
+.record-text {
   color: lime;
 }
 
