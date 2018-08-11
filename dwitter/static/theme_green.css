@@ -3,34 +3,37 @@ textarea {
 }
 
 ul.messages li.success {
-    background: #134802;
-    color: lime;
+  background: #134802;
+  color: lime;
 }
 
-.dweet{
+.dweet {
   background: #030e0033;
 }
 
 .content-div {
-  background:#000000;
+  background: #000000;
   color: #5fff0069;
-  border:1px solid #0c5800;
+  border: 1px solid #0c5800;
 }
 
 .content-div input {
-  border:1px solid #2b0000;
-}
-.dweet, .card, .loading, .end-of-feed {
-  border:1px solid black;
+  border: 1px solid #2b0000;
 }
 
-.comment-input
-{
-  background:#020e00
+.dweet,
+.card,
+.loading,
+.end-of-feed {
+  border: 1px solid black;
+}
+
+.comment-input {
+  background: #020e00
 }
 
 .submit-box {
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .dweet-create-form-title {
@@ -49,7 +52,7 @@ ul.messages li.success {
 
 .head-menu {
   background-color: #000000;
-  border-bottom:1px solid #39ff00;
+  border-bottom: 1px solid #39ff00;
 }
 
 .head-account-info .collapsible {
@@ -69,15 +72,14 @@ ul.messages li.success {
   color: #00ff24;
 }
 
-.score-text
-{
+.score-text {
   background: black;
   border: none;
 }
 
 .like-button {
   border: 1px solid #11ff00;
-  color:#1eff00;
+  color: #1eff00;
   background: #0a2b00;
 }
 
@@ -93,51 +95,49 @@ ul.messages li.success {
   color: #17ff00;
 }
 
-.head-menu
-{
+.head-menu {
   background: #001b00;
 }
 
-.header-title a{
+.header-title a {
   color: lime;
 }
 
-.head-account-info .name{
+.head-account-info .name {
   color: red;
   font-size: large;
 }
 
-body{
+body {
   background: #081d00;
 }
 
 
-.head-account-info.is-logged-in .collapsible li{
+.head-account-info.is-logged-in .collapsible li {
   background: #042b00;
 }
 
-#settings-list{
-  border:1px solid black;
+#settings-list {
+  border: 1px solid black;
   border-top: none;
 }
 
-.card{
- background: #4b4b4b;
- color:#7aff63;
+.card {
+  background: #4b4b4b;
+  color: #7aff63;
 }
 
-textarea#editor.code-input
-{
+textarea#editor.code-input {
   color: #6aff31;
 }
 
-.comment-section{
+.comment-section {
   background: #051700;
   color: #00ff53;
   border: 1px solid black;
 }
 
-.comment-name{
+.comment-name {
   color: #3bff00;
 }
 
@@ -147,22 +147,19 @@ input.comment-submit {
   border-color: #38ff00;
 }
 
-input.comment-input
-{
+input.comment-input {
   color: #3bff00;
 }
 
-a
-{
+a {
   color: lime;
 }
 
-div.dark-section
-{
+div.dark-section {
   background: #002500ab
 }
 
-.end-of-feed{
+.end-of-feed {
   background: #153a11 !important;
   color: #ff5b5b;
 }
@@ -172,26 +169,24 @@ div.dark-section
   color: hsl(117, 100%, 50%);
 }
 
-.dweet-button
-{
-  color:#043c00;
+.dweet-button {
+  color: #043c00;
   background: #74ce54;
 }
 
-.function-wrap
-{
-  color:#00deff;
+.function-wrap {
+  color: #00deff;
 }
 
-.submit-help
-{
-  color:#00b70096;
+.submit-help {
+  color: #00b70096;
 }
 
-.liked{
-  color:red;
+.liked {
+  color: red;
 }
 
-.record-text:hover, input.delete-button:hover{
-  text-decoration:underline;
+.record-text:hover,
+input.delete-button:hover {
+  text-decoration: underline;
 }
