@@ -52,7 +52,7 @@
 
         // Do the same thing outside the function without changing localStorage to set correct theme
         var theme = localStorage.getItem('theme');
-        if (theme !== '') {
+        if (theme) {
           var l = document.createElement('link');
           if (theme === 'green') l.setAttribute('href', '{% static "theme_green.css" %}');
           if (theme === 'dark') l.setAttribute('href', '{% static "theme_dark.css" %}');
@@ -64,7 +64,7 @@
         } else {
           var l = document.getElementById('theme-style');
           if (l) {
-            document.head.removeChild(l);
+            l.parentNode.removeChild(l);
           }
         }
       }
