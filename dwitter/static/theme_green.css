@@ -141,8 +141,9 @@ textarea#editor.code-input {
   color: #3bff00;
 }
 
-input.comment-submit {
-  color: #058e00;
+input.comment-submit,
+.like-button {
+  color: #38ff00;
   background-color: #003100;
   border-color: #38ff00;
 }
