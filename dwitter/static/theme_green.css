@@ -171,7 +171,8 @@ a {
 }
 
 div.dark-section {
-  background: #002500ab
+  /* background: #002500ab */
+  background: #0006;
 }
 
 .end-of-feed {
