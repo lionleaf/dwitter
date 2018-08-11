@@ -144,10 +144,6 @@ textarea#editor.code-input {
   color: #3bff00;
 }
 
-input:hover {
-  outline: #38ff00;
-}
-
 input.comment-input {
   color: #3bff00;
 }
