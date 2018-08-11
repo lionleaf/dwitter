@@ -37,10 +37,6 @@ ul.messages li.success {
   border: 1px solid black;
 }
 
-.comment-input {
-  background: #020e00
-}
-
 .submit-box {
   border: 1px solid black;
 }
@@ -144,20 +140,27 @@ textarea#editor.code-input {
   color: #3bff00;
 }
 
-input.comment-input,
+input,
 input[type=text].new-dweet-comment-input {
+  border: 1px solid #3bff00;
+  background: #020e00;
   color: #3bff00;
 }
 
-input.comment-submit,
+/* We have to get more specific for the like button, to override the default selector */
+button,
+input[type=button],
+input[type=submit],
 .like-button {
   border-color: #38ff00;
   background-color: #003100;
   /* background: #0a2b00; */
-  color: #38ff00;
+  color: #38ff00 !important;
 }
 
-input.comment-submit:hover,
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover,
 .like-button:hover {
   border-color: #38ff00;
   background-color: #006200;
@@ -201,8 +204,8 @@ div.dark-section {
 }
 
 .like-button.liked {
-  border-color: #30db00;
-  background: #30db00;
+  border-color: #3bff00;
+  background: #3bff00;
 }
 
 .like-button.liked .like-text {
