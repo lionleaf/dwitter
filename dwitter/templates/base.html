@@ -39,7 +39,7 @@
         var switchTheme = function(){
           // Shift themes
           var theme = localStorage.getItem('theme');
-          if (theme === '') { 
+          if (theme) { 
             localStorage.setItem('theme','dark');
           } else if (theme === 'dark') {
             localStorage.setItem('theme','green');
