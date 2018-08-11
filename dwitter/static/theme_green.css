@@ -1,3 +1,12 @@
+body {
+  /* For any unstyled text.  Currently this applies to the "remix of ..." text. */
+  color: #17ff00;
+}
+
+:focus {
+  outline-color: lime;
+}
+
 textarea {
   border: none;
 }
@@ -77,12 +86,6 @@ ul.messages li.success {
   border: none;
 }
 
-.like-button {
-  border: 1px solid #11ff00;
-  color: #1eff00;
-  background: #0a2b00;
-}
-
 .dark-section .dweet-code textarea {
   border: none;
 }
@@ -141,15 +144,26 @@ textarea#editor.code-input {
   color: #3bff00;
 }
 
-input.comment-submit,
-.like-button {
-  color: #38ff00;
-  background-color: #003100;
-  border-color: #38ff00;
+input:hover {
+  outline: #38ff00;
 }
 
 input.comment-input {
   color: #3bff00;
+}
+
+input.comment-submit,
+.like-button {
+  border-color: #38ff00;
+  background-color: #003100;
+  /* background: #0a2b00; */
+  color: #38ff00;
+}
+
+input.comment-submit:hover,
+.like-button:hover {
+  border-color: #38ff00;
+  background-color: #006200;
 }
 
 a {
@@ -185,6 +199,20 @@ div.dark-section {
 
 .liked {
   color: red;
+}
+
+.like-button.liked {
+  border-color: #2ccc00;
+  background: #2ccc00;
+}
+
+.like-button.liked .like-text {
+  color: #000;
+}
+
+.like-button.liked:hover {
+  border-color: #38ff00;
+  background-color: #1a8000;
 }
 
 .record-text:hover,
