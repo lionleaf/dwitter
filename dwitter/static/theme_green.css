@@ -144,7 +144,8 @@ textarea#editor.code-input {
   color: #3bff00;
 }
 
-input.comment-input {
+input.comment-input,
+input[type=text].new-dweet-comment-input {
   color: #3bff00;
 }
 
