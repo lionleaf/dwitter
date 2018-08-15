@@ -16,6 +16,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_URL = 'https://dwitter.net/'
 
+PARENT_HOST = 'dwitter.net'
+
 REGISTRATION_OPEN = True        # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
@@ -26,7 +28,10 @@ LOGIN_URL = BASE_URL + '/accounts/login/'  # The page users are directed to if t
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'dweet.localhost',
+    'localhost',
+]
 
 
 # Application definition
@@ -46,12 +51,12 @@ INSTALLED_APPS = [
     'dwitter.user',
     'dwitter.feed',
     'dwitter.dweet',
-    'subdomains',
     'anymail',
     'compressor',
     'dbbackup',
     'debug_toolbar',
     'corsheaders',
+    'django_hosts',
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
@@ -74,9 +79,9 @@ REST_FRAMEWORK = {
 #            )
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'subdomains.middleware.SubdomainURLRoutingMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,15 +90,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'dwitter.urls'
 
-# A dictionary of urlconf module paths, keyed by their subdomain.
-SUBDOMAIN_URLCONFS = {
-    'dwitter': 'dwitter.urls',
-    'dweet': 'dwitter.dweet.urls',
-}
+ROOT_HOSTCONF = 'dwitter.hosts'
+DEFAULT_HOST = 'www'
 
 TEMPLATES = [
     {
@@ -106,6 +109,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+            ],
+            'builtins': [
+                'django_hosts.templatetags.hosts_override',
             ],
         },
     },
@@ -174,7 +180,7 @@ STATICFILES_FINDERS = (
 
 
 def show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain(request):
-    if request.subdomain == 'dweet':
+    if request.host.name == 'dweet':
         return False
     # Import here so that we get the settings from local.py as well
     from django.conf import settings

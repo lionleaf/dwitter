@@ -1,4 +1,3 @@
-{% load subdomainurls %}
 {% load to_gravatar_url %}
 {% load insert_magic_links %}
 {% load insert_code_blocks %}
@@ -7,7 +6,7 @@
     <div class=canvas-iframe-container-wrapper>
       <div class=canvas-iframe-container >
         <iframe class="dweetiframe"
-          src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"
+          src="{% url 'fullscreen_dweet' dweet_id=dweet.id host 'dweet' %}"
           sandbox="allow-same-origin allow-scripts" id="{{ dweet.id }}"></iframe>
       </div>
     </div>

@@ -18,7 +18,7 @@ def assertResponse(self, response, **kwargs):
 
 class DweetTestCase(TransactionTestCase):
     def setUp(self):
-        self.client = Client(HTTP_HOST='dweet.example.com')
+        self.client = Client(HTTP_HOST='dweet.localhost:8000')
         self.user = User.objects.create(username="user", password="")
         self.dweet = Dweet.objects.create(id=1,
                                           code="dweet code",
