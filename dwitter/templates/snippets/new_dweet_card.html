@@ -1,4 +1,3 @@
-{% load subdomainurls %}
 <div class="dweet submit-box">
   <div
     class=canvas-iframe-container-wrapper
@@ -7,7 +6,7 @@
       class=canvas-iframe-container
       id="iframe-container-submit">
       <iframe class="dweetiframe" id=preview-iframe
-      src="{% url 'blank_dweet' subdomain='dweet' %}"
+      src="{% url 'blank_dweet' host 'dweet' %}"
       sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
   </div>
