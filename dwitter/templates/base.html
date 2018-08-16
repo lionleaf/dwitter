@@ -35,25 +35,27 @@
   <body class="{% block body_class %}{% endblock %}">
     <script type="text/javascript">
       // Check for compatibility
-      if (window.localStorage){
-        var switchTheme = function(){
-          // Change the imported stylesheet from main.css to main_dark.css or vice versa
-          // Change localstorage theme to 'dark'
+      if (window.localStorage) {
+        var switchTheme = function() {
+          // Shift themes
           var theme = localStorage.getItem('theme');
-          if (theme == 'dark') {
-            localStorage.setItem('theme','');
+          if (!theme) {
+            localStorage.setItem('theme', 'dark');
+          } else if (theme === 'dark') {
+            localStorage.setItem('theme', 'green');
           } else {
-            localStorage.setItem('theme','dark');
+            localStorage.setItem('theme', '');
           }
           location.reload();
           // Call this function in the li to change the mode
-        }
+        };
 
         // Do the same thing outside the function without changing localStorage to set correct theme
         var theme = localStorage.getItem('theme');
-        if (theme == 'dark'){
+        if (theme) {
           var l = document.createElement('link');
-          l.setAttribute('href', '{% static "theme_dark.css" %}');
+          if (theme === 'green') l.setAttribute('href', '{% static "theme_green.css" %}');
+          if (theme === 'dark') l.setAttribute('href', '{% static "theme_dark.css" %}');
           l.setAttribute('type', 'text/css');
           l.setAttribute('rel', 'stylesheet');
           l.setAttribute('id', 'theme-style');
@@ -61,7 +63,7 @@
         } else {
           var l = document.getElementById('theme-style');
           if (l) {
-            document.head.removeChild(l);
+            l.parentNode.removeChild(l);
           }
         }
       }
@@ -83,7 +85,7 @@
               <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
               <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
               <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
-              <li><a href="#" onclick="switchTheme();return false;">Switch theme</a></li>
+              <li><a href="#" onclick="switchTheme();return false;">Next theme</a></li>
               <li><a href="{% url 'password_change' %}"> Change password </a></li>
               <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
             </div>
