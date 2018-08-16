@@ -329,8 +329,7 @@
         };
       }
       
-      // Internet Explorer Math stuff
-      // Mostly from https://www.developer.mozilla.org
+      // Internet Explorer Math stuff, mostly from https://www.developer.mozilla.org
       let polyfills = {
         cosh: function(v) {
           return (Math.pow(Math.E, v) + Math.pow(Math.E, -v)) / 2;
@@ -413,8 +412,7 @@
       }
     }
 
-    // Remember the default globals so that later we can remove any that
-    // were created by the dweet
+    // Remember the default globals so that later we can remove any that were created by the dweet
     browserGlobals = {};
     Object.keys(window).forEach(key => {
       browserGlobals[key] = true;
