@@ -23,7 +23,7 @@ migrations:
 	python manage.py makemigrations
 
 .PHONY: lint
-lint: lint-python lint-js-fix
+lint: lint-python lint-js-fix lint-css-fix
 
 .PHONY: lint-python
 lint-python:
@@ -36,6 +36,10 @@ lint-js:
 .PHONY: lint-js-fix
 lint-js-fix:
 	npm run lint-fix -- --max-warnings 0
+
+.PHONY: lint-css-fix
+lint-css-fix:
+	npm run css-fix
 
 .PHONY: test
 test:
