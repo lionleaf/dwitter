@@ -2,25 +2,29 @@ textarea {
   border: none;
 }
 
-ul.messages li{
-  border:1px solid black;
+ul.messages li {
+  border: 1px solid black;
 }
 
 .content-div {
-  background:#4b4b4b;
+  background: #4b4b4b;
   color: white;
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .content-div input {
-  border:1px solid black;
+  border: 1px solid black;
 }
-.dweet, .card, .loading, .end-of-feed {
-  border:1px solid black;
+
+.dweet,
+.card,
+.loading,
+.end-of-feed {
+  border: 1px solid black;
 }
 
 .submit-box {
-  border:1px solid black;
+  border: 1px solid black;
 }
 
 .dweet-create-form-title {
@@ -37,7 +41,7 @@ ul.messages li{
 
 .head-menu {
   background-color: #4b4b4b;
-  border-bottom:1px solid black;
+  border-bottom: 1px solid black;
 }
 
 .head-account-info .collapsible {
@@ -75,44 +79,44 @@ ul.messages li{
   color: white;
 }
 
-.body{
+.body {
   background: #383838;
 }
 
-.header-title a{
+.header-title a {
   color: white;
 }
 
-.head-account-info .name{
+.head-account-info .name {
   color: white;
 }
 
-body{
+body {
   background: #383838;
 }
 
 
-.head-account-info.is-logged-in .collapsible li{
+.head-account-info.is-logged-in .collapsible li {
   background: #666;
 }
 
-#settings-list{
-  border:1px solid black;
+#settings-list {
+  border: 1px solid black;
   border-top: none;
 }
 
-.card{
- background: #4b4b4b;
- color:white;
+.card {
+  background: #4b4b4b;
+  color: white;
 }
 
-.comment-section{
+.comment-section {
   background: #4b4b4b;
   color: white;
   border: 1px solid black;
 }
 
-.comment-name{
+.comment-name {
   color: #ffa500;
 }
 
@@ -120,7 +124,7 @@ input.comment-submit {
   color: black;
 }
 
-.end-of-feed{
+.end-of-feed {
   background: #4b4b4b !important;
   color: white;
 }

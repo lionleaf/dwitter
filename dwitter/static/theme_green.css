@@ -1,0 +1,223 @@
+body {
+  /* For any unstyled text.  Currently this applies to the "remix of ..." text. */
+  color: #17ff00;
+}
+
+:focus {
+  outline-color: lime;
+}
+
+textarea {
+  border: none;
+}
+
+ul.messages li.success {
+  background: #134802;
+  color: lime;
+}
+
+.dweet {
+  background: #030e0033;
+}
+
+.content-div {
+  background: #000000;
+  color: #5fff0069;
+  border: 1px solid #0c5800;
+}
+
+.content-div input {
+  border: 1px solid #2b0000;
+}
+
+.dweet,
+.card,
+.loading,
+.end-of-feed {
+  border: 1px solid black;
+}
+
+.submit-box {
+  border: 1px solid black;
+}
+
+.dweet-create-form-title {
+  background: #003402;
+  color: lime;
+}
+
+.dweet-create-form-title:hover {
+  text-decoration: underline;
+}
+
+.dweet-create-form-title .add-icon {
+  color: #003402;
+}
+
+
+.head-menu {
+  background-color: #000000;
+  border-bottom: 1px solid #39ff00;
+}
+
+.head-account-info .collapsible {
+  border: 1px solid black !important;
+}
+
+.head-account-info.is-logged-in:hover {
+  background: #141d14;
+}
+
+.head-account-info .collapsible li {
+  border-bottom: none;
+  color: #ff0606;
+}
+
+.header-title {
+  color: #00ff24;
+}
+
+.score-text {
+  background: black;
+  border: none;
+}
+
+.dark-section .dweet-code textarea {
+  border: none;
+}
+
+.dark-section .dweet-code textarea:focus {
+  border: none;
+}
+
+.head-menu a {
+  color: #17ff00;
+}
+
+.head-menu {
+  background: #001b00;
+}
+
+.header-title a {
+  color: lime;
+}
+
+.head-account-info .name {
+  color: red;
+  font-size: large;
+}
+
+body {
+  background: #081d00;
+}
+
+
+.head-account-info.is-logged-in .collapsible li {
+  background: #042b00;
+}
+
+#settings-list {
+  border: 1px solid black;
+  border-top: none;
+}
+
+.card {
+  background: #4b4b4b;
+  color: #7aff63;
+}
+
+textarea#editor.code-input {
+  color: #6aff31;
+}
+
+.comment-section {
+  background: #051700;
+  color: #00ff53;
+  border: 1px solid black;
+}
+
+.comment-name {
+  color: #3bff00;
+}
+
+input,
+input[type=text].new-dweet-comment-input {
+  border: 1px solid #3bff00;
+  background: #020e00;
+  color: #3bff00;
+}
+
+/* We have to get more specific for the like button, to override the default selector */
+button,
+input[type=button],
+input[type=submit],
+.like-button {
+  border-color: #38ff00;
+  background-color: #003100;
+  /* background: #0a2b00; */
+  color: #38ff00 !important;
+}
+
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover,
+.like-button:hover {
+  border-color: #38ff00;
+  background-color: #006200;
+}
+
+a,
+.record-text {
+  color: lime;
+}
+
+div.dark-section {
+  /* background: #002500ab */
+  background: #0006;
+}
+
+.end-of-feed {
+  background: #153a11 !important;
+  color: #ff5b5b;
+}
+
+.comment-message code {
+  background: #4040406e;
+  color: hsl(117, 100%, 50%);
+}
+
+.dweet-button {
+  color: #043c00;
+  background: #74ce54;
+}
+
+.function-wrap {
+  color: #00deff;
+}
+
+.submit-help {
+  color: #00b70096;
+}
+
+.liked {
+  color: red;
+}
+
+.like-button.liked {
+  border-color: #3bff00;
+  background: #3bff00;
+}
+
+.like-button.liked .like-text {
+  color: #000;
+}
+
+.like-button.liked:hover {
+  border-color: #38ff00;
+  background-color: #1a8000;
+}
+
+.record-text:hover,
+input.delete-button:hover {
+  text-decoration: underline;
+}
