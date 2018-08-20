@@ -371,11 +371,9 @@ iframe {
     padding-left: 1em;
 }
 
-/* Enable hide/show styles for the header when scrolling, but only at low res. */
-
-/* A dweet canvas never grows taller than 320px, so after 420px both canvas and bloated header can fit on screen. */
-
-/* But if we want to accomodate the entire dweet box that's 572px max box height + 56px for small header - margins = 620px */
+/* Enable hide/show styles for the header when scrolling, but only at low resolutions
+   A dweet canvas never grows taller than 320px, so after 420px both canvas and bloated header can fit on screen
+   But if we want to accomodate the entire dweet box that's 572px max box height + 56px for small header - margins = 620px */
 
 @media (max-height: 620px) {
     .head-menu {

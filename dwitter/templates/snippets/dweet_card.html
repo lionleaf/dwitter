@@ -100,10 +100,13 @@
       <div class=dweet-changed>
             {% if not embed %}
             {% if request.user.is_authenticated %}
-            <input
-                class="remix-button"
-                type="submit"
-                value="Post as remix" />
+            <div class=post-dweet-div>
+                <input type=text placeholder="Comment" name="first-comment" class="new-dweet-comment-input" />
+                <input
+                    class="remix-button"
+                    type="submit"
+                    value="Post as remix" />
+        </div>
             {% else %}
               <br />
               <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
