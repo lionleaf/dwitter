@@ -148,6 +148,7 @@ input[type=text].new-dweet-comment-input {
 }
 
 /* We have to get more specific for the like button, to override the default selector */
+
 button,
 input[type=button],
 input[type=submit],
