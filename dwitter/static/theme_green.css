@@ -1,223 +1,233 @@
 body {
-  /* For any unstyled text.  Currently this applies to the "remix of ..." text. */
-  color: #17ff00;
+    /* For any unstyled text.  Currently this applies to the "remix of ..." text. */
+    color: lime !important;
+    background-color: black !important;
 }
 
 :focus {
-  outline-color: lime;
+    outline-color: lime;
 }
 
 textarea {
-  border: none;
+    border: none;
 }
 
 ul.messages li.success {
-  background: #134802;
-  color: lime;
+    background: #001b00;
+    color: lime;
+}
+
+ul.messages li {
+    border-color: lime;
 }
 
 .dweet {
-  background: #030e0033;
+    background: #001b00;
 }
 
 .content-div {
-  background: #000000;
-  color: #5fff0069;
-  border: 1px solid #0c5800;
+    background: #001b00;
+    color: lime;
+    border: 1px solid lime;
 }
 
 .content-div input {
-  border: 1px solid #2b0000;
+    border: 1px solid lime;
 }
 
 .dweet,
 .card,
 .loading,
 .end-of-feed {
-  border: 1px solid black;
+    border: 1px solid lime;
 }
 
 .submit-box {
-  border: 1px solid black;
+    border: 1px solid lime;
 }
 
 .dweet-create-form-title {
-  background: #003402;
-  color: lime;
+    background: #003402;
+    color: lime;
 }
 
 .dweet-create-form-title:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .dweet-create-form-title .add-icon {
-  color: #003402;
+    background: lime;
+    color: #003402;
 }
 
-
 .head-menu {
-  background-color: #000000;
-  border-bottom: 1px solid #39ff00;
+    background: #001000;
+    border-bottom: 1px solid lime;
 }
 
 .head-account-info .collapsible {
-  border: 1px solid black !important;
+    border: 1px solid lime !important;
 }
 
 .head-account-info.is-logged-in:hover {
-  background: #141d14;
+    background: #141d14;
 }
 
 .head-account-info .collapsible li {
-  border-bottom: none;
-  color: #ff0606;
+    border-bottom: none;
+    color: #ff0606;
 }
 
 .header-title {
-  color: #00ff24;
+    color: #00ff24;
 }
 
 .score-text {
-  background: black;
-  border: none;
+    background: black;
+    border: none;
 }
 
 .dark-section .dweet-code textarea {
-  border: none;
+    border: none;
+    color: lime;
 }
 
 .dark-section .dweet-code textarea:focus {
-  border: none;
+    border: none;
 }
 
 .head-menu a {
-  color: #17ff00;
+    color: #17ff00;
 }
 
 .head-menu {
-  background: #001b00;
+    background: #001000;
 }
 
 .header-title a {
-  color: lime;
+    color: lime;
 }
 
 .head-account-info .name {
-  color: red;
-  font-size: large;
+    color: lime;
+    font-size: large;
 }
 
 body {
-  background: #081d00;
+    background: #383838;
 }
 
-
 .head-account-info.is-logged-in .collapsible li {
-  background: #042b00;
+    background: #042b00;
 }
 
 #settings-list {
-  border: 1px solid black;
-  border-top: none;
+    border: 1px solid lime;
+    border-top: none;
 }
 
 .card {
-  background: #4b4b4b;
-  color: #7aff63;
+    background: #001b00;
+    color: lime;
 }
 
 textarea#editor.code-input {
-  color: #6aff31;
+    color: #6aff31;
 }
 
 .comment-section {
-  background: #051700;
-  color: #00ff53;
-  border: 1px solid black;
+    background: #001b00;
+    color: #00ff53;
+    border: 1px solid lime;
 }
 
 .comment-name {
-  color: #3bff00;
+    color: #3bff00;
 }
 
 input,
-input[type=text].new-dweet-comment-input {
-  border: 1px solid #3bff00;
-  background: #020e00;
-  color: #3bff00;
+input[type="text"].new-dweet-comment-input {
+    border: 1px solid lime;
+    background: #020e00;
+    color: #3bff00;
 }
 
 /* We have to get more specific for the like button, to override the default selector */
+
 button,
-input[type=button],
-input[type=submit],
+input[type="button"],
+input[type="submit"],
 .like-button {
-  border-color: #38ff00;
-  background-color: #003100;
-  /* background: #0a2b00; */
-  color: #38ff00 !important;
+    border-color: lime;
+    background-color: #003100;
+    /* background: #0a2b00; */
+    color: #38ff00 !important;
 }
 
 button:hover,
-input[type=button]:hover,
-input[type=submit]:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
 .like-button:hover {
-  border-color: #38ff00;
-  background-color: #006200;
+    border-color: lime;
+    background-color: #006200;
 }
 
 a,
 .record-text {
-  color: lime;
+    color: lime;
 }
 
 div.dark-section {
-  /* background: #002500ab */
-  background: #0006;
+    /* background: #002500ab */
+    background: #0006;
 }
 
 .end-of-feed {
-  background: #153a11 !important;
-  color: #ff5b5b;
+    background: #001b00;
+    color: lime;
 }
 
 .comment-message code {
-  background: #4040406e;
-  color: hsl(117, 100%, 50%);
+    background: #4040406e;
+    color: hsl(117, 100%, 50%);
 }
 
 .dweet-button {
-  color: #043c00;
-  background: #74ce54;
+    color: #043c00;
+    background: #74ce54;
 }
 
 .function-wrap {
-  color: #00deff;
+    color: #005000;
 }
 
 .submit-help {
-  color: #00b70096;
+    color: lime;
 }
 
 .liked {
-  color: red;
+    color: red;
 }
 
 .like-button.liked {
-  border-color: #3bff00;
-  background: #3bff00;
+    border-color: lime;
+    background: #3bff00;
 }
 
 .like-button.liked .like-text {
-  color: #000;
+    color: #000;
 }
 
 .like-button.liked:hover {
-  border-color: #38ff00;
-  background-color: #1a8000;
+    border-color: lime;
+    background-color: #1a8000;
 }
 
 .record-text:hover,
 input.delete-button:hover {
-  text-decoration: underline;
+    text-decoration: underline;
+}
+
+remix-info {
+    color: lime;
 }

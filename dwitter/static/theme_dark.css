@@ -1,135 +1,141 @@
 textarea {
-  border: none;
+    border: none;
 }
 
 ul.messages li {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
 .content-div {
-  background: #4b4b4b;
-  color: white;
-  border: 1px solid black;
+    background: #4b4b4b;
+    color: white;
+    border: 1px solid black;
 }
 
 .content-div input {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
 .dweet,
 .card,
 .loading,
 .end-of-feed {
-  border: 1px solid black;
+    border: 1px solid black;
+    background: #4b4b4b;
 }
 
 .submit-box {
-  border: 1px solid black;
+    border: 1px solid black;
+    background: #4b4b4b;
+    color: white;
 }
 
 .dweet-create-form-title {
-  background: #ffa500;
+    background: #ffa500;
 }
 
 .dweet-create-form-title:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .dweet-create-form-title .add-icon {
-  color: rgba(215, 125, 0, 1);
+    color: rgba(215, 125, 0, 1);
 }
 
 .head-menu {
-  background-color: #4b4b4b;
-  border-bottom: 1px solid black;
+    background-color: #4b4b4b;
+    border-bottom: 1px solid black;
 }
 
 .head-account-info .collapsible {
-  border: 1px solid black !important;
+    border: 1px solid black !important;
 }
 
 .head-account-info.is-logged-in:hover {
-  background: #666;
+    background: #666;
 }
 
 .head-account-info .collapsible li {
-  border-bottom: none;
-  color: #666;
+    border-bottom: none;
+    color: #666;
 }
 
 .header-title {
-  color: white;
+    color: white;
 }
 
 .like-button {
-  border: 1px solid black;
+    border: 1px solid black;
 }
 
 .dark-section .dweet-code textarea {
-  border: none;
+    border: none;
 }
 
 .dark-section .dweet-code textarea:focus {
-  border: none;
+    border: none;
 }
 
 /* Dark-theme-specific properties */
 
 .head-menu a {
-  color: white;
+    color: white;
 }
 
 .body {
-  background: #383838;
+    background: black;
 }
 
 .header-title a {
-  color: white;
+    color: white;
 }
 
 .head-account-info .name {
-  color: white;
+    color: white;
 }
 
 body {
-  background: #383838;
+    background: #383838;
 }
 
-
 .head-account-info.is-logged-in .collapsible li {
-  background: #666;
+    background: #666;
 }
 
 #settings-list {
-  border: 1px solid black;
-  border-top: none;
+    border: 1px solid black;
+    border-top: none;
 }
 
 .card {
-  background: #4b4b4b;
-  color: white;
+    background: #4b4b4b;
+    color: white;
 }
 
 .comment-section {
-  background: #4b4b4b;
-  color: white;
-  border: 1px solid black;
+    background: #4b4b4b;
+    color: white;
+    border: 1px solid black;
 }
 
 .comment-name {
-  color: #ffa500;
+    color: #ffa500;
 }
 
 input.comment-submit {
-  color: black;
+    color: black;
 }
 
 .end-of-feed {
-  background: #4b4b4b !important;
-  color: white;
+    background: #4b4b4b !important;
+    color: white;
 }
 
 .comment-message code {
-  background: #404040;
-  color: hsl(250, 55%, 65%);
+    background: #404040;
+    color: hsl(250, 55%, 65%);
+}
+
+a {
+    color: white;
 }
