@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A twitter-style network of 140-character javascript canvas demos",
   "scripts": {
+    "css-fix": "css-beautify --replace --indent-size 2 --end-with-newline dwitter/static/*.css",
     "lint": "eslint dwitter/static/js/*.js",
     "lint-fix": "eslint --fix dwitter/static/js/*.js"
   },
@@ -20,6 +21,7 @@
     "babel-eslint": "^7.1.1",
     "eslint": "^3.17.1",
     "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "js-beautify": "^1.7.5"
   }
 }
