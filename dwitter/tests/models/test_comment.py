@@ -37,9 +37,9 @@ class DweetTestCase(TestCase):
                                author=user2)
 
     def test_comment_renders_to_string_correctly(self):
-        self.assertEqual(Comment.objects.get(id=1).__unicode__(),
+        self.assertEqual(Comment.objects.get(id=1).__str__(),
                          "c/1 (user1) to d/2 (user2)")
-        self.assertEqual(Comment.objects.get(id=2).__unicode__(),
+        self.assertEqual(Comment.objects.get(id=2).__str__(),
                          "c/2 (user2) to d/1 (user1)")
 
     def test_comment_reply_to_do_nothing_on_soft_delete(self):

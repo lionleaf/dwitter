@@ -52,7 +52,7 @@ class Dweet(models.Model):
         self.calculate_hotness((self.pk is None))
         super(Dweet, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
     def calculate_hotness(self, is_new):
@@ -96,7 +96,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ('-posted',)
 
-    def __unicode__(self):
+    def __str__(self):
         return ('c/' +
                 str(self.id) +
                 ' (' +
@@ -109,7 +109,7 @@ class Hashtag(models.Model):
     name = models.CharField(max_length=30, unique=True, db_index=True)
     dweets = models.ManyToManyField(Dweet, related_name="hashtag", blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return '#' + self.name
 
 
