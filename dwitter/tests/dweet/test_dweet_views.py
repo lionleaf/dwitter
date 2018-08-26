@@ -42,7 +42,7 @@ class DweetTestCase(TransactionTestCase):
                        view=fullscreen_dweet,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertIn(wrap_content(self.dweet.code), response.content)
+        self.assertContains(response, wrap_content(self.dweet.code))
 
     def test_blank_dweet_renders_with_correct_template(self):
         response = self.client.get('/blank')
@@ -50,4 +50,4 @@ class DweetTestCase(TransactionTestCase):
                        view=blank_dweet,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertIn(wrap_content(response.context['code']), response.content)
+        self.assertContains(response, wrap_content(response.context['code']))
