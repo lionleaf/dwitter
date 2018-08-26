@@ -33,7 +33,7 @@ class DweetTestCase(TransactionTestCase):
     def get_dweet(self):
         response = self.client.get('/d/%d' % self.dweet.id)
         self.assertEqual(response.status_code, 200)
-        return response.content
+        return response
 
     def get_comments_ajax(self):
         response = self.client.get('/api/comments/?format=json&reply_to=%d' % self.dweet.id)
@@ -43,24 +43,24 @@ class DweetTestCase(TransactionTestCase):
     def test_comment(self):
         comment = self.create_comment('this is a comment!')
         response = self.get_dweet()
-        self.assertIn(comment.text, response)
+        self.assertContains(response, comment.text)
 
     def test_comment_xss(self):
         comment = self.create_comment('<test>this is a comment!</test>')
         response = self.get_dweet()
-        self.assertNotIn('<test>', response)
-        self.assertIn(escape(comment.text), response)
+        self.assertNotContains(response, '<test>')
+        self.assertContains(response, escape(comment.text))
 
     def test_comment_code_blocks(self):
         comment = self.create_comment('`this is a comment!`')
         response = self.get_dweet()
-        self.assertIn(code_wrap(comment.text), response)
+        self.assertContains(response, code_wrap(comment.text))
 
     def test_comment_code_blocks_xss(self):
         comment = self.create_comment('`<test>this is a comment!</test>`')
         response = self.get_dweet()
-        self.assertNotIn('<test>', response)
-        self.assertIn(code_wrap(escape(comment.text)), response)
+        self.assertNotContains(response, '<test>')
+        self.assertContains(response, code_wrap(escape(comment.text)))
 
     def test_comment_ajax(self):
         comment = self.create_comment('this is a comment!')
