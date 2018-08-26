@@ -30,9 +30,9 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 8. Make sure http://dweet.localhost:8000/ returns a django error. May not work in Firefox.
 
 #### **Windows**
-1. Download the latest [python2.7 release]("https://www.python.org/download/releases/2.7/").
-2. Without installing the setup, extract all the files in the a new directory such as `./python27`
-3. Set up virtual environment using the extracted interpreter: `virtualenv --python ./python27/python.exe venv`
+1. Download the latest [python3.7 release]("https://www.python.org/downloads/windows/").
+2. Without installing the setup, extract all the files in the a new directory such as `./python37`
+3. Set up virtual environment using the extracted interpreter: `virtualenv --python ./python37/python.exe venv`
 4. Activate the venv: `cd venv/Scripts && activate.bat`
 5. Get back in the main directory (`cd ../.. && make`) and use `make` command (install dependencies and set up database)
 6. Continue with the fourth step from **Linux setup**.
