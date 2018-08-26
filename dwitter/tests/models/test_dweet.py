@@ -26,8 +26,8 @@ class DweetTestCase(TestCase):
         dweet2.likes.add(user1, user2)
 
     def test_dweet_renders_to_string_correctly(self):
-        self.assertEqual(Dweet.objects.get(id=1).__unicode__(), "d/1 (user1)")
-        self.assertEqual(Dweet.objects.get(id=2).__unicode__(), "d/2 (user2)")
+        self.assertEqual(Dweet.objects.get(id=1).__str__(), "d/1 (user1)")
+        self.assertEqual(Dweet.objects.get(id=2).__str__(), "d/2 (user2)")
 
     def test_dweet_reply_to_set_deleted_field_on_delete(self):
         dweet1 = Dweet.objects.get(id=1)
