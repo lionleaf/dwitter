@@ -13,6 +13,9 @@ Dwitter is a social network for building and sharing visual javascript demos lim
 {% load cache %}
 
 {% compress js %}
+<!--- external --->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!--- internal --->
 <script src="{% static "libs/jquery.min.js" %}"></script>
 <script src="{% static "libs/jquery.waypoints.min.js" %}"></script>
 <script src="{% static "libs/inview.min.js" %}"></script>
@@ -95,5 +98,7 @@ Dwitter is a social network for building and sharing visual javascript demos lim
   {% endif %}
 
 </div>
-
+<script>
+  AOS.init(); // initialize AOS animations
+</script>
 {% endblock %}
