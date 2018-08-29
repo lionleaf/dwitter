@@ -207,9 +207,14 @@
     var S = Math.sin;
     var C = Math.cos;
     var T = Math.tan;
-    function R(r,g,b,a) {
+    function R(r, g, b, a) {
       a = a === undefined ? 1 : a;
       return "rgba("+(r|0)+","+(g|0)+","+(b|0)+","+a+")";
+    }
+    function H(h, s, l, a)
+    {
+      a = a === undefined ? 1 : a;
+      return `hsla(${h}, ${s}%, ${l}%, ${a})`
     }
   
     var time = 0;
