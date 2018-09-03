@@ -65,6 +65,11 @@ input[type=submit].delete-button {
   font-family: 'Roboto', sans-serif;
 }
 
+input[type=submit].delete-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .error-display {
   color: red;
   font-size: small;
@@ -497,6 +502,11 @@ form.like {
   width: 11em;
   text-align: right;
   background: transparent;
+}
+
+.record-button:hover > span {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .record-text {
