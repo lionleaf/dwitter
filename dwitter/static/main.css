@@ -65,6 +65,11 @@ input[type=submit].delete-button {
   font-family: 'Roboto', sans-serif;
 }
 
+input[type=submit].delete-button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .error-display {
   color: red;
   font-size: small;
@@ -102,7 +107,6 @@ a.button:active,
 a.button:visited {
   color: inherit;
 }
-
 
 body {
   background: #f5f5f5;
@@ -377,16 +381,14 @@ iframe {
 }
 
 /* Enable hide/show styles for the header when scrolling, but only at low res. */
-
 /* A dweet canvas never grows taller than 320px, so after 420px both canvas and bloated header can fit on screen. */
-
 /* But if we want to accomodate the entire dweet box that's 572px max box height + 56px for small header - margins = 620px */
-
 @media (max-height: 620px) {
   .head-menu {
     transform: translateY(0);
     transition: transform 0.3s ease-out;
   }
+
   .head-menu.hidden {
     transform: translateY(-150px);
     transition: transform 0.3s ease-out;
@@ -418,9 +420,11 @@ iframe {
   .head-account-info {
     width: 36px;
   }
+
   .head-account-info .avatar {
     margin: 0;
   }
+
   .head-account-info .name {
     display: none;
   }
@@ -499,6 +503,11 @@ form.like {
   background: transparent;
 }
 
+.record-button:hover>span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .record-text {
   color: #666;
   font-family: 'Roboto', sans-serif;
@@ -554,6 +563,7 @@ form.like {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -585,7 +595,6 @@ form.like {
 .character-count.too-long {
   color: red;
 }
-
 
 .dweet-changed {
   text-align: right;
