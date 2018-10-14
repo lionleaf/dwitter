@@ -52,6 +52,15 @@ class Dweet(models.Model):
         self.calculate_hotness((self.pk is None))
         super(Dweet, self).save(*args, **kwargs)
 
+    @property
+    def sticky_comment(self):
+        """
+        True when first comment should be stickied (first comment author == dweet author)
+        """
+        if self.comments.last() is None:
+            return False
+        return self.comments.last().author == self.author
+
     def __str__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
