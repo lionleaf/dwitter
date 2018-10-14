@@ -11,4 +11,4 @@ django==1.8.14
 djangorestframework==3.3.3
 flake8==2.6.2
 newrelic==2.98.0.81
-
+django-cors-headers==2.4.0
