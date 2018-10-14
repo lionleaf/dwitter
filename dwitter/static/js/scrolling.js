@@ -180,29 +180,36 @@ function registerStatsClickListeners(element) {
 
 // Show/hide header when scrolling
 (function() {
-  // One user scroll action can fire many browser 'scroll' events, so for efficiency we avoid DOM
-  // interactions by keeping the current state in a boolean
-  var isHidden = false;
   var lastScrollTop = null;
+  // One user scroll action can fire many browser 'scroll' events.
+  // To reduce calls to toggleClass() we keep the current state in a boolean.
+  var isHidden = false;
   window.addEventListener('scroll', function() {
     var newScrollTop = $(this).scrollTop();
-    var header = $('.head-menu');
-    var newHiddenState = isHidden;
-    // Ignore scroll event when page is first loaded
-    if (lastScrollTop != null) {
-      // Do not scroll the header away immedately at the top of the page; that would look empty
-      // because there is nothing behind it!  (This value is #content padding-top minus 5)
-      if (newScrollTop > lastScrollTop && newScrollTop > 85) {
-        newHiddenState = true;
-      }
-      if (newScrollTop < lastScrollTop) {
-        newHiddenState = false;
-      }
-      if (newHiddenState !== isHidden) {
-        isHidden = newHiddenState;
-        header.toggleClass('hidden', isHidden);
-      }
+    var newHiddenState = getHeaderHiddenState(lastScrollTop, newScrollTop);
+    if (newHiddenState !== null && newHiddenState !== isHidden) {
+      isHidden = newHiddenState;
+      $('.head-menu').toggleClass('hidden', isHidden);
     }
     lastScrollTop = newScrollTop;
   });
 }());
+
+// Returns whether header should be hidden or not,
+// or returns null if unsure (no state change requested).
+function getHeaderHiddenState(lastScrollTop, newScrollTop) {
+  // Ignore the first scroll event, because we don't have lastScrollTop yet
+  if (lastScrollTop === null) {
+    return null;
+  }
+  // Do not hide the header after scrolling only one pixel down from the top
+  // of the page; that would look empty because there is nothing behind it!
+  // Only hide after 85 pixels (this value is #content padding-top minus 5)
+  if (newScrollTop > lastScrollTop && newScrollTop > 85) {
+    return true;
+  }
+  if (newScrollTop < lastScrollTop) {
+    return false;
+  }
+  return null;
+}
