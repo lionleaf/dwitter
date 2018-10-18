@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_URL = 'https://dwitter.net/'
+BASE_URL = 'https://www.dwitter.net/'
 
 PARENT_HOST = 'dwitter.net'
 
@@ -31,6 +31,7 @@ LOGIN_URL = BASE_URL + '/accounts/login/'  # The page users are directed to if t
 ALLOWED_HOSTS = [
     'dweet.localhost',
     'localhost',
+    'www.localhost',
 ]
 
 
