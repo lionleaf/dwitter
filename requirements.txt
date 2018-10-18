@@ -1,5 +1,5 @@
 boto==2.42
-django-anymail==0.3.1
+django-anymail==4.3
 django-compressor==2.1
 django-dbbackup==2.5.0
 django-debug-toolbar==1.9.1
