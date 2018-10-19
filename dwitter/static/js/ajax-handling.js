@@ -38,24 +38,17 @@ function getCommentHTML(comment) {
 }
 
 function loadComments() {
-  var step = 1000;
-  var currentOffset = $(this).data('offset');
-
   var $loadCommentsButton = $(this);
 
   var dweetId = $loadCommentsButton.data('dweet_id');
-  // If there is a sticky comment on the top of the comments
-  var stickyTop = $loadCommentsButton.data('sticky_top');
+  var offset = $loadCommentsButton.data('hidden_comments_offset');
+  var limit = $loadCommentsButton.data('hidden_comments_number');
 
   var loadCommentsResponse = function(response) {
     var commentSection = $loadCommentsButton.parents('.comments')[0];
-    var newCommentList = response.results.reverse().map(function(comment, index) {
-      return stickyTop && index === 0 ? '' : getCommentHTML(comment);
-    }).join('');
+    var newCommentList = response.results.map(getCommentHTML).join('');
 
-    if (!response.next) {
-      $loadCommentsButton.parents('.comment').hide();
-    }
+    $loadCommentsButton.parents('.comment').hide();
 
     $(commentSection)
       .html(newCommentList + commentSection.innerHTML)
@@ -64,8 +57,8 @@ function loadComments() {
   };
 
   var config = {
-    url: '/api/comments/?offset=' + currentOffset +
-         '&limit=' + step +
+    url: '/api/comments/?offset=' + offset +
+         '&limit=' + limit +
          '&format=json&reply_to=' + dweetId,
     dataType: 'json',
     success: loadCommentsResponse,
