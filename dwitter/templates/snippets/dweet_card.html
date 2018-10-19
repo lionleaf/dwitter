@@ -13,7 +13,7 @@
     <div class=dweet-actions>
       <form class="like" data-csrf="{{ csrf_token }}" data-dweet_id="{{ dweet.id }}">
         <button type="submit" class="like-button{% if request.user in dweet.likes.all %} liked{% endif %}">
-          <span class="score-text">{{ dweet.num_likes }}</span>
+          <span class="score-text">{{ dweet.likes.count }}</span>
           <span class="like-text">Awesome!</span>
         </button>
       </form>
