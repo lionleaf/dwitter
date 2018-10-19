@@ -5,7 +5,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
 from django.core.urlresolvers import reverse
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Prefetch
 from ..models import Dweet, Hashtag, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -54,14 +54,16 @@ class DweetFeed(ListView):
         queryset = queryset.order_by(*self.get_ordering())
 
         # Optimize the SQL query:
+        prefetch_comments = Prefetch('comments', queryset=Comment.objects.select_related('author'))
+        prefetch_replies = Prefetch('dweet_set', queryset=Dweet.objects.select_related('author'))
         queryset = (
             queryset
             .select_related('author')
             .select_related('reply_to')
             .select_related('reply_to__author')
-            .prefetch_related('comments')
             .prefetch_related('likes')
-            .prefetch_related('dweet_set'))
+            .prefetch_related(prefetch_comments)
+            .prefetch_related(prefetch_replies))
 
         return queryset
 
