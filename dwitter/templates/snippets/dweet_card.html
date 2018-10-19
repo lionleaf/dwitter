@@ -117,20 +117,20 @@
   </div>
   {% if not embed %}
   <div class=comment-section>
-    {% if dweet.comments.last.author == dweet.author %}
+    {% if dweet.has_sticky_comment %}
     <ul class=sticky-comments>
       <li class="comment sticky-comment">
-        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.comments.last.author.username %}">{{ dweet.comments.last.author.username }}:</a>
-        <span class="comment-message sticky-comment">{{ dweet.comments.last.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
+        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.top_comment.author.username %}">{{ dweet.top_comment.author.username }}:</a>
+        <span class="comment-message sticky-comment">{{ dweet.top_comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
       </li>
     </ul>
     {% endif %}
     <ul class=comments>
-      {% if dweet.comments.count > 3 and not dweet.sticky_comment or dweet.comments.count > 4 %}
+      {% if dweet.comments.count > 3 and not dweet.has_sticky_comment or dweet.comments.count > 4 %}
       <li class=comment>
       <a href="javascript:;" class="load-comments-link"
                              data-dweet_id="{{ dweet.id }}"
-                             {% if dweet.comments.last.author == dweet.author %}
+                             {% if dweet.has_sticky_comment %}
                              data-sticky_top="1"
                              {% endif %}
                              data-offset=3>
@@ -138,7 +138,7 @@
       </li>
       {% endif %}
       {% for comment in dweet.comments.all|slice:"3" reversed %}
-      {% if comment != dweet.comments.last or dweet.comments.last.author != dweet.author  %}
+      {% if comment != dweet.top_comment or not dweet.has_sticky_comment  %}
       <li class=comment>
       <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
       <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>

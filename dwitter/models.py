@@ -1,5 +1,6 @@
 import re
 from django.db import models
+from django.utils.functional import cached_property
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -52,14 +53,21 @@ class Dweet(models.Model):
         self.calculate_hotness((self.pk is None))
         super(Dweet, self).save(*args, **kwargs)
 
-    @property
-    def sticky_comment(self):
+    @cached_property
+    def top_comment(self):
+        """
+        Return the top comment. This is mainly a caching optimization to avoid queries
+        """
+        return self.comments.first()
+
+    @cached_property
+    def has_sticky_comment(self):
         """
         True when first comment should be stickied (first comment author == dweet author)
         """
-        if self.comments.last() is None:
+        if self.comments.first() is None:
             return False
-        return self.comments.last().author == self.author
+        return self.comments.first().author == self.author
 
     def __str__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
