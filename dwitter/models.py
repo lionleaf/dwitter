@@ -111,7 +111,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('-posted',)
+        ordering = ('posted',)
 
     def __str__(self):
         return ('c/' +
