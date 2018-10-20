@@ -218,6 +218,7 @@
   
     var time = 0;
     var frame = 0;
+    var nextFrameMs = 0;
 
     function u(t) {
       {{ code | safe }}
@@ -231,6 +232,11 @@
 
       if (playing){
         requestAnimationFrame(loop);
+        var now = new Date().getTime();
+        if (now < nextFrameMs) {
+          return;  // Skip this cycle as we are animating too quickly.
+        }
+        nextFrameMs = now + 1000 / FPS;
       }
       time = frame/FPS;
       if(time * FPS | 0 == frame - 1){
