@@ -236,7 +236,7 @@
         if (now < nextFrameMs) {
           return;  // Skip this cycle as we are animating too quickly.
         }
-        nextFrameMs = now + 1000 / FPS;
+        nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, now);
       }
       time = frame/FPS;
       if(time * FPS | 0 == frame - 1){
