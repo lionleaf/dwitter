@@ -227,16 +227,15 @@
     var src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
     newCode(src);
 
-    function loop() {
+    function loop(frame_time) {
       stats = stats || createStats();
 
       if (playing){
         requestAnimationFrame(loop);
-        var now = new Date().getTime();
-        if (now < nextFrameMs) {
+        if (frame_time < Math.floor(nextFrameMs)) {
           return;  // Skip this cycle as we are animating too quickly.
         }
-        nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, now);
+        nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, frame_time);
       }
       time = frame/FPS;
       if(time * FPS | 0 == frame - 1){
@@ -289,7 +288,7 @@
       }
     }
     if(autoplay) {
-        loop();
+        loop(0.0);
     }
 
     function reset(){
