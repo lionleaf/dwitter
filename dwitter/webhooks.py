@@ -1,5 +1,4 @@
 from django.conf import settings
-from django.urls import reverse
 import json
 import urllib2
 
@@ -23,9 +22,9 @@ class Webhooks:
     @staticmethod
     def new_dweet_notifications(dweet):
         authorname = dweet.author.username
-        msg = ('[u/%s](https://www.dwitter.net%s) posted new dweet ' %
-               (authorname, reverse('user_feed', args=[authorname])) +
-               '[d/%d](https://www.dwitter.net%s):\n```js\n%s\n```' %
-               (dweet.id, reverse('dweet_show', args=[dweet.id]), dweet.code))
+        msg = ('[u/%s](https://www.dwitter.net/u/%s) posted new dweet ' %
+               (authorname, authorname) +
+               '[d/%d](https://www.dwitter.net/d/%s):\n```js\n%s\n```' %
+               (dweet.id, dweet.id, dweet.code))
 
         Webhooks.send_discord_message(msg)
