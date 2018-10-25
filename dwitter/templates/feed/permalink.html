@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load subdomainurls %}
 
 {% block head %}
 {% load staticfiles %}
@@ -18,8 +17,8 @@
   {% if dweet.deleted %}
     Deleted dweet - Dwitter
   {% else %}
-    {% if dweet.comments.last.author == dweet.author %}
-      {{ dweet.comments.last.text | truncatechars:40 }}
+    {% if dweet.has_sticky_comment %}
+      {{ dweet.comments.first.text | truncatechars:40 }}
     {% else %}
       d/{{ dweet.id }}
     {% endif %}

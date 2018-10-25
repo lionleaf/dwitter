@@ -18,7 +18,7 @@ def assertResponse(self, response, **kwargs):
 
 class DweetTestCase(TransactionTestCase):
     def setUp(self):
-        self.client = Client(HTTP_HOST='dweet.example.com')
+        self.client = Client(HTTP_HOST='dweet.localhost:8000')
         self.user = User.objects.create(username="user", password="")
         self.dweet = Dweet.objects.create(id=1,
                                           code="dweet code",
@@ -42,7 +42,7 @@ class DweetTestCase(TransactionTestCase):
                        view=fullscreen_dweet,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertIn(wrap_content(self.dweet.code), response.content)
+        self.assertContains(response, wrap_content(self.dweet.code))
 
     def test_blank_dweet_renders_with_correct_template(self):
         response = self.client.get('/blank')
@@ -50,4 +50,4 @@ class DweetTestCase(TransactionTestCase):
                        view=blank_dweet,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertIn(wrap_content(response.context['code']), response.content)
+        self.assertContains(response, wrap_content(response.context['code']))

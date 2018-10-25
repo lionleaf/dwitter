@@ -1,4 +1,3 @@
-{% load subdomainurls %}
 <div class="dweet submit-box">
   <div
     class=canvas-iframe-container-wrapper
@@ -7,7 +6,7 @@
       class=canvas-iframe-container
       id="iframe-container-submit">
       <iframe class="dweetiframe" id=preview-iframe
-      src="{% url 'blank_dweet' subdomain='dweet' %}"
+      src="{% url 'blank_dweet' host 'dweet' %}"
       sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
   </div>
@@ -37,10 +36,13 @@ x.fillRect(400+i*100+S(t)*300,400,50,200) // draw 50x200 rects</textarea>
       <div class=error-display></div>
       <div class=dweet-changed>
       {% if request.user.is_authenticated %}
+        <div class=post-dweet-div>
+        <input type=text placeholder="Add a caption..." name="first-comment" class="new-dweet-comment-input" />
         <input
           class=dweet-button
           type="submit"
           value="Post dweet!" />
+        </div>
       {% else %}
         <br />
         <p>Please <a href="{% url 'auth_login'  %}" >log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post a dweet (copy-paste the code somewhere safe to save it meanwhile) </p>

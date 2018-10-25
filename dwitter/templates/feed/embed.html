@@ -1,16 +1,15 @@
-{% load subdomainurls %}
 {% load staticfiles %}
 {% load compress %}
 
 <html>
     <head>
-        <title>  
+        <title>
             {% if dweet.deleted %}
             Embedded - deleted dweet | Dwitter
             {% else %}
             Embedded -
-            {% if dweet.comments.last.author == dweet.author %}
-            {{ dweet.comments.last.text | truncatechars:40 }}
+            {% if dweet.has_sticky_comment %}
+              {{ dweet.comments.first.text | truncatechars:40 }}
             {% else %}
             d/{{ dweet.id }}
             {% endif %}

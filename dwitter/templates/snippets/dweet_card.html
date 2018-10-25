@@ -1,4 +1,3 @@
-{% load subdomainurls %}
 {% load to_gravatar_url %}
 {% load insert_magic_links %}
 {% load insert_code_blocks %}
@@ -7,14 +6,14 @@
     <div class=canvas-iframe-container-wrapper>
       <div class=canvas-iframe-container >
         <iframe class="dweetiframe"
-          src="{% url 'fullscreen_dweet' subdomain='dweet' dweet_id=dweet.id %}"
+          src="{% url 'fullscreen_dweet' dweet_id=dweet.id host 'dweet' %}"
           sandbox="allow-same-origin allow-scripts" id="{{ dweet.id }}"></iframe>
       </div>
     </div>
     <div class=dweet-actions>
       <form class="like" data-csrf="{{ csrf_token }}" data-dweet_id="{{ dweet.id }}">
         <button type="submit" class="like-button{% if request.user in dweet.likes.all %} liked{% endif %}">
-          <span class="score-text">{{ dweet.num_likes }}</span>
+          <span class="score-text">{{ dweet.likes.count }}</span>
           <span class="like-text">Awesome!</span>
         </button>
       </form>
@@ -100,10 +99,13 @@
       <div class=dweet-changed>
             {% if not embed %}
             {% if request.user.is_authenticated %}
-            <input
-                class="remix-button"
-                type="submit"
-                value="Post as remix" />
+            <div class=post-dweet-div>
+                <input type=text placeholder="Add a caption..." name="first-comment" class="new-dweet-comment-input" />
+                <input
+                    class="remix-button"
+                    type="submit"
+                    value="Post as remix" />
+        </div>
             {% else %}
               <br />
               <p>Please <a href="{% url 'auth_login' %}">log in</a> (or <a href="{% url 'register'  %}" >register</a>) to post as a new dweet (copy-paste code somewhere safe to save it meanwhile).</p>
@@ -115,28 +117,31 @@
   </div>
   {% if not embed %}
   <div class=comment-section>
-    {% if dweet.comments.last.author == dweet.author %}
+    {% if dweet.has_sticky_comment %}
     <ul class=sticky-comments>
       <li class="comment sticky-comment">
-        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.comments.last.author.username %}">{{ dweet.comments.last.author.username }}:</a>
-        <span class="comment-message sticky-comment">{{ dweet.comments.last.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
+        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.top_comment.author.username %}">{{ dweet.top_comment.author.username }}:</a>
+        <span class="comment-message sticky-comment">{{ dweet.top_comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
       </li>
-      </ul>
-        {% endif %}
-        <ul class=comments>
-      {% if dweet.comments.count > 3 %}
+    </ul>
+    {% endif %}
+    <ul class=comments>
+      {% if dweet.comments.count > 3 and not dweet.has_sticky_comment or dweet.comments.count > 4 %}
       <li class=comment>
       <a href="javascript:;" class="load-comments-link"
                              data-dweet_id="{{ dweet.id }}"
-                             {% if dweet.comments.last.author == dweet.author %}
-                             data-sticky_top="1"
-                             {% endif %}
-                             data-offset=3>
+                             {% if dweet.has_sticky_comment %}
+                             data-hidden_comments_offset=1
+                             data-hidden_comments_number={{ dweet.comments.count|add:"-4" }}
+                             {% else %}
+                             data-hidden_comments_offset=0
+                             data-hidden_comments_number={{ dweet.comments.count|add:"-3" }}
+                             {% endif %}>
         Load older comments...</a>
       </li>
       {% endif %}
-      {% for comment in dweet.comments.all|slice:"3" reversed %}
-      {% if comment != dweet.comments.last or dweet.comments.last.author != dweet.author  %}
+      {% for comment in dweet.comments.all|dictsortreversed:"posted"|slice:"3" reversed %}
+      {% if comment != dweet.top_comment or not dweet.has_sticky_comment  %}
       <li class=comment>
       <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
       <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>

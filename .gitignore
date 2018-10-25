@@ -16,4 +16,4 @@ node_modules
 package-lock.json
 newrelic.ini
 .coverage
-
+.DS_Store

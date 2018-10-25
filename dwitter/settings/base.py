@@ -14,7 +14,9 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_URL = 'https://dwitter.net/'
+BASE_URL = 'https://www.dwitter.net/'
+
+PARENT_HOST = 'dwitter.net'
 
 REGISTRATION_OPEN = True        # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
@@ -26,15 +28,11 @@ LOGIN_URL = BASE_URL + '/accounts/login/'  # The page users are directed to if t
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-ALLOWED_HOSTS = []
-
-
-TEMPLATES = [
-        {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'APP_DIRS': True,
-            },
-        ]
+ALLOWED_HOSTS = [
+    'dweet.localhost',
+    'localhost',
+    'www.localhost',
+]
 
 
 # Application definition
@@ -54,22 +52,24 @@ INSTALLED_APPS = [
     'dwitter.user',
     'dwitter.feed',
     'dwitter.dweet',
-    'subdomains',
     'anymail',
     'compressor',
     'dbbackup',
     'debug_toolbar',
+    'corsheaders',
+    'django_hosts',
 ]
 
-DBBACKUP_STORAGE = 'dbbackup.storage.filesystem_storage'
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 10,                   # Default to 10
     'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+
 }
 
 # List of callables that know how to import templates from various sources.
@@ -79,10 +79,11 @@ REST_FRAMEWORK = {
 #            # 'django.template.loaders.eggs.Loader',
 #            )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'subdomains.middleware.SubdomainURLRoutingMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,15 +91,13 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware',
 ]
 
 ROOT_URLCONF = 'dwitter.urls'
 
-# A dictionary of urlconf module paths, keyed by their subdomain.
-SUBDOMAIN_URLCONFS = {
-    'dwitter': 'dwitter.urls',
-    'dweet': 'dwitter.dweet.urls',
-}
+ROOT_HOSTCONF = 'dwitter.hosts'
+DEFAULT_HOST = 'www'
 
 TEMPLATES = [
     {
@@ -111,7 +110,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.request',
+            ],
+            'builtins': [
+                'django_hosts.templatetags.hosts_override',
             ],
         },
     },
@@ -163,6 +164,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -178,7 +181,7 @@ STATICFILES_FINDERS = (
 
 
 def show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain(request):
-    if request.subdomain == 'dweet':
+    if request.host.name == 'dweet':
         return False
     # Import here so that we get the settings from local.py as well
     from django.conf import settings

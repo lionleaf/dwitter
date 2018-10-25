@@ -82,7 +82,7 @@ class UrlsTest(test.TestCase):
             print the status code.
         """
         module = importlib.import_module(settings.ROOT_URLCONF)
-        print credentials
+        print(credentials)
         if credentials:
             self.client.login(**credentials)
             user = auth.get_user(self.client)

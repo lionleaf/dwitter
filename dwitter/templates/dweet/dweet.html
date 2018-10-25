@@ -36,6 +36,7 @@
         console.log("Received message from " + origin);
         if(origin !== "http://dwitter.localhost:8000"
           && origin !== "http://localhost:8000"
+          && origin !== "http://www.localhost:8000"
           && origin !== "https://localhost:8000"
           && origin !== "https://www.dwitter.net"
           && origin !== "https://dwitter.net"){
@@ -131,6 +132,9 @@
       function newCode(code) {
           window.stopper.reset();
           try {
+            // Using new Function(), if the code reassigns `u`, it will reassign the global, breaking the dweet
+            //var u = new Function("t", instrument(code));
+            // Using eval(), if the code reassigns `u`, it will reassign the local, leaving `window.u` working
             eval("function u(t) {\n"+instrument(code)+"\n}");
             window.u = u;
           } catch (e) {
@@ -214,19 +218,25 @@
   
     var time = 0;
     var frame = 0;
-    
+    var nextFrameMs = 0;
+
     function u(t) {
       {{ code | safe }}
     }
-    
-    let src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
-    u = new Function("t", instrument(src));
-    
+
+    var src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
+    newCode(src);
+
     function loop() {
       stats = stats || createStats();
 
       if (playing){
         requestAnimationFrame(loop);
+        var now = new Date().getTime();
+        if (now < nextFrameMs) {
+          return;  // Skip this cycle as we are animating too quickly.
+        }
+        nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, now);
       }
       time = frame/FPS;
       if(time * FPS | 0 == frame - 1){

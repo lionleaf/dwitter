@@ -1,7 +1,7 @@
 from django.test import TransactionTestCase, Client
 from django.contrib.auth.models import User
 from django.contrib import auth
-from dwitter.models import Dweet
+from dwitter.models import Dweet, Comment, Hashtag
 from django.utils import timezone
 
 
@@ -38,6 +38,42 @@ class PostDweetTestCase(TransactionTestCase):
         self.assertEqual(dweet.code, 'test_code')
         self.assertEqual(dweet.author, user)
 
+    def test_post_new_dweet_with_first_comment(self):
+        user = self.login()
+
+        response = self.client.post('/dweet',
+                                    {'code': 'test_code', 'first-comment': 'hello there'},
+                                    follow=True)
+        self.assertEqual(response.status_code, 200,
+                         "Posting dweet return 200. Status code " + str(response.status_code))
+
+        dweet = Dweet.objects.get(code='test_code')
+        self.assertEqual(dweet.code, 'test_code')
+        self.assertEqual(dweet.author, user)
+        comment = Comment.objects.get(reply_to=dweet)
+        self.assertEqual(comment.text, 'hello there')
+        self.assertEqual(comment.author, user)
+
+    def test_post_new_dweet_with_first_comment_with_hashtag(self):
+        user = self.login()
+
+        response = self.client.post('/dweet',
+                                    {'code': 'test_code', 'first-comment': 'hello there #woo'},
+                                    follow=True)
+        self.assertEqual(response.status_code, 200,
+                         "Posting dweet return 200. Status code " + str(response.status_code))
+
+        dweet = Dweet.objects.get(code='test_code')
+        self.assertEqual(dweet.code, 'test_code')
+        self.assertEqual(dweet.author, user)
+
+        comment = Comment.objects.get(reply_to=dweet)
+        self.assertEqual(comment.text, 'hello there #woo')
+        self.assertEqual(comment.author, user)
+
+        hashtag = Hashtag.objects.get(name='woo')
+        self.assertEqual(dweet in hashtag.dweets.all(), True)
+
     def test_too_long_dweet_post(self):
         user = self.login()
 
@@ -69,6 +105,46 @@ class PostDweetTestCase(TransactionTestCase):
         self.assertEqual(dweet.code, 'test_code')
         self.assertEqual(dweet.author, user)
         self.assertEqual(dweet.reply_to, self.dweet)
+
+    def test_post_dweet_reply_with_first_comment(self):
+        user = self.login()
+
+        response = self.client.post('/d/1000/reply',
+                                    {'code': 'test_code', 'first-comment': 'hello there'},
+                                    follow=True)
+        self.assertEqual(response.status_code, 200,
+                         "Posting dweet return 200. Status code " + str(response.status_code))
+
+        dweet = Dweet.objects.get(code='test_code')
+        self.assertEqual(dweet.code, 'test_code')
+        self.assertEqual(dweet.author, user)
+        self.assertEqual(dweet.reply_to, self.dweet)
+
+        comment = Comment.objects.get(reply_to=dweet)
+        self.assertEqual(comment.text, 'hello there')
+        self.assertEqual(comment.author, user)
+
+    def test_post_dweet_reply_with_first_comment_with_hashtag(self):
+        user = self.login()
+
+        response = self.client.post('/d/1000/reply',
+                                    {'code': 'test_code', 'first-comment': 'hello there #woo'},
+                                    follow=True)
+
+        self.assertEqual(response.status_code, 200,
+                         "Posting dweet return 200. Status code " + str(response.status_code))
+
+        dweet = Dweet.objects.get(code='test_code')
+        self.assertEqual(dweet.code, 'test_code')
+        self.assertEqual(dweet.author, user)
+        self.assertEqual(dweet.reply_to, self.dweet)
+
+        comment = Comment.objects.get(reply_to=dweet)
+        self.assertEqual(comment.text, 'hello there #woo')
+        self.assertEqual(comment.author, user)
+
+        hashtag = Hashtag.objects.get(name='woo')
+        self.assertEqual(dweet in hashtag.dweets.all(), True)
 
     def test_too_long_dweet_reply(self):
         user = self.login()
