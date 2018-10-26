@@ -1,6 +1,9 @@
 from django.conf import settings
 import json
-import urllib2
+# Support for python3 and 2.7
+from future.standard_library import install_aliases
+install_aliases()
+from urllib.request import urlopen, Request  # noqa: E402
 
 
 class Webhooks:
@@ -11,10 +14,10 @@ class Webhooks:
         post_data = {'content': message}
 
         # A User-Agent string is required, so I'm just making one up
-        req = urllib2.Request(settings.DISCORD_WEBHOOK, json.dumps(post_data),
-                              {'Content-Type': 'application/json', 'User-Agent': 'Dwitter/1.0'})
+        req = Request(settings.DISCORD_WEBHOOK, json.dumps(post_data),
+                      {'Content-Type': 'application/json', 'User-Agent': 'Dwitter/1.0'})
         try:
-            f = urllib2.urlopen(req)
+            f = urlopen(req)
             f.close()
         except Exception:
             return  # Fail silently, webhooks will stop rather than breaking the site
