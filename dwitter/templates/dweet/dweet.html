@@ -232,7 +232,8 @@
 
       if (playing){
         requestAnimationFrame(loop);
-        if (frame_time < Math.floor(nextFrameMs)) {
+        epsilon = 1.5; // Acounts for different timestamp resolution and slight jitter
+        if (frame_time < nextFrameMs - epsilon) {
           return;  // Skip this cycle as we are animating too quickly.
         }
         nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, frame_time);
