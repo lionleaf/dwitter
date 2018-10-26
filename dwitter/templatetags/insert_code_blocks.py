@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
 def to_code_block(m):
     code = m.group('code')
     code = re.sub(r'\\`', '`', code)
@@ -14,6 +15,7 @@ def to_code_block(m):
         code = code.replace(a[i][0], a[i][1])
 
     return '<code>%s</code>' % code
+
 
 @register.filter
 def insert_code_blocks(text):
