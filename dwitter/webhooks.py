@@ -1,9 +1,5 @@
 from django.conf import settings
-import json
-# Support for python3 and 2.7
-from future.standard_library import install_aliases
-install_aliases()
-from urllib.request import urlopen, Request  # noqa: E402
+import requests
 
 
 class Webhooks:
@@ -11,14 +7,11 @@ class Webhooks:
     def send_discord_message(message):
         if(not hasattr(settings, 'DISCORD_WEBHOOK')):
             return  # No discord webhook set up
+
         post_data = {'content': message}
 
-        # A User-Agent string is required, so I'm just making one up
-        req = Request(settings.DISCORD_WEBHOOK, json.dumps(post_data),
-                      {'Content-Type': 'application/json', 'User-Agent': 'Dwitter/1.0'})
         try:
-            f = urlopen(req)
-            f.close()
+            requests.post(settings.DISCORD_WEBHOOK, json=post_data)
         except Exception:
             return  # Fail silently, webhooks will stop rather than breaking the site
 
