@@ -38,13 +38,15 @@ def insert_magic_links(text):
         r'[^a-zA-Z\d]?d/(?P<dweet_id>\d+)[^a-zA-Z]?'           # dweet reference
         r'|'                                                   # or
         r'[^a-zA-Z\d]?u/(?P<username>[\w.@+-]+)[^a-zA-Z\d]?)'  # user reference
-        r'(?=$|\s|#)',                                         # end of string, whitespace or hashtag
+        # end of string, whitespace or hashtag:
+        r'(?=$|\s|#)',
         user_dweet_to_link,
         text
     )
     text = re.sub(
         r'(?P<text>'                                      # capture original pattern
-        r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]{2,})\b)',  # hashtag - check for whitespace precedence and make sure length >2
+        # hashtag - check for whitespace precedence and make sure length > 2:
+        r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]{2,})\b)',
         hashtag_to_link,
         text
     )
