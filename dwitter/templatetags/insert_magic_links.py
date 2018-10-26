@@ -3,7 +3,6 @@ from django import template
 
 register = template.Library()
 
-
 def user_dweet_to_link(m):
     text = m.group('text')
     dweet_id = m.group('dweet_id')
@@ -17,17 +16,15 @@ def user_dweet_to_link(m):
     result = '<a href="/{0}">{0}</a>'.format(url)
     return text.replace(url, result)
 
-
 def hashtag_to_link(m):
     text = m.group('text')
     hashtag = m.group('hashtag')
-    
+
     url = 'h/' + hashtag
     tag = '#' + hashtag
-    
+
     result = '<a href="/{0}">{1}</a>'.format(url, tag)
     return text.replace(tag, result)
-
 
 @register.filter(is_safe=True)
 def insert_magic_links(text):
@@ -44,7 +41,8 @@ def insert_magic_links(text):
         text
     )
     text = re.sub(
-        r'(?P<text>'                                      # capture original pattern
+        # capture original pattern
+        r'(?P<text>'
         # hashtag - check for whitespace precedence and make sure length > 2:
         r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]{2,})\b)',
         hashtag_to_link,
