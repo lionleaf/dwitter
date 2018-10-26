@@ -25,6 +25,9 @@ def hashtag_to_link(m):
     url = 'h/' + hashtag
     tag = '#' + hashtag
 
+    if not re.search('[a-zA-Z]', hashtag):
+        return tag # hashtag contains no letters, return the plain tag
+    
     result = '<a href="/{0}">{1}</a>'.format(url, tag)
     return text.replace(tag, result)
 
@@ -47,7 +50,7 @@ def insert_magic_links(text):
         # capture original pattern
         r'(?P<text>'
         # hashtag - check for whitespace precedence and word boundaries
-        r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]+)\b)',
+        r'(?<!\S)#(?P<hashtag>[_a-zA-Z\d]+)\b)',
         hashtag_to_link,
         text
     )
