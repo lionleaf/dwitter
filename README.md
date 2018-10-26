@@ -11,10 +11,12 @@ Join the chat on [Discord](https://discord.gg/r5nXDsQ)
 Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMTUwKlModCkrMTUwLDE1MCwxNTAp)
 
 
-## Pre-requisites and first-time installation
+## Pre-requisites and first-time installation (Linux)
 * Install `npm`
 * `sudo apt install npm`
-*  Get packages needed for server and clone the repository
+* Install Python and necessary Python development packages
+* `sudo apt install python python-dev`
+* Get packages needed for server and clone the repository
 * `sudo apt install git virtualenv python-pip`
 * `git clone https://github.com/lionleaf/dwitter.git`
 
