@@ -44,7 +44,7 @@ def insert_magic_links(text):
     )
     text = re.sub(
         r'(?P<text>'                                      # capture original pattern
-        r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]{2,})\b',  # hashtag - check for whitespace precedence and make sure length >2
+        r'(?<!\S)#(?!\d)(?P<hashtag>[_a-zA-Z\d]{2,})\b)',  # hashtag - check for whitespace precedence and make sure length >2
         hashtag_to_link,
         text
     )
