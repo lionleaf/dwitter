@@ -16,7 +16,6 @@ def to_code_block(m):
 
     return '<code>%s</code>' % code
 
-
 @register.filter
 def insert_code_blocks(text):
     result = re.sub(
