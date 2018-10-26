@@ -121,7 +121,7 @@
     <ul class=sticky-comments>
       <li class="comment sticky-comment">
         <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.top_comment.author.username %}">{{ dweet.top_comment.author.username }}:</a>
-        <span class="comment-message sticky-comment">{{ dweet.top_comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
+        <span class="comment-message sticky-comment">{{ dweet.top_comment.text | force_escape | insert_magic_links | urlizetrunc:45 | insert_code_blocks }}</span>
       </li>
     </ul>
     {% endif %}
@@ -144,7 +144,7 @@
       {% if comment != dweet.top_comment or not dweet.has_sticky_comment  %}
       <li class=comment>
       <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
-      <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
+      <span class="comment-message">{{ comment.text | force_escape | insert_magic_links | urlizetrunc:45 | insert_code_blocks }}</span>
       </li>
       {% endif %}
       {% endfor %}
