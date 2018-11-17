@@ -9,7 +9,8 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+class HashtagFeedTestCase(): # Not inheriting from TestCase, an abstract test class if you will
+
     request_factory = RequestFactory()
     dweetFeed = {}
 
@@ -45,6 +46,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
                                reply_to=dweets[3],
                                author=users[2])
 
+
     def test_annotation(self):
         self.dweetFeed.kwargs = {'hashtag_name': 'everyone'}
         queryset = self.dweetFeed.get_queryset()
@@ -55,11 +57,13 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
             except:
                 self.fail("queryset missing num_likes annotation")
 
+
     def test_404_empty_hashtag(self):
         request = self.request_factory.get('/')
         request.session = {}
         with self.assertRaises(Http404):
             self.dweetFeed.__class__.as_view()(request, hashtag_name='empty')
+
 
     def test_queryset_count(self):
         self.dweetFeed.kwargs = {'hashtag_name': 'everyone'}
@@ -70,6 +74,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
         queryset = self.dweetFeed.get_queryset()
         self.assertEqual(queryset.count(), 1)
 
+
     def test_no_default_title(self):
         request = self.request_factory.get('/')
         request.session = {}
@@ -78,6 +83,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
         html = response.content.decode('utf8')
         self.assertNotIn('<title>' + self.dweetFeed.title + '</title>', html)
 
+
     def test_got_title(self):
         request = self.request_factory.get('/')
         request.session = {}
@@ -85,6 +91,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
         response.render()
         html = response.content.decode('utf8')
         self.assertIn('<title>' + self.dweetFeed.get_title() + '</title>', html)
+
 
     def test_html_response(self):
         request = self.request_factory.get('/')
@@ -96,6 +103,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
 
 
 class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
+
     dweetFeed = TopHashtagFeed()
 
     def test_top_sort(self):
@@ -109,6 +117,7 @@ class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
 
 
 class NewHashtagFeedTests(HashtagFeedTestCase, TestCase):
+    
     dweetFeed = NewHashtagFeed()
 
     def test_new_sort(self):
