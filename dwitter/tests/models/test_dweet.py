@@ -6,6 +6,7 @@ from datetime import timedelta
 
 
 class DweetTestCase(TestCase):
+    
     def setUp(self):
         user1 = User.objects.create(username="user1", password="")
         user2 = User.objects.create(username="user2", password="")
@@ -25,9 +26,11 @@ class DweetTestCase(TestCase):
 
         dweet2.likes.add(user1, user2)
 
+
     def test_dweet_renders_to_string_correctly(self):
         self.assertEqual(Dweet.objects.get(id=1).__str__(), "d/1 (user1)")
         self.assertEqual(Dweet.objects.get(id=2).__str__(), "d/2 (user2)")
+
 
     def test_dweet_reply_to_set_deleted_field_on_delete(self):
         dweet1 = Dweet.objects.get(id=1)
@@ -35,11 +38,13 @@ class DweetTestCase(TestCase):
         self.assertEqual(dweet1.deleted, True)
         self.assertEqual(Dweet.objects.get(id=2).reply_to, dweet1)
 
+
     def test_dweet_author_set_null_on_delete(self):
         User.objects.get(username="user1").delete()
         self.assertTrue(Dweet.with_deleted.get(id=1).deleted)
         self.assertEqual(Dweet.objects.get(id=2).author,
                          User.objects.get(username="user2"))
+
 
     def test_dweet_has_correct_likes(self):
         dweet1 = Dweet.objects.get(id=1)
@@ -49,15 +54,18 @@ class DweetTestCase(TestCase):
         self.assertQuerysetEqual(dweet1.likes.all(), [])
         self.assertQuerysetEqual(dweet2.likes.order_by('id'), all_users)
 
+
     def test_default_manager_does_not_include_deleted_dweets(self):
         second_dweet = [repr(Dweet.objects.get(id=2))]
         Dweet.objects.get(id=1).delete()
         self.assertQuerysetEqual(Dweet.objects.all(), second_dweet)
 
+
     def test_with_deleted_manager_includes_deleted_dweets(self):
         all_dweets = [repr(d) for d in Dweet.objects.all()]
         Dweet.objects.get(id=1).delete()
         self.assertQuerysetEqual(Dweet.with_deleted.all(), all_dweets)
+
 
     def test_dweet_hotness(self):
         dweet1 = Dweet.objects.get(id=1)
