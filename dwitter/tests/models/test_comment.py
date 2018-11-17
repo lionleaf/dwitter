@@ -7,6 +7,7 @@ from datetime import timedelta
 
 
 class DweetTestCase(TestCase):
+    
     def setUp(self):
         user1 = User.objects.create(username="user1", password="")
         user2 = User.objects.create(username="user2", password="")
@@ -36,17 +37,20 @@ class DweetTestCase(TestCase):
                                reply_to=dweet1,
                                author=user2)
 
+
     def test_comment_renders_to_string_correctly(self):
         self.assertEqual(Comment.objects.get(id=1).__str__(),
                          "c/1 (user1) to d/2 (user2)")
         self.assertEqual(Comment.objects.get(id=2).__str__(),
                          "c/2 (user2) to d/1 (user1)")
 
+
     def test_comment_reply_to_do_nothing_on_soft_delete(self):
         Dweet.objects.get(id=2).delete()
         self.assertTrue(Comment.objects.get(id=1).reply_to.deleted)
         self.assertEqual(Comment.objects.get(id=2).reply_to,
                          Dweet.objects.get(id=1))
+
 
     def test_comment_author_cascade_on_delete(self):
         User.objects.get(username="user1").delete()
