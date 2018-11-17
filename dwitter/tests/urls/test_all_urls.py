@@ -49,11 +49,14 @@ class UrlsTest(test.TestCase):
                                reply_to=dweet1,
                                author=user2)
 
-        def test_logged_in_urls(self):
+
+    def test_logged_in_urls(self):
             self.responses_test(credentials={'username': 'user1', 'password': 'qwertypw'})
+
 
     def test_guest_urls(self):
         self.responses_test(allowed_http_codes=[200, 302, 403, 405], credentials={})
+
 
     def responses_test(self, allowed_http_codes=[200, 302, 405], logout_url="logout", quiet=False,
                        credentials={},
@@ -63,22 +66,22 @@ class UrlsTest(test.TestCase):
                                        'dweet_id': '2',
                                        'hashtag_name': 'test'}):
         """
-        Test all pattern in root urlconf and included ones.
-        Do GET requests only.
+        Test all patterns in the root urlconf, and included ones.
+        Send GET requests only.
         A pattern is skipped if any of the conditions applies:
             - pattern has no name in urlconf
-            - pattern expects any positinal parameters
+            - pattern expects any positional parameters
             - pattern expects keyword parameters that are not specified in @default_kwargs
-        If response code is not in @allowed_http_codes, fail the test.
-        if @credentials dict is specified (e.g. username and password),
-            login before run tests.
-        If @logout_url is specified, then check if we accidentally logged out
-            the client while testing, and login again
+        If the response code is not in @allowed_http_codes, the test fails.
+        If a @credentials dictionary is specified (e.g. username and password),
+            login before running the tests.
+        If a @logout_url is specified, then check if we haven't accidentally logged out
+            the client while testing, and login again.
         Specify @default_kwargs to be used for patterns that expect keyword parameters,
             e.g. if you specify default_kwargs={'username': 'testuser'}, then
             for pattern url(r'^accounts/(?P<username>[\.\w-]+)/$'
             the url /accounts/testuser/ will be tested.
-        If @quiet=False, print all the urls checked. If status code of the response is not 200,
+        If @quiet is set to False, print all the urls checked. If the status code of the response is not 200,
             print the status code.
         """
         module = importlib.import_module(settings.ROOT_URLCONF)
@@ -87,6 +90,7 @@ class UrlsTest(test.TestCase):
             self.client.login(**credentials)
             user = auth.get_user(self.client)
             assert user.is_authenticated()
+
 
         def check_urls(urlpatterns, prefix=''):
             for pattern in urlpatterns:
