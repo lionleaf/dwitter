@@ -9,6 +9,7 @@ from datetime import timedelta
 
 
 class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+    
     request_factory = RequestFactory()
 
     def setUp(self):
@@ -32,17 +33,20 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
                 for i in range(random.randrange(0, 5)):
                     dweets[-1].likes.add(self.users[i])
 
+
     def test_all_dweet_author(self):
         self.dweetFeed.kwargs = {'url_username': self.users[3].username}
         queryset = self.dweetFeed.get_queryset()
         for dweet in queryset:
             self.assertEqual(self.users[3], dweet.author)
 
+
     def test_queryset_size(self):
         self.dweetFeed.kwargs = {'url_username': self.users[1].username}
         queryset = self.dweetFeed.get_queryset()
         # Each user have 10 dweets from setUp
         self.assertEqual(queryset.count(), 10)
+
 
     def test_annotation(self):
         self.dweetFeed.kwargs = {'url_username': self.users[1].username}
@@ -56,19 +60,24 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
 
 
 class NewUserFeedTests(UserFeedTestCase, TestCase):
+    
     dweetFeed = NewUserFeed()
 
 
 class TopUserFeedTests(UserFeedTestCase, TestCase):
+    
     dweetFeed = TopUserFeed()
 
 
 class HotUserFeedTests(UserFeedTestCase, TestCase):
+    
     dweetFeed = HotUserFeed()
 
 
 class NewLikedFeedTests(UserFeedTestCase, TestCase):
+    
     dweetFeed = NewLikedFeed()
+
 
     def test_queryset_objects(self):
         self.dweetFeed.kwargs = {'url_username': self.users[3].username}
@@ -76,8 +85,10 @@ class NewLikedFeedTests(UserFeedTestCase, TestCase):
         for dweet in queryset:
             self.assertIn(self.users[3], dweet.likes.all())
 
+
     def test_all_dweet_author(self):
         pass
+
 
     def test_queryset_size(self):
         pass
