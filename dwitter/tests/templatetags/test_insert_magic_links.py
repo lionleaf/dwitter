@@ -22,7 +22,7 @@ class DweetTestCase(TestCase):
     def test_insert_magic_links_bypasses_user_with_invalid_characters(self):
         self.assertEqual(
             'u/a1$',
-            'u/a1$'
+            insert_magic_links('u/a1$')
         )
 
 
@@ -80,7 +80,79 @@ class DweetTestCase(TestCase):
             '(<a href="/u/a">u/a</a>)',
             insert_magic_links('(u/a)')
         )
-        
+
+    # autocrop (http://dwitter.net/d/1 -> d/1)
+
+    def test_insert_magic_links_autocrops_urls_d(self):
+        self.assertEqual(
+            '<a href="/d/123">d/123</a>',
+            insert_magic_links('dwitter.net/d/123')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_d_http(self):
+        self.assertEqual(
+            '<a href="/d/123">d/123</a>',
+            insert_magic_links('http://dwitter.net/d/123')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_d_www(self):
+        self.assertEqual(
+            '<a href="/d/123">d/123</a>',
+            insert_magic_links('www.dwitter.net/d/123')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_d_http_www(self):
+        self.assertEqual(
+            '<a href="/d/123">d/123</a>',
+            insert_magic_links('http://www.dwitter.net/d/123')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_d_multiple(self):
+        self.assertEqual(
+            '<a href="/d/123">d/123</a> <a href="/d/456">456</a>',
+            insert_magic_links('dwitter.net/d/123 http://dwitter.net/d/456')
+        )
+
+    # autocrop with u/ links
+
+    def test_insert_magic_links_autocrops_urls_u(self):
+        self.assertEqual(
+            '<a href="/u/yonatan">u/yonatan</a>',
+            insert_magic_links('dwitter.net/u/yonatan')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_u_http(self):
+        self.assertEqual(
+            '<a href="/u/veubeke">u/veubeke</a>',
+            insert_magic_links('http://dwitter.net/u/veubeke')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_u_www(self):
+        self.assertEqual(
+            '<a href="/u/pavel">u/pavel</a>',
+            insert_magic_links('www.dwitter.net/u/pavel')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_u_http_www(self):
+        self.assertEqual(
+            '<a href="/u/lionleaf">u/lionleaf</a>',
+            insert_magic_links('http://www.dwitter.net/u/lionleaf')
+        )
+
+
+    def test_insert_magic_links_autocrops_urls_u_multiple(self):
+        self.assertEqual(
+            '<a href="/u/sigveseb">u/sigveseb</a> <a href="/u/aemkei">u/aemkei</a>',
+            insert_magic_links('dwitter.net/u/sigveseb http://dwitter.net/u/aemkei')
+        )
+
     # dweet
 
     def test_insert_magic_links_replaces_dweet_with_valid_characters(self):
