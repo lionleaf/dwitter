@@ -43,17 +43,13 @@ class HashtagTestCase(TestCase):
         h1 = Hashtag.objects.get(name='hash1')
         h2 = Hashtag.objects.get(name='hash2')
 
-        try:
-            illegal1 = Hashtag.objects.get(name='1hash')
-            self.assertEqual(illegal1, True)  # should throw an exception!
-        except:
-            pass
+        # These shouldn't throw any exceptions anymore,
+        # since hashtags staring with numbers are now allowed
+        one_hash = Hashtag.objects.get(name='1hash')
+        self.assertEqual(illegal1, True)
 
-        try:
-            illegal2 = Hashtag.objects.get(name='2hash')
-            self.assertEqual(illegal2, True)  # should throw an exception!
-        except:
-            pass
+        two_hash = Hashtag.objects.get(name='2hash')
+        self.assertEqual(illegal2, True)
 
         self.assertEqual(h is None, False)
         self.assertEqual(h1 is None, False)
