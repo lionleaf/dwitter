@@ -153,6 +153,13 @@ class DweetTestCase(TestCase):
             insert_magic_links('dwitter.net/u/sigveseb http://dwitter.net/u/aemkei')
         )
 
+
+    def test_insert_magic_autocrop_with_text(self):
+        self.assertEqual(
+            'Whoa, have you seen the dweets <a href="/u/sigveseb">u/sigveseb</a> makes?',
+            insert_magic_links('Whoa, have you seen the dweets dwitter.net/u/sigveseb makes?')
+        )
+
     # dweet
 
     def test_insert_magic_links_replaces_dweet_with_valid_characters(self):
