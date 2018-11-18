@@ -4,6 +4,17 @@ from django import template
 register = template.Library()
 
 
+# find all long d/ and u/ links in http:// form through regex, and
+# use replace() to singularly shorten each match into the d/ or u/ form
+def autocrop_urls(m):
+    d_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(d\/\d+))\b', m)
+    u_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(u\/\S+))\b', m)
+    for i in range(len(d_links)):
+        m.replace(d_links[i][0], d_links[i][4])
+    for i in range(len(u_links)):
+        m.replace(u_links[i][0], u_links[i][4])
+
+
 def user_dweet_to_link(m):
     text = m.group('text')
     dweet_id = m.group('dweet_id')
@@ -32,18 +43,9 @@ def hashtag_to_link(m):
     return text.replace(tag, result)
 
 
-# find all long d/ and u/ links in http:// form through regex, and
-# use replace() to singularly shorten each match into the d/ or u/ form
-def autocrop_urls(m):
-    d_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(d\/\d+))\b', m)
-    u_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(u\/\S+))\b', m)
-    for i in range(len(d_links)):
-        m.replace(d_links[i][0], d_links[i][4])
-    for i in range(len(u_links)):
-        m.replace(u_links[i][0], u_links[i][4])
-
 @register.filter(is_safe=True)
 def insert_magic_links(text):
+    text = autocrop_urls(text)
     text = re.sub(
         r'(?:^|(?<=\s))'                                       # start of string or whitespace
         r'/?'                                                  # optional /
@@ -64,5 +66,4 @@ def insert_magic_links(text):
         hashtag_to_link,
         text
     )
-    autocrop_urls(text)
     return text
