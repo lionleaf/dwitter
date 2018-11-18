@@ -3,7 +3,7 @@ from dwitter.templatetags.insert_magic_links import insert_magic_links
 
 
 class DweetTestCase(TestCase):
-    
+
     def test_insert_magic_links_bypasses_html(self):
         self.assertEqual(
             'prefix <h1>content</h1> suffix',
@@ -83,35 +83,35 @@ class DweetTestCase(TestCase):
 
     # autocrop (http://dwitter.net/d/1 -> d/1)
 
-    def test_insert_magic_links_autocrops_urls_d(self):
+    def test_insert_magic_autocrops_urls_d(self):
         self.assertEqual(
             '<a href="/d/123">d/123</a>',
             insert_magic_links('dwitter.net/d/123')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_d_http(self):
+    def test_insert_magic_autocrops_urls_d_http(self):
         self.assertEqual(
             '<a href="/d/123">d/123</a>',
             insert_magic_links('http://dwitter.net/d/123')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_d_www(self):
+    def test_insert_magic_autocrops_urls_d_www(self):
         self.assertEqual(
             '<a href="/d/123">d/123</a>',
             insert_magic_links('www.dwitter.net/d/123')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_d_http_www(self):
+    def test_insert_magic_autocrops_urls_d_http_www(self):
         self.assertEqual(
             '<a href="/d/123">d/123</a>',
             insert_magic_links('http://www.dwitter.net/d/123')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_d_multiple(self):
+    def test_insert_magic_autocrops_urls_d_multiple(self):
         self.assertEqual(
             '<a href="/d/123">d/123</a> <a href="/d/456">456</a>',
             insert_magic_links('dwitter.net/d/123 http://dwitter.net/d/456')
@@ -119,35 +119,35 @@ class DweetTestCase(TestCase):
 
     # autocrop with u/ links
 
-    def test_insert_magic_links_autocrops_urls_u(self):
+    def test_insert_magic_autocrops_urls_u(self):
         self.assertEqual(
             '<a href="/u/yonatan">u/yonatan</a>',
             insert_magic_links('dwitter.net/u/yonatan')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_u_http(self):
+    def test_insert_magic_autocrops_urls_u_http(self):
         self.assertEqual(
             '<a href="/u/veubeke">u/veubeke</a>',
             insert_magic_links('http://dwitter.net/u/veubeke')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_u_www(self):
+    def test_insert_magic_autocrops_urls_u_www(self):
         self.assertEqual(
             '<a href="/u/pavel">u/pavel</a>',
             insert_magic_links('www.dwitter.net/u/pavel')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_u_http_www(self):
+    def test_insert_magic_autocrops_urls_u_http_www(self):
         self.assertEqual(
             '<a href="/u/lionleaf">u/lionleaf</a>',
             insert_magic_links('http://www.dwitter.net/u/lionleaf')
         )
 
 
-    def test_insert_magic_links_autocrops_urls_u_multiple(self):
+    def test_insert_magic_autocrops_urls_u_multiple(self):
         self.assertEqual(
             '<a href="/u/sigveseb">u/sigveseb</a> <a href="/u/aemkei">u/aemkei</a>',
             insert_magic_links('dwitter.net/u/sigveseb http://dwitter.net/u/aemkei')
@@ -223,7 +223,7 @@ class DweetTestCase(TestCase):
             '(<a href="/d/1">d/1</a>)',
             insert_magic_links('(d/1)')
         )
-        
+
     # hashtag
 
     def test_insert_magic_replaces_basic_hashtag(self):
@@ -233,24 +233,17 @@ class DweetTestCase(TestCase):
         )
 
 
-    def test_insert_magic_replaces_prefix_hashtag(self):
+    def test_insert_magic_replaces_hashtag_word_prefix(self):
         self.assertEqual(
             'prefix <a href="/h/test">#test</a>',
             insert_magic_links('prefix #test')
         )
 
 
-    def test_insert_magic_replaces_hashtag_prefix_no_space(self):
+    def test_insert_magic_ignores_hashtag_prefix_no_space(self):
         self.assertEqual(
-            'prefix<a href="/h/test">#test</a>',
+            'prefix#test',
             insert_magic_links('prefix#test')
-        )
-
-
-    def test_insert_magic_replaces_hashtag_paren(self):
-        self.assertEqual(
-            'prefix(<a href="/h/test">#test</a>)',
-            insert_magic_links('prefix(#test)')
         )
 
 
@@ -261,17 +254,31 @@ class DweetTestCase(TestCase):
         )
 
 
-    def test_insert_magic_replaces_hashtag_illegal_hyphen(self):
+    def test_insert_magic_ignores_hashtag_illegal_hyphen(self):
         self.assertEqual(
-            'Dwitter is just <a href="/h/amaze">#amaze</a>-balls, right?',
+            'Dwitter is just #amaze-balls, right?',
             insert_magic_links('Dwitter is just #amaze-balls, right?')
         )
 
 
-    def test_insert_magic_hashtag_not_start_with_digit(self):
+    def test_insert_magic_ignores_hashtag_no_letters(self):
         self.assertEqual(
-            'Dwitter is just #1337 or <a href="/h/super1337">#super1337</a>?',
-            insert_magic_links('Dwitter is just #1337 or #super1337?')
+            'Dwitter is so #1337',
+            insert_magic_links('Dwitter is so #1337')
+        )
+
+
+    def test_insert_magic_hashtag_digit_start_with_letters(self):
+        self.assertEqual(
+            'We are the <a href="/h/1337elite">#1337elite</a>'
+            insert_magic_links('We are the #1337elite')
+        )
+
+
+    def test_insert_magic_hashtag_letters_and_digits(self):
+        self.assertEqual(
+            'Dwitter is like <a href="/h/abc123">#abc123</a>',
+            insert_magic_links('Dwitter is like #abc123')
         )
 
 
@@ -283,10 +290,6 @@ class DweetTestCase(TestCase):
         self.assertEqual(
             '<a href="/h/S">#S</a>',
             insert_magic_links('#S')
-        )
-        self.assertEqual(
-            '#1',  # Start with digit not legal
-            insert_magic_links('#1')
         )
 
     # mixed
@@ -307,6 +310,6 @@ class DweetTestCase(TestCase):
             '<a href="/h/amazing">#amazing</a> '
             '<a href="/d/123">d/123</a> by '
             '<a href="/u/jane">u/jane</a>'
-            '<a href="/h/yey">#yey</a>',
+            '#yey',
             insert_magic_links('#awesome u/john remixed #amazing d/123 by /u/jane#yey')
         )
