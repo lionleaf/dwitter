@@ -131,5 +131,5 @@ class NewDweetFeedTests(DweetFeedTestCase, TestCase):
 
 
 class RandomDweetFeedTests(DweetFeedTestCase, TestCase):
-    
+
     dweetFeed = RandomDweetFeed()
