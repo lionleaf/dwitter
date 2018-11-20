@@ -40,8 +40,8 @@ def hashtag_to_link(m):
     tag = '#' + hashtag
 
     if not re.search('[a-zA-Z]', hashtag):
-        return tag # hashtag contains no letters, return the plain tag
-    
+        return tag  # hashtag contains no letters, return the plain tag
+
     result = '<a href="/{0}">{1}</a>'.format(url, tag)
     return text.replace(tag, result)
 
