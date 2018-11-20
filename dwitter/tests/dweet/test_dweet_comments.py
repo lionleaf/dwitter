@@ -14,6 +14,7 @@ def code_wrap(s):
 
 
 class DweetTestCase(TransactionTestCase):
+
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create(username="user", password="")
