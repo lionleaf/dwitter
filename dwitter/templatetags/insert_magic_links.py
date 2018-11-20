@@ -10,9 +10,11 @@ def autocrop_urls(m):
     d_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(d\/\d+))\b', m)
     u_links = re.findall(r'(?<!\S)((http(s|):\/\/|)(www\.|)dwitter\.net\/(u\/\S+))\b', m)
     for i in range(len(d_links)):
-        m.replace(d_links[i][0], d_links[i][4])
+        if d_links:
+            m = m.replace(d_links[i][0], d_links[i][4])
     for i in range(len(u_links)):
-        m.replace(u_links[i][0], u_links[i][4])
+        if u_links:
+            m = m.replace(u_links[i][0], u_links[i][4])
 
 
 def user_dweet_to_link(m):
