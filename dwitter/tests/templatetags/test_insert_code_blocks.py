@@ -33,5 +33,5 @@ class DweetTestCase(TestCase):
             insert_code_blocks('')
             insert_code_blocks('No code here, move along!')
         except:
-            self.fail("insert_code_blocks() threw an exception with a blank block, " +
+            self.fail("insert_code_blocks() threw an exception with a blank block, "
                       "or a code block with non-code text.")
