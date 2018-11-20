@@ -15,7 +15,7 @@ def autocrop_urls(m):
     for i in range(len(u_links)):
         if u_links:
             m = m.replace(u_links[i][0], u_links[i][4])
-     return m
+    return m
 
 
 def user_dweet_to_link(m):
