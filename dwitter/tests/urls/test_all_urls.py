@@ -9,7 +9,7 @@ import importlib
 from django.contrib import auth
 
 
-# Some automatic based on
+# Some automatic checks based on
 # https://stackoverflow.com/questions/14454001/list-all-suburls-and-check-if-broken-in-python
 class UrlsTest(test.TestCase):
 
@@ -49,14 +49,11 @@ class UrlsTest(test.TestCase):
                                reply_to=dweet1,
                                author=user2)
 
-
     def test_logged_in_urls(self):
             self.responses_test(credentials={'username': 'user1', 'password': 'qwertypw'})
 
-
     def test_guest_urls(self):
         self.responses_test(allowed_http_codes=[200, 302, 403, 405], credentials={})
-
 
     def responses_test(self, allowed_http_codes=[200, 302, 405], logout_url="logout", quiet=False,
                        credentials={},
@@ -81,7 +78,8 @@ class UrlsTest(test.TestCase):
             e.g. if you specify default_kwargs={'username': 'testuser'}, then
             for pattern url(r'^accounts/(?P<username>[\.\w-]+)/$'
             the url /accounts/testuser/ will be tested.
-        If @quiet is set to False, print all the urls checked. If the status code of the response is not 200,
+        If @quiet is set to False, print all the urls checked. 
+        If the status code of the response is not 200,
             print the status code.
         """
         module = importlib.import_module(settings.ROOT_URLCONF)
@@ -90,7 +88,6 @@ class UrlsTest(test.TestCase):
             self.client.login(**credentials)
             user = auth.get_user(self.client)
             assert user.is_authenticated()
-
 
         def check_urls(urlpatterns, prefix=''):
             for pattern in urlpatterns:
