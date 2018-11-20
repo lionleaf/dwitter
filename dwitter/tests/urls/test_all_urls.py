@@ -78,7 +78,7 @@ class UrlsTest(test.TestCase):
             e.g. if you specify default_kwargs={'username': 'testuser'}, then
             for pattern url(r'^accounts/(?P<username>[\.\w-]+)/$'
             the url /accounts/testuser/ will be tested.
-        If @quiet is set to False, print all the urls checked. 
+        If @quiet is set to False, print all the urls checked.
         If the status code of the response is not 200,
             print the status code.
         """
