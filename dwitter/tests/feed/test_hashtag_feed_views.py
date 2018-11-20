@@ -111,7 +111,7 @@ class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
 
 
 class NewHashtagFeedTests(HashtagFeedTestCase, TestCase):
-    
+
     dweetFeed = NewHashtagFeed()
 
     def test_new_sort(self):
