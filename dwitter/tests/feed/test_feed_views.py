@@ -8,7 +8,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class DweetFeedTestCase(): # not inheriting from TestCase, an abstract test class if you will
+class DweetFeedTestCase():  # not inheriting from TestCase, an abstract test class if you will
 
     request_factory = RequestFactory()
 
@@ -63,7 +63,6 @@ class DweetFeedTestCase(): # not inheriting from TestCase, an abstract test clas
                                reply_to=self.hottest_dweet,
                                author=users[2])
 
-
     def test_annotation(self):
         queryset = self.dweetFeed.get_queryset()
         for dweet in queryset:
@@ -73,16 +72,13 @@ class DweetFeedTestCase(): # not inheriting from TestCase, an abstract test clas
             except:
                 self.fail("queryset missing num_likes annotation")
 
-
     def test_queryset_count(self):
         queryset = self.dweetFeed.get_queryset()
         self.assertEqual(queryset.count(), self.nr_dweets)
 
-
     def test_no_default_title(self):
         title = self.dweetFeed.title
         self.assertNotEqual(DweetFeed().title, title, "Each feed should have a unique title")
-
 
     def test_html_response(self):
         request = self.request_factory.get('/')
