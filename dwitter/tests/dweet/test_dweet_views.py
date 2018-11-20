@@ -25,7 +25,6 @@ class DweetTestCase(TransactionTestCase):
                                           posted=timezone.now(),
                                           author=self.user)
 
-
     def test_fullscreen_dweet_returns_404_if_dweet_does_not_exist(self):
         response = self.client.get('/id/2')
         assertResponse(self, response,
@@ -37,7 +36,6 @@ class DweetTestCase(TransactionTestCase):
         self.assertEqual([template.name for template in response.templates],
                          ['404_dweet.html'])
 
-
     def test_fullscreen_dweet_returns_dweet_with_correct_code(self):
         response = self.client.get('/id/1')
         assertResponse(self, response,
@@ -45,7 +43,6 @@ class DweetTestCase(TransactionTestCase):
                        status_code=200,
                        templates=['dweet/dweet.html'])
         self.assertContains(response, wrap_content(self.dweet.code))
-
 
     def test_blank_dweet_renders_with_correct_template(self):
         response = self.client.get('/blank')
