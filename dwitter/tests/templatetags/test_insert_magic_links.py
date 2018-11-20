@@ -244,7 +244,7 @@ class DweetTestCase(TestCase):
 
     def test_insert_magic_replaces_hashatag_digits_then_letters(self):
         self.assertEqual(
-            'We are the <a href="/h/1337elite">#1337elite</a>'
+            'We are the <a href="/h/1337elite">#1337elite</a>',
             insert_magic_links('We are the #1337elite')
         )
 
