@@ -6,7 +6,7 @@ from datetime import timedelta
 
 
 class HashtagTestCase(TestCase):
-    
+
     def setUp(self):
         user1 = User.objects.create(username="user1", password="")
         self.user2 = User.objects.create(username="user2", password="")
@@ -36,7 +36,6 @@ class HashtagTestCase(TestCase):
                                reply_to=self.dweet1,
                                author=self.user2)
 
-
     def test_hashtags_created(self):
         h = Hashtag.objects.get(name='hashtag')
 
@@ -46,10 +45,10 @@ class HashtagTestCase(TestCase):
         # These shouldn't throw any exceptions anymore,
         # since hashtags staring with numbers are now allowed
         one_hash = Hashtag.objects.get(name='1hash')
-        self.assertEqual(illegal1, True)
+        self.assertEqual(one_hash, True)
 
         two_hash = Hashtag.objects.get(name='2hash')
-        self.assertEqual(illegal2, True)
+        self.assertEqual(two_hash, True)
 
         self.assertEqual(h is None, False)
         self.assertEqual(h1 is None, False)
@@ -57,7 +56,6 @@ class HashtagTestCase(TestCase):
         self.assertEqual(h.dweets.count(), 2)
         self.assertEqual(h1.dweets.all()[0], self.dweet1)
         self.assertEqual(h2.dweets.all()[0], self.dweet2)
-
 
     def test_same_hashtag(self):
         self.dweet3 = Dweet(id=3,
@@ -84,7 +82,6 @@ class HashtagTestCase(TestCase):
         self.assertEqual(h.dweets.get(id=3), self.dweet3)
         self.assertEqual(h3.dweets.all()[0], self.dweet3)
         self.assertEqual(h_3.dweets.all()[0], self.dweet3)
-
 
     def test_no_double_adding(self):
         # add #hashtag and #1hash to dweet1 again and see that the size
