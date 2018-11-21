@@ -780,6 +780,7 @@ body.awesome .top-sort-list a.awesome {
   font-size: small;
   padding: 0;
   padding-left: 1em;
+  white-space: pre-wrap;
 }
 
 .dark-section .dweet-code textarea:focus {
