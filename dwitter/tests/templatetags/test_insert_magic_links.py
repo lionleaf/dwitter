@@ -82,7 +82,7 @@ class DweetTestCase(TestCase):
             "<a href='/u/2b'>u/2b</a> are the top dwitter users"
             "<a href='/u/tobe'>u/tobe</a>; or <a href='/u/nottobe'>u/nottobe</a>, "
             "that is the <a href='/u/question'>u/question</a>."
-            "u/1am1nv4L1D##@$"
+            "u/1am1nv4L1D##@$",
             insert_magic_links(
                 "are you there, u/admin?"
                 "hello u/ser!"
@@ -162,28 +162,28 @@ class DweetTestCase(TestCase):
             'Whoa, have you seen the dweets <a href="/u/sigveseb">u/sigveseb</a> makes?',
             insert_magic_links('Whoa, have you seen the dweets dwitter.net/u/sigveseb makes?')
         )
-        
+
     # autocrop with http:// - in case someone forgets themselves
-    
+
     def test_insert_magic_autocrops_urls_http_d(self):
-    self.assertEqual(
-        '<a href="/d/123">d/123</a>',
-        insert_magic_links('http://dwitter.net/d/123')
-    )
+        self.assertEqual(
+            '<a href="/d/123">d/123</a>',
+            insert_magic_links('http://dwitter.net/d/123')
+        )
 
     def test_insert_magic_autocrops_urls_http_u(self):
-    self.assertEqual(
-        '<a href="/u/lionleaf">u/lionleaf</a>',
-        insert_magic_links('http://www.dwitter.net/u/lionleaf')
-    )
-    
+        self.assertEqual(
+            '<a href="/u/lionleaf">u/lionleaf</a>',
+            insert_magic_links('http://www.dwitter.net/u/lionleaf')
+        )
+
     # prefixed autocrops
-    
+
     def test_insert_magic_autocrop_bypasses_urls_prefixed(self):
-    self.assertEqual(
-        'prefixhttp://dwitter.net/d/123',
-        insert_magic_links('prefixhttp://dwitter.net/d/123')
-    )
+        self.assertEqual(
+            'prefixhttp://dwitter.net/d/123',
+            insert_magic_links('prefixhttp://dwitter.net/d/123')
+        )
 
     # dweet
 
@@ -319,7 +319,7 @@ class DweetTestCase(TestCase):
     def test_insert_magic_hashtag_punctuation(self):
         self.assertEqual(
             "<a href='/h/hash'>#hash</a>, but also <a href='/h/tag'>#tag</a>. Not #tag$%",
-            insert_magic_links('#hash, but also #tag. Not #tag$%")
+            insert_magic_links('#hash, but also #tag. Not #tag$%')
         )
 
     # mixed
