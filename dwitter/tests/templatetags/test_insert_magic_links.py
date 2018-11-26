@@ -121,7 +121,7 @@ class DweetTestCase(TestCase):
 
     def test_insert_magic_autocrops_urls_d_mixed(self):
         self.assertEqual(
-            '<a href="/d/123">d/123</a> <a href="/d/456">456</a>',
+            '<a href="/d/123">d/123</a> <a href="/d/456">d/456</a>',
             insert_magic_links('dwitter.net/d/123 http://dwitter.net/d/456')
         )
 
