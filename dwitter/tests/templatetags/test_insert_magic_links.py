@@ -250,8 +250,8 @@ class DweetTestCase(TestCase):
     # test that dweet mentions follow the same punctuation rules as usernames, et cetera
     def test_insert_magic_dweet_punctuation(self):
         self.assertEqual(
-            "I love <a href='/d/123'>d/123</a>, "
-            "but have you seen <a href='/d/456'>d/456</a>?",
+            'I love <a href="/d/123">d/123</a>, '
+            'but have you seen <a href="/d/456">d/456</a>?',
             insert_magic_links('I love d/123, but have you seen d/456?')
         )
 
@@ -318,7 +318,7 @@ class DweetTestCase(TestCase):
     # test that hashtags follow the same punctuation rules as usernames, et cetera
     def test_insert_magic_hashtag_punctuation(self):
         self.assertEqual(
-            "<a href='/h/hash'>#hash</a>, but also <a href='/h/tag'>#tag</a>. Not #tag$%",
+            '<a href="/h/hash">#hash</a>, but also <a href="/h/tag">#tag</a>. Not #tag$%',
             insert_magic_links('#hash, but also #tag. Not #tag$%')
         )
 
@@ -338,7 +338,6 @@ class DweetTestCase(TestCase):
             '<a href="/u/john">u/john</a> remixed '
             '<a href="/h/amazing">#amazing</a> '
             '<a href="/d/123">d/123</a> by '
-            '<a href="/u/jane">u/jane</a>'
-            '#yey',
+            'u/jane#yey',
             insert_magic_links('#awesome u/john remixed #amazing d/123 by /u/jane#yey')
         )
