@@ -156,18 +156,12 @@ class DweetTestCase(TestCase):
         insert_magic_links('http://www.dwitter.net/u/lionleaf')
     )
     
-    # prefixed and suffixed autocrops
+    # prefixed autocrops
     
     def test_insert_magic_autocrop_bypasses_urls_prefixed(self):
     self.assertEqual(
         'prefixhttp://dwitter.net/d/123',
         insert_magic_links('prefixhttp://dwitter.net/d/123')
-    )
-
-    def test_insert_magic_autocrop_bypasses_urls_suffixed_d(self):
-    self.assertEqual(
-        'http://www.dwitter.net/d/123suffix',
-        insert_magic_links('http://www.dwitter.net/d/123suffix')
     )
 
     # dweet
