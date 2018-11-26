@@ -1,6 +1,8 @@
 import random
 from django.test import TestCase
-from dwitter.feed.views import NewDweetFeed, TopDweetFeed, RandomDweetFeed, HotDweetFeed, DweetFeed
+from dwitter.feed.views import NewDweetFeed, RandomDweetFeed, HotDweetFeed, DweetFeed
+from dwitter.feed.views import TopWeekDweetFeed, TopMonthDweetFeed
+from dwitter.feed.views import TopYearDweetFeed, TopAllDweetFeed
 from dwitter.models import Comment, Dweet
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
@@ -12,7 +14,7 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
     request_factory = RequestFactory()
 
     def setUp(self):
-        self.nr_dweets = 12
+        self.nr_dweets = 15
 
         users = []
         for i in range(10):
@@ -20,14 +22,40 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
 
         now = timezone.now()
 
-        # Old dweet with the highest amount of likes should be top of /top
+        # Old dweet with the highest amount of likes should be top of /top/all
         self.top_old_dweet = Dweet.objects.create(id=1,
-                                                  code="top code",
-                                                  posted=now - timedelta(days=35),
+                                                  code="top alltime",
+                                                  posted=now - timedelta(days=1000),
                                                   author=users[0])
+
         # add 10 likes
         for i in range(10):
             self.top_old_dweet.likes.add(users[i])
+
+        # Almost year-old dweet with the highest amount of likes should be top of /top
+        self.top_year_dweet = Dweet.objects.create(id=10233,
+                                                   code="top yr",
+                                                   posted=now - timedelta(days=200),
+                                                   author=users[0])
+        # add 8 likes
+        for i in range(9):
+            self.top_year_dweet.likes.add(users[i])
+
+        self.top_month_dweet = Dweet.objects.create(id=13232,
+                                                    code="top month",
+                                                    posted=now - timedelta(days=20),
+                                                    author=users[0])
+        # add 8 likes
+        for i in range(8):
+            self.top_month_dweet.likes.add(users[i])
+
+        self.top_week_dweet = Dweet.objects.create(id=13209,
+                                                   code="top week",
+                                                   posted=now - timedelta(days=5),
+                                                   author=users[0])
+        # add 8 likes
+        for i in range(7):
+            self.top_week_dweet.likes.add(users[i])
 
         # Popular dweet, should be top of /hot, but not /top
         self.hottest_dweet = Dweet.objects.create(id=3,
@@ -36,7 +64,7 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
                                                   reply_to=self.top_old_dweet,
                                                   author=users[2])
         # add 7 likes
-        for i in range(7):
+        for i in range(6):
             self.hottest_dweet.likes.add(users[i])
 
         for i in range(10):
@@ -101,14 +129,76 @@ class HotDweetFeedTests(DweetFeedTestCase, TestCase):
             prev_hotness = dweet.hotness
 
 
-class TopDweetFeedTests(DweetFeedTestCase, TestCase):
-    dweetFeed = TopDweetFeed()
+class TopWeekDweetFeedTests(DweetFeedTestCase, TestCase):
+    dweetFeed = TopWeekDweetFeed()
 
     def test_top_sort(self):
         queryset = self.dweetFeed.get_queryset()
+
         first_dweet = queryset.first()
+        self.assertEqual(first_dweet, self.top_week_dweet)
+
         prev_score = first_dweet.num_likes
+        for dweet in queryset:
+            self.assertTrue(prev_score >= dweet.num_likes, "Should sort by num likes")
+            prev_score = dweet.num_likes
+
+    def test_queryset_count(self):
+        """ Override test, since certain older dweets are skipped """
+        queryset = self.dweetFeed.get_queryset()
+        self.assertEqual(queryset.count(), self.nr_dweets - 3)
+
+
+class TopMonthDweetFeedTests(DweetFeedTestCase, TestCase):
+    dweetFeed = TopMonthDweetFeed()
+
+    def test_top_sort(self):
+        queryset = self.dweetFeed.get_queryset()
+
+        first_dweet = queryset.first()
+        self.assertEqual(first_dweet, self.top_month_dweet)
+
+        prev_score = first_dweet.num_likes
+        for dweet in queryset:
+            self.assertTrue(prev_score >= dweet.num_likes, "Should sort by num likes")
+            prev_score = dweet.num_likes
+
+    def test_queryset_count(self):
+        """ Override test, since certain older dweets are skipped """
+        queryset = self.dweetFeed.get_queryset()
+        self.assertEqual(queryset.count(), self.nr_dweets - 2)
+
+
+class TopYearDweetFeedTests(DweetFeedTestCase, TestCase):
+    dweetFeed = TopYearDweetFeed()
+
+    def test_top_sort(self):
+        queryset = self.dweetFeed.get_queryset()
+
+        first_dweet = queryset.first()
+        self.assertEqual(first_dweet, self.top_year_dweet)
+
+        prev_score = first_dweet.num_likes
+        for dweet in queryset:
+            self.assertTrue(prev_score >= dweet.num_likes, "Should sort by num likes")
+            prev_score = dweet.num_likes
+
+    def test_queryset_count(self):
+        """ Override test, since certain older dweets are skipped """
+        queryset = self.dweetFeed.get_queryset()
+        self.assertEqual(queryset.count(), self.nr_dweets - 1)
+
+
+class TopAllDweetFeedTests(DweetFeedTestCase, TestCase):
+    dweetFeed = TopAllDweetFeed()
+
+    def test_top_sort(self):
+        queryset = self.dweetFeed.get_queryset()
+
+        first_dweet = queryset.first()
         self.assertEqual(first_dweet, self.top_old_dweet)
+
+        prev_score = first_dweet.num_likes
         for dweet in queryset:
             self.assertTrue(prev_score >= dweet.num_likes, "Should sort by num likes")
             prev_score = dweet.num_likes

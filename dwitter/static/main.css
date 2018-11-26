@@ -32,7 +32,7 @@
   vertical-align: middle;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 735px) {
   #dwitter-header-text {
     display: none;
   }
@@ -461,6 +461,30 @@ iframe {
   }
 }
 
+
+.top-sort-list li .collapsible li {
+  display: block;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 2px;
+}
+
+.top-sort-list li .collapsible {
+  position: absolute;
+  z-index: 10;
+  transition: opacity .1s ease-in-out, margin .1s step-end;
+  opacity: 0;
+  height: 0;
+}
+
+.top-sort-list li:hover>.collapsible,
+.top-sort-list li .collapsible:hover {
+  position: absolute;
+  display: block;
+  opacity: 1;
+  transition: opacity .1s ease-in-out, margin .1s step-start;
+}
+
 .head-account-info .collapsible {
   position: absolute;
   border: 1px solid #ddd;
@@ -716,6 +740,31 @@ form.like {
 }
 
 body.new .top-sort-list a.new {
+  font-weight: bold;
+}
+
+body.top-day .top-sort-list a.top-day,
+body.top-day .top-sort-list a.top {
+  font-weight: bold;
+}
+
+body.top-week .top-sort-list a.top-week,
+body.top-week .top-sort-list a.top {
+  font-weight: bold;
+}
+
+body.top-month .top-sort-list a.top-month,
+body.top-month .top-sort-list a.top {
+  font-weight: bold;
+}
+
+body.top-year .top-sort-list a.top-year,
+body.top-year .top-sort-list a.top {
+  font-weight: bold;
+}
+
+body.top-all .top-sort-list a.top-all,
+body.top-all .top-sort-list a.top {
   font-weight: bold;
 }
 

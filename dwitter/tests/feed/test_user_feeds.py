@@ -32,6 +32,11 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
                 for i in range(random.randrange(0, 5)):
                     dweets[-1].likes.add(self.users[i])
 
+        # Guarantee that all users have at least two liked dweets
+        for i in range(10):
+            dweets[0].likes.add(self.users[i])
+            dweets[2].likes.add(self.users[i])
+
     def test_all_dweet_author(self):
         self.dweetFeed.kwargs = {'url_username': self.users[3].username}
         queryset = self.dweetFeed.get_queryset()
