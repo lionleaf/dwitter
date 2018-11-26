@@ -4,13 +4,13 @@ from dwitter.templatetags.insert_code_blocks import insert_code_blocks
 
 class DweetTestCase(TestCase):
 
-    def test_insert_code_wraps_stuff_inside_backticks(self):
+    def test_insert_code_inserts_code_tags_around_stuff_between_backticks(self):
         self.assertEqual(
             '<code>a</code>',
             insert_code_blocks('`a`')
         )
 
-    def test_insert_code_ignores_backticks(self):
+    def test_insert_code_bypasses_double_backticks(self):
         self.assertEqual(
             '<code>a=`b`</code>',
             insert_code_blocks('`a=\`b\``')
