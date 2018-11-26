@@ -72,6 +72,7 @@ class DweetTestCase(TestCase):
             insert_magic_links('(u/a)')
         )
 
+    # test that username mentions follow the new punctuation rules
     def test_user_mention_punctuation(self):
         self.assertEqual(
             "are you there, <a href='/u/admin'>u/admin</a>?"
@@ -244,6 +245,14 @@ class DweetTestCase(TestCase):
         self.assertEqual(
             '(<a href="/d/1">d/1</a>)',
             insert_magic_links('(d/1)')
+        )
+
+    # test that dweet mentions follow the same punctuation rules as usernames, et cetera
+    def test_insert_magic_dweet_punctuation(self):
+        self.assertEqual(
+            "I love <a href='/d/123'>d/123</a>, "
+            "but have you seen <a href='/d/456'>d/456</a>?",
+            insert_magic_links('I love d/123, but have you seen d/456?')
         )
 
     # hashtag
