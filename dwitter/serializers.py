@@ -41,7 +41,7 @@ class CommentSerializer(serializers.ModelSerializer):
         return obj.author.username
 
     def get_urlized_text(self, obj):
-        return urlize_trunc(
+        return urlizetrunc(
             insert_code_blocks(
                 insert_magic_links(escape(obj.text))
             ),
