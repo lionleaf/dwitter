@@ -72,6 +72,26 @@ class DweetTestCase(TestCase):
             insert_magic_links('(u/a)')
         )
 
+    def test_user_mention_punctuation(self):
+        self.assertEqual(
+            "are you there, <a href='/u/admin'>u/admin</a>?"
+            "hello <a href='/u/ser'>u/ser</a>!"
+            "check out this comment from <a href='/u/person'>u/person</a>:"
+            "<a href='/u/1a'>u/1a</a> and "
+            "<a href='/u/2b'>u/2b</a> are the top dwitter users"
+            "<a href='/u/tobe'>u/tobe</a>; or <a href='/u/nottobe'>u/nottobe</a>, "
+            "that is the <a href='/u/question'>u/question</a>."
+            "u/1am1nv4L1D##@$"
+            insert_magic_links(
+                "are you there, u/admin?"
+                "hello u/ser!"
+                "check out this comment from u/person:"
+                "u/1a and u/2b are the top dwitter users"
+                "u/tobe; or u/nottobe, that is the u/question."
+                "u/1am1nv4L1D##@$"
+            )
+        )
+
     # autocrop (https://dwitter.net/d/1 -> d/1)
 
     def test_insert_magic_autocrops_urls_d(self):
@@ -174,8 +194,8 @@ class DweetTestCase(TestCase):
 
     def test_insert_magic_bypasses_dweet_invalid_characters(self):
         self.assertEqual(
-            'd/1a',
-            'd/1a'
+            'd/1a$',
+            insert_magic_links('d/1a$')
         )
 
     def test_insert_magic_replaces_standalone_dweet(self):
