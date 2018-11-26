@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views
-from .views import HotDweetFeed, TopDweetFeed, NewDweetFeed, RandomDweetFeed
+from .views import HotDweetFeed, NewDweetFeed, RandomDweetFeed
+from .views import TopWeekDweetFeed, TopMonthDweetFeed, TopYearDweetFeed, TopAllDweetFeed
 from .views import NewHashtagFeed, TopHashtagFeed
 
 urlpatterns = [
@@ -8,7 +9,14 @@ urlpatterns = [
 
     url(r'^$', HotDweetFeed.as_view(), name='root'),
     url(r'^hot$', HotDweetFeed.as_view(), name='hot_feed'),
-    url(r'^top$', TopDweetFeed.as_view(), name='top_feed'),
+
+    # Default top to top of the month
+    url(r'^top$', TopMonthDweetFeed.as_view(), name='top_feed'),
+    url(r'^top/week$', TopWeekDweetFeed.as_view(), name='top_feed_week'),
+    url(r'^top/month$', TopMonthDweetFeed.as_view(), name='top_feed_month'),
+    url(r'^top/year$', TopYearDweetFeed.as_view(), name='top_feed_year'),
+    url(r'^top/all$', TopAllDweetFeed.as_view(), name='top_feed_all'),
+
     url(r'^new$', NewDweetFeed.as_view(), name='new_feed'),
     url(r'^random$', RandomDweetFeed.as_view(), name='random_feed'),
 
