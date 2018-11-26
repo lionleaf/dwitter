@@ -22,6 +22,18 @@
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
+.header-logo {
+  width: 30px;
+  height: 30px;
+  vertical-align: text-bottom
+}
+
+@media (max-width: 660px) {
+  #dwitter-header-text {
+    display: none;
+  }
+}
+
 textarea {
   border: 1px solid;
   padding: 3px;
