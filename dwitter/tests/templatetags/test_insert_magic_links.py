@@ -306,6 +306,13 @@ class DweetTestCase(TestCase):
             insert_magic_links('#H')
         )
 
+    # test that hashtags follow the same punctuation rules as usernames, et cetera
+    def test_insert_magic_hashtag_punctuation(self):
+        self.assertEqual(
+            "<a href='/h/hash'>#hash</a>, but also <a href='/h/tag'>#tag</a>. Not #tag$%",
+            insert_magic_links('#hash, but also #tag. Not #tag$%")
+        )
+
     # mixed
 
     def test_insert_magic_mixed(self):
