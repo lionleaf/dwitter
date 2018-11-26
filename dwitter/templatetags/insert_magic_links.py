@@ -50,12 +50,12 @@ def hashtag_to_link(m):
 def insert_magic_links(text):
     text = autocrop_urls(text)
     text = re.sub(
-        r'(?:^|(?<=\s))'                                       # start of string or whitespace
-        r'/?'                                                  # optional /
-        r'(?P<text>'                                           # capture original pattern
-        r'[^a-zA-Z\d]?d/(?P<dweet_id>\d+)[^a-zA-Z]?'           # dweet reference
-        r'|'                                                   # or
-        r'[^a-zA-Z\d]?u/(?P<username>[\w.@+-]+)[^a-zA-Z\d]?)'  # user reference
+        r'(?:^|(?<=\s))'                                           # start of string or whitespace
+        r'/?'                                                      # optional /
+        r'(?P<text>'                                               # capture original pattern
+        r'[^a-zA-Z\d]?d/(?P<dweet_id>\d+)[^a-zA-Z]?'               # dweet reference
+        r'|'                                                       # or
+        r'(?<!\S)u\/(?P<username>[\w.@+-]+)[\s\:\;\,\!\?\.\Z])'  # user reference
         # end of string, whitespace or hashtag:
         r'(?=$|\s|#)',
         user_dweet_to_link,
