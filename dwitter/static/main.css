@@ -28,7 +28,11 @@
   vertical-align: text-bottom
 }
 
-@media (max-width: 660px) {
+.head-menu-inner>* {
+  vertical-align: middle;
+}
+
+@media (max-width: 700px) {
   #dwitter-header-text {
     display: none;
   }
