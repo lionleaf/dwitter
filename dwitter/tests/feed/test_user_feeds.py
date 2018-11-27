@@ -9,6 +9,7 @@ from datetime import timedelta
 
 
 class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+
     request_factory = RequestFactory()
 
     def setUp(self):
@@ -41,7 +42,7 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
     def test_queryset_size(self):
         self.dweetFeed.kwargs = {'url_username': self.users[1].username}
         queryset = self.dweetFeed.get_queryset()
-        # Each user have 10 dweets from setUp
+        # Each user has 10 dweets from setUp()
         self.assertEqual(queryset.count(), 10)
 
     def test_annotation(self):
@@ -56,18 +57,22 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
 
 
 class NewUserFeedTests(UserFeedTestCase, TestCase):
+
     dweetFeed = NewUserFeed()
 
 
 class TopUserFeedTests(UserFeedTestCase, TestCase):
+
     dweetFeed = TopUserFeed()
 
 
 class HotUserFeedTests(UserFeedTestCase, TestCase):
+
     dweetFeed = HotUserFeed()
 
 
 class NewLikedFeedTests(UserFeedTestCase, TestCase):
+
     dweetFeed = NewLikedFeed()
 
     def test_queryset_objects(self):

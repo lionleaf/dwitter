@@ -6,6 +6,7 @@ from datetime import timedelta
 
 
 class DweetTestCase(TestCase):
+
     def setUp(self):
         user1 = User.objects.create(username="user1", password="")
         user2 = User.objects.create(username="user2", password="")

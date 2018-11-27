@@ -6,6 +6,7 @@ from django.utils import timezone
 
 
 class PostDweetTestCase(TransactionTestCase):
+
     def setUp(self):
         self.client = Client()
 
@@ -77,18 +78,18 @@ class PostDweetTestCase(TransactionTestCase):
     def test_too_long_dweet_post(self):
         user = self.login()
 
-        response = self.client.post('/dweet', {'code': 'test code that is way too long,' +
+        response = self.client.post('/dweet', {'code': 'Test code that is way too long,' +
                                                        'wow this looks long in code.' +
                                                        'We could fit so much in here.' +
-                                                       'oh wow. mooooooooooooooooar text.' +
-                                                       'Getting there.' +
-                                                       'And BAM tooo long!'}, follow=True)
+                                                       'Oh wow. Mooooooooooooooooar text.' +
+                                                       'Getting there...' +
+                                                       'And BAM! Tooo long!'}, follow=True)
         self.assertContains(response, "Dweet code too long!", status_code=400)
 
         # shorter code should go through!
-        response = self.client.post('/dweet', {'code': 'test code that is a lot shorter,' +
-                                                       'wow this looks long in code.' +
-                                                       'And BAM not tooo long!'}, follow=True)
+        response = self.client.post('/dweet', {'code': 'Test code that is a lot shorter,' +
+                                                       'wow, so short...' +
+                                                       'And BAM! Not too long!'}, follow=True)
         self.assertEqual(response.status_code, 200)
 
         dweets = Dweet.objects.filter(author=user)
@@ -149,18 +150,18 @@ class PostDweetTestCase(TransactionTestCase):
     def test_too_long_dweet_reply(self):
         user = self.login()
 
-        response = self.client.post('/d/1000/reply', {'code': 'test code that is way too long,' +
+        response = self.client.post('/d/1000/reply', {'code': 'Test code that is way too long,' +
                                                       'wow this looks long in code.' +
                                                       'We could fit so much in here.' +
-                                                      'oh wow. mooooooooooooooooar text.' +
-                                                      'Getting there.' +
-                                                      'And BAM tooo long!'}, follow=True)
+                                                      'Oh wow. Mooooooooooooooooar text.' +
+                                                      'Getting there...' +
+                                                      'And BAM! Tooo long!'}, follow=True)
         self.assertContains(response, "Dweet code too long!", status_code=400)
 
         # shorter code should go through!
-        response = self.client.post('/d/1000/reply', {'code': 'test code that is a lot shorter,' +
-                                                      'wow this looks long in code.' +
-                                                      'And BAM not tooo long!'}, follow=True)
+        response = self.client.post('/d/1000/reply', {'code': 'Test code that is a lot shorter,' +
+                                                      'wow, so short...' +
+                                                      'And BAM! Not tooo long!'}, follow=True)
         self.assertEqual(response.status_code, 200)
 
         dweets = Dweet.objects.filter(author=user)

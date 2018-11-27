@@ -10,6 +10,7 @@ from datetime import timedelta
 
 
 class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+
     request_factory = RequestFactory()
     dweetFeed = {}
 
@@ -96,6 +97,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
 
 
 class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
+
     dweetFeed = TopHashtagFeed()
 
     def test_top_sort(self):
@@ -109,6 +111,7 @@ class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
 
 
 class NewHashtagFeedTests(HashtagFeedTestCase, TestCase):
+
     dweetFeed = NewHashtagFeed()
 
     def test_new_sort(self):

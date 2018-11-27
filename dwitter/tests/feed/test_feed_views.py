@@ -8,7 +8,8 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+class DweetFeedTestCase():  # not inheriting from TestCase, an abstract test class if you will
+
     request_factory = RequestFactory()
 
     def setUp(self):
@@ -49,7 +50,7 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
             for i in range(random.randrange(0, 5)):
                 filler_dweet.likes.add(users[i])
 
-        # Add comments with some #hashtags
+        # add comments with some #hashtags
         Comment.objects.create(id=1,
                                text="comment1 text with #hashtag #test ",
                                posted=now - timedelta(minutes=1),
@@ -89,6 +90,7 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
 
 
 class HotDweetFeedTests(DweetFeedTestCase, TestCase):
+
     dweetFeed = HotDweetFeed()
 
     def test_hot_sort(self):
@@ -102,6 +104,7 @@ class HotDweetFeedTests(DweetFeedTestCase, TestCase):
 
 
 class TopDweetFeedTests(DweetFeedTestCase, TestCase):
+
     dweetFeed = TopDweetFeed()
 
     def test_top_sort(self):
@@ -115,6 +118,7 @@ class TopDweetFeedTests(DweetFeedTestCase, TestCase):
 
 
 class NewDweetFeedTests(DweetFeedTestCase, TestCase):
+
     dweetFeed = NewDweetFeed()
 
     def test_new_sort(self):
@@ -127,4 +131,5 @@ class NewDweetFeedTests(DweetFeedTestCase, TestCase):
 
 
 class RandomDweetFeedTests(DweetFeedTestCase, TestCase):
+
     dweetFeed = RandomDweetFeed()

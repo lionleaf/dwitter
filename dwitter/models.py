@@ -55,16 +55,12 @@ class Dweet(models.Model):
 
     @cached_property
     def top_comment(self):
-        """
-        Return the top comment. This is mainly a caching optimization to avoid queries
-        """
+        # return the top comment - this is mainly a caching optimization to avoid queries
         return self.comments.first()
 
     @cached_property
     def has_sticky_comment(self):
-        """
-        True when first comment should be stickied (first comment author == dweet author)
-        """
+        # return true when first comment should be stickied (first comment author == dweet author)
         if self.comments.first() is None:
             return False
         return self.comments.first().author == self.author
@@ -73,11 +69,8 @@ class Dweet(models.Model):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'
 
     def calculate_hotness(self, is_new):
-        """
-        Hotness is inspired by the Hackernews ranking algorithm
-        Read more here:
-        https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d
-        """
+        # hotness is inspired by the Hackernews ranking algorithm, read more here:
+        # https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d
         def epoch_seconds(date):
             epoch = datetime(2015, 5, 5)  # arbitrary start date before Dwitter existed
             naive = date.replace(tzinfo=None)
@@ -100,7 +93,7 @@ class Dweet(models.Model):
 @receiver(m2m_changed, sender=Dweet.likes.through, dispatch_uid="recalculate_hotness")
 def recalc_hotness(sender, instance, action, **kwargs):
     if action in ("post_add", "post_remove", "post_clear"):
-        instance.save()  # Trigger save on m2m_change forces calculate_hotness again
+        instance.save()  # trigger save on m2m_change - forces calculate_hotness again
 
 
 class Comment(models.Model):
@@ -130,13 +123,11 @@ class Hashtag(models.Model):
         return '#' + self.name
 
 
-# Go through hashtags mentioned in the comment
-# and add them to the parent dweet.
-# Should be idempotent.
+# go through hashtags mentioned in the comment and add them to the parent dweet
+# should be idempotent
 @receiver(post_save, sender=Comment, dispatch_uid="add_hashtags_from_comment")
 def add_hashtags(sender, instance, **kwargs):
-    hash_pattern = re.compile(r'#(?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)')
-    for hashtag in re.findall(hash_pattern, instance.text):
+    for hashtag in re.findall(r'(?<!\S)#([_a-zA-Z\d]+)\b', instance.text):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
         if not h.dweets.filter(id=instance.reply_to.id).exists():
             h.dweets.add(instance.reply_to)
