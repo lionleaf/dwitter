@@ -465,8 +465,17 @@ iframe {
 .top-sort-list li .collapsible li {
   display: block;
   background: white;
-  border: 1px solid #ddd;
-  padding: 2px;
+  border-bottom: 1px solid #ddd;
+  line-height: normal;
+  padding: 0;
+}
+.top-sort-list li .collapsible li:last-child {
+  border: none;
+}
+.top-sort-list li .collapsible li a {
+  width: 100px;
+  padding: 14px;
+  display: block;
 }
 
 .top-sort-list li .collapsible {
@@ -474,8 +483,8 @@ iframe {
   z-index: 10;
   transition: opacity .1s ease-in-out, margin .1s step-end;
   opacity: 0;
-  height: 0;
   margin-top: -9999px;  /* remove the hover-trigger while invisible */
+  border: 1px solid #ddd;
 }
 
 .top-sort-list li:hover>.collapsible,
@@ -490,15 +499,18 @@ iframe {
 .head-account-info .collapsible {
   position: absolute;
   border: 1px solid #ddd;
-  right: 1rem;
+  right: 0;
   z-index: 10;
   transition: opacity .1s ease-in-out, margin .1s step-end;
   opacity: 0;
-  height: 0;
   margin-top: -9999px;
   font-size: 0.8em;
 }
 
+.head-account-info.is-logged-in {
+  margin: -5px 0 -5px 5px;
+  padding: 5px;
+}
 .head-account-info.is-logged-in:hover {
   background: #ddd;
 }
@@ -514,9 +526,18 @@ iframe {
   list-style-type: none;
   background: white;
   border-bottom: 1px solid #ddd;
-  width: 150px;
-  padding: 14px;
   line-height: normal;
+}
+.head-account-info .collapsible li:last-child {
+  border: none;
+}
+
+.head-account-info .collapsible li a {
+  width: 150px;
+  display: block;
+  height: 100%;
+  padding: 14px;
+  color: #333;
 }
 
 .header-center-div {
