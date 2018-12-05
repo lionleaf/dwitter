@@ -485,8 +485,8 @@ iframe {
   z-index: 10;
   transition: opacity .1s ease-in-out, margin .1s step-end;
   opacity: 0;
-  margin-top: -9999px;
   /* remove the hover-trigger while invisible */
+  margin-top: -9999px;
   border: 1px solid #ddd;
 }
 
