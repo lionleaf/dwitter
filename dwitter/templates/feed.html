@@ -43,7 +43,7 @@ Dwitter is a social network for building and sharing visual javascript demos lim
   <li><a class="new" href="{% url 'new_feed' %}">new</a></li>
   {% if "top" in feed_name %}
   <li style="padding:0"><a class="top" href="{% url 'top_feed_month' %}">top |</a></li>
-  <li><a class="top" href="{% url 'top_feed_month' %}">{{top_name}}</a>
+  <li><a class="top">{{top_name}}</a>
     <ul class=collapsible>
         <li><a class="top-week" href="{% url 'top_feed_week' %}">week</a></li>
         <li><a class="top-month" href="{% url 'top_feed_month' %}">month</a></li>
