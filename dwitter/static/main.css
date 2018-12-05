@@ -469,9 +469,11 @@ iframe {
   line-height: normal;
   padding: 0;
 }
+
 .top-sort-list li .collapsible li:last-child {
   border: none;
 }
+
 .top-sort-list li .collapsible li a {
   width: 100px;
   padding: 14px;
@@ -483,7 +485,8 @@ iframe {
   z-index: 10;
   transition: opacity .1s ease-in-out, margin .1s step-end;
   opacity: 0;
-  margin-top: -9999px;  /* remove the hover-trigger while invisible */
+  margin-top: -9999px;
+  /* remove the hover-trigger while invisible */
   border: 1px solid #ddd;
 }
 
@@ -511,6 +514,7 @@ iframe {
   margin: -5px 0 -5px 5px;
   padding: 5px;
 }
+
 .head-account-info.is-logged-in:hover {
   background: #ddd;
 }
@@ -528,6 +532,7 @@ iframe {
   border-bottom: 1px solid #ddd;
   line-height: normal;
 }
+
 .head-account-info .collapsible li:last-child {
   border: none;
 }
