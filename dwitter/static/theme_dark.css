@@ -88,6 +88,11 @@ ul.messages li {
   color: white;
 }
 
+.header-logo {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
 .head-account-info .name {
   color: white;
 }
