@@ -184,9 +184,10 @@ div.dark-section {
   background: #0006;
 }
 
-.end-of-feed {
-  background: #153a11 !important;
-  color: #ff5b5b;
+.end-of-feed,
+.loading {
+  background: #051700 !important;
+  color: #00ff53;
 }
 
 .comment-message code {
