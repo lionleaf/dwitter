@@ -23,11 +23,6 @@ ul.messages li {
   border: 1px solid black;
 }
 
-.loading {
-  background: #4b4b4b;
-  color: white;
-}
-
 .submit-box {
   border: 1px solid black;
 }
@@ -106,7 +101,6 @@ body {
   background: #383838;
 }
 
-
 .head-account-info.is-logged-in .collapsible li {
   background: #666;
 }
@@ -135,7 +129,8 @@ input.comment-submit {
   color: black;
 }
 
-.end-of-feed {
+.end-of-feed,
+.loading {
   background: #4b4b4b !important;
   color: white;
 }
