@@ -44,6 +44,10 @@ ul.messages li {
   border-bottom: 1px solid black;
 }
 
+.head-account-info .name {
+  color: white;
+}
+
 .head-account-info .collapsible {
   border: 1px solid black !important;
 }
@@ -54,7 +58,14 @@ ul.messages li {
 
 .head-account-info .collapsible li {
   border-bottom: none;
-  color: #666;
+}
+
+.head-account-info.is-logged-in .collapsible li {
+  background: #666;
+}
+
+.head-account-info.is-logged-in .collapsible li a {
+  color: white;
 }
 
 .header-title {
@@ -93,16 +104,8 @@ ul.messages li {
   overflow: hidden;
 }
 
-.head-account-info .name {
-  color: white;
-}
-
 body {
   background: #383838;
-}
-
-.head-account-info.is-logged-in .collapsible li {
-  background: #666;
 }
 
 #settings-list {
