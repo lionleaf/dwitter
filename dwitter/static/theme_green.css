@@ -107,6 +107,11 @@ ul.messages li.success {
   font-size: large;
 }
 
+.header-logo {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
 body {
   background: #081d00;
 }
