@@ -61,10 +61,6 @@ ul.messages li {
   color: white;
 }
 
-.top-sort-list a {
-  background: #4b4b4b;
-}
-
 .like-button {
   border: 1px solid black;
 }
@@ -81,6 +77,7 @@ ul.messages li {
 
 .head-menu a {
   color: white;
+  background: #4b4b4b;
 }
 
 .body {
