@@ -23,6 +23,11 @@ ul.messages li {
   border: 1px solid black;
 }
 
+.loading {
+  background: #4b4b4b;
+  color: white;
+}
+
 .submit-box {
   border: 1px solid black;
 }
