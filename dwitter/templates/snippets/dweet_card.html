@@ -17,6 +17,15 @@
           <span class="like-text">Awesome!</span>
         </button>
       </form>
+
+      <form class="report" data-csrf="{{ csrf_token }}" data-dweet_id="{{ dweet.id }}">
+        <button type="submit" class="report-button">
+          <div class="wrapper">
+            <span class="far fa-flag"></span>
+            <span class="text">report</span>
+          </div>
+        </button>
+      </form>
     <button class="record-button" id="record-{{ dweet.id }}" data-dweet_id="{{ dweet.id }}" data-username="{{ dweet.author.username }}">
     <span class="record-text">record</span>
     <span class="record-icon"></span>
@@ -120,31 +129,42 @@
     {% if dweet.has_sticky_comment %}
     <ul class=sticky-comments>
       <li class="comment sticky-comment">
-        <a class="comment-name sticky-comment" href="{% url 'user_feed' url_username=dweet.top_comment.author.username %}">{{ dweet.top_comment.author.username }}:</a>
+        <form class="report" data-csrf="{{ csrf_token }}" data-comment_id="{{ dweet.top_comment.id }}">
+          <button type="submit" class="report-button">
+            <div class="wrapper">
+              <span class="far fa-flag"></span>
+              <span class="text">report</span>
+            </div>
+          </button>
+        </form>
         <span class="comment-message sticky-comment">{{ dweet.top_comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
       </li>
     </ul>
     {% endif %}
     <ul class=comments>
-      {% if dweet.comments.count > 3 and not dweet.has_sticky_comment or dweet.comments.count > 4 %}
-      <li class=comment>
-      <a href="javascript:;" class="load-comments-link"
-                             data-dweet_id="{{ dweet.id }}"
-                             {% if dweet.has_sticky_comment %}
-                             data-hidden_comments_offset=1
-                             data-hidden_comments_number={{ dweet.comments.count|add:"-4" }}
-                             {% else %}
-                             data-hidden_comments_offset=0
-                             data-hidden_comments_number={{ dweet.comments.count|add:"-3" }}
-                             {% endif %}>
-        Load older comments...</a>
-      </li>
+      {%if dweet.num_comments > 6 %}
+          <li>
+            <a href="#" class="show-more-comments">
+              Show more comments…
+            </a>
+          </li>
       {% endif %}
-      {% for comment in dweet.comments.all|dictsortreversed:"posted"|slice:"3" reversed %}
-      {% if comment != dweet.top_comment or not dweet.has_sticky_comment  %}
-      <li class=comment>
-      <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">{{ comment.author.username }}:</a>
-      <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
+      {% for comment in dweet.comments.all|dictsortreversed:"posted" reversed %}
+      {% if comment != dweet.top_comment or not dweet.has_sticky_comment %}
+      <li class="comment {% if dweet.num_comments > 6 and dweet.num_comments|add:"-4" > forloop.counter0 %} hidden {% endif %}">
+      <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">
+          <div class="avatar" style="background-image: url({{ comment.author.email | to_gravatar_url }})"></div>
+          <div><span class="faded">u/</span>{{ comment.author.username }}</div>
+      </a>
+        <form class="report" data-csrf="{{ csrf_token }}" data-comment_id="{{ comment.id }}">
+          <button type="submit" class="report-button">
+            <div class="wrapper">
+              <span class="far fa-flag"></span>
+              <span class="text">report</span>
+            </div>
+          </button>
+        </form>
+        <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
       </li>
       {% endif %}
       {% endfor %}

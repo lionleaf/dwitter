@@ -45,6 +45,13 @@ $(document).ready(function() {
     requestFullscreen(iframe[0]);
   });
 
+  $('body').on('click', '.comments a.show-more-comments', function(e) {
+    var target = $(e.target);
+    e.preventDefault();
+    target.parent().parent().find('.comment.hidden').removeClass('hidden');
+    target.remove();
+  });
+
   $('body').on('click', '[data-popover]', function(e) {
     var dweetCard = $(this).closest('.dweet');
     var $popover = $(dweetCard).find($(this).data('popover'));

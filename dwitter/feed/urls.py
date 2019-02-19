@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^d/(?P<dweet_id>\d+)/delete$',
         views.dweet_delete, name='dweet_delete'),
     url(r'^d/(?P<dweet_id>\d+)/like$', views.like, name='like'),
+    url(r'^d/(?P<dweet_id>\d+)/report$', views.report_dweet, name='report_dweet'),
+    url(r'^c/(?P<comment_id>\d+)/report$', views.report_comment, name='report_comment'),
 
     url(r'^e/(?P<dweet_id>\d+)$',
         views.dweet_embed, name='dweet_embed'),

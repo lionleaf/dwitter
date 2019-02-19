@@ -11,9 +11,9 @@
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   background: #ccc no-repeat center;
   background-size: cover;
   overflow: hidden;
@@ -213,10 +213,34 @@ ul.messages li.success {
 
 .comment-section {
   background: #fbfbfb;
-  padding: 20px;
+  padding: 16px;
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.comment {
+  overflow: hidden;
+  margin-bottom: 16px;
+  position: relative;
+  min-height: 32px;
+  padding-right: 40px;
+}
+
+.comment.hidden {
+  display: none;
+}
+
+.comments a.show-more-comments {
+  display: block;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.comment .avatar {
+  margin-top: 8px;
+  margin-right: 8px;
+  float: left;
 }
 
 .comments,
@@ -227,6 +251,16 @@ ul.messages li.success {
 
 .comment.sticky-comment {
   font-weight: bold;
+  text-align: center;
+  padding: 0 32px 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.comment form {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .comment-name {
@@ -569,9 +603,9 @@ form.like {
 
 .record-button {
   outline: none;
-  width: 11em;
   text-align: right;
   background: transparent;
+  margin-left: 16px;
 }
 
 .record-button:hover>span {
@@ -740,6 +774,7 @@ form.like {
   margin-top: 10px;
   margin-bottom: 20px;
   position: relative;
+  align-items: center;
 }
 
 .dweet-actions>form.like {
@@ -924,4 +959,60 @@ form.accounts input[type=submit] {
   text-transform: uppercase;
   color: #666;
   cursor: pointer;
+}
+
+
+.report-button {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: #666;
+  font-family: 'Roboto', sans-serif;
+  width: 32px;
+  height: 32px;
+  background: #fbfbfb;
+  border-radius: 16px;
+  transition: width,color 0.15s;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  outline: 0;
+}
+
+.report-button .wrapper {
+  width: 80px;
+  height: 32px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.report-button:hover {
+  width: 80px;
+  opacity: 1;
+  background: #f5f5f5;
+}
+
+.report-button .text {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.report-button:hover .text {
+  opacity: 1;
+}
+
+.report-button .fa-flag {
+  font-size: 12px;
+  width: 32px;
+  opacity: 0.3;
+  transition: opacity 0.15s;
+}
+
+.report-button:hover .fa-flag {
+  opacity: 1;
 }

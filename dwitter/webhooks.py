@@ -24,3 +24,12 @@ class Webhooks:
                (dweet.id, dweet.id, dweet.code))
 
         Webhooks.send_discord_message(msg)
+
+    @staticmethod
+    def send_mod_chat_message(message):
+        try:
+            requests.post(settings.DISCORD_MOD_CHAT_WEBHOOK, json={
+                'content': message,
+            })
+        except:
+            pass
