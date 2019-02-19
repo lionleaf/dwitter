@@ -14,7 +14,14 @@ from functools import wraps
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView
+from ..webhooks import Webhooks
 import json
+
+
+def simple_discord_escape(text):
+    for character in '`|[<*_~-=.1':
+        text = text.replace(character, '\\' + character)
+    return text
 
 
 class SortMethod:
@@ -47,6 +54,10 @@ class DweetFeed(ListView):
     def get_queryset(self):
         queryset = self.get_dweet_list()
         queryset = queryset.annotate(num_likes=Count('likes'))
+        queryset = queryset.extra(select={
+            'num_comments':
+            'SELECT COUNT(*) from dwitter_comment where reply_to_id = dwitter_dweet.id',
+        })
         queryset = queryset.order_by(*self.get_ordering())
 
         # Optimize the SQL query:
@@ -407,3 +418,32 @@ def like(request, dweet_id):
     dweet.save()
     json_resp = json.dumps({'likes': likes, 'liked': liked})
     return HttpResponse(json_resp, content_type='application/json')
+
+
+@ajax_login_required
+@require_POST
+def report_dweet(request, dweet_id):
+    dweet = get_object_or_404(Dweet, id=dweet_id)
+    Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported [d/%s](https://www.dwitter.net/d/%s)' % (  # noqa: E501
+        request.user.username,
+        request.user.username,
+        dweet.id,
+        dweet.id,
+    ))
+    return HttpResponse('{"result": "OK"}', content_type='application/json')
+
+
+@ajax_login_required
+@require_POST
+def report_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported a comment by [u/%s](https://www.dwitter.net/u/%s) on [d/%s](https://www.dwitter.net/d/%s).\nContents (click to reveal): || %s ||' % (  # noqa: E501
+        request.user.username,
+        request.user.username,
+        comment.author.username,
+        comment.author.username,
+        comment.reply_to.id,
+        comment.reply_to.id,
+        simple_discord_escape(comment.text),
+    ))
+    return HttpResponse('{"result": "OK"}', content_type='application/json')

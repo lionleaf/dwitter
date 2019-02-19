@@ -76,9 +76,9 @@ class Dweet(models.Model):
         """
         True when first comment should be stickied (first comment author == dweet author)
         """
-        if self.comments.first() is None:
+        if self.top_comment is None:
             return False
-        return self.comments.first().author == self.author
+        return self.top_comment.author == self.author
 
     def __str__(self):
         return 'd/' + str(self.id) + ' (' + self.author.username + ')'

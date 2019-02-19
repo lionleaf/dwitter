@@ -30,41 +30,59 @@ function processLike(e) {
   $.ajax(config);
 }
 
+function processReport(e) {
+  var $reportForm;
+  var dweetId;
+  var commentId;
+  var processServerResponse;
+  var config;
+  e.preventDefault();
+  if (!confirm('Are you sure you want to report this to a moderator?')) {  // eslint-disable-line
+    return;
+  }
+  $reportForm = $(this);
+  dweetId = $reportForm.data('dweet_id');
+  commentId = $reportForm.data('comment_id');
+  processServerResponse = function(response) {
+    if (response.not_authenticated) {
+      alert('You have to be logged in to report.'); // eslint-disable-line
+    } else {
+      alert('A moderator has been notified.'); // eslint-disable-line
+    }
+  };
+
+  config = {
+    dataType: 'json',
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': $reportForm.data('csrf'),
+    },
+    success: processServerResponse,
+  };
+
+  if (dweetId) {
+    config.url = '/d/' + dweetId + '/report';
+  } else {
+    config.url = '/c/' + commentId + '/report';
+  }
+
+  $.ajax(config);
+}
+
 function getCommentHTML(comment) {
   return '<li class=comment><a class=comment-name href="/u/' + comment.author + '">' +
     comment.author + ':</a> ' +
+    '<form class="report" data-comment_id="' + comment.id + '">' +
+      '<button type="submit" class="report-button">' +
+        '<div class="wrapper">' +
+          '<span class="far fa-flag"></span>' +
+          '<span class="text">report</span>' +
+        '</div>' +
+      '</button>' +
+    '</form>' +
     '<span class="comment-message">' + comment.urlized_text +
-    '</span></li>';
-}
-
-function loadComments() {
-  var $loadCommentsButton = $(this);
-
-  var dweetId = $loadCommentsButton.data('dweet_id');
-  var offset = $loadCommentsButton.data('hidden_comments_offset');
-  var limit = $loadCommentsButton.data('hidden_comments_number');
-
-  var loadCommentsResponse = function(response) {
-    var commentSection = $loadCommentsButton.parents('.comments')[0];
-    var newCommentList = response.results.map(getCommentHTML).join('');
-
-    $loadCommentsButton.parents('.comment').hide();
-
-    $(commentSection)
-      .html(newCommentList + commentSection.innerHTML)
-      .promise()
-      .done(Waypoint.refreshAll);
-  };
-
-  var config = {
-    url: '/api/comments/?offset=' + offset +
-         '&limit=' + limit +
-         '&format=json&reply_to=' + dweetId,
-    dataType: 'json',
-    success: loadCommentsResponse,
-  };
-
-  $.ajax(config);
+    '</span>' +
+    '</li>';
 }
 
 function postComment(e) {
@@ -103,6 +121,6 @@ function postComment(e) {
 
 $(document).ready(function() {
   $('body').on('submit', 'form.like', processLike);
-  $('body').on('click', '.load-comments-link', loadComments);
+  $('body').on('submit', 'form.report', processReport);
   $('body').on('submit', '.new-comment', postComment);
 });
