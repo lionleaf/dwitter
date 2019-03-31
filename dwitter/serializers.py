@@ -68,4 +68,4 @@ class DweetSerializer(serializers.ModelSerializer):
         return obj.likes.all().count()
 
     def get_link(self, obj):
-        return 'https://www.dwitter.net/d/%i' % obj.id
+        return obj.link()

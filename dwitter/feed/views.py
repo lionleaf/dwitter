@@ -14,6 +14,7 @@ from functools import wraps
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView
+from django.contrib.syndication.views import Feed as RssFeed
 import json
 
 
@@ -136,6 +137,23 @@ class NewDweetFeed(AllDweetFeed):
     title = "New dweets | Dwitter"
     sort = SortMethod.NEW
     feed_name = "new"
+
+
+class NewDweetRssFeed(RssFeed, NewDweetFeed):
+    link = "/rss/new"
+    description = "An RSS feed of the latest Dweets."
+
+    def items(self):
+        return self.get_dweet_list().all()
+
+    def item_title(self, item):
+        return f'Dweet ID #{item.id} by {item.author.username}'
+
+    def item_description(self, item):
+        return item.code
+
+    def item_link(self, item):
+        return item.link()
 
 
 class RandomDweetFeed(AllDweetFeed):
