@@ -43,6 +43,9 @@ window.onload = function() {
     element: $('.dweet-feed')[0],
     items: '.dweet-wrapper, .loading, .end-of-feed',
     more: '.next-page',
+    offset: function() {
+      return (Waypoint.viewportHeight() - this.element.clientHeight) + 200;
+    },
     onAfterPageLoad: function(items) {
       $('.loading:not(:last-of-type)').hide();
 
