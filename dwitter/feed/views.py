@@ -147,7 +147,7 @@ class NewDweetRssFeed(RssFeed, NewDweetFeed):
         return self.get_dweet_list().all()
 
     def item_title(self, item):
-        return f'Dweet ID #{item.id} by {item.author.username}'
+        return 'Dweet ID #' + item.id + ' by ' + item.author.username
 
     def item_description(self, item):
         return item.code
