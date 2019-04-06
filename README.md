@@ -37,6 +37,12 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 5. Get back in the main directory (`cd ../.. && make`) and use `make` command (install dependencies and set up database)
 6. Continue with the fourth step from **Linux setup**.
 
+#### **Docker**
+1. Build the Docker image using the `Dockerfile` at the root directory of this project: `docker build -t dwitter .`.
+2. Run the migrations: `docker run -it -v $(pwd):/app dwitter make migrate`.
+3. Create the admin account: `docker run -it -v $(pwd):/app dwitter python manage.py createsuperuser`.
+4. Run the app in a Docker container: `docker run -it -v $(pwd):/app -p 8000:8000 dwitter`.
+
 ## Other commands
 * `make migrations`
 * `make migrate`
