@@ -2,11 +2,13 @@ function onDweetChanged() {
   // eslint-disable-next-line newline-per-chained-call
   var charCount = $(this).parent().parent().parent().find('.character-count')[0];
   var submitButton = $(this).parent().parent().find('.remix-button')[0];
+  var firstComment = $(this).parent().parent().find('.new-dweet-comment-input')[0];
 
   charCount.textContent = this.value.length + '/140';
   if (this.value.length > 140) {
     $(charCount).addClass('too-long');
-    $(submitButton).prop('disabled', true);
+    if (firstComment.value.indexOf("#compressed")==-1)
+      $(submitButton).prop('disabled', true);
   } else {
     $(charCount).removeClass('too-long');
     $(submitButton).prop('disabled', false);
