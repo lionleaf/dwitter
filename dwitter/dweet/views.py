@@ -4,7 +4,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.cache import cache_page
 
 
-def handler404(request):
+def handler404(request, *args, **kwargs):
     response = render(request, '404_dweet.html')
     response.status_code = 404
     return response

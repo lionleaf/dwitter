@@ -25,8 +25,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class DweetFilterSet(FilterSet):
-    remix_of = NumberFilter(name='reply_to')
-    author = CharFilter(name='author__username')
+    remix_of = NumberFilter(field_name='reply_to')
+    author = CharFilter(field_name='author__username')
 
     class Meta:
         model = Dweet
