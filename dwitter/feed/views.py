@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Count, Sum, Prefetch
 from ..models import Dweet, Hashtag, Comment
 from django.contrib.auth.models import User
@@ -285,7 +285,7 @@ def new_dweet_message(request, dweet_id):
 def ajax_login_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return view_func(request, *args, **kwargs)
         json_resp = json.dumps({'not_authenticated': True})
         return HttpResponse(json_resp, content_type='application/json')

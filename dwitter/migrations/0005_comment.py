@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('text', models.CharField(max_length=140)),
                 ('posted', models.DateTimeField()),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('reply_to', models.ForeignKey(to='dwitter.Dweet')),
+                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('reply_to', models.ForeignKey(to='dwitter.Dweet', on_delete=models.CASCADE)),
             ],
         ),
     ]

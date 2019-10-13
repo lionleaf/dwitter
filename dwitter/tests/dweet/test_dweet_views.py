@@ -9,11 +9,10 @@ def wrap_content(content):
     return 'function u(t) {\n      ' + content + '\n    }'
 
 
-def assertResponse(self, response, **kwargs):
-    self.assertEqual(response.resolver_match.func, kwargs['view'])
-    self.assertEqual(response.status_code, kwargs['status_code'])
+def assertResponse(self, *, response, status_code, templates):
+    self.assertEqual(response.status_code, status_code)
     self.assertEqual([template.name for template in response.templates],
-                     kwargs['templates'])
+                     templates)
 
 
 class DweetTestCase(TransactionTestCase):
@@ -27,27 +26,23 @@ class DweetTestCase(TransactionTestCase):
 
     def test_fullscreen_dweet_returns_404_if_dweet_does_not_exist(self):
         response = self.client.get('/id/2')
-        assertResponse(self, response,
-                       view=fullscreen_dweet,
+        assertResponse(self,
+                       response=response,
                        status_code=404,
                        templates=['404_dweet.html'])
-        self.assertEqual(response.resolver_match.func, fullscreen_dweet)
-        self.assertEqual(response.status_code, 404)
-        self.assertEqual([template.name for template in response.templates],
-                         ['404_dweet.html'])
 
     def test_fullscreen_dweet_returns_dweet_with_correct_code(self):
         response = self.client.get('/id/1')
-        assertResponse(self, response,
-                       view=fullscreen_dweet,
+        assertResponse(self,
+                       response=response,
                        status_code=200,
                        templates=['dweet/dweet.html'])
         self.assertContains(response, wrap_content(self.dweet.code))
 
     def test_blank_dweet_renders_with_correct_template(self):
         response = self.client.get('/blank')
-        assertResponse(self, response,
-                       view=blank_dweet,
+        assertResponse(self,
+                       response=response,
                        status_code=200,
                        templates=['dweet/dweet.html'])
         self.assertContains(response, wrap_content(response.context['code']))
