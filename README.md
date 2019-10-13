@@ -12,18 +12,19 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 
 
 ## Pre-requisites and first-time installation
-* Install `npm`
-* `sudo apt install npm`
-*  Get packages needed for server and clone the repository
-* `sudo apt install git virtualenv python-pip`
-* `git clone https://github.com/lionleaf/dwitter.git`
+- [Node.js](https://nodejs.org/en/)
+- [`pyenv`](https://github.com/pyenv/pyenv)
+- [`poetry`](https://github.com/sdispater/poetry):
+```bash
+curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+```
+- `git clone https://github.com/lionleaf/dwitter.git`
 
 ## Setup
 #### **Linux**
-1. `make setup` (set up virtual environment)
-2. `source venv/bin/activate` (activate virtual environment)
+1. `make setup` (set up local settings)
 3. `make` (install dependencies and set up database)
-4. `python manage.py createsuperuser` (create admin account used below)
+4. `poetry run python manage.py createsuperuser` (create admin account used below)
 5. `make run` runs the server. Use `make serve` instead if you're working inside a VM with port forwarding. (0.0.0.0:8000)
 6. Go to [http://localhost:8000/admin/sites/](http://localhost:8000/admin/sites/) and log in with admin account created above.
 7. Click on the one entry, and change both `domain name` and `display name` to localhost:8000.

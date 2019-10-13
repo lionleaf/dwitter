@@ -1,33 +1,38 @@
 .PHONY: all
-all: update migrate
+all: install migrate
+
+.PHONY: install
+install:
+	poetry install
+	npm install
 
 .PHONY: run
 run:
-	python manage.py runserver
+	poetry run python manage.py runserver
 
 .PHONY: serve
 serve:
-	python manage.py runserver 0.0.0.0:8000
+	poetry run python manage.py runserver 0.0.0.0:8000
 
 .PHONY: update
 update:
-	pip install --upgrade -r requirements.txt
+	poetry update
 	npm install
 
 .PHONY: migrate
 migrate:
-	python manage.py migrate
+	poetry run python manage.py migrate
 
 .PHONY: migrations
 migrations:
-	python manage.py makemigrations
+	poetry run python manage.py makemigrations
 
 .PHONY: lint
 lint: lint-python lint-js-fix lint-css-fix
 
 .PHONY: lint-python
 lint-python:
-	flake8 dwitter/ --exclude=migrations,settings
+	poetry run flake8 dwitter/ --exclude=migrations,settings
 
 .PHONY: lint-js
 lint-js:
@@ -43,24 +48,23 @@ lint-css-fix:
 
 .PHONY: test
 test:
-	python manage.py test
+	poetry run python manage.py test
 
 .PHONY: setup
 setup:
-	virtualenv venv
 	cp dwitter/settings/local.py.example dwitter/settings/local.py
 
 .PHONY: shell
 shell:
-	python manage.py shell
+	poetry run python manage.py shell
 
 .PHONY: backup
 backup:
-	python manage.py dbbackup
+	poetry run python manage.py dbbackup
 
 .PHONY: restore-backup
 restore-backup:
-	python manage.py dbrestore
+	poetry run python manage.py dbrestore
 
 .PHONY: clean
 clean:
