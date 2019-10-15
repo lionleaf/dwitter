@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from rest_framework.routers import DefaultRouter
 from . import views
 from ..feed.views import NewUserFeed, HotUserFeed, TopUserFeed, NewLikedFeed
 
