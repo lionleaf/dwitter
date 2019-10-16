@@ -1,6 +1,11 @@
+from django.http import HttpResponse
 #from .models import //Comment, Dweet
 #from .models import APIDweet
 from ..models import Dweet
+
+def handler404():
+    return JsonResponse("HOI")
+
 
 class TestViewSet():
     queryset = Dweet.objects.all()
