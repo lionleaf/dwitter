@@ -1,12 +1,11 @@
-from rest_framework import serializers
-from django.utils.html import escape
 from dwitter.models import Dweet, Comment
 from dwitter.templatetags.insert_code_blocks import insert_code_blocks
 from dwitter.templatetags.insert_magic_links import insert_magic_links
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
-
+from django.utils.html import escape
+from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     link = serializers.SerializerMethodField()

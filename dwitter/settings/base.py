@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_filters',
-    'rest_framework',
     'dwitter',
     'registration',
     'dwitter.user',
@@ -62,15 +61,6 @@ INSTALLED_APPS = [
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    'PAGE_SIZE': 10,                   # Default to 10
-    'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
-    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
-
-}
 
 # List of callables that know how to import templates from various sources.
 #TEMPLATE_LOADERS = (

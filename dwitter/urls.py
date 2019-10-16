@@ -1,18 +1,18 @@
+#from django.urls import include, path
+from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
-from registration.backends.simple.views import RegistrationView
 from django.contrib.auth import views as auth_views
-from . import views
-from rest_framework.routers import DefaultRouter
-from django.conf import settings
+from registration.backends.simple.views import RegistrationView
 
-router = DefaultRouter()
-router.register(r'comments', views.CommentViewSet)
-router.register(r'dweets', views.DweetViewSet)
-router.register(r'users', views.UserViewSet)
+from . import api
+from . import views
 
 urlpatterns = [
+    url(r'^', include('dwitter.feed.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include('dwitter.api.urls')),
+    url(r'^u/', include('dwitter.user.urls')),
 
     url(r'^accounts/register/$',
         RegistrationView.as_view(success_url='/'),
@@ -42,9 +42,8 @@ urlpatterns = [
 
 
     url(r'^accounts/password/reset/confirm', auth_views.password_change),
-    url(r'^u/', include('dwitter.user.urls')),
-    url(r'^', include('dwitter.feed.urls')),
-    url(r'^api/', include(router.urls)),
+    
+    
 ]
 
 if settings.DEBUG:
