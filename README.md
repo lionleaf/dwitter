@@ -50,6 +50,8 @@ Inspired by [arkt.is/t/](http://arkt.is/t/Yy53aWR0aD0yZTM7eC5maWxsUmVjdCgxNTAsMT
 
 # Dwitter API
 
+## API v0 (old and unversioned)
+
 ### Dweets
 ```
 GET www.dwitter.net/api/dweets/  - list of the last 10 dweets
@@ -70,3 +72,5 @@ Latest dweet: `https://www.dwitter.net/api/dweets/?limit=1`  (sorted by posted d
 ```
 GET dwitter.net/api/users/lionleaf  - Show details about user 'lionleaf'.
 ```
+
+## API v1

@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dweet',
             name='reply_to',
-            field=models.ForeignKey(blank=True, to='dwitter.Dweet', null=True),
+            field=models.ForeignKey(blank=True, to='dwitter.Dweet',on_delete=models.CASCADE,null=True),
         ),
     ]

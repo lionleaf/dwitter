@@ -1,134 +1,134 @@
-{% load to_gravatar_url %}
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="{% block meta_description %}{% endblock %}">
-    <title>{% block title %} Dwitter {% endblock %}</title>
-    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% load compress %}
+	<head>
+		{% load compress %}
+		{% load staticfiles %}
+		{% load to_gravatar_url %}
+		
+		<link href="/static/favicon.ico" rel="icon" type="image/x-icon">
+		<link href="/static/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		{% compress css %}
+			<link href="{% static 'main.css' %}" rel="stylesheet">
+		{% endcompress %}
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+	
+		<meta charset="utf-8"/>
+		<meta content="{% block meta_description %}{% endblock %}" name="description">
+		<meta content="width=device-width, initial-scale=1" name="viewport">
+		
+		{% compress js %}
+			<!-- Google Analytics! -->
+			<script>
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+					m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    {% compress js %}
-    <!-- Google Analytics! -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+				ga('create','UA-76510271-1','auto');
+				ga('send','pageview');
+			</script>
+		{% endcompress %}
+		
+		<title>{% block title %} Dwitter {% endblock %}</title>
+		
+		{% block head %}
+		{% endblock %}
+	</head>
+	<body class="{% block body_class %}{% endblock %}">
+		<script type="text/javascript">
+			// Check for compatibility
+			if(window.localStorage){
+				var switchTheme = function(){
+					// Shift themes
+					var theme = localStorage.getItem('theme');
+					if(!theme){
+						localStorage.setItem('theme','dark');
+					}else if(theme==='dark'){
+						localStorage.setItem('theme','green');
+					}else{
+						localStorage.setItem('theme','');
+					}
+					location.reload();
+					// Call this function in the li to change the mode
+				};
+			
+				// Do the same thing outside the function without changing localStorage to set correct theme
+				var theme = localStorage.getItem('theme');
+				if(theme){
+					var l = document.createElement('link');
+					
+					if(theme==='green') l.setAttribute('href','{% static "theme_green.css" %}');
+					if(theme==='dark') l.setAttribute('href','{% static "theme_dark.css" %}');
+					//if(theme==='blue') l.setAttribute('href','{% static "theme_blue.css" %}');
+			
+					l.setAttribute('id','theme-style');
+					l.setAttribute('rel','stylesheet');
+					l.setAttribute('type','text/css');
 
-      ga('create', 'UA-76510271-1', 'auto');
-      ga('send', 'pageview');
+					document.head.appendChild(l);
+				}else{
+					var l = document.getElementById('theme-style');
+					if(l){
+						l.parentNode.removeChild(l);
+					}
+				}
+			}
+		</script>
+		<div class="head-menu clear-fix">
+			<div class="head-menu-inner">
+				<h2 class="header-title">
+					<a href="{% url 'root' %}"><img class="header-logo" src="/static/img/logo_small.png"/></a>
+					<a id="dwitter-header-text" href="{% url 'root' %}">dwitter.net</a>
+					{% block header_title %}{% endblock %}
+				</h2>
+				<div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
+					{% if request.user.is_authenticated %}
+						<span class="name">{{ request.user.username }}</span>
+						<div class="avatar" style="background-image:url({{ request.user.email | to_gravatar_url }});"></div>
+						<ul class="collapsible">
+							<div id="settings-list">
+								<li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
+								<li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
+								<li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
+								<li><a href="#" onclick="switchTheme();return false;">Next theme</a></li>
+								<li><a href="{% url 'password_change' %}"> Change password </a></li>
+								<li><a href="{% url 'auth_logout' %}"> Log out </a></li>
+							</div>
+						</ul>
+					{% else %}
+						<a href="{% url 'auth_login'  %}" > Login </a>
+					{% endif %}
+				</div>
 
-    </script>
-    {% endcompress %}
-
-    {% load staticfiles %}
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
-    {% compress css %}
-    <link rel=stylesheet href='{% static "main.css" %}' >
-    {% endcompress %}
-
-    {% block head %}
-    {% endblock %}
-  </head>
-  <body class="{% block body_class %}{% endblock %}">
-    <script type="text/javascript">
-      // Check for compatibility
-      if (window.localStorage) {
-        var switchTheme = function() {
-          // Shift themes
-          var theme = localStorage.getItem('theme');
-          if (!theme) {
-            localStorage.setItem('theme', 'dark');
-          } else if (theme === 'dark') {
-            localStorage.setItem('theme', 'green');
-          } else {
-            localStorage.setItem('theme', '');
-          }
-          location.reload();
-          // Call this function in the li to change the mode
-        };
-
-        // Do the same thing outside the function without changing localStorage to set correct theme
-        var theme = localStorage.getItem('theme');
-        if (theme) {
-          var l = document.createElement('link');
-          if (theme === 'green') l.setAttribute('href', '{% static "theme_green.css" %}');
-          if (theme === 'dark') l.setAttribute('href', '{% static "theme_dark.css" %}');
-          // if(theme==='blue') l.setAttribute('href', '{% static "theme_blue.css" %}');
-          l.setAttribute('type', 'text/css');
-          l.setAttribute('rel', 'stylesheet');
-          l.setAttribute('id', 'theme-style');
-          document.head.appendChild(l);
-        } else {
-          var l = document.getElementById('theme-style');
-          if (l) {
-            l.parentNode.removeChild(l);
-          }
-        }
-      }
-    </script>
-    <div class="head-menu clear-fix">
-      <div class=head-menu-inner>
-        <h2 class=header-title>
-          <a href="{% url 'root' %}"><img class=header-logo src="/static/img/logo_small.png"/></a>
-          <a id=dwitter-header-text href="{% url 'root' %}">dwitter.net</a>
-          {% block header_title %}{% endblock %}
-        </h2>
-
-        <div class="head-account-info {% if request.user.is_authenticated %} is-logged-in {% endif %}">
-          {% if request.user.is_authenticated %}
-
-          <span class=name>{{ request.user.username }}</span>
-          <div class=avatar style="background-image: url({{ request.user.email | to_gravatar_url }})"></div>
-          <ul class=collapsible>
-            <div id="settings-list">
-              <li><a href="{% url 'user_feed' url_username=request.user.username %}"> My profile </a></li>
-              <li><a href="{% url 'user_liked' url_username=request.user.username %}"> My awesomed dweets </a></li>
-              <li><a href="{% url 'user_settings' url_username=request.user.username %}"> Settings </a></li>
-              <li><a href="#" onclick="switchTheme();return false;">Next theme</a></li>
-              <li><a href="{% url 'password_change' %}"> Change password </a></li>
-              <li><a href="{% url 'auth_logout' %}"> Log out </a></li>
-            </div>
-          </ul>
-          {% else %}
-          <a href="{% url 'auth_login'  %}" > Login </a>
-          {% endif %}
-        </div>
-
-        {% if show_submit_box %}
-        <div class="dweet-create-form-title">
-          <span class="add-icon">+</span>
-          <span class="dweet-create-form-title-label">New <span>dweet</span></span>
-        </div>
-        {% endif %}
-
-        {% block top-nav %}{% endblock %}
-
-      </div>
-    </div>
-    <div id=content>
-      <!-- <ul class="messages">
-          <li class="warning">SERVER MESSAGE</li>
-      </ul> !-->
-      {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-      {% block fullcontent %}
-      <div class=content-div>
-        {% block content %}
-          {{ text }}
-        {% endblock %}
-      </div>
-      {% endblock %}
-    </div>
-  </body>
-      {% block after_body %}
-      {% endblock %}
-
+				{% if show_submit_box %}
+					<div class="dweet-create-form-title">
+						<span class="add-icon">+</span>
+						<span class="dweet-create-form-title-label">New <span>dweet</span></span>
+					</div>
+				{% endif %}
+				{% block top-nav %}{% endblock %}
+			</div>
+		</div>
+		<div id="content">
+			<!--ul class="messages"-->
+				<!--li class="warning">SERVER MESSAGE</li-->
+			<!--/ul-->
+			{% if messages %}
+				<ul class="messages">
+					{% for message in messages %}
+						<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			{% block fullcontent %}
+			<div class="content-div">
+				{% block content %}
+				{{ text }}
+				{% endblock %}
+			</div>
+			{% endblock %}
+		</div>
+	</body>
+	{% block after_body %}
+	{% endblock %}
 </html>

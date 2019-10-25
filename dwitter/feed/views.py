@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponseBadRequest
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models import Count, Sum, Prefetch
 from ..models import Dweet, Hashtag, Comment
 from django.contrib.auth.models import User

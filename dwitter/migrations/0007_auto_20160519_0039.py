@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='reply_to',
-            field=models.ForeignKey(related_name='comments', to='dwitter.Dweet'),
+            field=models.ForeignKey(related_name='comments', to='dwitter.Dweet',on_delete=models.CASCADE),
         ),
     ]
