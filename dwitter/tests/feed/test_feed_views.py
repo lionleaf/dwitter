@@ -96,7 +96,7 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
             try:
                 num_likes = dweet.num_likes
                 self.assertTrue(num_likes >= 0)
-            except:
+            except Exception:
                 self.fail("queryset missing num_likes annotation")
 
     def test_queryset_count(self):

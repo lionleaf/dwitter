@@ -44,13 +44,13 @@ class HashtagTestCase(TestCase):
         try:
             illegal1 = Hashtag.objects.get(name='1hash')
             self.assertEqual(illegal1, True)  # should throw an exception!
-        except:
+        except Exception:
             pass
 
         try:
             illegal2 = Hashtag.objects.get(name='2hash')
             self.assertEqual(illegal2, True)  # should throw an exception!
-        except:
+        except Exception:
             pass
 
         self.assertEqual(h is None, False)

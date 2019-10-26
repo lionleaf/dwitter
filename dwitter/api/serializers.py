@@ -7,6 +7,7 @@ from django.template.defaultfilters import urlizetrunc
 from django.utils.html import escape
 from rest_framework import serializers
 
+
 class UserSerializer(serializers.ModelSerializer):
     link = serializers.SerializerMethodField()
     date_joined = serializers.DateTimeField(format="%Y-%m-%d")
