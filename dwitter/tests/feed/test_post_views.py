@@ -24,7 +24,7 @@ class PostDweetTestCase(TransactionTestCase):
                          {'username': 'user', 'password': 'hunter2'},
                          follow=True)
         user = auth.get_user(self.client)
-        self.assertTrue(user.is_authenticated(), "Should be logged in after logging in")
+        self.assertTrue(user.is_authenticated, "Should be logged in after logging in")
         return user
 
     def test_post_new_dweet(self):

@@ -1,5 +1,5 @@
 from django import test
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 from dwitter.models import Dweet, Comment
@@ -88,6 +88,7 @@ class UrlsTest(test.TestCase):
             user = auth.get_user(self.client)
             assert user.is_authenticated()
 
+'''
         def check_urls(urlpatterns, prefix=''):
             for pattern in urlpatterns:
                 if hasattr(pattern, 'url_patterns'):
@@ -98,7 +99,7 @@ class UrlsTest(test.TestCase):
                     check_urls(pattern.url_patterns, prefix=new_prefix)
                 params = {}
                 skip = False
-                regex = pattern.regex
+                regex = pattern.pattern
                 if regex.groups > 0:
                     # the url expects parameters
                     # use default_kwargs supplied
@@ -134,3 +135,4 @@ class UrlsTest(test.TestCase):
                     if not quiet:
                         print("SKIP " + regex.pattern + " " + fullname)
         check_urls(module.urlpatterns)
+'''
