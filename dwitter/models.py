@@ -53,6 +53,9 @@ class Dweet(models.Model):
         self.calculate_hotness((self.pk is None))
         super(Dweet, self).save(*args, **kwargs)
 
+    def link(self):
+        return 'https://www.dwitter.net/d/%i' % self.id
+
     @cached_property
     def top_comment(self):
         """

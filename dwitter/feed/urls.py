@@ -3,6 +3,7 @@ from . import views
 from .views import HotDweetFeed, NewDweetFeed, RandomDweetFeed
 from .views import TopWeekDweetFeed, TopMonthDweetFeed, TopYearDweetFeed, TopAllDweetFeed
 from .views import NewHashtagFeed, TopHashtagFeed
+from .views import NewDweetRssFeed
 
 urlpatterns = [
     url(r'^test/', HotDweetFeed.as_view()),
@@ -19,6 +20,8 @@ urlpatterns = [
 
     url(r'^new$', NewDweetFeed.as_view(), name='new_feed'),
     url(r'^random$', RandomDweetFeed.as_view(), name='random_feed'),
+
+    url(r'^rss/new$', NewDweetRssFeed(), name='new_rss_feed'),
 
     url(r'^h/(?P<hashtag_name>[\w._]+)$', NewHashtagFeed.as_view(), name='hashtag_feed'),
     url(r'^h/(?P<hashtag_name>[\w._]+)/top$', TopHashtagFeed.as_view(), name='top_hashtag_feed'),
