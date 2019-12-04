@@ -5,8 +5,8 @@ sudo: false
 install:
       - make setup
       - make update
-      - nvm install 6.10
-      - nvm use 6.10
+      - nvm install 12.13
+      - nvm use 12.13
 before_script:
       - make lint-python
       - make lint-js
