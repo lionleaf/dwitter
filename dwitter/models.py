@@ -106,9 +106,9 @@ def recalc_hotness(sender, instance, action, **kwargs):
 class Comment(models.Model):
     text = models.TextField()
     posted = models.DateTimeField()
-    reply_to = models.ForeignKey(Dweet, on_delete=models.DO_NOTHING,
+    reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE,
                                  related_name="comments")
-    author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('posted',)
