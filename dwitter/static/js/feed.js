@@ -3,8 +3,27 @@ function onDweetChanged() {
   var charCount = $(this).parent().parent().parent().find('.character-count')[0];
   var submitButton = $(this).parent().parent().find('.remix-button')[0];
 
-  charCount.textContent = this.value.length + '/140';
-  if (this.value.length > 140) {
+  let CountCharacters=string=>
+  {
+      let length = 0;
+      for (let i = 0; i < string.length;) 
+      {
+          let point = string.codePointAt(i);
+          let width = 1;
+          while (point)
+          {
+              ++width;
+              point >>>= 8;
+          }
+          i += width/2;
+          ++length;
+      }
+      return length;
+  }
+
+  let characterCount = CountCharacters(this.value);
+  charCount.textContent = characterCount + '/140';
+  if (characterCount > 140) {
     $(charCount).addClass('too-long');
     $(submitButton).prop('disabled', true);
   } else {
