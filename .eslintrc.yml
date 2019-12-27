@@ -27,6 +27,7 @@ rules:
 env:
   browser: true
   jquery: true
+  es6: true
 globals:
   Waypoint: false
   moment: false
