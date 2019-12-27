@@ -3,8 +3,7 @@ function onDweetChanged() {
   var charCount = $(this).parent().parent().parent().find('.character-count')[0];
   var submitButton = $(this).parent().parent().find('.remix-button,.dweet-button')[0];
 
-  let CountCharacters=string=>
-  {
+  let CountCharacters = string=>{
     // Javascript .length counts 16 bit blocks of UTF16
     // This is different from how the server counts characters,
     // which counts UTF16 characters.
@@ -12,7 +11,7 @@ function onDweetChanged() {
     // blocks of 16 bit. Google UTF16 surragate pairs for more info.
     // By splitting the string into an array, we get around this issue
     return [... string].length;
-  }
+  };
 
   let characterCount = CountCharacters(this.value);
   charCount.textContent = characterCount + '/140';
