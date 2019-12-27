@@ -5,20 +5,13 @@ function onDweetChanged() {
 
   let CountCharacters=string=>
   {
-      let length = 0;
-      for (let i = 0; i < string.length;) 
-      {
-          let point = string.codePointAt(i);
-          let width = 1;
-          while (point)
-          {
-              ++width;
-              point >>>= 8;
-          }
-          i += width/2;
-          ++length;
-      }
-      return length;
+    // Javascript .length counts 16 bit blocks of UTF16
+    // This is different from how the server counts characters,
+    // which counts UTF16 characters.
+    // The issue is that some UTF16 characters are encoded with two
+    // blocks of 16 bit. Google UTF16 surragate pairs for more info.
+    // By splitting the string into an array, we get around this issue
+    return [... string].length;
   }
 
   let characterCount = CountCharacters(this.value);
