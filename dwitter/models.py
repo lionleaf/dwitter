@@ -60,6 +60,17 @@ class Dweet(models.Model):
         """
         return self.comments.first()
 
+    @staticmethod
+    def length_of_code(code):
+        """
+        Centralize the character counting to one place
+        """
+        return len(code.replace('\r\n', '\n'))
+
+    @cached_property
+    def dweet_length(self):
+        return Dweet.length_of_code(self.code)
+
     @cached_property
     def has_sticky_comment(self):
         """
