@@ -43,6 +43,8 @@
             localStorage.setItem('theme', 'dark');
           } else if (theme === 'dark') {
             localStorage.setItem('theme', 'green');
+          } else if (theme === 'green') {
+            localStorage.setItem('theme', 'hcontrast');
           } else {
             localStorage.setItem('theme', '');
           }
@@ -54,6 +56,7 @@
         var theme = localStorage.getItem('theme');
         if (theme) {
           var l = document.createElement('link');
+          if (theme === 'hcontrast') l.setAttribute('href', '{% static "theme_hcontrast.css" %}');
           if (theme === 'green') l.setAttribute('href', '{% static "theme_green.css" %}');
           if (theme === 'dark') l.setAttribute('href', '{% static "theme_dark.css" %}');
           // if(theme==='blue') l.setAttribute('href', '{% static "theme_blue.css" %}');
