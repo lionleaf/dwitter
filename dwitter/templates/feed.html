@@ -89,6 +89,9 @@ Dwitter is a social network for building and sharing visual javascript demos lim
   {% include 'snippets/new_dweet_card.html' %}
   {% endif %}
 
+    <div class="card">Theme challenge of the month: <a href="h/castle">#castle</a>
+    </div>
+
   {% if request.user.is_authenticated %}
     {% for dweet in dweets %}
       {% include 'snippets/dweet_card.html' %}
