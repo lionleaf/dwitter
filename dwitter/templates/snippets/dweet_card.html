@@ -164,6 +164,16 @@
             </div>
           </button>
         </form>
+        <form class="delete-comment" action="{% url 'delete_comment' comment_id=comment.id %}" method="post"
+          onsubmit="return confirm('Are you sure you want to delete the comment (cannot be reversed)?');">
+          {% csrf_token %}
+          <button type="submit" class="delete-comment-button">
+            <div class="wrapper">
+              <span class="far">X</span>
+              <span class="text">Delete comment</span>
+            </div>
+          </button>
+        </form>
         <span class="comment-message">{{ comment.text | force_escape | insert_code_blocks | urlizetrunc:45 | insert_magic_links }}</span>
       </li>
       {% endif %}

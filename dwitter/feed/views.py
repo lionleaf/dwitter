@@ -432,6 +432,16 @@ def report_dweet(request, dweet_id):
     ))
     return HttpResponse('{"result": "OK"}', content_type='application/json')
 
+@csrf_protect
+@login_required
+@require_POST
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if(request.user == comment.author or request.user.is_staff):
+        comment.delete()
+        return HttpResponseRedirect(reverse('root'))
+
+    return HttpResponse("Not authorized to delete the comment.")
 
 @ajax_login_required
 @require_POST
