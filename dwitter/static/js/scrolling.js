@@ -144,17 +144,35 @@ function registerOnKeyListener(dweet) {
   var iframe = $(dweet).find('.dweetiframe')[0];
   var editor = $(dweet).find('.code-input')[0];
   var changedDweetMenu = $(dweet).find('.dweet-changed');
+  var submitButton = $(dweet).find('.remix-button,.dweet-button')[0];
+  var captionField = $(dweet).find('.new-dweet-comment-input')[0];
+  var captionFieldDisabled = 'Change the code...';
+
+  // Use the string from the template:
+  var captionFieldEnabled = $(captionField).prop('placeholder');
+
   var oldCode = editor.value;
   var originalCode = oldCode;
 
   showCode(iframe, oldCode);
+
+  editor.addEventListener('focus', function() {
+    changedDweetMenu.show();
+    $(submitButton).prop('disabled', true);
+    $(captionField).prop('placeholder', captionFieldDisabled);
+  });
+
   editor.addEventListener('keyup', function() {
     showStats(dweet, iframe);
 
+    changedDweetMenu.show();
+
     if (editor.value === originalCode) {
-      changedDweetMenu.hide();
+      $(submitButton).prop('disabled', true);
+      $(captionField).prop('placeholder', captionFieldDisabled);
     } else {
-      changedDweetMenu.show();
+      $(submitButton).prop('disabled', false);
+      $(captionField).prop('placeholder', captionFieldEnabled);
     }
 
     if (editor.value === oldCode) {
