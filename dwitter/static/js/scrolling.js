@@ -158,8 +158,10 @@ function registerOnKeyListener(dweet) {
 
   editor.addEventListener('focus', function() {
     changedDweetMenu.show();
-    $(submitButton).prop('disabled', true);
-    $(captionField).prop('placeholder', captionFieldDisabled);
+    if (editor.value === originalCode) {
+      $(submitButton).prop('disabled', true);
+      $(captionField).prop('placeholder', captionFieldDisabled);
+    }
   });
 
   editor.addEventListener('keyup', function() {
