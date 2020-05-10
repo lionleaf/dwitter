@@ -66,8 +66,7 @@ class DweetFeed(ListView):
         queryset = (
             queryset
             .select_related('author')
-            .select_related('reply_to')
-            .select_related('reply_to__author')
+            .prefetch_related(Prefetch('reply_to', queryset=Dweet.objects.select_related('author')))
             .prefetch_related('likes')
             .prefetch_related(prefetch_comments)
             .prefetch_related(prefetch_replies))
