@@ -54,30 +54,31 @@
           theme = matchMedia('(prefers-color-scheme: dark)').matches ? themes[1] : themes[0];
         }
 
-        // Check for compatibility
-        if (window.localStorage) {
-          window.switchTheme = function() {
-            // Shift themes
-            theme = themes[(themes.indexOf(theme) + 1) % themes.length];
-            localStorage.setItem('theme', theme);
-            location.reload();
-            // Call this function in the li to change the mode
-          };
-        }
-
-        if (themeUrls[theme]) {
-          var l = document.createElement('link');
-          l.setAttribute('href', themeUrls[theme]);
-          l.setAttribute('type', 'text/css');
-          l.setAttribute('rel', 'stylesheet');
-          l.setAttribute('id', 'theme-style');
-          document.head.appendChild(l);
-        } else {
+        function updateTheme() {
           var l = document.getElementById('theme-style');
           if (l) {
             l.parentNode.removeChild(l);
           }
+          if (themeUrls[theme]) {
+            var l = document.createElement('link');
+            l.setAttribute('href', themeUrls[theme]);
+            l.setAttribute('type', 'text/css');
+            l.setAttribute('rel', 'stylesheet');
+            l.setAttribute('id', 'theme-style');
+            document.head.appendChild(l);
+          }
         }
+
+        updateTheme();
+
+        window.switchTheme = function() {
+          // Shift themes
+          theme = themes[(themes.indexOf(theme) + 1) % themes.length];
+          window.localStorage && localStorage.setItem('theme', theme);
+          updateTheme();
+
+          // Call this function in the li to change the mode
+        };
       })();
     </script>
     <div class="head-menu clear-fix">
