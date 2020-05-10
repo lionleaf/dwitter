@@ -32,7 +32,7 @@ class Dweet(models.Model):
     reply_to = models.ForeignKey("self", on_delete=models.DO_NOTHING,
                                  null=True, blank=True)
 
-    likes = models.ManyToManyField(User, related_name="liked")
+    likes = models.ManyToManyField(User, related_name="liked", blank=True)
     hotness = models.FloatField(default=1.0, db_index=True)
     deleted = models.BooleanField(default=False)
 
