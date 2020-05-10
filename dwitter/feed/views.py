@@ -54,10 +54,6 @@ class DweetFeed(ListView):
     def get_queryset(self):
         queryset = self.get_dweet_list()
         queryset = queryset.annotate(num_likes=Count('likes'))
-        queryset = queryset.extra(select={
-            'num_comments':
-            'SELECT COUNT(*) from dwitter_comment where reply_to_id = dwitter_dweet.id',
-        })
         queryset = queryset.order_by(*self.get_ordering())
 
         # Optimize the SQL query:

@@ -142,16 +142,16 @@
     </ul>
     {% endif %}
     <ul class=comments>
-      {%if dweet.num_comments > 6 %}
+      {%if comments|length > 6 %}
           <li>
             <a href="#" class="show-more-comments">
               Show more comments…
             </a>
           </li>
       {% endif %}
-      {% for comment in dweet.comments.all|dictsortreversed:"posted" reversed %}
+      {% for comment in comments|dictsortreversed:"posted" reversed %}
       {% if comment != dweet.top_comment or not dweet.has_sticky_comment %}
-      <li class="comment {% if dweet.num_comments > 6 and dweet.num_comments|add:"-4" > forloop.counter0 %} hidden {% endif %}">
+      <li class="comment {% if comments|length > 6 and comments|length|add:"-4" > forloop.counter0 %} hidden {% endif %}">
       <a class=comment-name href="{% url 'user_feed' url_username=comment.author.username %}">
           <div class="avatar" style="background-image: url({{ comment.author.email | to_gravatar_url }})"></div>
           <div><span class="faded">u/</span>{{ comment.author.username }}</div>
