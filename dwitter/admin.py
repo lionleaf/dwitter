@@ -3,5 +3,13 @@ from .models import Comment
 from .models import Dweet
 
 
-admin.site.register(Dweet)
-admin.site.register(Comment)
+class DweetAdmin(admin.ModelAdmin):
+    raw_id_fields = ('author', 'reply_to', 'likes',)
+
+
+class CommentAdmin(admin.ModelAdmin):
+    raw_id_fields = ('author', 'reply_to',)
+
+
+admin.site.register(Dweet, DweetAdmin)
+admin.site.register(Comment, CommentAdmin)
