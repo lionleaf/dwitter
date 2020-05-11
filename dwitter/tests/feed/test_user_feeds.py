@@ -49,6 +49,14 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
         # Each user have 10 dweets from setUp
         self.assertEqual(queryset.count(), 10)
 
+
+class NewUserFeedTests(UserFeedTestCase, TestCase):
+    dweetFeed = NewUserFeed()
+
+
+class TopUserFeedTests(UserFeedTestCase, TestCase):
+    dweetFeed = TopUserFeed()
+
     def test_annotation(self):
         self.dweetFeed.kwargs = {'url_username': self.users[1].username}
         queryset = self.dweetFeed.get_queryset()
@@ -58,14 +66,6 @@ class UserFeedTestCase():  # Not inheriting from TestCase, an abstract test clas
                 self.assertEqual(num_likes, dweet.likes.count())
             except:
                 self.fail("queryset missing num_likes annotation")
-
-
-class NewUserFeedTests(UserFeedTestCase, TestCase):
-    dweetFeed = NewUserFeed()
-
-
-class TopUserFeedTests(UserFeedTestCase, TestCase):
-    dweetFeed = TopUserFeed()
 
 
 class HotUserFeedTests(UserFeedTestCase, TestCase):

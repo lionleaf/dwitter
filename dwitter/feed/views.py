@@ -53,7 +53,6 @@ class DweetFeed(ListView):
 
     def get_queryset(self):
         queryset = self.get_dweet_list()
-        queryset = queryset.annotate(num_likes=Count('likes'))
         queryset = queryset.order_by(*self.get_ordering())
 
         # Optimize the SQL query:
@@ -94,8 +93,7 @@ class HotDweetFeed(AllDweetFeed):
 class TopDweetFeedBase(DweetFeed):
     def get_dweet_list(self):
         date_cutoff = timezone.now() - timezone.timedelta(days=self.days)
-        dweet_list = Dweet.objects.filter(posted__gte=date_cutoff)
-        return dweet_list
+        return Dweet.objects.filter(posted__gte=date_cutoff).annotate(num_likes=Count('likes'))
 
     def get_context_data(self, **kwargs):
         context = super(TopDweetFeedBase, self).get_context_data(**kwargs)
@@ -137,6 +135,9 @@ class TopAllDweetFeed(AllDweetFeed):
         context = super(TopAllDweetFeed, self).get_context_data(**kwargs)
         context['top_name'] = self.top_name
         return context
+
+    def get_dweet_list(self):
+        return Dweet.objects.annotate(num_likes=Count('likes'))
 
 
 class NewDweetFeed(AllDweetFeed):
@@ -188,6 +189,9 @@ class TopHashtagFeed(HashtagFeed):
         hashtag_name = self.kwargs['hashtag_name']
         return "Top #" + hashtag_name + " dweets | Dwitter"
 
+    def get_dweet_list(self):
+        return super().get_dweet_list().annotate(num_likes=Count('likes'))
+
 
 class UserFeed(DweetFeed):
     """
@@ -212,9 +216,7 @@ class UserFeed(DweetFeed):
     def get_dweet_list(self):
         username = self.kwargs['url_username']
         user = get_object_or_404(User, username=username)
-        queryset = Dweet.objects.filter(
-            author=user)
-        return queryset
+        return Dweet.objects.filter(author=user).annotate(num_likes=Count('likes'))
 
 
 class NewUserFeed(UserFeed):
