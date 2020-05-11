@@ -94,14 +94,14 @@ Dwitter is a social network for building and sharing visual javascript demos lim
 
   {% if request.user.is_authenticated %}
     {% for dweet in dweets %}
-      {% with comments=dweet.comments.all %}
+      {% with comments=dweet.comments.all autoplay=forloop.first %}
         {% include 'snippets/dweet_card.html' %}
       {% endwith %}
     {% endfor %}
   {% else %}
     {% for dweet in dweets %}
       {% cache 60 dweetcard dweet.pk %}
-      {% with comments=dweet.comments.all %}
+      {% with comments=dweet.comments.all autoplay=forloop.first %}
         {% include 'snippets/dweet_card.html' %}
       {% endwith %}
       {% endcache %}

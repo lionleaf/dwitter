@@ -154,7 +154,6 @@ function registerOnKeyListener(dweet) {
   var oldCode = editor.value;
   var originalCode = oldCode;
 
-  showCode(iframe, oldCode);
 
   editor.addEventListener('focus', function() {
     changedDweetMenu.show();
