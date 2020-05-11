@@ -59,11 +59,13 @@ ga('send', 'pageview');
     </head>
     <body class='embed'>
 
-            {% if dweet.deleted %}
-            {% include 'snippets/deleted_dweet_card.html' %}
-            {% else %}
+        {% if dweet.deleted %}
+          {% include 'snippets/deleted_dweet_card.html' %}
+        {% else %}
+          {% with comments=dweet.comments.all %}
             {% include 'snippets/dweet_card.html' with embed=True %}
-            {% endif %}
+          {% endwith %}
+        {% endif %}
 
     </body>
 </html>

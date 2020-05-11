@@ -61,7 +61,9 @@
   {% if dweet.deleted %}
     {% include 'snippets/deleted_dweet_card.html' %}
   {% else %}
-    {% include 'snippets/dweet_card.html' %}
+    {% with comments=dweet.comments.all %}
+      {% include 'snippets/dweet_card.html' %}
+    {% endwith %}
 
     <div class=card>
     <code id=submit-help>
