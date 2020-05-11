@@ -10,7 +10,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 
-class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test class if you will
+class DweetFeedMixin:  # Not inheriting from TestCase, an abstract test class if you will
     request_factory = RequestFactory()
 
     def setUp(self):
@@ -90,15 +90,6 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
                                reply_to=self.hottest_dweet,
                                author=users[2])
 
-    def test_annotation(self):
-        queryset = self.dweetFeed.get_queryset()
-        for dweet in queryset:
-            try:
-                num_likes = dweet.num_likes
-                self.assertTrue(num_likes >= 0)
-            except:
-                self.fail("queryset missing num_likes annotation")
-
     def test_queryset_count(self):
         queryset = self.dweetFeed.get_queryset()
         self.assertEqual(queryset.count(), self.nr_dweets)
@@ -116,7 +107,18 @@ class DweetFeedTestCase():  # Not inheriting from TestCase, an abstract test cla
         self.assertIn('<title>' + self.dweetFeed.title + '</title>', html)
 
 
-class HotDweetFeedTests(DweetFeedTestCase, TestCase):
+class TopFeedTestMixin:
+    def test_annotation(self):
+        queryset = self.dweetFeed.get_queryset()
+        for dweet in queryset:
+            try:
+                num_likes = dweet.num_likes
+                self.assertTrue(num_likes >= 0)
+            except:
+                self.fail("queryset missing num_likes annotation")
+
+
+class HotDweetFeedTests(DweetFeedMixin, TestCase):
     dweetFeed = HotDweetFeed()
 
     def test_hot_sort(self):
@@ -129,7 +131,7 @@ class HotDweetFeedTests(DweetFeedTestCase, TestCase):
             prev_hotness = dweet.hotness
 
 
-class TopWeekDweetFeedTests(DweetFeedTestCase, TestCase):
+class TopWeekDweetFeedTests(DweetFeedMixin, TopFeedTestMixin, TestCase):
     dweetFeed = TopWeekDweetFeed()
 
     def test_top_sort(self):
@@ -149,7 +151,7 @@ class TopWeekDweetFeedTests(DweetFeedTestCase, TestCase):
         self.assertEqual(queryset.count(), self.nr_dweets - 3)
 
 
-class TopMonthDweetFeedTests(DweetFeedTestCase, TestCase):
+class TopMonthDweetFeedTests(DweetFeedMixin, TopFeedTestMixin, TestCase):
     dweetFeed = TopMonthDweetFeed()
 
     def test_top_sort(self):
@@ -169,7 +171,7 @@ class TopMonthDweetFeedTests(DweetFeedTestCase, TestCase):
         self.assertEqual(queryset.count(), self.nr_dweets - 2)
 
 
-class TopYearDweetFeedTests(DweetFeedTestCase, TestCase):
+class TopYearDweetFeedTests(DweetFeedMixin, TopFeedTestMixin, TestCase):
     dweetFeed = TopYearDweetFeed()
 
     def test_top_sort(self):
@@ -189,7 +191,7 @@ class TopYearDweetFeedTests(DweetFeedTestCase, TestCase):
         self.assertEqual(queryset.count(), self.nr_dweets - 1)
 
 
-class TopAllDweetFeedTests(DweetFeedTestCase, TestCase):
+class TopAllDweetFeedTests(DweetFeedMixin, TopFeedTestMixin, TestCase):
     dweetFeed = TopAllDweetFeed()
 
     def test_top_sort(self):
@@ -204,7 +206,7 @@ class TopAllDweetFeedTests(DweetFeedTestCase, TestCase):
             prev_score = dweet.num_likes
 
 
-class NewDweetFeedTests(DweetFeedTestCase, TestCase):
+class NewDweetFeedTests(DweetFeedMixin, TestCase):
     dweetFeed = NewDweetFeed()
 
     def test_new_sort(self):
@@ -216,5 +218,5 @@ class NewDweetFeedTests(DweetFeedTestCase, TestCase):
             prev_date = dweet.posted
 
 
-class RandomDweetFeedTests(DweetFeedTestCase, TestCase):
+class RandomDweetFeedTests(DweetFeedMixin, TestCase):
     dweetFeed = RandomDweetFeed()

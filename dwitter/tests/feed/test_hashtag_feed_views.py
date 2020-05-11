@@ -45,16 +45,6 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
                                reply_to=dweets[3],
                                author=users[2])
 
-    def test_annotation(self):
-        self.dweetFeed.kwargs = {'hashtag_name': 'everyone'}
-        queryset = self.dweetFeed.get_queryset()
-        for dweet in queryset:
-            try:
-                num_likes = dweet.num_likes
-                self.assertTrue(num_likes >= 0)
-            except:
-                self.fail("queryset missing num_likes annotation")
-
     def test_404_empty_hashtag(self):
         request = self.request_factory.get('/')
         request.session = {}
@@ -79,6 +69,7 @@ class HashtagFeedTestCase():  # Not inheriting from TestCase, an abstract test c
         self.assertNotIn('<title>' + self.dweetFeed.title + '</title>', html)
 
     def test_got_title(self):
+        self.dweetFeed.kwargs = {'hashtag_name': 'everyone'}
         request = self.request_factory.get('/')
         request.session = {}
         response = self.dweetFeed.__class__.as_view()(request, hashtag_name='everyone')
@@ -106,6 +97,16 @@ class TopHashtagFeedTests(HashtagFeedTestCase, TestCase):
         for dweet in queryset:
             self.assertTrue(prev_score >= dweet.num_likes, "Should sort by num likes")
             prev_score = dweet.num_likes
+
+    def test_annotation(self):
+        self.dweetFeed.kwargs = {'hashtag_name': 'everyone'}
+        queryset = self.dweetFeed.get_queryset()
+        for dweet in queryset:
+            try:
+                num_likes = dweet.num_likes
+                self.assertTrue(num_likes >= 0)
+            except:
+                self.fail("queryset missing num_likes annotation")
 
 
 class NewHashtagFeedTests(HashtagFeedTestCase, TestCase):
