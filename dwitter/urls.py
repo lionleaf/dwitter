@@ -3,13 +3,20 @@ from django.contrib import admin
 from registration.backends.simple.views import RegistrationView
 from django.contrib.auth import views as auth_views
 from . import views
+from . import views_v2
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
+from rest_framework.authtoken import views as authtoken_views
+
 
 router = DefaultRouter()
 router.register(r'comments', views.CommentViewSet)
 router.register(r'dweets', views.DweetViewSet)
 router.register(r'users', views.UserViewSet)
+
+router_v2 = DefaultRouter()
+router_v2.register(r'dweets', views_v2.DweetViewSet)
+router_v2.register(r'users', views_v2.UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,6 +52,8 @@ urlpatterns = [
     url(r'^u/', include('dwitter.user.urls')),
     url(r'^', include('dwitter.feed.urls')),
     url(r'^api/', include(router.urls)),
+    url(r'^apiv2beta/api-token-auth/', authtoken_views.obtain_auth_token),
+    url(r'^apiv2beta/', include(router_v2.urls)),
 ]
 
 if settings.DEBUG:

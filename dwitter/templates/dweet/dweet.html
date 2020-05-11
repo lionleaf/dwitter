@@ -15,6 +15,7 @@
     </style>
     <script>
       var autoplay = getURLParameter('autoplay');
+      const src = getURLParameter('code');
       var lastError = "";
       var playing = !!autoplay;
       var FPS = 60;
@@ -220,11 +221,6 @@
     var frame = 0;
     var nextFrameMs = 0;
 
-    function u(t) {
-      {{ code | safe }}
-    }
-
-    var src = (u + "").replace(/(function u\(t\) {|}$)/g, "");
     newCode(src);
 
     function loop(frame_time) {

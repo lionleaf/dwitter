@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
     'dwitter',
     'registration',
     'dwitter.user',
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'django_hosts',
+
 ]
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
@@ -69,6 +71,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,                   # Default to 10
     'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication', )
 
 }
 
@@ -163,7 +166,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_URLS_REGEX = r'^/api(v2beta)?/.*$'
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
