@@ -4,10 +4,6 @@ from dwitter.models import Dweet
 from django.utils import timezone
 
 
-def wrap_content(content):
-    return 'function u(t) {\n      ' + content + '\n    }'
-
-
 def assertResponse(self, response=None, status_code=None, templates=None):
     self.assertEqual(response.status_code, status_code)
     self.assertEqual([template.name for template in response.templates],
@@ -36,7 +32,6 @@ class DweetTestCase(TransactionTestCase):
                        response=response,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertContains(response, wrap_content(self.dweet.code))
 
     def test_blank_dweet_renders_with_correct_template(self):
         response = self.client.get('/blank')
@@ -44,4 +39,3 @@ class DweetTestCase(TransactionTestCase):
                        response=response,
                        status_code=200,
                        templates=['dweet/dweet.html'])
-        self.assertContains(response, wrap_content(response.context['code']))

@@ -1,3 +1,4 @@
+python-dateutil==2.8.1
 boto==2.42
 django-anymail==4.3
 django-compressor==2.2

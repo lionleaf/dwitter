@@ -6,7 +6,7 @@
     <div class=canvas-iframe-container-wrapper>
       <div class=canvas-iframe-container >
         <iframe class="dweetiframe"
-          src="{% url 'fullscreen_dweet' dweet_id=dweet.id host 'dweet' %}"
+                src="{% url 'fullscreen_dweet' dweet_id=dweet.id host 'dweet' %}?code={{ dweet.code|urlencode }}"
           sandbox="allow-same-origin allow-scripts" id="{{ dweet.id }}"></iframe>
       </div>
     </div>
