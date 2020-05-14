@@ -72,8 +72,16 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         if order_by not in ('hotness', '-hotness', 'posted', '-posted', '?'):
             order_by = '-hotness'
 
+        username = request.query_params.get('username', None)
+        hashtag = request.query_params.get('hashtag', None)
+        filters = {}
+        if username:
+            filters['author__username'] = username
+        if hashtag:
+            filters['hashtag__name'] = hashtag
+
         self.queryset = self.queryset.order_by(order_by).filter(
-            posted__gte=posted_after, posted__lt=posted_before)
+            posted__gte=posted_after, posted__lt=posted_before, **filters)
 
         return super().list(request)
 
