@@ -45,8 +45,12 @@ lint-css-fix:
 test:
 	python manage.py test
 
+.PHONY: check_setup
+check_setup:
+	@echo -n "Are you sure? This will overwrite your local.py settings file [y/N] " && read ans && [ $${ans:-N} = y ]
+
 .PHONY: setup
-setup:
+setup: check_setup
 	virtualenv venv
 	cp dwitter/settings/local.py.example dwitter/settings/local.py
 
