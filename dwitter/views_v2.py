@@ -2,7 +2,7 @@ import datetime
 
 from dateutil.parser import parse
 from django.contrib.auth.models import User
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 from django.utils import timezone
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
@@ -58,8 +58,9 @@ class DweetViewSet(mixins.RetrieveModelMixin,
 
     def list(self, request):
         order_by = request.query_params.get('order_by', '-hotness')
-        if order_by not in ('hotness', '-hotness', 'posted', '-posted', '?'):
+        if order_by not in ('hotness', '-hotness', 'posted', '-posted', '-awesome_count', '?'):
             order_by = '-hotness'
+
         try:
             posted_before = parse(request.query_params.get('posted_before', ''))
         except ValueError:
@@ -69,9 +70,6 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         except ValueError:
             posted_after = datetime.datetime(year=1, month=1, day=1)
 
-        if order_by not in ('hotness', '-hotness', 'posted', '-posted', '?'):
-            order_by = '-hotness'
-
         username = request.query_params.get('username', None)
         hashtag = request.query_params.get('hashtag', None)
         filters = {}
@@ -80,8 +78,11 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         if hashtag:
             filters['hashtag__name'] = hashtag
 
+        if order_by == '-awesome_count':
+            self.queryset = self.queryset.annotate(awesome_count=Count('likes'))
+
         self.queryset = self.queryset.order_by(order_by).filter(
-            posted__gte=posted_after, posted__lt=posted_before, **filters)
+                posted__gte=posted_after, posted__lt=posted_before, **filters)
 
         return super().list(request)
 
