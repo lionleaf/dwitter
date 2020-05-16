@@ -27,9 +27,15 @@ class Webhooks:
 
     @staticmethod
     def send_mod_chat_message(message):
+        if(not hasattr(settings, 'DISCORD_MOD_CHAT_WEBHOOK')):
+            return False  # No discord webhook set up
+
         try:
-            requests.post(settings.DISCORD_MOD_CHAT_WEBHOOK, json={
+            response = requests.post(settings.DISCORD_MOD_CHAT_WEBHOOK, json={
                 'content': message,
             })
-        except:
-            pass
+
+            # Discord should return the success code 204
+            return (response.status_code == 204)
+        except Exception:
+            return False

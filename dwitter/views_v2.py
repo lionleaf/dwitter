@@ -4,11 +4,12 @@ from dateutil.parser import parse
 from django.contrib.auth.models import User
 from django.db.models import Prefetch, Count
 from django.utils import timezone
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
+from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
 from dwitter.serializers_v2 import DweetSerializer, UserSerializer
 
@@ -118,3 +119,23 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         dweet = self.queryset.get(pk=dweet.pk)
         context = self.get_serializer_context()
         return Response(DweetSerializer(context=context).to_representation(dweet))
+
+    @action(methods=['POST'], detail=True)
+    def report(self, request, pk=None):
+        if not request.user.is_authenticated:
+            return PermissionDenied()
+
+        dweet = self.get_object()
+        result = Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported [d/%s](https://www.dwitter.net/d/%s)' % (  # noqa: E501
+            request.user.username,
+            request.user.username,
+            dweet.id,
+            dweet.id,
+        ))
+
+        content = {'success': result}
+        return_code = status.HTTP_200_OK
+        if not result:
+            return_code = status.HTTP_503_SERVICE_UNAVAILABLE
+
+        return Response(content, status=return_code)
