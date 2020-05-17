@@ -3,7 +3,7 @@ python:
       - "3.6"
 sudo: false
 install:
-      - make setup
+      - yes | make setup
       - make update
       - nvm install 12.13
       - nvm use 12.13
