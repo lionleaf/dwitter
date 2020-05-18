@@ -6,13 +6,13 @@ from django.db.models import Prefetch, Count
 from django.utils import timezone
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 
 from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
-from dwitter.serializers_v2 import DweetSerializer, UserSerializer
+from dwitter.serializers_v2 import DweetSerializer, SetEmailSerializer, SetPasswordSerializer, UserSerializer
 from dwitter.utils import length_of_code
 
 
@@ -27,6 +27,30 @@ class UserViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
             else:
                 raise PermissionDenied()
         return super().get_object()
+
+    @action(detail=True, methods=['POST'])
+    def set_email(self, request, pk=None):
+        user = self.get_object()
+        if user != self.request.user:
+            raise PermissionDenied()
+        serializer = SetEmailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user.email = serializer.validated_data['email']
+        user.save()
+        context = self.get_serializer_context()
+        return Response(UserSerializer(context=context).to_representation(user))
+
+    @action(detail=True, methods=['POST'])
+    def set_password(self, request, pk=None):
+        user = self.get_object()
+        context = self.get_serializer_context()
+        if user != self.request.user:
+            raise PermissionDenied()
+        serializer = SetPasswordSerializer(data=request.data, context=context)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response(UserSerializer(context=context).to_representation(user))
+
 
 
 class DweetViewSet(mixins.RetrieveModelMixin,
