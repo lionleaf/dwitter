@@ -7,6 +7,7 @@ from django.http import HttpResponseBadRequest
 from django.urls import reverse
 from django.db.models import Count, Sum, Prefetch
 from ..models import Dweet, Hashtag, Comment
+from dwitter.utils import length_of_code
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -330,7 +331,7 @@ def dweet(request):
 
     code = request.POST['code']
 
-    if(Dweet.length_of_code(code) > 140):
+    if(length_of_code(code) > 140):
         return HttpResponseBadRequest("Dweet code too long! Code: " + code)
 
     d = Dweet(code=code,
@@ -361,7 +362,7 @@ def dweet_reply(request, dweet_id):
 
     code = request.POST['code']
 
-    if(Dweet.length_of_code(code) > 140):
+    if(length_of_code(code) > 140):
         return HttpResponseBadRequest("Dweet code too long! Code: " + code)
 
     reply_to = get_object_or_404(Dweet, id=dweet_id)

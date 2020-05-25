@@ -8,6 +8,8 @@ from django.db.models.signals import pre_delete, post_save, m2m_changed
 from math import log
 from datetime import datetime
 
+from .utils import length_of_code
+
 
 def get_sentinel_user():
     users = get_user_model().objects
@@ -60,16 +62,9 @@ class Dweet(models.Model):
         """
         return self.comments.first()
 
-    @staticmethod
-    def length_of_code(code):
-        """
-        Centralize the character counting to one place
-        """
-        return len(code.replace('\r\n', '\n'))
-
     @cached_property
     def dweet_length(self):
-        return Dweet.length_of_code(self.code)
+        return length_of_code(self.code)
 
     @cached_property
     def has_sticky_comment(self):
