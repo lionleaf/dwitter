@@ -8,9 +8,11 @@ from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 
 from dwitter.models import Comment, Dweet
 from dwitter.serializers_v2 import DweetSerializer, UserSerializer
+from dwitter.utils import length_of_code
 
 
 class UserViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -39,22 +41,34 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     serializer_class = DweetSerializer
 
     def create(self, request):
-        from dwitter.feed.views import dweet as original_dweet_view
+        code = request.data.get('code', '')
+        if (length_of_code(code) > 140):
+            raise ValidationError("Code longer than 140 characters")
 
-        class DummyRequest:
-            def __init__(self):
-                self.method = 'POST'
-                self.POST = request.data
-                self.build_absolute_uri = request.build_absolute_uri
-                self._messages = request._messages
-                self.META = request.META
-                self.user = request.user
+        remix_of_pk = request.data.get('remix_of', -1)
 
-        response = original_dweet_view(DummyRequest())
-        pk = int(response.url.split('/')[-1])
-        dweet = self.queryset.get(pk=pk)
+        # Using filter().first() will return None if it doesn't exist
+        # instead of raising a DoesNotExist exception
+        remix_of = self.queryset.filter(pk=remix_of_pk).first()
+
+        d = Dweet(code=code,
+                  author=request.user,
+                  reply_to=remix_of,
+                  posted=timezone.now())
+        d.save()
+        d.likes.add(d.author)
+        d.save()
+
+        first_comment = request.data.get('first-comment', '')
+        if first_comment:
+            c = Comment(text=first_comment,
+                        posted=timezone.now(),
+                        author=request.user,
+                        reply_to=d)
+            c.save()
+
         context = self.get_serializer_context()
-        return Response(DweetSerializer(context=context).to_representation(dweet))
+        return Response(DweetSerializer(context=context).to_representation(d))
 
     def list(self, request):
         order_by = request.query_params.get('order_by', '-hotness')
