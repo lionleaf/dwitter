@@ -17,6 +17,7 @@ router.register(r'users', views.UserViewSet)
 router_v2 = DefaultRouter()
 router_v2.register(r'dweets', views_v2.DweetViewSet)
 router_v2.register(r'users', views_v2.UserViewSet)
+router_v2.register(r'notifications', views_v2.NotificationViewSet, basename='DweetNotification')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

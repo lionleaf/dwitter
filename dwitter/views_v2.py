@@ -9,8 +9,8 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
-from dwitter.models import Comment, Dweet
-from dwitter.serializers_v2 import DweetSerializer, UserSerializer
+from dwitter.models import Comment, Dweet, DweetNotification
+from dwitter.serializers_v2 import DweetSerializer, UserSerializer, DweetNotificationSerializer
 
 
 class UserViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -118,3 +118,12 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         dweet = self.queryset.get(pk=dweet.pk)
         context = self.get_serializer_context()
         return Response(DweetSerializer(context=context).to_representation(dweet))
+
+
+class NotificationViewSet(mixins.ListModelMixin,
+                          viewsets.GenericViewSet):
+    serializer_class = DweetNotificationSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return DweetNotification.objects.filter(recipient=user)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dwitter.models import Comment, Dweet
+from dwitter.models import Comment, Dweet, DweetNotification
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 
@@ -27,6 +27,33 @@ class CommentSerializer(serializers.ModelSerializer):
             'reply_to',
             'author',
         )
+
+
+class DweetNotificationSerializer(serializers.ModelSerializer):
+
+    interaction_count = serializers.SerializerMethodField()
+    actors = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DweetNotification
+        fields = (
+            'dweet',
+            'actors',
+            'verb',
+            'read',
+            'timestamp',
+            'interaction_count',
+
+        )
+
+    def get_interaction_count(self, notification):
+        return notification.actors.all().count()
+
+    def get_actors(self, notification):
+        if notification.verb == 'like':
+            return None
+        else:
+            return notification.actors.all()
 
 
 class DweetSerializer(serializers.ModelSerializer):

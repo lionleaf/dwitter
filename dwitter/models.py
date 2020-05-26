@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save, m2m_changed
+from django.utils import timezone
 from math import log
 from datetime import datetime
 
@@ -28,7 +29,7 @@ class NotDeletedDweetManager(models.Manager):
 
 class Dweet(models.Model):
     code = models.TextField()
-    posted = models.DateTimeField(db_index=True)
+    posted = models.DateTimeField(default=timezone.now, db_index=True)
     reply_to = models.ForeignKey("self", on_delete=models.DO_NOTHING,
                                  null=True, blank=True)
 
@@ -116,7 +117,7 @@ def recalc_hotness(sender, instance, action, **kwargs):
 
 class Comment(models.Model):
     text = models.TextField()
-    posted = models.DateTimeField()
+    posted = models.DateTimeField(default=timezone.now)
     reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE,
                                  related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -139,6 +140,36 @@ class Hashtag(models.Model):
 
     def __str__(self):
         return '#' + self.name
+
+
+class DweetNotification(models.Model):
+    """ Notification about something that happened to a dweet
+
+        recipient -- The recipient of the notification
+        dweet -- The relevant dweet
+        verb -- What happened to the relevant dweet.
+        actors -- ManyToManyField to allow for coalescing of notifications. i.e. instead
+                  of one notification per like on your dweet, they accumulate until read
+    """
+
+    VERB_CHOICES = [
+            ('li', 'like'),
+            ('co', 'comment'),
+            ('re', 'remix'),
+            ]
+
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    dweet = models.ForeignKey(Dweet, on_delete=models.CASCADE)
+    verb = models.CharField(max_length=2, choices=VERB_CHOICES)
+    actors = models.ManyToManyField(User)
+
+    read = models.BooleanField(default=False, blank=False, db_index=True)
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+    
+
+    def get_link(self):
+        return "d/" + self.dweet.id
+
 
 
 # Go through hashtags mentioned in the comment
