@@ -160,7 +160,7 @@ class DweetNotification(models.Model):
 
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     dweet = models.ForeignKey(Dweet, on_delete=models.CASCADE)
-    verb = models.CharField(max_length=2, choices=VERB_CHOICES)
+    verb = models.CharField(max_length=8, choices=VERB_CHOICES)
     actors = models.ManyToManyField(User)
 
     read = models.BooleanField(default=False, blank=False, db_index=True)

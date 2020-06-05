@@ -30,30 +30,18 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class DweetNotificationSerializer(serializers.ModelSerializer):
-
-    interaction_count = serializers.SerializerMethodField()
-    actors = serializers.SerializerMethodField()
+    actors = UserSerializer(read_only=True, many=True)
 
     class Meta:
         model = DweetNotification
         fields = (
+            'id',  # TODO: Change to a slug
             'dweet',
             'actors',
             'verb',
             'read',
             'timestamp',
-            'interaction_count',
-
         )
-
-    def get_interaction_count(self, notification):
-        return notification.actors.all().count()
-
-    def get_actors(self, notification):
-        if notification.verb == 'like':
-            return None
-        else:
-            return notification.actors.all()
 
 
 class DweetSerializer(serializers.ModelSerializer):
