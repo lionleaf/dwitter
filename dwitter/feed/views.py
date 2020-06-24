@@ -209,7 +209,7 @@ class UserFeed(DweetFeed):
 
         context['title'] = self.get_title()
         context['user'] = user
-        context['total_awesome'] = total_awesome
+        context['total_awesome'] = total_awesome or 0
         return context
 
     def get_dweet_list(self):
@@ -259,7 +259,7 @@ class LikedFeed(DweetFeed):
 
         context['title'] = self.get_title()
         context['user'] = user
-        context['total_awesome'] = total_awesome
+        context['total_awesome'] = total_awesome or 0
         context['sort'] = 'awesome'
         return context
 
