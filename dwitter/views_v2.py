@@ -6,13 +6,14 @@ from django.db.models import Prefetch, Count
 from django.utils import timezone
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
-from rest_framework.exceptions import PermissionDenied, ValidationError
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 
 from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
-from dwitter.serializers_v2 import DweetSerializer, SetEmailSerializer, SetPasswordSerializer, UserSerializer
+from dwitter.serializers_v2 import DweetSerializer, UserSerializer
+from dwitter.serializers_v2 import SetEmailSerializer, SetPasswordSerializer
 from dwitter.utils import length_of_code
 
 
@@ -50,7 +51,6 @@ class UserViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         return Response(UserSerializer(context=context).to_representation(user))
-
 
 
 class DweetViewSet(mixins.RetrieveModelMixin,

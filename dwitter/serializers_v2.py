@@ -4,7 +4,6 @@ from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from rest_framework.fields import SkipField
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,7 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         read_only_fields = ('id', 'username', 'avatar')
         fields = read_only_fields
-        
 
     def get_avatar(self, obj):
         return to_gravatar_url(obj.email)
