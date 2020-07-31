@@ -1,0 +1,5 @@
+'''
+ArithmeticError
+'''
+
+urlpatterns = []
