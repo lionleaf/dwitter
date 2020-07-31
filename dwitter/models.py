@@ -6,11 +6,15 @@ from django.contrib.auth.models import User as DjangoUser
 from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save, m2m_changed
 from math import log
+from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from datetime import datetime
 
 from .utils import length_of_code
 
 class User(DjangoUser):
+
+    def get_avatar_url(self):
+        return to_gravatar_url(self.email)
     
     class JSONAPIMeta:
         resource_name = 'dwitter:user'
@@ -74,6 +78,9 @@ class Dweet(models.Model):
         Return the top comment. This is mainly a caching optimization to avoid queries
         """
         return self.comments.first()
+
+    def remix_of(self):
+        return self.reply_to
 
     @cached_property
     def dweet_length(self):
@@ -150,6 +157,9 @@ class Hashtag(models.Model):
 
     def __str__(self):
         return '#' + self.name
+        
+    class JSONAPIMeta:
+        resource_name = 'dwitter:hashtag'
 
 
 # Go through hashtags mentioned in the comment

@@ -6,7 +6,7 @@ from dwitter import urls_dwitter_v1
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-@api_view(['GET'])
+@api_view()
 def home(request):
     return Response({'meta':{'copyright':'Dwitter'}})
     
