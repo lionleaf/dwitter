@@ -13,7 +13,7 @@ def home(request):
 @api_view()
 def handler404(request,exception):
     tb = traceback.format_exc()
-    return Response({'errors':[{'status':'404','title':'Not Found'''','detail':tb'''}]})
+    return Response({'errors':[{'status':'404','title':'Not Found'}]})
 
 urlpatterns = [
     url(r'^$',home),

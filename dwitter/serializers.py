@@ -8,23 +8,62 @@ from django.template.defaultfilters import urlizetrunc
 from rest_framework_json_api import relations, serializers
 
 class CommentSerializer(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField()
+
+    author = relations.ResourceRelatedField(
+        queryset=User.objects,
+    )
+    reply_to = relations.ResourceRelatedField(
+        queryset=Comment.objects,
+    )
+    
+    included_serializers = {
+        'author': 'dwitter.serializers.UserSerializer',
+        'reply_to': 'dwitter.serializers.DweetSerializer',
+    }
+    
+    def get_created_at(self,obj):
+        return obj.posted
+        
+    class JSONAPIMeta:
+        included_resources = ['author','reply_to']
+
     class Meta:
-        fields = ('text',)
+        fields = ['author','created_at','reply_to','text']
         model = Comment
 
 class DweetSerializer(serializers.ModelSerializer):
+    created_at = serializers.SerializerMethodField()
+    is_deleted = serializers.SerializerMethodField()
+
+    author = relations.ResourceRelatedField(
+        queryset=User.objects,
+    )
     comments = relations.ResourceRelatedField(
-        #related_link_view_name='author-related',
-        #self_link_view_name='author-relationships',
         queryset=Comment.objects,
         many=True,
     )
+    reply_to = relations.ResourceRelatedField(
+        queryset=Dweet.objects,
+    )
+    
     included_serializers = {
-        'comments': CommentSerializer,
+        'author': 'dwitter.serializers.UserSerializer',
+        'comments': 'dwitter.serializers.CommentSerializer',
+        'reply_to': 'dwitter.serializers.DweetSerializer',
     }
     
+    def get_created_at(self,obj):
+        return obj.posted
+        
+    def get_is_deleted(self,obj):
+        return obj.deleted
+    
+    class JSONAPIMeta:
+        included_resources = ['author','comments','reply_to']
+    
     class Meta:
-        fields = ('code','comments')
+        fields = ['author','created_at','code','comments','is_deleted','reply_to']
         model = Dweet
 
 
