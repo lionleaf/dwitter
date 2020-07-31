@@ -1,8 +1,8 @@
-from django.conf import settings
+import traceback
 from django.conf.urls import include, url
 from django.contrib import admin
-from dwitter import urls_accounts
-from rest_framework import routers
+from dwitter import urls_auth_v1
+from dwitter import urls_dwitter_v1
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -12,16 +12,12 @@ def home(request):
     
 @api_view()
 def handler404(request,exception):
-    return Response({'errors':[{'status':'404','title':'Not Found'}]})
-
-router = routers.DefaultRouter(trailing_slash=False)
-
-#router.register(r'accounts',include(urls_accounts))
-#router.register(r'auth',class A{})
-#router.register(r'dwitter', views.UserViewSet)
+    tb = traceback.format_exc()
+    return Response({'errors':[{'status':'404','title':'Not Found'''','detail':tb'''}]})
 
 urlpatterns = [
     url(r'^$',home),
-    url(r'^',include(router.urls)),
+    url(r'^auth/v1/',include(urls_auth_v1)),
+    url(r'^dwitter/v1/',include(urls_dwitter_v1)),
     url(r'^admin/',admin.site.urls),
 ]

@@ -1,11 +1,31 @@
 from rest_framework import serializers
 from django.utils.html import escape
-from dwitter.models import Dweet, Comment
+from dwitter.models import Dweet, Comment, User
 from dwitter.templatetags.insert_code_blocks import insert_code_blocks
 from dwitter.templatetags.insert_magic_links import insert_magic_links
 from dwitter.templatetags.to_gravatar_url import to_gravatar_url
-from django.contrib.auth.models import User
 from django.template.defaultfilters import urlizetrunc
+from rest_framework_json_api import relations, serializers
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('text',)
+        model = Comment
+
+class DweetSerializer(serializers.ModelSerializer):
+    comments = relations.ResourceRelatedField(
+        #related_link_view_name='author-related',
+        #self_link_view_name='author-relationships',
+        queryset=Comment.objects,
+        many=True,
+    )
+    included_serializers = {
+        'comments': CommentSerializer,
+    }
+    
+    class Meta:
+        fields = ('code','comments')
+        model = Dweet
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,7 +43,7 @@ class UserSerializer(serializers.ModelSerializer):
     def get_link(self, obj):
         return 'https://www.dwitter.net/u/%s' % obj.username
 
-
+'''
 class CommentSerializer(serializers.ModelSerializer):
     urlized_text = serializers.SerializerMethodField()
     author = serializers.SerializerMethodField()
@@ -47,8 +67,10 @@ class CommentSerializer(serializers.ModelSerializer):
                 45
             )
         )
+'''
 
 
+'''
 class DweetSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='pk')
     remix_of = serializers.PrimaryKeyRelatedField(
@@ -69,3 +91,4 @@ class DweetSerializer(serializers.ModelSerializer):
 
     def get_link(self, obj):
         return 'https://www.dwitter.net/d/%i' % obj.id
+'''
