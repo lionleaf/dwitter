@@ -66,6 +66,7 @@ DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': 'backups'}
 
 REST_FRAMEWORK = {
+    'COMPACT_JSON': True,
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 10,                   # Default to 10
@@ -181,19 +182,21 @@ STATICFILES_FINDERS = (
         'compressor.finders.CompressorFinder',
         )
 
-
+'''
 def show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain(request):
     if request.host.name == 'dweet':
         return False
     # Import here so that we get the settings from local.py as well
     from django.conf import settings
     return settings.DEBUG
+'''
 
-
+'''
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK':
     show_debug_toolbar_when_debug_true_but_not_for_the_dweet_subdomain
 }
+'''
 
 CACHES = {
     'default': {
