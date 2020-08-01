@@ -1,6 +1,6 @@
-# dwitter
+# Dwitter Backend
 
-A platform to write visual art in javascript limited to 140 characters.
+The backend of the Dwitter platform. Dwitter is a platform to write visual art in JavaScript limited to 140 characters.
 
 Available on [dwitter.net](http://dwitter.net)
 
