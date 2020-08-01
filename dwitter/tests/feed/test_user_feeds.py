@@ -64,7 +64,7 @@ class TopUserFeedTests(UserFeedTestCase, TestCase):
             try:
                 num_likes = dweet.num_likes
                 self.assertEqual(num_likes, dweet.likes.count())
-            except:
+            except Exception:
                 self.fail("queryset missing num_likes annotation")
 
 

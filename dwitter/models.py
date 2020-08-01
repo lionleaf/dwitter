@@ -8,25 +8,24 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save, m2m_changed
 from math import log
 from datetime import datetime
-
 from .utils import length_of_code
+
 
 def to_gravatar_url(email):
     return ('https://gravatar.com/avatar/%s?d=retro' %
             hashlib.md5((email or '').strip().lower().encode('utf-8')).hexdigest())
 
+
 class User(DjangoUser):
 
     def get_avatar_url(self):
         return to_gravatar_url(self.email)
-    
+
     class JSONAPIMeta:
         resource_name = 'dwitter:user'
-        
+
     class Meta:
         proxy = True
-        
-
 
 
 def get_sentinel_user():
@@ -61,7 +60,7 @@ class Dweet(models.Model):
 
     objects = NotDeletedDweetManager()
     with_deleted = models.Manager()
-    
+
     class JSONAPIMeta:
         resource_name = 'dwitter:dweet'
 
@@ -136,7 +135,7 @@ class Comment(models.Model):
     reply_to = models.ForeignKey(Dweet, on_delete=models.CASCADE,
                                  related_name="comments")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
     class JSONAPIMeta:
         resource_name = 'dwitter:comment'
 
@@ -158,7 +157,7 @@ class Hashtag(models.Model):
 
     def __str__(self):
         return '#' + self.name
-        
+
     class JSONAPIMeta:
         resource_name = 'dwitter:hashtag'
 
@@ -173,5 +172,3 @@ def add_hashtags(sender, instance, **kwargs):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
         if not h.dweets.filter(id=instance.reply_to.id).exists():
             h.dweets.add(instance.reply_to)
-
-

@@ -1,5 +1,10 @@
 from django.conf.urls import include, url
-from dwitter.views import CommentRelationshipView, CommentViewSet, DweetRelationshipView, DweetViewSet, HashtagRelationshipView, HashtagViewSet, UserRelationshipView, UserViewSet
+from dwitter.views import (
+    CommentRelationshipView, CommentViewSet,
+    DweetRelationshipView, DweetViewSet,
+    HashtagRelationshipView, HashtagViewSet,
+    UserRelationshipView, UserViewSet
+)
 from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -11,7 +16,7 @@ router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
-        
+
     url(r'^comments/(?P<pk>[^/.]+)/(?P<related_field>\w+)$',
         CommentViewSet.as_view({'get': 'retrieve_related'}),
         name='comment-related'),
@@ -24,8 +29,8 @@ urlpatterns = [
     url(r'^users/(?P<pk>[^/.]+)/(?P<related_field>\w+)$',
         UserViewSet.as_view({'get': 'retrieve_related'}),
         name='user-related'),
-    
-    
+
+
     url(r'^comments/(?P<pk>[^/.]+)/relationships/(?P<related_field>\w+)$',
         CommentRelationshipView.as_view(),
         name='comment-relationships'),

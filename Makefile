@@ -22,7 +22,7 @@ migrations:
 	python manage.py makemigrations
 
 .PHONY: lint
-lint: lint-python lint-js-fix
+lint: lint-python
 
 .PHONY: lint-python
 lint-python:
