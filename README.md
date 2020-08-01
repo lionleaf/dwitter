@@ -2,7 +2,7 @@
 
 The backend of the Dwitter platform.
 
-[![license](https://img.shields.io/github/license/lionleaf/dwitter.svg)](LICENCE.md)
+[![license](https://img.shields.io/github/license/lionleaf/dwitter.svg)](LICENSE.md)
 
 ## What is Dwitter?
 
