@@ -71,9 +71,9 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 10,                   # Default to 10
     'MAX_PAGE_SIZE': 100,             # Maximum limit allowed when using `?page_size=xxx`.
-    'DEFAULT_RENDERER_CLASSES': (
+    'DEFAULT_RENDERER_CLASSES': [
         'rest_framework_json_api.renderers.JSONRenderer',
-    ),
+    ],
     
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication','rest_framework.authentication.SessionAuthentication', )
 
