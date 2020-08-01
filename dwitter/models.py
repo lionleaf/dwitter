@@ -79,9 +79,6 @@ class Dweet(models.Model):
         """
         return self.comments.first()
 
-    def remix_of(self):
-        return self.reply_to
-
     @cached_property
     def dweet_length(self):
         return length_of_code(self.code)

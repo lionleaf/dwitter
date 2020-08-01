@@ -6,9 +6,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
     author = relations.ResourceRelatedField(
         queryset=User.objects,
+        related_link_view_name='comment-related',
+        self_link_view_name='comment-relationships',
     )
     reply_to = relations.ResourceRelatedField(
         queryset=Comment.objects,
+        related_link_view_name='comment-related',
+        self_link_view_name='comment-relationships',
     )
     
     included_serializers = {
@@ -26,19 +30,28 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['author','created_at','reply_to','text']
         model = Comment
 
-class DweetSerializer(serializers.ModelSerializer):
+class DweetSerializer(serializers.ModelSerializer,dict):
     created_at = serializers.SerializerMethodField()
     is_deleted = serializers.SerializerMethodField()
 
     author = relations.ResourceRelatedField(
         queryset=User.objects,
+        related_link_view_name='dweet-related',
+        self_link_view_name='dweet-relationships',
     )
     comments = relations.ResourceRelatedField(
-        queryset=Comment.objects,
         many=True,
+        queryset=Comment.objects,
+        related_link_view_name='dweet-related',
+        self_link_view_name='dweet-relationships',
     )
-    remix_of = relations.ResourceRelatedField(
-        queryset=Dweet.objects
+
+    remix_of = relations.SerializerMethodResourceRelatedField(
+        queryset=Dweet.objects,
+        related_link_view_name='dweet-related',
+        default=False,
+        self_link_view_name='dweet-relationships',
+        source='reply_to',
     )
     
     included_serializers = {
