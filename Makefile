@@ -12,7 +12,6 @@ serve:
 .PHONY: update
 update:
 	pip install --upgrade -r requirements.txt
-	npm install
 
 .PHONY: migrate
 migrate:
@@ -28,18 +27,6 @@ lint: lint-python lint-js-fix
 .PHONY: lint-python
 lint-python:
 	flake8 dwitter/ --exclude=migrations,settings
-
-.PHONY: lint-js
-lint-js:
-	npm run lint -- --max-warnings 0
-
-.PHONY: lint-js-fix
-lint-js-fix:
-	npm run lint-fix -- --max-warnings 0
-
-.PHONY: lint-css-fix
-lint-css-fix:
-	npm run css-fix
 
 .PHONY: test
 test:
