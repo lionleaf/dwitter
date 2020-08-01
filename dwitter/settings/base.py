@@ -1,12 +1,10 @@
 import os
 
-ROOT_HOSTCONF = 'dwitter.hosts'
 ROOT_URLCONF = 'dwitter.urls'
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_URL = 'https://www.dwitter.net/'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -14,7 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.sites',
+    'django.contrib.staticfiles',
     'django_extensions',
     'django_filters',
     'rest_framework',
@@ -65,9 +63,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
-            'builtins': [
-                'django_hosts.templatetags.hosts_override',
             ],
         },
     },
