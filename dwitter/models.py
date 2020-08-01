@@ -1,3 +1,4 @@
+import hashlib
 import re
 from django.db import models
 from django.utils.functional import cached_property
@@ -6,10 +7,13 @@ from django.contrib.auth.models import User as DjangoUser
 from django.dispatch import receiver
 from django.db.models.signals import pre_delete, post_save, m2m_changed
 from math import log
-from dwitter.templatetags.to_gravatar_url import to_gravatar_url
 from datetime import datetime
 
 from .utils import length_of_code
+
+def to_gravatar_url(email):
+    return ('https://gravatar.com/avatar/%s?d=retro' %
+            hashlib.md5((email or '').strip().lower().encode('utf-8')).hexdigest())
 
 class User(DjangoUser):
 
