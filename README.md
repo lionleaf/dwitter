@@ -2,6 +2,8 @@
 
 A platform to write visual art in javascript limited to 140 characters.
 
+The front-end is currently being rewritten, so please direct frontend development to [dwitter-frontend](https://www.github.com/dwitter-net/dwitter-frontend)
+
 Available on [dwitter.net](http://dwitter.net)
 
 Join the chat on [Discord](https://discord.gg/r5nXDsQ)
