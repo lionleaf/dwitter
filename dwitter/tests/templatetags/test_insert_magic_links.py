@@ -189,6 +189,14 @@ class DweetTestCase(TestCase):
             insert_magic_links('#1')
         )
 
+    def test_insert_magic_link_anchor_not_hashtag(self):
+        self.assertEqual(
+            '<a href="/h/start">#start</a> '
+            'https://www.site.com/page#anchor '
+            '<a href="/h/end">#end</a>',
+            insert_magic_links('#start https://www.site.com/page#anchor #end')
+        )
+
     # mixed
 
     def test_insert_magic_links_mixed(self):
