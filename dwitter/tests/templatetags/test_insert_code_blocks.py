@@ -12,7 +12,7 @@ class DweetTestCase(TestCase):
     def test_insert_code_blocks_ignores_backticks(self):
         self.assertEqual(
             '<code>a=`b`</code>',
-            insert_code_blocks('`a=\`b\``')
+            insert_code_blocks('`a=\`b\``')  # noqa: W605
         )
 
     def test_insert_code_blocks_is_not_greedy_with_multiple_blocks(self):

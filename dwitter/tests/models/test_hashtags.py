@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.contrib.auth import models
 from dwitter.models import Dweet, Comment, Hashtag
 from django.utils import timezone
 from datetime import timedelta

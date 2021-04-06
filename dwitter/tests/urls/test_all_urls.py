@@ -76,7 +76,7 @@ class UrlsTest(test.TestCase):
             the client while testing, and login again
         Specify @default_kwargs to be used for patterns that expect keyword parameters,
             e.g. if you specify default_kwargs={'username': 'testuser'}, then
-            for pattern url(r'^accounts/(?P<username>[\.\w-]+)/$'
+            for pattern url(r'^accounts/(?P<username>[\.\w-]+)/$'  # noqa: W605
             the url /accounts/testuser/ will be tested.
         If @quiet=False, print all the urls checked. If status code of the response is not 200,
             print the status code.

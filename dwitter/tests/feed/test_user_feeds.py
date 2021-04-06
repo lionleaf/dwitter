@@ -61,11 +61,8 @@ class TopUserFeedTests(UserFeedTestCase, TestCase):
         self.dweetFeed.kwargs = {'url_username': self.users[1].username}
         queryset = self.dweetFeed.get_queryset()
         for dweet in queryset:
-            try:
-                num_likes = dweet.num_likes
-                self.assertEqual(num_likes, dweet.likes.count())
-            except:
-                self.fail("queryset missing num_likes annotation")
+            num_likes = dweet.num_likes
+            self.assertEqual(num_likes, dweet.likes.count())
 
 
 class HotUserFeedTests(UserFeedTestCase, TestCase):

@@ -111,11 +111,8 @@ class TopFeedTestMixin:
     def test_annotation(self):
         queryset = self.dweetFeed.get_queryset()
         for dweet in queryset:
-            try:
-                num_likes = dweet.num_likes
-                self.assertTrue(num_likes >= 0)
-            except:
-                self.fail("queryset missing num_likes annotation")
+            num_likes = dweet.num_likes
+            self.assertTrue(num_likes >= 0)
 
 
 class HotDweetFeedTests(DweetFeedMixin, TestCase):
