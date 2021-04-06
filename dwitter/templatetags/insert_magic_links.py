@@ -46,10 +46,11 @@ def insert_magic_links(text):
         r'(?P<text>'                                            # capture original pattern
         # (?:^|\s)    # go to the start of the line or the next space
         # (?=\S*#)    # lookahead to see is there a '#' after a bunch of non-whitespace characters?
-        # (?!\S*:)    # lookahead to check aren't any ':' characters there (otherwise it's likely an anchor)
+        # (?!\S*:)    # lookahead to check aren't any ':' characters there
+        # (otherwise it's likely an anchor)
         # \S*#        # skip any of the characters leading up to the '#'
         # then do the hashtag grouping that was there before:
-        # (?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)        
+        # (?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)
         r'(?:^|\s)(?=\S*#)(?!\S*:)\S*#(?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*))',
         hashtag_to_link,
         text

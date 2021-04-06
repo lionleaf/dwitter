@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.contrib.auth import models
 from dwitter.models import Dweet, Comment, Hashtag
 from django.utils import timezone
 from datetime import timedelta
@@ -41,17 +42,13 @@ class HashtagTestCase(TestCase):
         h1 = Hashtag.objects.get(name='hash1')
         h2 = Hashtag.objects.get(name='hash2')
 
-        try:
+        with self.assertRaises(Hashtag.DoesNotExist):
             illegal1 = Hashtag.objects.get(name='1hash')
-            self.assertEqual(illegal1, True)  # should throw an exception!
-        except:
-            pass
+            self.assertEqual(illegal1, True)
 
-        try:
+        with self.assertRaises(Hashtag.DoesNotExist):
             illegal2 = Hashtag.objects.get(name='2hash')
-            self.assertEqual(illegal2, True)  # should throw an exception!
-        except:
-            pass
+            self.assertEqual(illegal2, True)
 
         self.assertEqual(h is None, False)
         self.assertEqual(h1 is None, False)

@@ -8,8 +8,8 @@ from datetime import timedelta
 
 class DweetTestCase(TestCase):
     def setUp(self):
-        user1 = User.objects.create(username="user1", password="")
-        user2 = User.objects.create(username="user2", password="")
+        user1 = User.objects.create(id=1, username="user1", password="")
+        user2 = User.objects.create(id=2, username="user2", password="")
 
         now = timezone.now()
 

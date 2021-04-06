@@ -143,10 +143,11 @@ class Hashtag(models.Model):
 def add_hashtags(sender, instance, **kwargs):
     # (?:^|\s)    # go to the start of the line or the next space
     # (?=\S*#)    # lookahead to see is there a '#' after a bunch of non-whitespace characters?
-    # (?!\S*:)    # lookahead to check aren't any ':' characters there (otherwise it's likely an anchor)
+    # (?!\S*:)    # lookahead to check aren't any ':' characters there
+    #               (otherwise it's likely an anchor)
     # \S*#        # skip any of the characters leading up to the '#'
     # then do the hashtag grouping that was there before:
-    # (?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)        
+    # (?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)
     hash_pattern = re.compile(r'(?:^|\s)(?=\S*#)(?!\S*:)\S*#(?P<hashtag>[_a-zA-Z][_a-zA-Z\d]*)')
     for hashtag in re.findall(hash_pattern, instance.text):
         h = Hashtag.objects.get_or_create(name=hashtag.lower())[0]
