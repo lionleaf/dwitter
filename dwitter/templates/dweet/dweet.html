@@ -140,10 +140,17 @@
             );
             userFunction = window.u = new Function("t", instrument(code));
           } catch (e) {
-            userFunction = window.u = function(t) {
+            try {
+              // try old way for compatibility
+              eval("function u(t) {\n"+instrument(code)+"\n}");
+              userFunction = window.u = u;
+            } catch(e) {
+              // else must be a javascript error
+              userFunction = window.u = function(t) {
+                throw e;
+              };
               throw e;
-            };
-            throw e;
+            }
           }
           displayError("");
           reset();
