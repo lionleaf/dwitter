@@ -130,16 +130,13 @@
         }
       }
 
+      let userFunction;
       function newCode(code) {
           window.stopper.reset();
           try {
-            // Using new Function(), if the code reassigns `u`, it will reassign the global, breaking the dweet
-            //var u = new Function("t", instrument(code));
-            // Using eval(), if the code reassigns `u`, it will reassign the local, leaving `window.u` working
-            eval("function u(t) {\n"+instrument(code)+"\n}");
-            window.u = u;
+            userFunction = window.u = new Function("t", instrument(code));
           } catch (e) {
-            window.u = function(t) {
+            userFunction = window.u = function(t) {
               throw e;
             };
             throw e;
@@ -247,7 +244,7 @@
             x.resetTransform();
             x.clearRect(0, 0, c.width, c.height);
         }
-        u(time);
+        userFunction(time);
         
         if (recording && frame % 2 == 0) {
           gifctx.fillStyle = "white";
