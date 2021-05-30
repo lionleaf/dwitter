@@ -132,7 +132,6 @@
 
       let userFunction;
       function newCode(code) {
-          window.stopper.reset();
           try {
             // uncompress
             code = (code || '').replace(
@@ -186,7 +185,6 @@
     <script src="{% static "libs/stats.min.js" %}"></script>
     <script src="{% static "libs/gif.js" %}"></script>
     <script src="{% static "libs/loopbuster.js" %}"></script>
-    <script src="{% static "libs/loopstopper.js" %}"></script>
     {% endcompress %}
   </head>
 <body>
