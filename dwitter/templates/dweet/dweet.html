@@ -134,6 +134,11 @@
       function newCode(code) {
           window.stopper.reset();
           try {
+            // uncompress
+            code = (code || '').replace(
+              /eval[(](unescape[(]escape`.+`[.]replace[(].+[)][)])[)]/,
+              (m, u) => eval(u)
+            );
             userFunction = window.u = new Function("t", instrument(code));
           } catch (e) {
             userFunction = window.u = function(t) {
