@@ -26,6 +26,9 @@
   1: [function(v, u, r) {
     var c = v("esprima");
     window.instrument = function(k) {
+      window.FRAME_JMP = 0;
+      window.FRAME_END = 0;
+      window.FRAME_DIE = 0;
       var n =
         1,
         l = [];
@@ -44,7 +47,7 @@
             case "WhileStatement":
               var m = 1 + a.body.range[0],
                 h = a.body.range[1],
-                c = "window.stopper.restartLoop(%d);if (window.stopper.testLoop(%d)){throw 'Frame timed out, paused dweet.';}".replace(/%d/g, n),
+                c = "if ((++FRAME_JMP & 4095) < 1 && FRAME_END < Date.now()) throw (FRAME_DIE=1);",
                 e = "";
               "BlockStatement" !== a.body.type && (c = "{" + c, e = "\n}", --m);
               l.push({
@@ -53,7 +56,7 @@
               });
               l.push({
                 pos: a.range[1],
-                str: "\nwindow.stopper.exitLoop(%d);\n".replace("%d", n)
+                str: ""
               });
               l.push({
                 pos: h,
@@ -71,6 +74,8 @@
       }).forEach(function(a) {
         k = k.slice(0, a.pos) + a.str + k.slice(a.pos)
       });
+      k = "if (FRAME_DIE) throw 'Frame timed out, paused dweet.';" + k;
+      k = "FRAME_END = Date.now() + 4095;" + k;
       return k
     };
     r.handler = function(c, n) {
