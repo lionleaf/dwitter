@@ -134,11 +134,11 @@
       function newCode(code) {
           try {
             // uncompress
-            code = (code || '').replace(
+            let decode = (code || '').replace(
               /eval[(](unescape[(]escape`.+`[.]replace[(].+[)][)])[)]/,
               (m, u) => eval(u)
             );
-            userFunction = window.u = new Function("t", instrument(code));
+            userFunction = window.u = new Function("t", instrument(decode));
           } catch (e) {
             try {
               // try old way for compatibility
