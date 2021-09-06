@@ -2,13 +2,16 @@ import datetime
 
 from dateutil.parser import parse
 from django.contrib.auth.models import User
+
 from django.db.models import Prefetch, Count
 from django.utils import timezone
+
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
+from rest_framework.permissions import AllowAny
 
 from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
@@ -17,9 +20,16 @@ from dwitter.serializers_v2 import SetEmailSerializer, SetPasswordSerializer
 from dwitter.utils import length_of_code
 
 
-class UserViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class UserViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        # POST action to create new user need to be available to everyone
+        if self.request.method == 'POST' and self.action == 'create':
+            self.permission_classes = (AllowAny,)
+
+        return super(UserViewSet, self).get_permissions()
 
     def get_object(self):
         if self.kwargs['pk'] == 'me':
@@ -121,7 +131,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
             self.queryset = self.queryset.annotate(awesome_count=Count('likes'))
 
         self.queryset = self.queryset.order_by(order_by).filter(
-                posted__gte=posted_after, posted__lt=posted_before, **filters)
+            posted__gte=posted_after, posted__lt=posted_before, **filters)
 
         return super().list(request)
 
