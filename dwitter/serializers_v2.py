@@ -100,6 +100,7 @@ class DweetSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='pk')
 
     remix_of = RemixOfSerializer(source='reply_to')
+    remixes = serializers.PrimaryKeyRelatedField(source='dweet_set', read_only=True, many=True)
 
     awesome_count = serializers.SerializerMethodField()
     has_user_awesomed = serializers.SerializerMethodField()
@@ -116,6 +117,7 @@ class DweetSerializer(serializers.ModelSerializer):
             'id',
             'posted',
             'remix_of',
+            'remixes',
             'has_user_awesomed',
         )
 
