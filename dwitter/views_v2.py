@@ -187,3 +187,32 @@ class DweetViewSet(mixins.RetrieveModelMixin,
             return_code = status.HTTP_503_SERVICE_UNAVAILABLE
 
         return Response(content, status=return_code)
+
+
+class CommentViewSet(viewsets.GenericViewSet):
+    queryset = Comment.objects.all().select_related(
+        'author',
+    ).order_by('posted')
+    serializer_class = DweetSerializer
+
+    @action(methods=['POST'], detail=True)
+    def report(self, request, pk=None):
+        if not request.user.is_authenticated:
+            return PermissionDenied()
+
+        comment = self.get_object()
+        result = Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported comment on'  # noqa: E501
+                                                ' [d/%s](https://www.dwitter.net/d/%s)'
+                                                ' by [u/%s](https://www.dwitter.net/u/%s):'
+                                                ' "%s" (Comment id: %d)' % (
+                                                    request.user.username, request.user.username,
+                                                    comment.reply_to.pk, comment.reply_to.pk,
+                                                    comment.author, comment.author,
+                                                    comment.text, comment.pk)
+                                                )
+        content = {'success': result}
+        return_code = status.HTTP_200_OK
+        if not result:
+            return_code = status.HTTP_503_SERVICE_UNAVAILABLE
+
+        return Response(content, status=return_code)
