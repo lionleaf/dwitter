@@ -15,7 +15,7 @@
     </style>
     <script>
       var autoplay = getURLParameter('autoplay');
-      const src = getURLParameter('code');
+      const urlDweetSrc = getURLParameter('code');
       var lastError = "";
       var playing = !!autoplay;
       var FPS = 60;
@@ -230,7 +230,11 @@
     var frame = 0;
     var nextFrameMs = 0;
 
-    newCode(src);
+    try{
+      newCode(urlDweetSrc);
+    } catch (e) {
+      // Ignore errors, since urlDweetSrc can be malformed
+    }
 
     function loop(frame_time) {
       stats = stats || createStats();
