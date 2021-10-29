@@ -36,8 +36,8 @@
       <a class="dweet-option embed-dwitter-link"  href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank">full version</a>
       {% endif %}
       <a class="dweet-option" href="{% url 'dweet_show' dweet_id=dweet.id %}" target="_blank" data-popover=".share-container">share</a>
-      {% if dweet.dweet_set.count > 0 %}
-      <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">{{ dweet.dweet_set.count }} remix{% if dweet.dweet_set.count > 1 %}es{% endif %}</a>
+      {% if dweet.remixes.count > 0 %}
+      <a class="dweet-option remixes-button" href="" data-popover=".remixes-container">{{ dweet.remixes.count }} remix{% if dweet.remixes.count > 1 %}es{% endif %}</a>
       {% endif %}
       {% if request.user == dweet.author or request.user.is_staff %}
         <form class="dweet-delete-form" action="{% url 'dweet_delete' dweet_id=dweet.id %}" method="post"
@@ -64,7 +64,7 @@
       </div>
       <div class="popover remixes-container">
         <ul>
-          {% for remix in dweet.dweet_set.all %}
+          {% for remix in dweet.remixes.all %}
             <li>
               <a href="{% url 'dweet_show' dweet_id=remix.id %}">
                 <span class="faded">d/</span>{{remix.id}}

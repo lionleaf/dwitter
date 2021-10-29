@@ -58,14 +58,14 @@ class DweetFeed(ListView):
 
         # Optimize the SQL query:
         prefetch_comments = Prefetch('comments', queryset=Comment.objects.select_related('author'))
-        prefetch_replies = Prefetch('dweet_set', queryset=Dweet.objects.select_related('author'))
+        prefetch_remixes = Prefetch('remixes', queryset=Dweet.objects.select_related('author'))
         queryset = (
             queryset
             .select_related('author')
             .prefetch_related(Prefetch('reply_to', queryset=Dweet.objects.select_related('author')))
             .prefetch_related('likes')
             .prefetch_related(prefetch_comments)
-            .prefetch_related(prefetch_replies))
+            .prefetch_related(prefetch_remixes))
 
         return queryset
 
