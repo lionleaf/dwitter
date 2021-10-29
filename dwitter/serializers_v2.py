@@ -141,8 +141,8 @@ class DweetSerializer(serializers.ModelSerializer):
     remix_of = RemixOfSerializer(source='reply_to')
     remixes = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
-    awesome_count = serializers.SerializerMethodField()
-    has_user_awesomed = serializers.SerializerMethodField()
+    awesome_count = serializers.IntegerField()
+    has_user_awesomed = serializers.BooleanField()
     author = UserSerializer()
     comments = CommentSerializer(many=True)
 
@@ -160,9 +160,4 @@ class DweetSerializer(serializers.ModelSerializer):
             'has_user_awesomed',
         )
 
-    def get_has_user_awesomed(self, dweet):
-        user = self.context['request'].user
-        return dweet.likes.filter(pk=user.pk).exists()
 
-    def get_awesome_count(self, obj):
-        return obj.likes.all().count()

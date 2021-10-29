@@ -4,6 +4,7 @@ from dateutil.parser import parse
 from django.contrib.auth.models import User
 
 from django.db.models import Prefetch, Count
+from django.db.models.expressions import Exists, OuterRef
 from django.utils import timezone
 
 from rest_framework import mixins, viewsets, status
@@ -70,10 +71,23 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     queryset = Dweet.objects.all().select_related(
         'author',
     ).prefetch_related(
+        Prefetch('reply_to', queryset=Dweet.objects.select_related('author')),
         'likes',
+        Prefetch('remixes'),
         Prefetch('comments', queryset=Comment.objects.select_related('author'))
+    ).annotate(
+        awesome_count=Count('likes')
     ).order_by('-hotness')
+
     serializer_class = DweetSerializer
+
+    def retrieve(self, request, pk):
+        self.queryset = self.queryset.annotate(
+            has_user_awesomed=Exists(Dweet.objects.filter(
+                id=OuterRef('id'), likes__in=[request.user.id]))
+        )
+
+        return super().retrieve(request, pk)
 
     def create(self, request):
         code = request.data.get('code', '')
@@ -81,7 +95,6 @@ class DweetViewSet(mixins.RetrieveModelMixin,
             raise ValidationError("Code longer than 140 characters")
 
         remix_of_pk = request.data.get('remix_of', -1)
-
         # Using filter().first() will return None if it doesn't exist
         # instead of raising a DoesNotExist exception
         remix_of = self.queryset.filter(pk=remix_of_pk).first()
@@ -129,6 +142,11 @@ class DweetViewSet(mixins.RetrieveModelMixin,
 
         if order_by == '-awesome_count':
             self.queryset = self.queryset.annotate(awesome_count=Count('likes'))
+
+        self.queryset = self.queryset.annotate(
+            has_user_awesomed=Exists(Dweet.objects.filter(
+                id=OuterRef('id'), likes__in=[request.user.id]))
+        )
 
         self.queryset = self.queryset.order_by(order_by).filter(
             posted__gte=posted_after, posted__lt=posted_before, **filters)
