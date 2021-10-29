@@ -88,8 +88,10 @@ Dwitter is a social network for building and sharing visual javascript demos lim
   {% if show_submit_box %}
   {% include 'snippets/new_dweet_card.html' %}
   {% endif %}
-
-    <div class="card">Current theme challenge: <a href="/h/scarymovies">#ScaryMovies</a>
+    <div class="card">
+    Try the new frontend: <a href="https://beta.dwitter.net">beta.dwitter.net</a>
+    <br />
+    Current theme challenge: <a href="/h/scarymovies">#ScaryMovies</a>
     </div>
 
   {% if request.user.is_authenticated %}
