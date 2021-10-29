@@ -159,5 +159,3 @@ class DweetSerializer(serializers.ModelSerializer):
             'remixes',
             'has_user_awesomed',
         )
-
-
