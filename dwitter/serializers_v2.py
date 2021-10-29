@@ -122,22 +122,17 @@ class RemixOfSerializer(serializers.ModelSerializer):
         queryset=Dweet.with_deleted.all()
     )
 
-    awesome_count = serializers.SerializerMethodField()
     author = UserSerializer()
 
     class Meta:
         model = Dweet
         fields = (
             'author',
-            'awesome_count',
             'code',
             'id',
             'posted',
             'remix_of',
         )
-
-    def get_awesome_count(self, obj):
-        return obj.likes.all().count()
 
 
 class DweetSerializer(serializers.ModelSerializer):
