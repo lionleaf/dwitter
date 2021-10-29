@@ -70,9 +70,9 @@ class DweetViewSet(mixins.RetrieveModelMixin,
                    viewsets.GenericViewSet):
     queryset = Dweet.objects.all().select_related(
         'author',
+        'reply_to',
+        'reply_to__author'
     ).prefetch_related(
-        Prefetch('reply_to', queryset=Dweet.objects.select_related('author')),
-        'likes',
         Prefetch('remixes'),
         Prefetch('comments', queryset=Comment.objects.select_related('author'))
     ).annotate(
@@ -139,9 +139,6 @@ class DweetViewSet(mixins.RetrieveModelMixin,
             filters['author__username'] = username
         if hashtag:
             filters['hashtag__name'] = hashtag
-
-        if order_by == '-awesome_count':
-            self.queryset = self.queryset.annotate(awesome_count=Count('likes'))
 
         self.queryset = self.queryset.annotate(
             has_user_awesomed=Exists(Dweet.objects.filter(
