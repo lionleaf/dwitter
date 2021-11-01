@@ -80,7 +80,7 @@ function getCommentHTML(comment) {
         '</div>' +
       '</button>' +
     '</form>' +
-    '<span class="comment-message">' + comment.urlized_text +
+    '<span class="comment-message">' + comment.urlized_text.replace('href=', 'target="_blank" href=') +
     '</span>' +
     '</li>';
 }
