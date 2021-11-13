@@ -66,6 +66,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.G
 class DweetViewSet(mixins.RetrieveModelMixin,
                    mixins.ListModelMixin,
                    mixins.CreateModelMixin,
+                   mixins.DestroyModelMixin,
                    viewsets.GenericViewSet):
     queryset = Dweet.objects.all().select_related(
         'author',
@@ -81,7 +82,16 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     serializer_class = DweetSerializer
 
     def retrieve(self, request, pk):
-        dweet = self.queryset.annotate(
+        # For single dweet view, also include deleted dweets
+        dweet = Dweet.with_deleted.select_related(
+            'author',
+            'reply_to',
+            'reply_to__author'
+        ).prefetch_related(
+            Prefetch('remixes'),
+            Prefetch('comments', queryset=Comment.objects.select_related('author'))
+        ).annotate(
+            awesome_count=Count('likes'),
             has_user_awesomed=Exists(Dweet.objects.filter(
                 id=OuterRef('id'), likes__in=[request.user.id]))
         ).get(id=pk)
@@ -149,10 +159,24 @@ class DweetViewSet(mixins.RetrieveModelMixin,
 
         return super().list(request)
 
+    def destroy(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise PermissionDenied()
+
+        dweet = self.get_object()
+
+        # Only allow deletion of own dweets
+        # unless the deleter is a mod
+        if request.user == dweet.author or request.user.is_staff:
+            dweet.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        raise PermissionDenied()
+
     @action(methods=['POST'], detail=True)
     def set_like(self, request, pk=None):
         if not request.user.is_authenticated:
-            return PermissionDenied()
+            raise PermissionDenied()
 
         dweet = self.get_object()
 
@@ -168,7 +192,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     @action(methods=['POST'], detail=True)
     def add_comment(self, request, pk=None):
         if not request.user.is_authenticated:
-            return PermissionDenied()
+            raise PermissionDenied()
 
         text = request.data.get('text', '')
 
@@ -181,7 +205,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     @action(methods=['POST'], detail=True)
     def report(self, request, pk=None):
         if not request.user.is_authenticated:
-            return PermissionDenied()
+            raise PermissionDenied()
 
         dweet = self.get_object()
         result = Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported [d/%s](https://www.dwitter.net/d/%s)' % (  # noqa: E501
@@ -199,16 +223,31 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         return Response(content, status=return_code)
 
 
-class CommentViewSet(viewsets.GenericViewSet):
+class CommentViewSet(viewsets.GenericViewSet,
+                     mixins.DestroyModelMixin):
     queryset = Comment.objects.all().select_related(
         'author',
     ).order_by('posted')
     serializer_class = DweetSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise PermissionDenied()
+
+        comment = self.get_object()
+
+        # Only allow deletion of own dweets
+        # unless the deleter is a mod
+        if request.user == comment.author or request.user.is_staff:
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        raise PermissionDenied()
+
     @action(methods=['POST'], detail=True)
     def report(self, request, pk=None):
         if not request.user.is_authenticated:
-            return PermissionDenied()
+            raise PermissionDenied()
 
         comment = self.get_object()
         result = Webhooks.send_mod_chat_message('[u/%s](https://www.dwitter.net/u/%s) reported comment on'  # noqa: E501

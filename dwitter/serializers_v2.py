@@ -66,6 +66,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated and user.id == instance.id:
             value['email'] = user.email
+            value['is_staff'] = user.is_staff
         return value
 
 
@@ -128,11 +129,20 @@ class RemixOfSerializer(serializers.ModelSerializer):
         model = Dweet
         fields = (
             'author',
+            'deleted',
             'code',
             'id',
             'posted',
             'remix_of',
         )
+
+    def to_representation(self, instance):
+        value = super().to_representation(instance)
+        if instance.deleted:
+            value['code'] = ''
+            value['comments'] = []
+
+        return value
 
 
 class DweetSerializer(serializers.ModelSerializer):
@@ -150,6 +160,7 @@ class DweetSerializer(serializers.ModelSerializer):
         model = Dweet
         fields = (
             'author',
+            'deleted',
             'awesome_count',
             'code',
             'comments',
@@ -159,3 +170,12 @@ class DweetSerializer(serializers.ModelSerializer):
             'remixes',
             'has_user_awesomed',
         )
+
+    # If we implement actual database deletion of dweets,
+    # we can remove this
+    def to_representation(self, instance):
+        value = super().to_representation(instance)
+        if instance.deleted:
+            value['code'] = ''
+            value['comments'] = []
+        return value
