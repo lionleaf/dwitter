@@ -19,7 +19,7 @@ class Api2UserRegistrationTestCase(TransactionTestCase):
                                 {'username': username, 'password': password})
 
     def post_dweet(self, token, code, comment):
-        return self.client.post(f'{APIV2_PATH}/dweet/',
+        return self.client.post(f'{APIV2_PATH}/dweets/',
                                 {'code': code, 'first-comment': comment},
                                 HTTP_AUTHORIZATION='token ' + token)
 
@@ -37,7 +37,7 @@ class Api2UserRegistrationTestCase(TransactionTestCase):
         response = self.login('user1', 'user1Pass')
         self.assertEquals(response.status_code, 200)
         token = json.loads(response.content)['token']
-        self.post_dweet(token, 'coooode', 'hello')
+        response = self.post_dweet(token, 'coooode', 'hello')
         self.assertEquals(response.status_code, 200)
 
     def test_empty(self):

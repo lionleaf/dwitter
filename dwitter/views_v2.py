@@ -1,5 +1,3 @@
-import datetime
-
 from dateutil.parser import parse
 from django.contrib.auth.models import User
 
@@ -82,12 +80,13 @@ class DweetViewSet(mixins.RetrieveModelMixin,
     serializer_class = DweetSerializer
 
     def retrieve(self, request, pk):
-        self.queryset = self.queryset.annotate(
+        dweet = self.queryset.annotate(
             has_user_awesomed=Exists(Dweet.objects.filter(
                 id=OuterRef('id'), likes__in=[request.user.id]))
-        )
+        ).get(id=pk)
 
-        return super().retrieve(request, pk)
+        context = self.get_serializer_context()
+        return Response(DweetSerializer(context=context).to_representation(dweet))
 
     def create(self, request):
         code = request.data.get('code', '')
@@ -115,8 +114,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
                         reply_to=d)
             c.save()
 
-        context = self.get_serializer_context()
-        return Response(DweetSerializer(context=context).to_representation(d))
+        return self.retrieve(request, d.id)
 
     def list(self, request):
         order_by = request.query_params.get('order_by', '-hotness')
@@ -126,11 +124,11 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         try:
             posted_before = parse(request.query_params.get('posted_before', ''))
         except ValueError:
-            posted_before = datetime.datetime(year=9999, month=12, day=31)
+            posted_before = timezone.datetime(year=9999, month=12, day=31, tzinfo=timezone.utc)
         try:
             posted_after = parse(request.query_params.get('posted_after', ''))
         except ValueError:
-            posted_after = datetime.datetime(year=1, month=1, day=1)
+            posted_after = timezone.datetime(year=1, month=1, day=1, tzinfo=timezone.utc)
 
         username = request.query_params.get('username', None)
         hashtag = request.query_params.get('hashtag', None)
@@ -164,9 +162,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         else:
             dweet.likes.remove(request.user)
 
-        dweet = self.queryset.get(pk=dweet.pk)
-        context = self.get_serializer_context()
-        return Response(DweetSerializer(context=context).to_representation(dweet))
+        return self.retrieve(request, dweet.id)
 
     @action(methods=['POST'], detail=True)
     def add_comment(self, request, pk=None):
@@ -179,9 +175,7 @@ class DweetViewSet(mixins.RetrieveModelMixin,
         Comment.objects.create(
             reply_to=dweet, text=text, author=request.user, posted=timezone.now())
 
-        dweet = self.queryset.get(pk=dweet.pk)
-        context = self.get_serializer_context()
-        return Response(DweetSerializer(context=context).to_representation(dweet))
+        return self.retrieve(request, dweet.id)
 
     @action(methods=['POST'], detail=True)
     def report(self, request, pk=None):
