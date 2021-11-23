@@ -11,6 +11,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.permissions import AllowAny
+from rest_framework.generics import GenericAPIView
 
 from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
