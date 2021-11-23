@@ -226,3 +226,15 @@ class CommentViewSet(viewsets.GenericViewSet):
             return_code = status.HTTP_503_SERVICE_UNAVAILABLE
 
         return Response(content, status=return_code)
+
+
+class StatsAPI(GenericAPIView):
+    queryset = Dweet.objects.all()
+    def get(self, request):
+        username = request.query_params.get('username')
+        dweets = self.queryset.filter(author__username=username)
+        stats = {
+            'dweet_count': dweets.count(),
+            'awesome_count': dweets.aggregate(Count('likes'))['likes__count'],
+        }
+        return Response(stats)
