@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^', include('dwitter.feed.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^apiv2beta/api-token-auth/', authtoken_views.obtain_auth_token),
+    url(r'^apiv2beta/stats/', views_v2.StatsAPI.as_view(), name='stats'),
     url(r'^apiv2beta/', include(router_v2.urls)),
 ]
 

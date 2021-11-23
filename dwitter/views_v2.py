@@ -11,6 +11,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.permissions import AllowAny
+from rest_framework.generics import GenericAPIView
 
 from dwitter.webhooks import Webhooks
 from dwitter.models import Comment, Dweet
@@ -225,3 +226,15 @@ class CommentViewSet(viewsets.GenericViewSet):
             return_code = status.HTTP_503_SERVICE_UNAVAILABLE
 
         return Response(content, status=return_code)
+
+
+class StatsAPI(GenericAPIView):
+    queryset = Dweet.objects.all()
+    def get(self, request):
+        username = request.query_params.get('username')
+        dweets = self.queryset.filter(author__username=username)
+        stats = {
+            'dweet_count': dweets.count(),
+            'awesome_count': dweets.aggregate(Count('likes'))['likes__count'],
+        }
+        return Response(stats)
