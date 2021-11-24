@@ -230,8 +230,8 @@ class CommentViewSet(viewsets.GenericViewSet):
 
 class StatsAPI(GenericAPIView):
     queryset = Dweet.objects.all()
-    def get(self, request):
-        username = request.query_params.get('username')
+    def get(self, _, **kwargs):
+        username = kwargs.get('url_username')
         dweets = self.queryset.filter(author__username=username)
         stats = {
             'dweet_count': dweets.count(),
