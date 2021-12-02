@@ -8,13 +8,33 @@
         outline:0;
         overflow:hidden;
       }
+
       canvas {
         width: 100%;
         background: white;
       }
+
+      #curtain {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        position: fixed;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #spoiler-text {
+        font-size: large;
+        color: white;
+        cursor: pointer;
+      }
+
+
     </style>
     <script>
-      var autoplay = getURLParameter('autoplay');
+      var spoiler = getURLParameter('spoiler');
+      var autoplay = spoiler ? null : getURLParameter('autoplay');
       const urlDweetSrc = getURLParameter('code');
       var lastError = "";
       var playing = !!autoplay;
@@ -197,8 +217,19 @@
     {% endcompress %}
   </head>
 <body>
+  <div id="curtain" onclick="openSesame()">
+    <a id="spoiler-text">CLICK TO PLAY</a>
+  </div>
   <canvas id=c></canvas>
+
   <script>
+
+    function openSesame() {
+      var curtain = document.getElementById('curtain');
+      curtain.style.visibility = 'hidden';
+      playDemo();
+    }
+
     function createStats() {
       var stats = new Stats();
       stats.showPanel(0);
