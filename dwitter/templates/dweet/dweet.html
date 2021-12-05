@@ -22,6 +22,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        visibility: hidden;
       }
 
       #spoiler-text {
@@ -33,7 +34,8 @@
 
     </style>
     <script>
-      var spoiler = getURLParameter('spoiler');
+      var spoiler = !!getURLParameter('spoiler');
+
       var autoplay = spoiler ? null : getURLParameter('autoplay');
       const urlDweetSrc = getURLParameter('code');
       var lastError = "";
@@ -224,6 +226,10 @@
 
   <script>
 
+    if(spoiler){
+      var curtain = document.getElementById('curtain');
+      curtain.style.visibility = 'visible';
+    }
     function openSesame() {
       var curtain = document.getElementById('curtain');
       curtain.style.visibility = 'hidden';
