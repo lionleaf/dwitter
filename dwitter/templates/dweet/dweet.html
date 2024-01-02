@@ -291,9 +291,8 @@
         nextFrameMs = Math.max(nextFrameMs + 1000 / FPS, frame_time);
       }
       time = frame/FPS;
-      if(time * FPS | 0 == frame - 1){
-        time += 0.000001;
-      }
+      // Add an epsilon otherwise t*60|0 sometimes evaluates to incorrect frame
+      time += frame && 0.000001;
       frame++;
 
       try {
